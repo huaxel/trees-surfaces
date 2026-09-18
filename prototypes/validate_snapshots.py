@@ -41,6 +41,7 @@ def main() -> None:
     require(inventory.get("heat", {}).get("download", "").startswith("https://"), "heat source inventory is missing download URL")
     require(inventory.get("mobility", {}).get("devices", "").startswith("https://"), "mobility source inventory is missing device URL")
     require(sensitivity.get("record_count") == 100, "sensitivity report has unexpected record count")
+    require(len(sensitivity.get("balanced_screening", [])) == 100, "balanced screening export is incomplete")
     require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
     require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
 

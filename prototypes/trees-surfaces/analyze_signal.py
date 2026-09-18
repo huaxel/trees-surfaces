@@ -61,6 +61,7 @@ def main() -> None:
         "record_count": len(rows),
         "heat_range": [min_heat, max_heat],
         "distance_range_m": [min_distance, max_distance],
+        "balanced_screening": ranked["balanced"],
         "scenarios": [
             {
                 "name": name,

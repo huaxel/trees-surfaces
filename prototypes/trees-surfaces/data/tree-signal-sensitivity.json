@@ -9,6 +9,1008 @@
     8.1,
     1518.3
   ],
+  "balanced_screening": [
+    {
+      "id": "vbx_56544",
+      "street": "Avenue de Stalingrad 106",
+      "heat_pixel": 89.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 176.2,
+      "heat_score": 86.667,
+      "proximity_score": 88.869,
+      "signal": 87.548
+    },
+    {
+      "id": "vbx_56635",
+      "street": "Boulevard de Dixmude 8",
+      "heat_pixel": 95.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 491.2,
+      "heat_score": 100.0,
+      "proximity_score": 68.011,
+      "signal": 87.204
+    },
+    {
+      "id": "vbx_56870",
+      "street": "Rue de la Loi 170",
+      "heat_pixel": 83.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 33.8,
+      "heat_score": 73.333,
+      "proximity_score": 98.298,
+      "signal": 83.319
+    },
+    {
+      "id": "vbx_56587",
+      "street": "Boulevard de Dixmude 9",
+      "heat_pixel": 90.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 411.3,
+      "heat_score": 88.889,
+      "proximity_score": 73.302,
+      "signal": 82.654
+    },
+    {
+      "id": "vbx_58580",
+      "street": "Rue de la Loi 16",
+      "heat_pixel": 84.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 174.3,
+      "heat_score": 75.556,
+      "proximity_score": 88.995,
+      "signal": 80.932
+    },
+    {
+      "id": "vbx_56637",
+      "street": "Boulevard de Dixmude 6",
+      "heat_pixel": 90.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 485.3,
+      "heat_score": 88.889,
+      "proximity_score": 68.402,
+      "signal": 80.694
+    },
+    {
+      "id": "vbx_56573",
+      "street": "Place Rouppe 18",
+      "heat_pixel": 89.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 471.5,
+      "heat_score": 86.667,
+      "proximity_score": 69.315,
+      "signal": 79.726
+    },
+    {
+      "id": "vbx_58582",
+      "street": "Rue de la Loi 3",
+      "heat_pixel": 83.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 197.2,
+      "heat_score": 73.333,
+      "proximity_score": 87.478,
+      "signal": 78.991
+    },
+    {
+      "id": "vbx_56554",
+      "street": "Rue du Midi 177",
+      "heat_pixel": 89.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 507.3,
+      "heat_score": 86.667,
+      "proximity_score": 66.945,
+      "signal": 78.778
+    },
+    {
+      "id": "vbx_56604",
+      "street": "Boulevard de Dixmude 65",
+      "heat_pixel": 91.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 608.6,
+      "heat_score": 91.111,
+      "proximity_score": 60.237,
+      "signal": 78.761
+    },
+    {
+      "id": "vbx_56571",
+      "street": "Place Rouppe 17",
+      "heat_pixel": 88.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 484.7,
+      "heat_score": 84.444,
+      "proximity_score": 68.441,
+      "signal": 78.043
+    },
+    {
+      "id": "vbx_56557",
+      "street": "Place Rouppe 1",
+      "heat_pixel": 87.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 477.2,
+      "heat_score": 82.222,
+      "proximity_score": 68.938,
+      "signal": 76.908
+    },
+    {
+      "id": "vbx_56653",
+      "street": "Boulevard de Dixmude 21",
+      "heat_pixel": 86.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 439.8,
+      "heat_score": 80.0,
+      "proximity_score": 71.414,
+      "signal": 76.566
+    },
+    {
+      "id": "vbx_56567",
+      "street": "Place Rouppe 4",
+      "heat_pixel": 87.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 500.1,
+      "heat_score": 82.222,
+      "proximity_score": 67.422,
+      "signal": 76.302
+    },
+    {
+      "id": "vbx_56643",
+      "street": "Boulevard de Dixmude 27",
+      "heat_pixel": 86.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 464.0,
+      "heat_score": 80.0,
+      "proximity_score": 69.812,
+      "signal": 75.925
+    },
+    {
+      "id": "vbx_58570",
+      "street": "Rue de la Loi 5",
+      "heat_pixel": 80.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 183.6,
+      "heat_score": 66.667,
+      "proximity_score": 88.379,
+      "signal": 75.352
+    },
+    {
+      "id": "vbx_58567",
+      "street": "Rue de la Loi 5",
+      "heat_pixel": 80.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 192.1,
+      "heat_score": 66.667,
+      "proximity_score": 87.816,
+      "signal": 75.127
+    },
+    {
+      "id": "vbx_56852",
+      "street": "Rue Joseph II 124",
+      "heat_pixel": 77.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 67.3,
+      "heat_score": 60.0,
+      "proximity_score": 96.08,
+      "signal": 74.432
+    },
+    {
+      "id": "vbx_58576",
+      "street": "Rue Ducale 47",
+      "heat_pixel": 79.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 168.5,
+      "heat_score": 64.444,
+      "proximity_score": 89.379,
+      "signal": 74.418
+    },
+    {
+      "id": "vbx_56876",
+      "street": "Chaussée d'Etterbeek 50",
+      "heat_pixel": 75.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 8.1,
+      "heat_score": 55.556,
+      "proximity_score": 100.0,
+      "signal": 73.334
+    },
+    {
+      "id": "vbx_56558",
+      "street": "Place Rouppe 10",
+      "heat_pixel": 85.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 514.4,
+      "heat_score": 77.778,
+      "proximity_score": 66.475,
+      "signal": 73.257
+    },
+    {
+      "id": "vbx_58578",
+      "street": "Rue de la Loi 5",
+      "heat_pixel": 78.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 172.3,
+      "heat_score": 62.222,
+      "proximity_score": 89.127,
+      "signal": 72.984
+    },
+    {
+      "id": "vbx_56550",
+      "street": "Rue du Midi 177",
+      "heat_pixel": 84.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 489.9,
+      "heat_score": 75.556,
+      "proximity_score": 68.097,
+      "signal": 72.572
+    },
+    {
+      "id": "vbx_56561",
+      "street": "Place Rouppe 11",
+      "heat_pixel": 84.0,
+      "nearest_counter": "CB2105",
+      "distance_m": 509.8,
+      "heat_score": 75.556,
+      "proximity_score": 66.779,
+      "signal": 72.045
+    },
+    {
+      "id": "vbx_56873",
+      "street": "Chaussée d'Etterbeek 50",
+      "heat_pixel": 74.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 26.1,
+      "heat_score": 53.333,
+      "proximity_score": 98.808,
+      "signal": 71.523
+    },
+    {
+      "id": "vbx_58421",
+      "street": null,
+      "heat_pixel": 78.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 238.1,
+      "heat_score": 62.222,
+      "proximity_score": 84.77,
+      "signal": 71.241
+    },
+    {
+      "id": "vbx_56593",
+      "street": "Quai du Commerce 50",
+      "heat_pixel": 86.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 652.3,
+      "heat_score": 80.0,
+      "proximity_score": 57.343,
+      "signal": 70.937
+    },
+    {
+      "id": "vbx_56622",
+      "street": "Boulevard de Dixmude 20",
+      "heat_pixel": 83.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 528.7,
+      "heat_score": 73.333,
+      "proximity_score": 65.528,
+      "signal": 70.211
+    },
+    {
+      "id": "vbx_56596",
+      "street": "Boulevard de Dixmude 71",
+      "heat_pixel": 85.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 633.3,
+      "heat_score": 77.778,
+      "proximity_score": 58.602,
+      "signal": 70.108
+    },
+    {
+      "id": "vbx_56625",
+      "street": "Boulevard de Dixmude 18",
+      "heat_pixel": 82.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 522.1,
+      "heat_score": 71.111,
+      "proximity_score": 65.965,
+      "signal": 69.053
+    },
+    {
+      "id": "vbx_58496",
+      "street": null,
+      "heat_pixel": 77.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 279.0,
+      "heat_score": 60.0,
+      "proximity_score": 82.062,
+      "signal": 68.825
+    },
+    {
+      "id": "vbx_56592",
+      "street": "Quai du Commerce 50",
+      "heat_pixel": 84.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 658.2,
+      "heat_score": 75.556,
+      "proximity_score": 56.953,
+      "signal": 68.115
+    },
+    {
+      "id": "vbx_56605",
+      "street": "Boulevard de Dixmude 30",
+      "heat_pixel": 82.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 591.4,
+      "heat_score": 71.111,
+      "proximity_score": 61.376,
+      "signal": 67.217
+    },
+    {
+      "id": "vbx_56696",
+      "street": "Avenue Michel-Ange 17",
+      "heat_pixel": 80.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 500.7,
+      "heat_score": 66.667,
+      "proximity_score": 67.382,
+      "signal": 66.953
+    },
+    {
+      "id": "vbx_56789",
+      "street": "Rue Archimède 77",
+      "heat_pixel": 78.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 409.6,
+      "heat_score": 62.222,
+      "proximity_score": 73.414,
+      "signal": 66.699
+    },
+    {
+      "id": "vbx_56733",
+      "street": "Avenue Michel-Ange 59",
+      "heat_pixel": 80.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 532.7,
+      "heat_score": 66.667,
+      "proximity_score": 65.263,
+      "signal": 66.105
+    },
+    {
+      "id": "vbx_58494",
+      "street": "Rue Ducale 21",
+      "heat_pixel": 74.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 244.2,
+      "heat_score": 53.333,
+      "proximity_score": 84.366,
+      "signal": 65.746
+    },
+    {
+      "id": "vbx_58493",
+      "street": null,
+      "heat_pixel": 73.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 244.5,
+      "heat_score": 51.111,
+      "proximity_score": 84.346,
+      "signal": 64.405
+    },
+    {
+      "id": "vbx_56856",
+      "street": "Rue Joseph II 114",
+      "heat_pixel": 70.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 102.7,
+      "heat_score": 44.444,
+      "proximity_score": 93.736,
+      "signal": 64.161
+    },
+    {
+      "id": "vbx_58429",
+      "street": null,
+      "heat_pixel": 72.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 266.6,
+      "heat_score": 48.889,
+      "proximity_score": 82.883,
+      "signal": 62.487
+    },
+    {
+      "id": "vbx_58435",
+      "street": null,
+      "heat_pixel": 72.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 280.6,
+      "heat_score": 48.889,
+      "proximity_score": 81.956,
+      "signal": 62.116
+    },
+    {
+      "id": "vbx_56610",
+      "street": "Boulevard de Dixmude 45",
+      "heat_pixel": 77.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 564.6,
+      "heat_score": 60.0,
+      "proximity_score": 63.151,
+      "signal": 61.26
+    },
+    {
+      "id": "vbx_56620",
+      "street": "Boulevard de Dixmude 45",
+      "heat_pixel": 77.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 570.6,
+      "heat_score": 60.0,
+      "proximity_score": 62.753,
+      "signal": 61.101
+    },
+    {
+      "id": "vbx_58444",
+      "street": "Rue de la Loi 1",
+      "heat_pixel": 70.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 254.9,
+      "heat_score": 44.444,
+      "proximity_score": 83.658,
+      "signal": 60.13
+    },
+    {
+      "id": "vbx_56761",
+      "street": "Avenue Michel-Ange 53",
+      "heat_pixel": 75.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 527.2,
+      "heat_score": 55.556,
+      "proximity_score": 65.627,
+      "signal": 59.584
+    },
+    {
+      "id": "vbx_58498",
+      "street": null,
+      "heat_pixel": 70.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 290.6,
+      "heat_score": 44.444,
+      "proximity_score": 81.294,
+      "signal": 59.184
+    },
+    {
+      "id": "vbx_56811",
+      "street": "Rue Franklin 37",
+      "heat_pixel": 74.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 492.6,
+      "heat_score": 53.333,
+      "proximity_score": 67.918,
+      "signal": 59.167
+    },
+    {
+      "id": "vbx_58503",
+      "street": null,
+      "heat_pixel": 70.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 319.1,
+      "heat_score": 44.444,
+      "proximity_score": 79.407,
+      "signal": 58.429
+    },
+    {
+      "id": "vbx_58428",
+      "street": null,
+      "heat_pixel": 69.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 285.5,
+      "heat_score": 42.222,
+      "proximity_score": 81.632,
+      "signal": 57.986
+    },
+    {
+      "id": "vbx_58495",
+      "street": null,
+      "heat_pixel": 67.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 267.9,
+      "heat_score": 37.778,
+      "proximity_score": 82.797,
+      "signal": 55.786
+    },
+    {
+      "id": "vbx_56619",
+      "street": "Boulevard d'Ypres 35",
+      "heat_pixel": 73.0,
+      "nearest_counter": "CJM90",
+      "distance_m": 573.4,
+      "heat_score": 51.111,
+      "proximity_score": 62.568,
+      "signal": 55.694
+    },
+    {
+      "id": "vbx_56839",
+      "street": "Rue Franklin 134",
+      "heat_pixel": 78.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 843.5,
+      "heat_score": 62.222,
+      "proximity_score": 44.683,
+      "signal": 55.206
+    },
+    {
+      "id": "vbx_56818",
+      "street": "Rue Franklin 68",
+      "heat_pixel": 72.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 640.2,
+      "heat_score": 48.889,
+      "proximity_score": 58.145,
+      "signal": 52.591
+    },
+    {
+      "id": "vbx_56741",
+      "street": "Avenue Michel-Ange 77",
+      "heat_pixel": 69.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 552.7,
+      "heat_score": 42.222,
+      "proximity_score": 63.939,
+      "signal": 50.909
+    },
+    {
+      "id": "vbx_56807",
+      "street": "Rue Franklin 31",
+      "heat_pixel": 67.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 476.5,
+      "heat_score": 37.778,
+      "proximity_score": 68.984,
+      "signal": 50.26
+    },
+    {
+      "id": "vbx_56676",
+      "street": "Rue Luther 8",
+      "heat_pixel": 72.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 825.8,
+      "heat_score": 48.889,
+      "proximity_score": 45.855,
+      "signal": 47.675
+    },
+    {
+      "id": "vbx_56846",
+      "street": "Rue Véronèse 19A",
+      "heat_pixel": 69.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 678.9,
+      "heat_score": 42.222,
+      "proximity_score": 55.582,
+      "signal": 47.566
+    },
+    {
+      "id": "vbx_56735",
+      "street": "Avenue Michel-Ange 65",
+      "heat_pixel": 66.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 538.5,
+      "heat_score": 35.556,
+      "proximity_score": 64.879,
+      "signal": 47.285
+    },
+    {
+      "id": "vbx_56837",
+      "street": "Rue Franklin 135",
+      "heat_pixel": 71.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 830.7,
+      "heat_score": 46.667,
+      "proximity_score": 45.53,
+      "signal": 46.212
+    },
+    {
+      "id": "vbx_56848",
+      "street": "Rue Véronèse 22",
+      "heat_pixel": 68.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 683.1,
+      "heat_score": 40.0,
+      "proximity_score": 55.304,
+      "signal": 46.122
+    },
+    {
+      "id": "vbx_58507",
+      "street": null,
+      "heat_pixel": 60.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 293.4,
+      "heat_score": 22.222,
+      "proximity_score": 81.108,
+      "signal": 45.776
+    },
+    {
+      "id": "vbx_58453",
+      "street": "Rue de la Loi 1",
+      "heat_pixel": 59.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 278.0,
+      "heat_score": 20.0,
+      "proximity_score": 82.128,
+      "signal": 44.851
+    },
+    {
+      "id": "vbx_58451",
+      "street": "Rue de la Loi 1",
+      "heat_pixel": 59.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 278.1,
+      "heat_score": 20.0,
+      "proximity_score": 82.122,
+      "signal": 44.849
+    },
+    {
+      "id": "vbx_58462",
+      "street": null,
+      "heat_pixel": 60.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 362.4,
+      "heat_score": 22.222,
+      "proximity_score": 76.54,
+      "signal": 43.949
+    },
+    {
+      "id": "vbx_58502",
+      "street": null,
+      "heat_pixel": 58.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 327.0,
+      "heat_score": 17.778,
+      "proximity_score": 78.884,
+      "signal": 42.22
+    },
+    {
+      "id": "vbx_56714",
+      "street": "Avenue Michel-Ange 30",
+      "heat_pixel": 61.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 514.9,
+      "heat_score": 24.444,
+      "proximity_score": 66.442,
+      "signal": 41.243
+    },
+    {
+      "id": "vbx_56681",
+      "street": "Rue Luther 22",
+      "heat_pixel": 68.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 868.2,
+      "heat_score": 40.0,
+      "proximity_score": 43.047,
+      "signal": 41.219
+    },
+    {
+      "id": "vbx_56669",
+      "street": "Rue Luther 52",
+      "heat_pixel": 70.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 977.9,
+      "heat_score": 44.444,
+      "proximity_score": 35.783,
+      "signal": 40.98
+    },
+    {
+      "id": "vbx_56769",
+      "street": "Rue Archimède 62",
+      "heat_pixel": 58.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 425.6,
+      "heat_score": 17.778,
+      "proximity_score": 72.355,
+      "signal": 39.609
+    },
+    {
+      "id": "vbx_58411",
+      "street": "Rue des Faînes 153",
+      "heat_pixel": 79.0,
+      "nearest_counter": "CB02411",
+      "distance_m": 1499.7,
+      "heat_score": 64.444,
+      "proximity_score": 1.232,
+      "signal": 39.159
+    },
+    {
+      "id": "vbx_56803",
+      "street": "Rue Franklin 21",
+      "heat_pixel": 58.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 446.5,
+      "heat_score": 17.778,
+      "proximity_score": 70.971,
+      "signal": 39.055
+    },
+    {
+      "id": "vbx_56692",
+      "street": "Avenue Michel-Ange 13",
+      "heat_pixel": 59.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 499.9,
+      "heat_score": 20.0,
+      "proximity_score": 67.435,
+      "signal": 38.974
+    },
+    {
+      "id": "vbx_58413",
+      "street": "Rue des Faînes 145",
+      "heat_pixel": 79.0,
+      "nearest_counter": "CB02411",
+      "distance_m": 1518.3,
+      "heat_score": 64.444,
+      "proximity_score": 0.0,
+      "signal": 38.666
+    },
+    {
+      "id": "vbx_56843",
+      "street": "Rue Franklin 154",
+      "heat_pixel": 66.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 905.2,
+      "heat_score": 35.556,
+      "proximity_score": 40.597,
+      "signal": 37.572
+    },
+    {
+      "id": "vbx_58466",
+      "street": null,
+      "heat_pixel": 55.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 352.9,
+      "heat_score": 11.111,
+      "proximity_score": 77.169,
+      "signal": 37.534
+    },
+    {
+      "id": "vbx_58488",
+      "street": "Rue Royale 70",
+      "heat_pixel": 56.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 437.0,
+      "heat_score": 13.333,
+      "proximity_score": 71.6,
+      "signal": 36.64
+    },
+    {
+      "id": "vbx_56765",
+      "street": "Square Ambiorix 28",
+      "heat_pixel": 57.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 500.5,
+      "heat_score": 15.556,
+      "proximity_score": 67.395,
+      "signal": 36.292
+    },
+    {
+      "id": "vbx_58539",
+      "street": null,
+      "heat_pixel": 54.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 355.4,
+      "heat_score": 8.889,
+      "proximity_score": 77.003,
+      "signal": 36.135
+    },
+    {
+      "id": "vbx_56706",
+      "street": "Avenue Michel-Ange 45",
+      "heat_pixel": 57.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 515.1,
+      "heat_score": 15.556,
+      "proximity_score": 66.428,
+      "signal": 35.905
+    },
+    {
+      "id": "vbx_56845",
+      "street": "Square Marguerite 29",
+      "heat_pixel": 60.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 682.1,
+      "heat_score": 22.222,
+      "proximity_score": 55.37,
+      "signal": 35.481
+    },
+    {
+      "id": "vbx_56738",
+      "street": "Avenue Michel-Ange 69",
+      "heat_pixel": 57.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 543.4,
+      "heat_score": 15.556,
+      "proximity_score": 64.554,
+      "signal": 35.155
+    },
+    {
+      "id": "vbx_56739",
+      "street": "Avenue Michel-Ange 73",
+      "heat_pixel": 57.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 545.9,
+      "heat_score": 15.556,
+      "proximity_score": 64.389,
+      "signal": 35.089
+    },
+    {
+      "id": "vbx_56751",
+      "street": "Avenue Michel-Ange 80",
+      "heat_pixel": 57.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 565.0,
+      "heat_score": 15.556,
+      "proximity_score": 63.124,
+      "signal": 34.583
+    },
+    {
+      "id": "vbx_58544",
+      "street": null,
+      "heat_pixel": 53.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 374.0,
+      "heat_score": 6.667,
+      "proximity_score": 75.771,
+      "signal": 34.309
+    },
+    {
+      "id": "vbx_58485",
+      "street": null,
+      "heat_pixel": 54.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 425.7,
+      "heat_score": 8.889,
+      "proximity_score": 72.348,
+      "signal": 34.273
+    },
+    {
+      "id": "vbx_56755",
+      "street": "Avenue Michel-Ange 70",
+      "heat_pixel": 56.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 553.7,
+      "heat_score": 13.333,
+      "proximity_score": 63.872,
+      "signal": 33.549
+    },
+    {
+      "id": "vbx_56753",
+      "street": "Avenue Michel-Ange 74",
+      "heat_pixel": 56.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 559.3,
+      "heat_score": 13.333,
+      "proximity_score": 63.502,
+      "signal": 33.401
+    },
+    {
+      "id": "vbx_56672",
+      "street": "Rue Luther 23",
+      "heat_pixel": 62.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 871.8,
+      "heat_score": 26.667,
+      "proximity_score": 42.809,
+      "signal": 33.124
+    },
+    {
+      "id": "vbx_58471",
+      "street": null,
+      "heat_pixel": 53.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 438.6,
+      "heat_score": 6.667,
+      "proximity_score": 71.494,
+      "signal": 32.598
+    },
+    {
+      "id": "vbx_56748",
+      "street": "Avenue Michel-Ange 86",
+      "heat_pixel": 55.0,
+      "nearest_counter": "CB1143",
+      "distance_m": 574.2,
+      "heat_score": 11.111,
+      "proximity_score": 62.515,
+      "signal": 31.673
+    },
+    {
+      "id": "vbx_58519",
+      "street": null,
+      "heat_pixel": 52.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 453.2,
+      "heat_score": 4.444,
+      "proximity_score": 70.527,
+      "signal": 30.877
+    },
+    {
+      "id": "vbx_56666",
+      "street": "Rue Luther 44",
+      "heat_pixel": 62.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 957.2,
+      "heat_score": 26.667,
+      "proximity_score": 37.154,
+      "signal": 30.862
+    },
+    {
+      "id": "vbx_56840",
+      "street": "Rue Franklin 138",
+      "heat_pixel": 60.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 860.7,
+      "heat_score": 22.222,
+      "proximity_score": 43.544,
+      "signal": 30.751
+    },
+    {
+      "id": "vbx_56665",
+      "street": "Rue Luther 42",
+      "heat_pixel": 61.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 950.0,
+      "heat_score": 24.444,
+      "proximity_score": 37.631,
+      "signal": 29.719
+    },
+    {
+      "id": "vbx_58524",
+      "street": null,
+      "heat_pixel": 51.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 450.7,
+      "heat_score": 2.222,
+      "proximity_score": 70.693,
+      "signal": 29.61
+    },
+    {
+      "id": "vbx_58518",
+      "street": null,
+      "heat_pixel": 51.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 460.9,
+      "heat_score": 2.222,
+      "proximity_score": 70.017,
+      "signal": 29.34
+    },
+    {
+      "id": "vbx_56685",
+      "street": "Rue de l'Abdication 1",
+      "heat_pixel": 59.0,
+      "nearest_counter": "CB1142",
+      "distance_m": 886.1,
+      "heat_score": 20.0,
+      "proximity_score": 41.862,
+      "signal": 28.745
+    },
+    {
+      "id": "vbx_58517",
+      "street": null,
+      "heat_pixel": 51.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 505.9,
+      "heat_score": 2.222,
+      "proximity_score": 67.037,
+      "signal": 28.148
+    },
+    {
+      "id": "vbx_58583",
+      "street": null,
+      "heat_pixel": 50.0,
+      "nearest_counter": "CB1101",
+      "distance_m": 458.2,
+      "heat_score": 0.0,
+      "proximity_score": 70.196,
+      "signal": 28.078
+    },
+    {
+      "id": "vbx_58589",
+      "street": "Rue du Rubis 3",
+      "heat_pixel": 61.0,
+      "nearest_counter": "CJE181",
+      "distance_m": 1498.2,
+      "heat_score": 24.444,
+      "proximity_score": 1.331,
+      "signal": 15.199
+    }
+  ],
   "scenarios": [
     {
       "name": "heat_only",
