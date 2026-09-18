@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trees & Surfaces — feasibility spike</title>
+  <style>
+    :root { color-scheme: light; --ink:#17202a; --muted:#64748b; --line:#dbe4ea; --green:#16805c; --heat:#e76f51; --blue:#277da1; --paper:#f7faf9; }
+    * { box-sizing: border-box; } body { margin:0; font:15px/1.5 system-ui,sans-serif; color:var(--ink); background:var(--paper); }
+    main { max-width:1100px; margin:auto; padding:32px 20px 48px; } h1,h2 { line-height:1.15; } h1 { margin-bottom:6px; } .lede { color:var(--muted); max-width:760px; }
+    .notice { background:#fff8df; border:1px solid #ecd88a; padding:10px 14px; border-radius:8px; margin:20px 0; }
+    .layout { display:grid; grid-template-columns:320px 1fr; gap:20px; align-items:start; } .panel,.card { background:white; border:1px solid var(--line); border-radius:10px; padding:18px; box-shadow:0 2px 8px #16324b0b; }
+    label { display:block; margin:15px 0 4px; font-weight:650; } input[type=range] { width:100%; accent-color:var(--green); } output { float:right; color:var(--muted); font-weight:500; }
+    .map { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; min-height:340px; padding:12px; background:linear-gradient(135deg,#e5f3e8,#eaf3f8); border-radius:8px; }
+    .site { min-height:85px; border:2px solid white; border-radius:8px; padding:8px; color:white; cursor:pointer; transition:.15s transform; text-shadow:0 1px 2px #0008; } .site:hover,.site.selected { transform:scale(1.04); border-color:#17202a; }
+    .site small { display:block; opacity:.9; } .legend { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:8px; }
+    table { width:100%; border-collapse:collapse; margin-top:18px; } th,td { padding:9px 7px; text-align:left; border-bottom:1px solid var(--line); } th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+    .detail { margin-top:18px; } .metric { display:inline-block; margin:5px 12px 5px 0; } .metric b { display:block; font-size:20px; } .muted { color:var(--muted); } code { background:#eef3f5; padding:2px 4px; border-radius:4px; }
+    @media(max-width:760px){ .layout{grid-template-columns:1fr;} .map{grid-template-columns:repeat(3,1fr);} }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Trees &amp; Surfaces</h1>
+  <p class="lede">A tiny intervention explorer: where might a tree improve heat exposure and greenery without creating too much street-use friction?</p>
+  <div class="notice"><b>Feasibility spike:</b> values below are illustrative sample data. They demonstrate the interaction and decision logic, not a city-wide finding.</div>
+  <div class="layout">
+    <section class="panel">
+      <h2>Decision lens</h2>
+      <p class="muted">Change the weights to see how priorities alter the ranking.</p>
+      <label for="heat">Heat reduction <output id="heatOut">40%</output></label><input id="heat" type="range" min="0" max="100" value="40">
+      <label for="green">Canopy gain <output id="greenOut">35%</output></label><input id="green" type="range" min="0" max="100" value="35">
+      <label for="street">Street-use preservation <output id="streetOut">25%</output></label><input id="street" type="range" min="0" max="100" value="25">
+      <p class="muted">The score normalises the weights automatically. A real study would replace this with a validated model and stakeholder-defined objectives.</p>
+      <div id="detail" class="detail"></div>
+    </section>
+    <section class="card">
+      <h2>Candidate sites</h2>
+      <div id="map" class="map"></div>
+      <div class="legend"><span>lower combined score</span><span>higher priority</span></div>
+      <table><thead><tr><th>Site</th><th>Heat</th><th>Canopy</th><th>Street use</th><th>Priority</th></tr></thead><tbody id="rows"></tbody></table>
+    </section>
+  </div>
+</main>
+<script>
+const sites = [
+  {id:'A1',name:'Rue des Tilleuls',x:1,y:1,heat:92,canopy:78,street:66},
+  {id:'A2',name:'Place du Canal',x:2,y:1,heat:83,canopy:54,street:42},
+  {id:'B1',name:'Chaussée Nord',x:3,y:1,heat:75,canopy:63,street:82},
+  {id:'B2',name:'Rue Royale',x:4,y:1,heat:68,canopy:38,street:30},
+  {id:'C1',name:'Square des Arts',x:1,y:2,heat:55,canopy:91,street:74},
+  {id:'C2',name:'Avenue du Parc',x:2,y:2,heat:71,canopy:69,street:58},
+  {id:'D1',name:'Rue de l\'École',x:3,y:2,heat:62,canopy:47,street:88},
+  {id:'D2',name:'Place Verte',x:4,y:2,heat:88,canopy:84,street:51},
+  {id:'E1',name:'Boulevard Sud',x:1,y:3,heat:79,canopy:44,street:73},
+  {id:'E2',name:'Rue du Marché',x:2,y:3,heat:64,canopy:52,street:36}
+];
+const $ = id => document.getElementById(id);
+function weights(){ const h=+$('heat').value,g=+$('green').value,s=+$('street').value,total=h+g+s||1; return {h:h/total,g:g/total,s:s/total}; }
+function score(site,w){ return (site.heat*w.h + site.canopy*w.g + (100-site.street)*w.s); }
+function colour(value){ const hue=145 - value*1.25; return `hsl(${hue},55%,38%)`; }
+function render(){
+  const w=weights(); ['heat','green','street'].forEach((id,i)=>$(id+'Out').textContent=$(id).value+'%');
+  const ranked=[...sites].map(s=>({...s,priority:score(s,w)})).sort((a,b)=>b.priority-a.priority);
+  $('map').innerHTML=ranked.map(s=>`<button class="site" data-id="${s.id}" style="background:${colour(s.priority)}"><b>${s.id}</b><small>${s.name}</small><small>${s.priority.toFixed(0)} priority</small></button>`).join('');
+  $('rows').innerHTML=ranked.map(s=>`<tr><td><b>${s.id}</b> ${s.name}</td><td>${s.heat}</td><td>${s.canopy}</td><td>${s.street}</td><td><b>${s.priority.toFixed(1)}</b></td></tr>`).join('');
+  document.querySelectorAll('.site').forEach(el=>el.addEventListener('click',()=>select(el.dataset.id,ranked)));
+  select(ranked[0].id,ranked);
+}
+function select(id,ranked){ const s=ranked.find(x=>x.id===id); document.querySelectorAll('.site').forEach(el=>el.classList.toggle('selected',el.dataset.id===id)); $('detail').innerHTML=`<h3>${s.name}</h3><div class="metric"><b>${s.heat}</b><span class="muted">heat exposure</span></div><div class="metric"><b>${s.canopy}</b><span class="muted">canopy opportunity</span></div><div class="metric"><b>${s.street}</b><span class="muted">street-use intensity</span></div><p class="muted">Prototype interpretation: a higher priority indicates a stronger combined intervention signal under the current weights.</p>`; }
+['heat','green','street'].forEach(id=>$(id).addEventListener('input',render)); render();
+</script>
+</body>
+</html>
