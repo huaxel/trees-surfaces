@@ -30,6 +30,7 @@ def main() -> None:
     analysis_report = (ROOT / "trees-surfaces/data/tree-signal-analysis.md").read_text()
     buildings = read_json("three-ages/data/grand-place-buildings.json")
     pilot = read_json("three-ages/data/three-ages-pilot.json")
+    three_ages_inventory = read_json("three-ages/data/source-inventory.json")
     pilot_csv = (ROOT / "three-ages/data/three-ages-pilot-export.csv").read_text().splitlines()
 
     tree_ids = {record["id"] for record in trees["records"]}
@@ -59,6 +60,10 @@ def main() -> None:
     require(buildings.get("dataset_url", "").startswith("https://"), "building snapshot is missing dataset URL")
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
+    require({"grand_place_dataset", "bruciel_1996", "bruciel_1944", "brussels_archives"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
+    require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
+    require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
+    require(three_ages_inventory["bruciel_1944"].get("licence") == "pending verification", "1944 BruCiel licence should remain pending")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")
     required_pilot_fields = {"source_id", "selection_reason", "register", "facade", "structure", "image_evidence", "next_step"}
     require(all(required_pilot_fields <= set(record) for record in pilot["records"]), "pilot record schema is incomplete")
