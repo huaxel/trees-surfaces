@@ -1,0 +1,1005 @@
+{
+  "source": 582,
+  "records": [
+    {
+      "id": "447",
+      "species": "Aesculus hippocastanum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.16,
+      "crown_diameter": 20,
+      "latitude": 50.88130122784219,
+      "longitude": 4.356629948749548,
+      "url": "https://sites.heritage.brussels/fr/trees/447"
+    },
+    {
+      "id": "469",
+      "species": "Fagus sylvatica f. pendula",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.12,
+      "crown_diameter": 11,
+      "latitude": 50.842738440581606,
+      "longitude": 4.36609666398429,
+      "url": "https://sites.heritage.brussels/fr/trees/469"
+    },
+    {
+      "id": "506",
+      "species": "Araucaria araucana",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.94,
+      "crown_diameter": 10,
+      "latitude": 50.80758096309496,
+      "longitude": 4.381823612103705,
+      "url": "https://sites.heritage.brussels/fr/trees/506"
+    },
+    {
+      "id": "524",
+      "species": "Fagus sylvatica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 5.55,
+      "crown_diameter": 25,
+      "latitude": 50.79949735869522,
+      "longitude": 4.383688019898145,
+      "url": "https://sites.heritage.brussels/fr/trees/524"
+    },
+    {
+      "id": "539",
+      "species": "Fagus sylvatica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.65,
+      "crown_diameter": 14,
+      "latitude": 50.80730120308455,
+      "longitude": 4.375419281555071,
+      "url": "https://sites.heritage.brussels/fr/trees/539"
+    },
+    {
+      "id": "553",
+      "species": "Fraxinus excelsior",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.29,
+      "crown_diameter": 20,
+      "latitude": 50.81252916941369,
+      "longitude": 4.370653130908032,
+      "url": "https://sites.heritage.brussels/fr/trees/553"
+    },
+    {
+      "id": "562",
+      "species": "Liriodendron tulipifera",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.11,
+      "crown_diameter": 20,
+      "latitude": 50.806221745028516,
+      "longitude": 4.382399218489769,
+      "url": "https://sites.heritage.brussels/fr/trees/562"
+    },
+    {
+      "id": "566",
+      "species": "Pinus nigra",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.63,
+      "crown_diameter": 20,
+      "latitude": 50.80730958590704,
+      "longitude": 4.381661795582755,
+      "url": "https://sites.heritage.brussels/fr/trees/566"
+    },
+    {
+      "id": "573",
+      "species": "Quercus petraea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 5.3,
+      "crown_diameter": 28,
+      "latitude": 50.80380331310056,
+      "longitude": 4.384015744365476,
+      "url": "https://sites.heritage.brussels/fr/trees/573"
+    },
+    {
+      "id": "579",
+      "species": "Tilia platyphyllos",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.68,
+      "crown_diameter": 20,
+      "latitude": 50.805565665587054,
+      "longitude": 4.381079628464549,
+      "url": "https://sites.heritage.brussels/fr/trees/579"
+    },
+    {
+      "id": "665",
+      "species": "Sophora japonica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.4,
+      "crown_diameter": 14,
+      "latitude": 50.83801857980831,
+      "longitude": 4.376999911989053,
+      "url": "https://sites.heritage.brussels/fr/trees/665"
+    },
+    {
+      "id": "715",
+      "species": "Aesculus hippocastanum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.54,
+      "crown_diameter": 10,
+      "latitude": 50.88730733862665,
+      "longitude": 4.352636407252947,
+      "url": "https://sites.heritage.brussels/fr/trees/715"
+    },
+    {
+      "id": "764",
+      "species": "Aesculus hippocastanum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.7,
+      "crown_diameter": 14,
+      "latitude": 50.83973535425118,
+      "longitude": 4.379640920575967,
+      "url": "https://sites.heritage.brussels/fr/trees/764"
+    },
+    {
+      "id": "772",
+      "species": "Fagus grandifolia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.58,
+      "crown_diameter": 12,
+      "latitude": 50.83788363176087,
+      "longitude": 4.37824919224502,
+      "url": "https://sites.heritage.brussels/fr/trees/772"
+    },
+    {
+      "id": "788",
+      "species": "Liriodendron tulipifera",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.75,
+      "crown_diameter": 16,
+      "latitude": 50.83826118436073,
+      "longitude": 4.378362848106435,
+      "url": "https://sites.heritage.brussels/fr/trees/788"
+    },
+    {
+      "id": "797",
+      "species": "Platanus x hispanica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.5,
+      "crown_diameter": 20,
+      "latitude": 50.83813538926261,
+      "longitude": 4.377681377387347,
+      "url": "https://sites.heritage.brussels/fr/trees/797"
+    },
+    {
+      "id": "811",
+      "species": "Acer campestre",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.69,
+      "crown_diameter": 8,
+      "latitude": 50.897712534717506,
+      "longitude": 4.348108367392984,
+      "url": "https://sites.heritage.brussels/fr/trees/811"
+    },
+    {
+      "id": "841",
+      "species": "Morus alba",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.2,
+      "crown_diameter": 8,
+      "latitude": 50.84604609303142,
+      "longitude": 4.37883314305138,
+      "url": "https://sites.heritage.brussels/fr/trees/841"
+    },
+    {
+      "id": "857",
+      "species": "Cedrus atlantica 'Glauca'",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.82,
+      "crown_diameter": 10,
+      "latitude": 50.89621526697968,
+      "longitude": 4.348681848285108,
+      "url": "https://sites.heritage.brussels/fr/trees/857"
+    },
+    {
+      "id": "878",
+      "species": "Aesculus turbinata",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.05,
+      "crown_diameter": 16,
+      "latitude": 50.85385712299047,
+      "longitude": 4.349863953696701,
+      "url": "https://sites.heritage.brussels/fr/trees/878"
+    },
+    {
+      "id": "908",
+      "species": "Cornus mas",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.58,
+      "crown_diameter": 13,
+      "latitude": 50.89431083879722,
+      "longitude": 4.360565290463963,
+      "url": "https://sites.heritage.brussels/fr/trees/908"
+    },
+    {
+      "id": "926",
+      "species": "Chamaecyparis nootkatensis",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.23,
+      "crown_diameter": 8,
+      "latitude": 50.891404168551134,
+      "longitude": 4.382707576500511,
+      "url": "https://sites.heritage.brussels/fr/trees/926"
+    },
+    {
+      "id": "929",
+      "species": "Aesculus hippocastanum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.14,
+      "crown_diameter": 16,
+      "latitude": 50.846960436643414,
+      "longitude": 4.3914884177933935,
+      "url": "https://sites.heritage.brussels/fr/trees/929"
+    },
+    {
+      "id": "939",
+      "species": "Abies concolor",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.93,
+      "crown_diameter": 8,
+      "latitude": 50.81211892525654,
+      "longitude": 4.382585456566469,
+      "url": "https://sites.heritage.brussels/fr/trees/939"
+    },
+    {
+      "id": "957",
+      "species": "Aesculus hippocastanum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.43,
+      "crown_diameter": 16,
+      "latitude": 50.886929984661535,
+      "longitude": 4.354299275050826,
+      "url": "https://sites.heritage.brussels/fr/trees/957"
+    },
+    {
+      "id": "995",
+      "species": "Ginkgo biloba 'Fastigiata'",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.18,
+      "crown_diameter": 10,
+      "latitude": 50.83919475130927,
+      "longitude": 4.347328293004876,
+      "url": "https://sites.heritage.brussels/fr/trees/995"
+    },
+    {
+      "id": "1010",
+      "species": "Pterocarya fraxinifolia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.15,
+      "crown_diameter": 12,
+      "latitude": 50.84099297722173,
+      "longitude": 4.349187392363455,
+      "url": "https://sites.heritage.brussels/fr/trees/1010"
+    },
+    {
+      "id": "2998",
+      "species": "Metasequoia glyptostroboides",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.49,
+      "crown_diameter": 10,
+      "latitude": 50.85052190570484,
+      "longitude": 4.386502432481919,
+      "url": "https://sites.heritage.brussels/fr/trees/2998"
+    },
+    {
+      "id": "3213",
+      "species": "Ulmus glabra",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.07,
+      "crown_diameter": 9,
+      "latitude": 50.85043982701209,
+      "longitude": 4.342921242851008,
+      "url": "https://sites.heritage.brussels/fr/trees/3213"
+    },
+    {
+      "id": "3217",
+      "species": "Ulmus glabra",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.2,
+      "crown_diameter": 9,
+      "latitude": 50.85055670010932,
+      "longitude": 4.342963782330694,
+      "url": "https://sites.heritage.brussels/fr/trees/3217"
+    },
+    {
+      "id": "3351",
+      "species": "Salix caprea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.77,
+      "crown_diameter": 10,
+      "latitude": 50.90092493705868,
+      "longitude": 4.390886159122713,
+      "url": "https://sites.heritage.brussels/fr/trees/3351"
+    },
+    {
+      "id": "3420",
+      "species": "Sophora japonica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.08,
+      "crown_diameter": 16,
+      "latitude": 50.83520576857799,
+      "longitude": 4.352310514462543,
+      "url": "https://sites.heritage.brussels/fr/trees/3420"
+    },
+    {
+      "id": "3422",
+      "species": "Sophora japonica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.91,
+      "crown_diameter": 12,
+      "latitude": 50.83523104619184,
+      "longitude": 4.351773334651408,
+      "url": "https://sites.heritage.brussels/fr/trees/3422"
+    },
+    {
+      "id": "3423",
+      "species": "Acer saccharinum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.66,
+      "crown_diameter": 14,
+      "latitude": 50.835296388079804,
+      "longitude": 4.35234427052613,
+      "url": "https://sites.heritage.brussels/fr/trees/3423"
+    },
+    {
+      "id": "3450",
+      "species": "Ailanthus altissima",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.82,
+      "crown_diameter": 16,
+      "latitude": 50.85195275737909,
+      "longitude": 4.361953343402376,
+      "url": "https://sites.heritage.brussels/fr/trees/3450"
+    },
+    {
+      "id": "3470",
+      "species": "Acer pseudoplatanus",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.4,
+      "crown_diameter": 15,
+      "latitude": 50.83788337385368,
+      "longitude": 4.377032538605537,
+      "url": "https://sites.heritage.brussels/fr/trees/3470"
+    },
+    {
+      "id": "3473",
+      "species": "Sophora japonica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.7,
+      "crown_diameter": 15,
+      "latitude": 50.840149078727926,
+      "longitude": 4.377383646975054,
+      "url": "https://sites.heritage.brussels/fr/trees/3473"
+    },
+    {
+      "id": "3607",
+      "species": "Liriodendron tulipifera",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.23,
+      "crown_diameter": 12,
+      "latitude": 50.843221056972155,
+      "longitude": 4.393641273994317,
+      "url": "https://sites.heritage.brussels/fr/trees/3607"
+    },
+    {
+      "id": "3609",
+      "species": "Ilex aquifolium",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.43,
+      "crown_diameter": 8,
+      "latitude": 50.84313118646544,
+      "longitude": 4.393527639088443,
+      "url": "https://sites.heritage.brussels/fr/trees/3609"
+    },
+    {
+      "id": "4292",
+      "species": "Cedrus libani",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.17,
+      "crown_diameter": 13,
+      "latitude": 50.80705581125402,
+      "longitude": 4.383674638730804,
+      "url": "https://sites.heritage.brussels/fr/trees/4292"
+    },
+    {
+      "id": "5033",
+      "species": "Fagus sylvatica f. pendula",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.82,
+      "crown_diameter": 20,
+      "latitude": 50.805143676305136,
+      "longitude": 4.375631749399095,
+      "url": "https://sites.heritage.brussels/fr/trees/5033"
+    },
+    {
+      "id": "5400",
+      "species": "Pinus nigra",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.2,
+      "crown_diameter": 12,
+      "latitude": 50.88262354623288,
+      "longitude": 4.350449617092187,
+      "url": "https://sites.heritage.brussels/fr/trees/5400"
+    },
+    {
+      "id": "5425",
+      "species": "Fagus sylvatica f. purpurea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.37,
+      "crown_diameter": 15,
+      "latitude": 50.889490580434305,
+      "longitude": 4.345216887070913,
+      "url": "https://sites.heritage.brussels/fr/trees/5425"
+    },
+    {
+      "id": "5430",
+      "species": "Fagus sylvatica f. purpurea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.75,
+      "crown_diameter": 14,
+      "latitude": 50.89021876897853,
+      "longitude": 4.345458139188224,
+      "url": "https://sites.heritage.brussels/fr/trees/5430"
+    },
+    {
+      "id": "5432",
+      "species": "Aesculus x carnea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.98,
+      "crown_diameter": 14,
+      "latitude": 50.89056198061058,
+      "longitude": 4.343614602713257,
+      "url": "https://sites.heritage.brussels/fr/trees/5432"
+    },
+    {
+      "id": "5436",
+      "species": "Fraxinus excelsior",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.53,
+      "crown_diameter": 10,
+      "latitude": 50.885077081624495,
+      "longitude": 4.346881741835272,
+      "url": "https://sites.heritage.brussels/fr/trees/5436"
+    },
+    {
+      "id": "5443",
+      "species": "Quercus rubra",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.81,
+      "crown_diameter": 14,
+      "latitude": 50.88489704039421,
+      "longitude": 4.345503372149824,
+      "url": "https://sites.heritage.brussels/fr/trees/5443"
+    },
+    {
+      "id": "5448",
+      "species": "Acer pseudoplatanus",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.24,
+      "crown_diameter": 14,
+      "latitude": 50.89431960660871,
+      "longitude": 4.357551986439232,
+      "url": "https://sites.heritage.brussels/fr/trees/5448"
+    },
+    {
+      "id": "5454",
+      "species": "Robinia pseudoacacia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.0,
+      "crown_diameter": 0,
+      "latitude": 50.89160524387709,
+      "longitude": 4.367913795910026,
+      "url": "https://sites.heritage.brussels/fr/trees/5454"
+    },
+    {
+      "id": "5469",
+      "species": "Araucaria araucana",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.7,
+      "crown_diameter": 8,
+      "latitude": 50.895875154705436,
+      "longitude": 4.364090144472188,
+      "url": "https://sites.heritage.brussels/fr/trees/5469"
+    },
+    {
+      "id": "5775",
+      "species": "Juglans regia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.1,
+      "crown_diameter": 16,
+      "latitude": 50.895284402239014,
+      "longitude": 4.380808345202945,
+      "url": "https://sites.heritage.brussels/fr/trees/5775"
+    },
+    {
+      "id": "5776",
+      "species": "Ficus carica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 0.8,
+      "crown_diameter": 10,
+      "latitude": 50.89544296103228,
+      "longitude": 4.380933754506908,
+      "url": "https://sites.heritage.brussels/fr/trees/5776"
+    },
+    {
+      "id": "5852",
+      "species": "Acer pseudoplatanus",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.86,
+      "crown_diameter": 16,
+      "latitude": 50.839632561810355,
+      "longitude": 4.356705627445403,
+      "url": "https://sites.heritage.brussels/fr/trees/5852"
+    },
+    {
+      "id": "5862",
+      "species": "Acer platanoides",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.19,
+      "crown_diameter": 16,
+      "latitude": 50.839339835935085,
+      "longitude": 4.356442766934337,
+      "url": "https://sites.heritage.brussels/fr/trees/5862"
+    },
+    {
+      "id": "5991",
+      "species": "Ginkgo biloba",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.08,
+      "crown_diameter": 10,
+      "latitude": 50.83993370238701,
+      "longitude": 4.369589300886428,
+      "url": "https://sites.heritage.brussels/fr/trees/5991"
+    },
+    {
+      "id": "6025",
+      "species": "Platanus x hispanica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.15,
+      "crown_diameter": 20,
+      "latitude": 50.79739092064969,
+      "longitude": 4.398027873542079,
+      "url": "https://sites.heritage.brussels/fr/trees/6025"
+    },
+    {
+      "id": "6037",
+      "species": "Acer campestre",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.5,
+      "crown_diameter": 16,
+      "latitude": 50.79931475984404,
+      "longitude": 4.397731218490602,
+      "url": "https://sites.heritage.brussels/fr/trees/6037"
+    },
+    {
+      "id": "6135",
+      "species": "Fagus sylvatica f. purpurea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.33,
+      "crown_diameter": 15,
+      "latitude": 50.84260360164524,
+      "longitude": 4.366394828840399,
+      "url": "https://sites.heritage.brussels/fr/trees/6135"
+    },
+    {
+      "id": "6156",
+      "species": "Castanea sativa",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.55,
+      "crown_diameter": 10,
+      "latitude": 50.80441642037538,
+      "longitude": 4.372545465671754,
+      "url": "https://sites.heritage.brussels/fr/trees/6156"
+    },
+    {
+      "id": "6158",
+      "species": "Tilia platyphyllos",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.91,
+      "crown_diameter": 16,
+      "latitude": 50.804421430959124,
+      "longitude": 4.373028096586015,
+      "url": "https://sites.heritage.brussels/fr/trees/6158"
+    },
+    {
+      "id": "6159",
+      "species": "Castanea sativa",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.65,
+      "crown_diameter": 12,
+      "latitude": 50.80442466025216,
+      "longitude": 4.373163154013039,
+      "url": "https://sites.heritage.brussels/fr/trees/6159"
+    },
+    {
+      "id": "6185",
+      "species": "Ulmus minor",
+      "status": "Inscrit sur la liste de sauvegarde",
+      "circumference": 2.59,
+      "crown_diameter": 16,
+      "latitude": 50.85456847897164,
+      "longitude": 4.361040413373513,
+      "url": "https://sites.heritage.brussels/fr/trees/6185"
+    },
+    {
+      "id": "6237",
+      "species": "Pterocarya fraxinifolia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.92,
+      "crown_diameter": 10,
+      "latitude": 50.89404072570029,
+      "longitude": 4.320170281567704,
+      "url": "https://sites.heritage.brussels/fr/trees/6237"
+    },
+    {
+      "id": "6238",
+      "species": "Pterocarya fraxinifolia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.08,
+      "crown_diameter": 10,
+      "latitude": 50.89410360535187,
+      "longitude": 4.3200565081435585,
+      "url": "https://sites.heritage.brussels/fr/trees/6238"
+    },
+    {
+      "id": "6264",
+      "species": "Fagus sylvatica f. purpurea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.68,
+      "crown_diameter": 8,
+      "latitude": 50.81231695378341,
+      "longitude": 4.3804713530053885,
+      "url": "https://sites.heritage.brussels/fr/trees/6264"
+    },
+    {
+      "id": "6265",
+      "species": "Tilia x europaea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.36,
+      "crown_diameter": 8,
+      "latitude": 50.811381936768015,
+      "longitude": 4.381294055458417,
+      "url": "https://sites.heritage.brussels/fr/trees/6265"
+    },
+    {
+      "id": "6267",
+      "species": "Fagus sylvatica f. purpurea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.11,
+      "crown_diameter": 10,
+      "latitude": 50.81117411026414,
+      "longitude": 4.381916029251978,
+      "url": "https://sites.heritage.brussels/fr/trees/6267"
+    },
+    {
+      "id": "6341",
+      "species": "Cercidiphyllum japonicum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.77,
+      "crown_diameter": 12,
+      "latitude": 50.89286360272141,
+      "longitude": 4.361588887483895,
+      "url": "https://sites.heritage.brussels/fr/trees/6341"
+    },
+    {
+      "id": "6342",
+      "species": "Ginkgo biloba",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.76,
+      "crown_diameter": 10,
+      "latitude": 50.892818665165045,
+      "longitude": 4.361773666146914,
+      "url": "https://sites.heritage.brussels/fr/trees/6342"
+    },
+    {
+      "id": "6571",
+      "species": "Platanus x hispanica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.2,
+      "crown_diameter": 12,
+      "latitude": 50.881544983725895,
+      "longitude": 4.351643656009894,
+      "url": "https://sites.heritage.brussels/fr/trees/6571"
+    },
+    {
+      "id": "6644",
+      "species": "Fagus sylvatica f. purpurea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.31,
+      "crown_diameter": 10,
+      "latitude": 50.88638648362008,
+      "longitude": 4.333806754377118,
+      "url": "https://sites.heritage.brussels/fr/trees/6644"
+    },
+    {
+      "id": "6666",
+      "species": "Platanus orientalis",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.48,
+      "crown_diameter": 32,
+      "latitude": 50.88676795874685,
+      "longitude": 4.352522897312837,
+      "url": "https://sites.heritage.brussels/fr/trees/6666"
+    },
+    {
+      "id": "6667",
+      "species": "Acer platanoides",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.38,
+      "crown_diameter": 10,
+      "latitude": 50.88673198073682,
+      "longitude": 4.352366584083958,
+      "url": "https://sites.heritage.brussels/fr/trees/6667"
+    },
+    {
+      "id": "6670",
+      "species": "Catalpa bignonioides",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.35,
+      "crown_diameter": 10,
+      "latitude": 50.88889848912936,
+      "longitude": 4.352820628952162,
+      "url": "https://sites.heritage.brussels/fr/trees/6670"
+    },
+    {
+      "id": "6690",
+      "species": "Ginkgo biloba",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.39,
+      "crown_diameter": 14,
+      "latitude": 50.889779158031246,
+      "longitude": 4.350660063518741,
+      "url": "https://sites.heritage.brussels/fr/trees/6690"
+    },
+    {
+      "id": "6691",
+      "species": "Acer platanoides f. globosum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.6,
+      "crown_diameter": 10,
+      "latitude": 50.889500326635456,
+      "longitude": 4.349594251226788,
+      "url": "https://sites.heritage.brussels/fr/trees/6691"
+    },
+    {
+      "id": "6694",
+      "species": "Taxus baccata",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.5,
+      "crown_diameter": 14,
+      "latitude": 50.88838579451923,
+      "longitude": 4.3506321666968875,
+      "url": "https://sites.heritage.brussels/fr/trees/6694"
+    },
+    {
+      "id": "6813",
+      "species": "Pinus nigra",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.09,
+      "crown_diameter": 11,
+      "latitude": 50.879999210471446,
+      "longitude": 4.354983410150195,
+      "url": "https://sites.heritage.brussels/fr/trees/6813"
+    },
+    {
+      "id": "6858",
+      "species": "Robinia pseudoacacia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.14,
+      "crown_diameter": 12,
+      "latitude": 50.89293406120301,
+      "longitude": 4.417517747412239,
+      "url": "https://sites.heritage.brussels/fr/trees/6858"
+    },
+    {
+      "id": "6989",
+      "species": "Ulmus x hollandica 'Lobel'",
+      "status": "En cours de procédure d'inscription sur la liste de sauvegarde",
+      "circumference": 1.76,
+      "crown_diameter": 10,
+      "latitude": 50.84798677837878,
+      "longitude": 4.34617044244602,
+      "url": "https://sites.heritage.brussels/fr/trees/6989"
+    },
+    {
+      "id": "6997",
+      "species": "Morus alba",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.4,
+      "crown_diameter": 12,
+      "latitude": 50.8524535386639,
+      "longitude": 4.360000919449696,
+      "url": "https://sites.heritage.brussels/fr/trees/6997"
+    },
+    {
+      "id": "7022",
+      "species": "Ginkgo biloba",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.66,
+      "crown_diameter": 12,
+      "latitude": 50.893765275188315,
+      "longitude": 4.328911874074917,
+      "url": "https://sites.heritage.brussels/fr/trees/7022"
+    },
+    {
+      "id": "7111",
+      "species": "Sophora japonica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.64,
+      "crown_diameter": 10,
+      "latitude": 50.83770379963328,
+      "longitude": 4.357138801301318,
+      "url": "https://sites.heritage.brussels/fr/trees/7111"
+    },
+    {
+      "id": "7245",
+      "species": "Quercus petraea",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.74,
+      "crown_diameter": 16,
+      "latitude": 50.805161787590144,
+      "longitude": 4.3735746534448365,
+      "url": "https://sites.heritage.brussels/fr/trees/7245"
+    },
+    {
+      "id": "7250",
+      "species": "Quercus robur",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.83,
+      "crown_diameter": 18,
+      "latitude": 50.79812111423325,
+      "longitude": 4.388850812515538,
+      "url": "https://sites.heritage.brussels/fr/trees/7250"
+    },
+    {
+      "id": "7252",
+      "species": "Quercus robur",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.13,
+      "crown_diameter": 20,
+      "latitude": 50.80201438238805,
+      "longitude": 4.384071879244366,
+      "url": "https://sites.heritage.brussels/fr/trees/7252"
+    },
+    {
+      "id": "7254",
+      "species": "Quercus robur",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.28,
+      "crown_diameter": 24,
+      "latitude": 50.81464582221811,
+      "longitude": 4.373802796043986,
+      "url": "https://sites.heritage.brussels/fr/trees/7254"
+    },
+    {
+      "id": "7256",
+      "species": "Quercus robur",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.12,
+      "crown_diameter": 26,
+      "latitude": 50.812011746446295,
+      "longitude": 4.375689603646727,
+      "url": "https://sites.heritage.brussels/fr/trees/7256"
+    },
+    {
+      "id": "7266",
+      "species": "Fagus sylvatica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.8,
+      "crown_diameter": 20,
+      "latitude": 50.80548520696538,
+      "longitude": 4.376610705991467,
+      "url": "https://sites.heritage.brussels/fr/trees/7266"
+    },
+    {
+      "id": "7269",
+      "species": "Castanea sativa",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.93,
+      "crown_diameter": 18,
+      "latitude": 50.801097812339975,
+      "longitude": 4.381319548257421,
+      "url": "https://sites.heritage.brussels/fr/trees/7269"
+    },
+    {
+      "id": "7271",
+      "species": "Quercus robur",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.01,
+      "crown_diameter": 24,
+      "latitude": 50.80485518624651,
+      "longitude": 4.38337769475427,
+      "url": "https://sites.heritage.brussels/fr/trees/7271"
+    },
+    {
+      "id": "7281",
+      "species": "Quercus robur",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.15,
+      "crown_diameter": 17,
+      "latitude": 50.811499550502845,
+      "longitude": 4.371858551165423,
+      "url": "https://sites.heritage.brussels/fr/trees/7281"
+    },
+    {
+      "id": "7284",
+      "species": "Fagus sylvatica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.44,
+      "crown_diameter": 18,
+      "latitude": 50.800207353961106,
+      "longitude": 4.384922385430877,
+      "url": "https://sites.heritage.brussels/fr/trees/7284"
+    },
+    {
+      "id": "7339",
+      "species": "Tilia cordata",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.43,
+      "crown_diameter": 11,
+      "latitude": 50.82398617105812,
+      "longitude": 4.368935907431383,
+      "url": "https://sites.heritage.brussels/fr/trees/7339"
+    },
+    {
+      "id": "7350",
+      "species": "Platanus x hispanica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 4.81,
+      "crown_diameter": 20,
+      "latitude": 50.83931095702834,
+      "longitude": 4.390625952267486,
+      "url": "https://sites.heritage.brussels/fr/trees/7350"
+    },
+    {
+      "id": "7352",
+      "species": "Platanus x hispanica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.5,
+      "crown_diameter": 16,
+      "latitude": 50.838799183741166,
+      "longitude": 4.390601857194503,
+      "url": "https://sites.heritage.brussels/fr/trees/7352"
+    },
+    {
+      "id": "7460",
+      "species": "Fagus sylvatica",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 3.77,
+      "crown_diameter": 18,
+      "latitude": 50.896439917657396,
+      "longitude": 4.348170038037074,
+      "url": "https://sites.heritage.brussels/fr/trees/7460"
+    },
+    {
+      "id": "7544",
+      "species": "Ilex aquifolium",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 0.81,
+      "crown_diameter": 5,
+      "latitude": 50.85411937512942,
+      "longitude": 4.350646075089039,
+      "url": "https://sites.heritage.brussels/fr/trees/7544"
+    },
+    {
+      "id": "7646",
+      "species": "Aesculus hippocastanum",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 2.38,
+      "crown_diameter": 12,
+      "latitude": 50.89812612481618,
+      "longitude": 4.332035470292242,
+      "url": "https://sites.heritage.brussels/fr/trees/7646"
+    },
+    {
+      "id": "7713",
+      "species": "Juglans regia",
+      "status": "Inscrit à l’inventaire légal",
+      "circumference": 1.82,
+      "crown_diameter": 8,
+      "latitude": 50.86042872371045,
+      "longitude": 4.351679473214164,
+      "url": "https://sites.heritage.brussels/fr/trees/7713"
+    }
+  ]
+}

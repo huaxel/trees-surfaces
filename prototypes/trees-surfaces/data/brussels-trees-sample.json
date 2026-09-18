@@ -1,0 +1,912 @@
+{
+  "source": 31643,
+  "completeness": {
+    "latitude": 100,
+    "longitude": 100,
+    "street": 78,
+    "district": 100,
+    "species": 99
+  },
+  "records": [
+    {
+      "id": "vbx_56544",
+      "street": "Avenue de Stalingrad 106",
+      "district": "STALINGRAD",
+      "latitude": 50.839932,
+      "longitude": 4.342365,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56550",
+      "street": "Rue du Midi 177",
+      "district": "STALINGRAD",
+      "latitude": 50.843006,
+      "longitude": 4.345726,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56554",
+      "street": "Rue du Midi 177",
+      "district": "STALINGRAD",
+      "latitude": 50.843069,
+      "longitude": 4.345959,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56557",
+      "street": "Place Rouppe 1",
+      "district": "STALINGRAD",
+      "latitude": 50.843061,
+      "longitude": 4.345439,
+      "species": "Acer x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56558",
+      "street": "Place Rouppe 10",
+      "district": "STALINGRAD",
+      "latitude": 50.842939,
+      "longitude": 4.346216,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56561",
+      "street": "Place Rouppe 11",
+      "district": "STALINGRAD",
+      "latitude": 50.842837,
+      "longitude": 4.346237,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56567",
+      "street": "Place Rouppe 4",
+      "district": "STALINGRAD",
+      "latitude": 50.843225,
+      "longitude": 4.345652,
+      "species": "Ilex x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56571",
+      "street": "Place Rouppe 17",
+      "district": "STALINGRAD",
+      "latitude": 50.842485,
+      "longitude": 4.346139,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56573",
+      "street": "Place Rouppe 18",
+      "district": "STALINGRAD",
+      "latitude": 50.842386,
+      "longitude": 4.346009,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56587",
+      "street": "Boulevard de Dixmude 9",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.85651,
+      "longitude": 4.344917,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56592",
+      "street": "Quai du Commerce 50",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857555,
+      "longitude": 4.348258,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56593",
+      "street": "Quai du Commerce 50",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857535,
+      "longitude": 4.348175,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56596",
+      "street": "Boulevard de Dixmude 71",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857451,
+      "longitude": 4.347931,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56604",
+      "street": "Boulevard de Dixmude 65",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857345,
+      "longitude": 4.347608,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56605",
+      "street": "Boulevard de Dixmude 30",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857321,
+      "longitude": 4.347306,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56610",
+      "street": "Boulevard de Dixmude 45",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.85715,
+      "longitude": 4.347036,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56619",
+      "street": "Boulevard d'Ypres 35",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857241,
+      "longitude": 4.347071,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56620",
+      "street": "Boulevard de Dixmude 45",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.85718,
+      "longitude": 4.347109,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56622",
+      "street": "Boulevard de Dixmude 20",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857039,
+      "longitude": 4.34649,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56625",
+      "street": "Boulevard de Dixmude 18",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.857012,
+      "longitude": 4.346399,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56635",
+      "street": "Boulevard de Dixmude 8",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.856872,
+      "longitude": 4.345993,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56637",
+      "street": "Boulevard de Dixmude 6",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.856847,
+      "longitude": 4.345913,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56643",
+      "street": "Boulevard de Dixmude 27",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.8567,
+      "longitude": 4.345718,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56653",
+      "street": "Boulevard de Dixmude 21",
+      "district": "BEGUINAGE - DIXMUDE",
+      "latitude": 50.85659,
+      "longitude": 4.345395,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56665",
+      "street": "Rue Luther 42",
+      "district": "SQUARES",
+      "latitude": 50.850948,
+      "longitude": 4.385561,
+      "species": "Catalpa bignonioides",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56666",
+      "street": "Rue Luther 44",
+      "district": "SQUARES",
+      "latitude": 50.851006,
+      "longitude": 4.385608,
+      "species": "Catalpa bignonioides",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56669",
+      "street": "Rue Luther 52",
+      "district": "SQUARES",
+      "latitude": 50.851175,
+      "longitude": 4.385732,
+      "species": "Catalpa bignonioides",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56672",
+      "street": "Rue Luther 23",
+      "district": "SQUARES",
+      "latitude": 50.850315,
+      "longitude": 4.385069,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56676",
+      "street": "Rue Luther 8",
+      "district": "SQUARES",
+      "latitude": 50.849979,
+      "longitude": 4.384681,
+      "species": "Fraxinus excelsior",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56681",
+      "street": "Rue Luther 22",
+      "district": "SQUARES",
+      "latitude": 50.850326,
+      "longitude": 4.384936,
+      "species": "Fraxinus excelsior",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56685",
+      "street": "Rue de l'Abdication 1",
+      "district": "SQUARES",
+      "latitude": 50.850397,
+      "longitude": 4.385247,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56692",
+      "street": "Avenue Michel-Ange 13",
+      "district": "SQUARES",
+      "latitude": 50.845864,
+      "longitude": 4.384862,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56696",
+      "street": "Avenue Michel-Ange 17",
+      "district": "SQUARES",
+      "latitude": 50.845762,
+      "longitude": 4.384968,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56706",
+      "street": "Avenue Michel-Ange 45",
+      "district": "SQUARES",
+      "latitude": 50.845053,
+      "longitude": 4.385688,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56714",
+      "street": "Avenue Michel-Ange 30",
+      "district": "SQUARES",
+      "latitude": 50.845529,
+      "longitude": 4.385383,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56733",
+      "street": "Avenue Michel-Ange 59",
+      "district": "SQUARES",
+      "latitude": 50.844591,
+      "longitude": 4.386151,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56735",
+      "street": "Avenue Michel-Ange 65",
+      "district": "SQUARES",
+      "latitude": 50.844458,
+      "longitude": 4.386287,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56738",
+      "street": "Avenue Michel-Ange 69",
+      "district": "SQUARES",
+      "latitude": 50.844346,
+      "longitude": 4.386398,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56739",
+      "street": "Avenue Michel-Ange 73",
+      "district": "SQUARES",
+      "latitude": 50.844294,
+      "longitude": 4.38645,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56741",
+      "street": "Avenue Michel-Ange 77",
+      "district": "SQUARES",
+      "latitude": 50.84416,
+      "longitude": 4.386586,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56748",
+      "street": "Avenue Michel-Ange 86",
+      "district": "SQUARES",
+      "latitude": 50.844003,
+      "longitude": 4.386931,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56751",
+      "street": "Avenue Michel-Ange 80",
+      "district": "SQUARES",
+      "latitude": 50.844174,
+      "longitude": 4.38676,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56753",
+      "street": "Avenue Michel-Ange 74",
+      "district": "SQUARES",
+      "latitude": 50.844285,
+      "longitude": 4.386647,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56755",
+      "street": "Avenue Michel-Ange 70",
+      "district": "SQUARES",
+      "latitude": 50.8444,
+      "longitude": 4.386529,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56761",
+      "street": "Avenue Michel-Ange 53",
+      "district": "SQUARES",
+      "latitude": 50.844727,
+      "longitude": 4.386019,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56765",
+      "street": "Square Ambiorix 28",
+      "district": "SQUARES",
+      "latitude": 50.846214,
+      "longitude": 4.384507,
+      "species": "Magnolia kobus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56769",
+      "street": "Rue Archimède 62",
+      "district": "SQUARES",
+      "latitude": 50.845805,
+      "longitude": 4.383659,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56789",
+      "street": "Rue Archimède 77",
+      "district": "SQUARES",
+      "latitude": 50.845376,
+      "longitude": 4.383823,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56803",
+      "street": "Rue Franklin 21",
+      "district": "SQUARES",
+      "latitude": 50.844539,
+      "longitude": 4.38491,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56807",
+      "street": "Rue Franklin 31",
+      "district": "SQUARES",
+      "latitude": 50.844691,
+      "longitude": 4.385288,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56811",
+      "street": "Rue Franklin 37",
+      "district": "SQUARES",
+      "latitude": 50.844771,
+      "longitude": 4.385491,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56818",
+      "street": "Rue Franklin 68",
+      "district": "SQUARES",
+      "latitude": 50.845569,
+      "longitude": 4.387289,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56837",
+      "street": "Rue Franklin 135",
+      "district": "SQUARES",
+      "latitude": 50.846423,
+      "longitude": 4.389672,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56839",
+      "street": "Rue Franklin 134",
+      "district": "SQUARES",
+      "latitude": 50.846555,
+      "longitude": 4.389782,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56840",
+      "street": "Rue Franklin 138",
+      "district": "SQUARES",
+      "latitude": 50.846633,
+      "longitude": 4.389996,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56843",
+      "street": "Rue Franklin 154",
+      "district": "SQUARES",
+      "latitude": 50.846846,
+      "longitude": 4.39054,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56845",
+      "street": "Square Marguerite 29",
+      "district": "SQUARES",
+      "latitude": 50.846733,
+      "longitude": 4.387062,
+      "species": "Hibiscus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56846",
+      "street": "Rue Véronèse 19A",
+      "district": "SQUARES",
+      "latitude": 50.846413,
+      "longitude": 4.387295,
+      "species": "Hibiscus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56848",
+      "street": "Rue Véronèse 22",
+      "district": "SQUARES",
+      "latitude": 50.846144,
+      "longitude": 4.387572,
+      "species": "Hibiscus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56852",
+      "street": "Rue Joseph II 124",
+      "district": "QUARTIER EUROPEEN",
+      "latitude": 50.844153,
+      "longitude": 4.378479,
+      "species": "Acer platanoides",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56856",
+      "street": "Rue Joseph II 114",
+      "district": "QUARTIER EUROPEEN",
+      "latitude": 50.844432,
+      "longitude": 4.378211,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56870",
+      "street": "Rue de la Loi 170",
+      "district": "QUARTIER EUROPEEN",
+      "latitude": 50.84371,
+      "longitude": 4.379166,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56873",
+      "street": "Chaussée d'Etterbeek 50",
+      "district": "QUARTIER EUROPEEN",
+      "latitude": 50.843504,
+      "longitude": 4.379119,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_56876",
+      "street": "Chaussée d'Etterbeek 50",
+      "district": "QUARTIER EUROPEEN",
+      "latitude": 50.843554,
+      "longitude": 4.378851,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58411",
+      "street": "Rue des Faînes 153",
+      "district": "HEEMBEEK",
+      "latitude": 50.89196,
+      "longitude": 4.388111,
+      "species": "Ligustrum japonicum",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58413",
+      "street": "Rue des Faînes 145",
+      "district": "HEEMBEEK",
+      "latitude": 50.8921,
+      "longitude": 4.38826,
+      "species": "Ligustrum japonicum",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58421",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844907,
+      "longitude": 4.365262,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58428",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.84506,
+      "longitude": 4.364541,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58429",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845291,
+      "longitude": 4.364787,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58435",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845161,
+      "longitude": 4.364597,
+      "species": "Paulownia tomentosa",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58444",
+      "street": "Rue de la Loi 1",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845548,
+      "longitude": 4.364968,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58451",
+      "street": "Rue de la Loi 1",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845845,
+      "longitude": 4.364703,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58453",
+      "street": "Rue de la Loi 1",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845929,
+      "longitude": 4.364734,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58462",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845804,
+      "longitude": 4.363473,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58466",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.84569,
+      "longitude": 4.363587,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58471",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845535,
+      "longitude": 4.362343,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58485",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845968,
+      "longitude": 4.362602,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58488",
+      "street": "Rue Royale 70",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.846416,
+      "longitude": 4.362596,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58493",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844367,
+      "longitude": 4.365461,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58494",
+      "street": "Rue Ducale 21",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.84432,
+      "longitude": 4.365504,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58495",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844477,
+      "longitude": 4.365021,
+      "species": "Quercus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58496",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844571,
+      "longitude": 4.364801,
+      "species": null,
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58498",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844337,
+      "longitude": 4.364762,
+      "species": "Aesculus hippocastanum",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58502",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.843514,
+      "longitude": 4.364933,
+      "species": "Quercus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58503",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.843753,
+      "longitude": 4.364798,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58507",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844016,
+      "longitude": 4.36497,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58517",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844109,
+      "longitude": 4.361647,
+      "species": "Acer",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58518",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845199,
+      "longitude": 4.362023,
+      "species": "Aesculus hippocastanum",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58519",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845193,
+      "longitude": 4.362133,
+      "species": "Carpinus betulus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58524",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844984,
+      "longitude": 4.362189,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58539",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844926,
+      "longitude": 4.363564,
+      "species": "Fraxinus",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58544",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844608,
+      "longitude": 4.363384,
+      "species": "Acer",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58567",
+      "street": "Rue de la Loi 5",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845061,
+      "longitude": 4.365883,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58570",
+      "street": "Rue de la Loi 5",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845313,
+      "longitude": 4.365969,
+      "species": "Acer",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58576",
+      "street": "Rue Ducale 47",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845659,
+      "longitude": 4.366237,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58578",
+      "street": "Rue de la Loi 5",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845559,
+      "longitude": 4.366153,
+      "species": "Tilia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58580",
+      "street": "Rue de la Loi 16",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845816,
+      "longitude": 4.366217,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58582",
+      "street": "Rue de la Loi 3",
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.845873,
+      "longitude": 4.365903,
+      "species": "Platanus x acerifolia",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58583",
+      "street": null,
+      "district": "QUARTIER ROYAL",
+      "latitude": 50.844561,
+      "longitude": 4.362175,
+      "species": "Ziziphus jujuba",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    },
+    {
+      "id": "vbx_58589",
+      "street": "Rue du Rubis 3",
+      "district": "HEYSEL",
+      "latitude": 50.893603,
+      "longitude": 4.319077,
+      "species": "Liquidambar styraciflua",
+      "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie"
+    }
+  ]
+}

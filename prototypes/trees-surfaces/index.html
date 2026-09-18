@@ -24,6 +24,7 @@
   <h1>Trees &amp; Surfaces</h1>
   <p class="lede">A tiny intervention explorer: where might a tree improve heat exposure and greenery without creating too much street-use friction?</p>
   <div class="notice"><b>Feasibility spike:</b> values below are illustrative sample data. They demonstrate the interaction and decision logic, not a city-wide finding.</div>
+  <p id="source" class="muted">Loading public-source snapshot…</p>
   <div class="layout">
     <section class="panel">
       <h2>Decision lens</h2>
@@ -39,6 +40,8 @@
       <div id="map" class="map"></div>
       <div class="legend"><span>lower combined score</span><span>higher priority</span></div>
       <table><thead><tr><th>Site</th><th>Heat</th><th>Canopy</th><th>Street use</th><th>Priority</th></tr></thead><tbody id="rows"></tbody></table>
+      <h3>Public register preview</h3>
+      <div id="register" class="muted">Loading records…</div>
     </section>
   </div>
 </main>
@@ -69,6 +72,13 @@ function render(){
 }
 function select(id,ranked){ const s=ranked.find(x=>x.id===id); document.querySelectorAll('.site').forEach(el=>el.classList.toggle('selected',el.dataset.id===id)); $('detail').innerHTML=`<h3>${s.name}</h3><div class="metric"><b>${s.heat}</b><span class="muted">heat exposure</span></div><div class="metric"><b>${s.canopy}</b><span class="muted">canopy opportunity</span></div><div class="metric"><b>${s.street}</b><span class="muted">street-use intensity</span></div><p class="muted">Prototype interpretation: a higher priority indicates a stronger combined intervention signal under the current weights.</p>`; }
 ['heat','green','street'].forEach(id=>$(id).addEventListener('input',render)); render();
+Promise.all([
+  fetch('data/brussels-trees-sample.json').then(r=>r.json()),
+  fetch('data/brussels-remarkable-trees-sample.json').then(r=>r.json())
+]).then(([managed, remarkable])=>{
+  $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, plus ${remarkable.source.toLocaleString()} remarkable trees; this snapshot contains ${managed.records.length} managed and ${remarkable.records.length} remarkable records. Heat and street-use fields are not yet attached.`;
+  $('register').innerHTML='<ul>'+managed.records.slice(0,8).map(x=>`<li><b>${x.street || 'Unnamed street'}</b> — ${x.species || 'species not recorded'} · ${x.district || 'district unavailable'} (${x.latitude?.toFixed(4) ?? 'no latitude'}, ${x.longitude?.toFixed(4) ?? 'no longitude'})</li>`).join('')+'</ul>';
+}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and fetch script first.'; $('register').textContent='Public-source snapshot unavailable.'});
 </script>
 </body>
 </html>
