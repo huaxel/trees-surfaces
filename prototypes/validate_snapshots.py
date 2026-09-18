@@ -54,6 +54,9 @@ def main() -> None:
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")
+    required_pilot_fields = {"source_id", "selection_reason", "register", "facade", "structure", "image_evidence", "next_step"}
+    require(all(required_pilot_fields <= set(record) for record in pilot["records"]), "pilot record schema is incomplete")
+    require(all(all(field in record[claim] for field in ("status", "value", "note")) for record in pilot["records"] for claim in ("register", "facade", "structure")), "pilot claim schema is incomplete")
     require(all(not record["image_evidence"] for record in pilot["records"]), "pilot image evidence should remain explicitly empty")
 
     print("snapshot validation passed")
