@@ -10,7 +10,7 @@ The interaction now frames a narrower descriptive question: where do sampled man
 
 The interaction makes the candidate's identity clear: the product is an evidence-led building-history explorer. The important design choice is to show disagreement and uncertainty rather than collapse all information into one “true” construction year.
 
-A first public source is now available: the City of Brussels dataset describing 34 Grand Place buildings, including restoration/history and facade-description fields. The committed snapshot now preserves its public dataset endpoint. The main unresolved issues remain image licensing, annotation effort and whether historical aerial imagery can support structural-age claims at the required scale.
+A first public source is now available: the City of Brussels dataset describing 34 Grand Place buildings, including restoration/history and facade-description fields. The committed snapshot now preserves its public dataset endpoint. BruCiel metadata identifies both 1944 and 1996 orthophoto layers as CC0; the remaining access risks are extracting matched tiles, archive-image permissions, annotation effort and whether historical imagery can support structural-age claims at the required scale.
 
 The 34 source records all contain history text and 32 contain facade-description text. A six-record source-linked pilot now makes the evidence gap explicit: it separates source-described facade style, documented reconstruction dates and the still-missing register/image annotations. **Still needed:** a permitted pilot image set, two or more historical image epochs and reviewed labels.
 
