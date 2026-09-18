@@ -12,6 +12,20 @@ This report answers the working screening question using the committed 100-recor
 - Counter history context: 672 fifteen-minute observations from 2024/01/01 to 2024/01/07; mean count 11.2, maximum 44
 - High-heat/high-proximity quadrant: 6 points at or above the sample's third quartile on both normalized components
 
+## District context
+
+District counts describe this 100-record sample only; they are not district prevalence estimates.
+
+| District | Points | Mean WBGT pixel | Median counter distance | High-high points |
+|---|---:|---:|---:|---:|
+| QUARTIER ROYAL | 33 | 65.2 | 285.5 m | 4 |
+| STALINGRAD | 9 | 86.9 | 489.9 m | 1 |
+| QUARTIER EUROPEEN | 5 | 75.8 | 33.8 m | 1 |
+| SQUARES | 35 | 65.0 | 559.3 m | 0 |
+| BEGUINAGE - DIXMUDE | 15 | 84.5 | 564.6 m | 0 |
+| HEEMBEEK | 2 | 79.0 | 1509.0 m | 0 |
+| HEYSEL | 1 | 61.0 | 1498.2 m | 0 |
+
 ## Balanced screen
 
 The balanced screen uses heat weight 0.6 and proximity weight 0.4. The table shows the ten highest exploratory signals.

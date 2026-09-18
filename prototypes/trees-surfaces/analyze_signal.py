@@ -37,6 +37,7 @@ def main() -> None:
         rows.append({
             "id": record["id"],
             "street": record.get("street"),
+            "district": record.get("district") or "Unknown",
             "heat_pixel": heat_value,
             "nearest_counter": record["nearest_counter"],
             "distance_m": distance,
@@ -81,7 +82,7 @@ def main() -> None:
     }
     OUTPUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     with CSV_OUTPUT.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["rank", "id", "street", "heat_pixel", "nearest_counter", "distance_m", "heat_score", "proximity_score", "signal"], lineterminator="\n")
+        writer = csv.DictWriter(handle, fieldnames=["rank", "id", "street", "district", "heat_pixel", "nearest_counter", "distance_m", "heat_score", "proximity_score", "signal"], lineterminator="\n")
         writer.writeheader()
         for rank, row in enumerate(ranked["balanced"], start=1):
             writer.writerow({"rank": rank, **{field: row[field] for field in writer.fieldnames if field != "rank"}})
@@ -91,6 +92,20 @@ def main() -> None:
     heat_q3 = statistics.quantiles(heat_scores, n=4, method="inclusive")[2]
     proximity_q3 = statistics.quantiles(proximity_scores, n=4, method="inclusive")[2]
     high_high = [row for row in ranked["balanced"] if row["heat_score"] >= heat_q3 and row["proximity_score"] >= proximity_q3]
+    high_high_ids = {row["id"] for row in high_high}
+    district_groups = {}
+    for row in rows:
+        district_groups.setdefault(row["district"], []).append(row)
+    district_summary = []
+    for district, district_rows in district_groups.items():
+        district_summary.append({
+            "district": district,
+            "count": len(district_rows),
+            "mean_heat": statistics.mean(row["heat_pixel"] for row in district_rows),
+            "median_distance": statistics.median(row["distance_m"] for row in district_rows),
+            "high_high_count": sum(row["id"] in high_high_ids for row in district_rows),
+        })
+    district_summary.sort(key=lambda row: (-row["high_high_count"], -row["count"], row["district"]))
     lines = [
         "# Tree signal descriptive analysis",
         "",
@@ -106,13 +121,24 @@ def main() -> None:
         f"- Counter history context: {len(history)} fifteen-minute observations from {history_payload['start_date']} to {history_payload['end_date']}; mean count {statistics.mean(record['count'] for record in history):.1f}, maximum {max(record['count'] for record in history)}",
         f"- High-heat/high-proximity quadrant: {len(high_high)} points at or above the sample's third quartile on both normalized components",
         "",
+        "## District context",
+        "",
+        "District counts describe this 100-record sample only; they are not district prevalence estimates.",
+        "",
+        "| District | Points | Mean WBGT pixel | Median counter distance | High-high points |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for summary in district_summary:
+        lines.append(f"| {summary['district']} | {summary['count']} | {summary['mean_heat']:.1f} | {summary['median_distance']:.1f} m | {summary['high_high_count']} |")
+    lines.extend([
+        "",
         "## Balanced screen",
         "",
         "The balanced screen uses heat weight 0.6 and proximity weight 0.4. The table shows the ten highest exploratory signals.",
         "",
         "| Rank | ID | Street | WBGT pixel | Counter distance | Signal |",
         "|---:|---|---|---:|---:|---:|",
-    ]
+    ])
     for rank, row in enumerate(ranked["balanced"][:10], start=1):
         lines.append(f"| {rank} | {row['id']} | {row.get('street') or 'Unnamed street'} | {row['heat_pixel']:.0f} | {row['distance_m']:.1f} m | {row['signal']:.1f} |")
     lines.extend([
