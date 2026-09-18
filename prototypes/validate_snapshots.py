@@ -52,6 +52,7 @@ def main() -> None:
     require(len(buildings["records"]) == 34, "expected 34 Grand Place records")
     require(buildings.get("dataset_url", "").startswith("https://"), "building snapshot is missing dataset URL")
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
+    require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")
     require(all(not record["image_evidence"] for record in pilot["records"]), "pilot image evidence should remain explicitly empty")
 
