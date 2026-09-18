@@ -1,0 +1,345 @@
+{
+  "method": "min-max normalization within the 100-record feasibility sample",
+  "record_count": 100,
+  "heat_range": [
+    50.0,
+    95.0
+  ],
+  "distance_range_m": [
+    8.1,
+    1518.3
+  ],
+  "scenarios": [
+    {
+      "name": "heat_only",
+      "weights": {
+        "heat": 1.0,
+        "proximity": 0.0
+      },
+      "top_10_overlap_with_balanced": 7,
+      "top_records": [
+        {
+          "id": "vbx_56635",
+          "street": "Boulevard de Dixmude 8",
+          "heat_pixel": 95.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 491.2,
+          "heat_score": 100.0,
+          "proximity_score": 68.011,
+          "signal": 100.0
+        },
+        {
+          "id": "vbx_56604",
+          "street": "Boulevard de Dixmude 65",
+          "heat_pixel": 91.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 608.6,
+          "heat_score": 91.111,
+          "proximity_score": 60.237,
+          "signal": 91.111
+        },
+        {
+          "id": "vbx_56587",
+          "street": "Boulevard de Dixmude 9",
+          "heat_pixel": 90.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 411.3,
+          "heat_score": 88.889,
+          "proximity_score": 73.302,
+          "signal": 88.889
+        },
+        {
+          "id": "vbx_56637",
+          "street": "Boulevard de Dixmude 6",
+          "heat_pixel": 90.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 485.3,
+          "heat_score": 88.889,
+          "proximity_score": 68.402,
+          "signal": 88.889
+        },
+        {
+          "id": "vbx_56544",
+          "street": "Avenue de Stalingrad 106",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 176.2,
+          "heat_score": 86.667,
+          "proximity_score": 88.869,
+          "signal": 86.667
+        },
+        {
+          "id": "vbx_56554",
+          "street": "Rue du Midi 177",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 507.3,
+          "heat_score": 86.667,
+          "proximity_score": 66.945,
+          "signal": 86.667
+        },
+        {
+          "id": "vbx_56573",
+          "street": "Place Rouppe 18",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 471.5,
+          "heat_score": 86.667,
+          "proximity_score": 69.315,
+          "signal": 86.667
+        },
+        {
+          "id": "vbx_56571",
+          "street": "Place Rouppe 17",
+          "heat_pixel": 88.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 484.7,
+          "heat_score": 84.444,
+          "proximity_score": 68.441,
+          "signal": 84.444
+        },
+        {
+          "id": "vbx_56557",
+          "street": "Place Rouppe 1",
+          "heat_pixel": 87.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 477.2,
+          "heat_score": 82.222,
+          "proximity_score": 68.938,
+          "signal": 82.222
+        },
+        {
+          "id": "vbx_56567",
+          "street": "Place Rouppe 4",
+          "heat_pixel": 87.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 500.1,
+          "heat_score": 82.222,
+          "proximity_score": 67.422,
+          "signal": 82.222
+        }
+      ]
+    },
+    {
+      "name": "balanced",
+      "weights": {
+        "heat": 0.6,
+        "proximity": 0.4
+      },
+      "top_10_overlap_with_balanced": 10,
+      "top_records": [
+        {
+          "id": "vbx_56544",
+          "street": "Avenue de Stalingrad 106",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 176.2,
+          "heat_score": 86.667,
+          "proximity_score": 88.869,
+          "signal": 87.548
+        },
+        {
+          "id": "vbx_56635",
+          "street": "Boulevard de Dixmude 8",
+          "heat_pixel": 95.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 491.2,
+          "heat_score": 100.0,
+          "proximity_score": 68.011,
+          "signal": 87.204
+        },
+        {
+          "id": "vbx_56870",
+          "street": "Rue de la Loi 170",
+          "heat_pixel": 83.0,
+          "nearest_counter": "CB1142",
+          "distance_m": 33.8,
+          "heat_score": 73.333,
+          "proximity_score": 98.298,
+          "signal": 83.319
+        },
+        {
+          "id": "vbx_56587",
+          "street": "Boulevard de Dixmude 9",
+          "heat_pixel": 90.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 411.3,
+          "heat_score": 88.889,
+          "proximity_score": 73.302,
+          "signal": 82.654
+        },
+        {
+          "id": "vbx_58580",
+          "street": "Rue de la Loi 16",
+          "heat_pixel": 84.0,
+          "nearest_counter": "CB1101",
+          "distance_m": 174.3,
+          "heat_score": 75.556,
+          "proximity_score": 88.995,
+          "signal": 80.932
+        },
+        {
+          "id": "vbx_56637",
+          "street": "Boulevard de Dixmude 6",
+          "heat_pixel": 90.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 485.3,
+          "heat_score": 88.889,
+          "proximity_score": 68.402,
+          "signal": 80.694
+        },
+        {
+          "id": "vbx_56573",
+          "street": "Place Rouppe 18",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 471.5,
+          "heat_score": 86.667,
+          "proximity_score": 69.315,
+          "signal": 79.726
+        },
+        {
+          "id": "vbx_58582",
+          "street": "Rue de la Loi 3",
+          "heat_pixel": 83.0,
+          "nearest_counter": "CB1101",
+          "distance_m": 197.2,
+          "heat_score": 73.333,
+          "proximity_score": 87.478,
+          "signal": 78.991
+        },
+        {
+          "id": "vbx_56554",
+          "street": "Rue du Midi 177",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 507.3,
+          "heat_score": 86.667,
+          "proximity_score": 66.945,
+          "signal": 78.778
+        },
+        {
+          "id": "vbx_56604",
+          "street": "Boulevard de Dixmude 65",
+          "heat_pixel": 91.0,
+          "nearest_counter": "CJM90",
+          "distance_m": 608.6,
+          "heat_score": 91.111,
+          "proximity_score": 60.237,
+          "signal": 78.761
+        }
+      ]
+    },
+    {
+      "name": "proximity_only",
+      "weights": {
+        "heat": 0.0,
+        "proximity": 1.0
+      },
+      "top_10_overlap_with_balanced": 3,
+      "top_records": [
+        {
+          "id": "vbx_56876",
+          "street": "Chaussée d'Etterbeek 50",
+          "heat_pixel": 75.0,
+          "nearest_counter": "CB1142",
+          "distance_m": 8.1,
+          "heat_score": 55.556,
+          "proximity_score": 100.0,
+          "signal": 100.0
+        },
+        {
+          "id": "vbx_56873",
+          "street": "Chaussée d'Etterbeek 50",
+          "heat_pixel": 74.0,
+          "nearest_counter": "CB1143",
+          "distance_m": 26.1,
+          "heat_score": 53.333,
+          "proximity_score": 98.808,
+          "signal": 98.808
+        },
+        {
+          "id": "vbx_56870",
+          "street": "Rue de la Loi 170",
+          "heat_pixel": 83.0,
+          "nearest_counter": "CB1142",
+          "distance_m": 33.8,
+          "heat_score": 73.333,
+          "proximity_score": 98.298,
+          "signal": 98.298
+        },
+        {
+          "id": "vbx_56852",
+          "street": "Rue Joseph II 124",
+          "heat_pixel": 77.0,
+          "nearest_counter": "CB1142",
+          "distance_m": 67.3,
+          "heat_score": 60.0,
+          "proximity_score": 96.08,
+          "signal": 96.08
+        },
+        {
+          "id": "vbx_56856",
+          "street": "Rue Joseph II 114",
+          "heat_pixel": 70.0,
+          "nearest_counter": "CB1142",
+          "distance_m": 102.7,
+          "heat_score": 44.444,
+          "proximity_score": 93.736,
+          "signal": 93.736
+        },
+        {
+          "id": "vbx_58576",
+          "street": "Rue Ducale 47",
+          "heat_pixel": 79.0,
+          "nearest_counter": "CB1101",
+          "distance_m": 168.5,
+          "heat_score": 64.444,
+          "proximity_score": 89.379,
+          "signal": 89.379
+        },
+        {
+          "id": "vbx_58578",
+          "street": "Rue de la Loi 5",
+          "heat_pixel": 78.0,
+          "nearest_counter": "CB1101",
+          "distance_m": 172.3,
+          "heat_score": 62.222,
+          "proximity_score": 89.127,
+          "signal": 89.127
+        },
+        {
+          "id": "vbx_58580",
+          "street": "Rue de la Loi 16",
+          "heat_pixel": 84.0,
+          "nearest_counter": "CB1101",
+          "distance_m": 174.3,
+          "heat_score": 75.556,
+          "proximity_score": 88.995,
+          "signal": 88.995
+        },
+        {
+          "id": "vbx_56544",
+          "street": "Avenue de Stalingrad 106",
+          "heat_pixel": 89.0,
+          "nearest_counter": "CB2105",
+          "distance_m": 176.2,
+          "heat_score": 86.667,
+          "proximity_score": 88.869,
+          "signal": 88.869
+        },
+        {
+          "id": "vbx_58570",
+          "street": "Rue de la Loi 5",
+          "heat_pixel": 80.0,
+          "nearest_counter": "CB1101",
+          "distance_m": 183.6,
+          "heat_score": 66.667,
+          "proximity_score": 88.379,
+          "signal": 88.379
+        }
+      ]
+    }
+  ],
+  "caveat": "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure."
+}

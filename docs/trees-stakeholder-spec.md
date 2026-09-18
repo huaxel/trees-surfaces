@@ -48,6 +48,8 @@ The committed feasibility snapshot contains 100 records.
 
 Weights are normalized to sum to 1. The interface exposes the weights, displays the normalized values, and must label the result as exploratory.
 
+The current sensitivity artifact compares three scenarios: the heat-only top ten shares 7 of 10 points with the balanced top ten, while the proximity-only top ten shares 3 of 10. This demonstrates that the ranking is weight-sensitive and should not be presented as a stable priority list.
+
 ## Acceptance criteria for the next MVP
 
 - [ ] Stakeholder and decision question are confirmed in writing.

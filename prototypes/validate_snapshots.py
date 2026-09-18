@@ -24,6 +24,7 @@ def main() -> None:
     mobility = read_json("trees-surfaces/data/brussels-tree-bike-nearest.json")
     history = read_json("trees-surfaces/data/brussels-bike-history-CB2105-2024-01.json")
     inventory = read_json("trees-surfaces/data/source-inventory.json")
+    sensitivity = read_json("trees-surfaces/data/tree-signal-sensitivity.json")
     buildings = read_json("three-ages/data/grand-place-buildings.json")
     pilot = read_json("three-ages/data/three-ages-pilot.json")
 
@@ -39,6 +40,9 @@ def main() -> None:
     require(all(inventory.get(key, {}).get("records", "").startswith("https://") for key in ("managed_trees", "remarkable_trees")), "tree source inventory is missing record URLs")
     require(inventory.get("heat", {}).get("download", "").startswith("https://"), "heat source inventory is missing download URL")
     require(inventory.get("mobility", {}).get("devices", "").startswith("https://"), "mobility source inventory is missing device URL")
+    require(sensitivity.get("record_count") == 100, "sensitivity report has unexpected record count")
+    require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
+    require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
 
     building_ids = {str(record["id"]) for record in buildings["records"]}
     pilot_ids = {record["source_id"] for record in pilot["records"]}
