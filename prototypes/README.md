@@ -24,11 +24,17 @@ To refresh the public-data snapshots:
 python3 fetch_open_data.py
 ```
 
+To regenerate the heat join, download the source GeoTIFF from `data/source-inventory.json` and run:
+
+```bash
+python3 trees-surfaces/join_heat.py /path/to/WBGT_MEAN_24082016_0-1_byte.tif trees-surfaces/data/brussels-trees-sample.json trees-surfaces/data/brussels-tree-heat-sample.json
+```
+
 ## Prototype A — Trees & Surfaces
 
 A small intervention explorer. Adjust the relative importance of heat reduction, greenery and street-use preservation. The prototype ranks sample tree sites and displays a simple map-like grid.
 
-The spike includes 100 records from Brussels' managed-tree register and 100 records from its remarkable-tree register. Next step: join one real heat layer and one documented mobility proxy; the prototype deliberately does not invent those joins yet.
+The spike includes 100 records from Brussels' managed-tree register, 100 records from its remarkable-tree register, the current 18 bicycle-counter locations and 672 fifteen-minute observations from counter CB2105 over 1–7 January 2024. It also includes a downsampled preview of the real Brussels WBGT heat raster. Each sampled tree is linked to its nearest bicycle counter and to a WBGT raster pixel. These are feasibility joins, not causal findings: proximity is not street use, and one hot-day WBGT raster is not a long-term temperature series.
 
 ## Prototype B — Three Ages
 

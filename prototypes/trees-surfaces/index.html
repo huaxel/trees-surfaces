@@ -15,7 +15,7 @@
     .site { min-height:85px; border:2px solid white; border-radius:8px; padding:8px; color:white; cursor:pointer; transition:.15s transform; text-shadow:0 1px 2px #0008; } .site:hover,.site.selected { transform:scale(1.04); border-color:#17202a; }
     .site small { display:block; opacity:.9; } .legend { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:8px; }
     table { width:100%; border-collapse:collapse; margin-top:18px; } th,td { padding:9px 7px; text-align:left; border-bottom:1px solid var(--line); } th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
-    .detail { margin-top:18px; } .metric { display:inline-block; margin:5px 12px 5px 0; } .metric b { display:block; font-size:20px; } .muted { color:var(--muted); } code { background:#eef3f5; padding:2px 4px; border-radius:4px; }
+    .detail { margin-top:18px; } .metric { display:inline-block; margin:5px 12px 5px 0; } .metric b { display:block; font-size:20px; } .muted { color:var(--muted); } code { background:#eef3f5; padding:2px 4px; border-radius:4px; } figure { margin:20px 0 0; } figure img { display:block; width:100%; max-height:430px; object-fit:contain; background:#102236; border-radius:8px; } figcaption { color:var(--muted); font-size:12px; margin-top:7px; }
     @media(max-width:760px){ .layout{grid-template-columns:1fr;} .map{grid-template-columns:repeat(3,1fr);} }
   </style>
 </head>
@@ -42,6 +42,7 @@
       <table><thead><tr><th>Site</th><th>Heat</th><th>Canopy</th><th>Street use</th><th>Priority</th></tr></thead><tbody id="rows"></tbody></table>
       <h3>Public register preview</h3>
       <div id="register" class="muted">Loading records…</div>
+      <figure><img src="data/heat-preview.png" alt="Preview of the Brussels WBGT heat raster"><figcaption>Preview of the Brussels WBGT mean raster for 24 August 2016. This is a heat-stress layer, not a live temperature map.</figcaption></figure>
     </section>
   </div>
 </main>
@@ -74,10 +75,15 @@ function select(id,ranked){ const s=ranked.find(x=>x.id===id); document.querySel
 ['heat','green','street'].forEach(id=>$(id).addEventListener('input',render)); render();
 Promise.all([
   fetch('data/brussels-trees-sample.json').then(r=>r.json()),
-  fetch('data/brussels-remarkable-trees-sample.json').then(r=>r.json())
-]).then(([managed, remarkable])=>{
-  $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, plus ${remarkable.source.toLocaleString()} remarkable trees; this snapshot contains ${managed.records.length} managed and ${remarkable.records.length} remarkable records. Heat and street-use fields are not yet attached.`;
-  $('register').innerHTML='<ul>'+managed.records.slice(0,8).map(x=>`<li><b>${x.street || 'Unnamed street'}</b> — ${x.species || 'species not recorded'} · ${x.district || 'district unavailable'} (${x.latitude?.toFixed(4) ?? 'no latitude'}, ${x.longitude?.toFixed(4) ?? 'no longitude'})</li>`).join('')+'</ul>';
+  fetch('data/brussels-remarkable-trees-sample.json').then(r=>r.json()),
+  fetch('data/brussels-bike-counters.json').then(r=>r.json()),
+  fetch('data/brussels-bike-history-CB2105-2024-01.json').then(r=>r.json()),
+  fetch('data/brussels-tree-bike-nearest.json').then(r=>r.json()),
+  fetch('data/brussels-tree-heat-sample.json').then(r=>r.json())
+]).then(([managed, remarkable, bikes, history, joined, heat])=>{
+  const heatById=new Map(heat.records.map(x=>[x.id,x.heat_pixel]));
+  $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, ${remarkable.source.toLocaleString()} remarkable trees and ${bikes.source} bike counters; one counter contributes ${history.records.length} fifteen-minute observations (${history.start_date}–${history.end_date}, total count ${history.records.reduce((sum,x)=>sum+x.count,0).toLocaleString()}). The local joins link ${joined.records.length} trees to a counter and ${heat.records.length} trees to a WBGT raster pixel. Proximity is not a mobility measurement.`;
+  $('register').innerHTML='<ul>'+joined.records.slice(0,8).map(x=>`<li><b>${x.street || 'Unnamed street'}</b> — heat ${heatById.get(x.id) ?? 'n/a'} · nearest ${x.nearest_counter} (${x.nearest_counter_distance_m} m)</li>`).join('')+'</ul>';
 }).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and fetch script first.'; $('register').textContent='Public-source snapshot unavailable.'});
 </script>
 </body>

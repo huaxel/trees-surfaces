@@ -1,0 +1,131 @@
+{
+  "source": 18,
+  "records": [
+    {
+      "id": "CAT17",
+      "street": "Quai de Veeweyde 11 - 1070 Anderlecht",
+      "active": true,
+      "longitude": 4.301991995919691,
+      "latitude": 50.820621002525904
+    },
+    {
+      "id": "CB02411",
+      "street": "Chaussée de Vilvorde - 1020 Bruxelles",
+      "active": true,
+      "longitude": 4.373960995908418,
+      "latitude": 50.88185000251615
+    },
+    {
+      "id": "CB1101",
+      "street": "Avenue des Arts 26 - 1000 Bruxelles",
+      "active": true,
+      "longitude": 4.36858299590588,
+      "latitude": 50.84534100252618
+    },
+    {
+      "id": "CB1142",
+      "street": "Rue de la Loi 130 - 1000 Bruxelles",
+      "active": true,
+      "longitude": 4.378737995903186,
+      "latitude": 50.843570002527876
+    },
+    {
+      "id": "CB1143",
+      "street": "Rue de la Loi 145 - 1000 Bruxelles",
+      "active": true,
+      "longitude": 4.378813995903146,
+      "latitude": 50.84337000252792
+    },
+    {
+      "id": "CB1599",
+      "street": "Avenue Franklin Rooseveltlaan 48 - 1000 Bruxelles",
+      "active": true,
+      "longitude": 4.379253995899753,
+      "latitude": 50.81240800253699
+    },
+    {
+      "id": "CB1699",
+      "street": "Avenue Franklin Roosevelt 19 - 1000 Bruxelles",
+      "active": true,
+      "longitude": 4.378799995899851,
+      "latitude": 50.81228000253699
+    },
+    {
+      "id": "CB2105",
+      "street": "Boulevard Poincaré 75 - 1070 Anderlecht",
+      "active": true,
+      "longitude": 4.340009995912418,
+      "latitude": 50.84048000252439
+    },
+    {
+      "id": "CEE016",
+      "street": "Avenue Général Jacques 210 - 1050 Ixelles",
+      "active": true,
+      "longitude": 4.386718995898861,
+      "latitude": 50.82137600253522
+    },
+    {
+      "id": "CEK049",
+      "street": "Boulevard Général Jacques (VUB) - 1050 Ixelles",
+      "active": true,
+      "longitude": 4.393892995897416,
+      "latitude": 50.82448000253513
+    },
+    {
+      "id": "CEK18",
+      "street": "Avenue de Tervueren 28 - 1040 Etterbeek",
+      "active": true,
+      "longitude": 4.400258995897405,
+      "latitude": 50.83920000253155
+    },
+    {
+      "id": "CEK31",
+      "street": "Avenue des Nerviens 135 - 1040 Etterbeek",
+      "active": true,
+      "longitude": 4.393037995899081,
+      "latitude": 50.83818200253104
+    },
+    {
+      "id": "CEV011",
+      "street": "Avenue Léopold III / Avenue des Loisirs - 1140 Evere",
+      "active": true,
+      "longitude": 4.402934995899683,
+      "latitude": 50.86692100252375
+    },
+    {
+      "id": "CJE181",
+      "street": "Avenue de l'Exposition - 1090 Jette",
+      "active": true,
+      "longitude": 4.315713995922622,
+      "latitude": 50.88029700251005
+    },
+    {
+      "id": "CJM90",
+      "street": "Quai des Charbonnages 8 - 1080 Molenbeek-Saint-Jean",
+      "active": true,
+      "longitude": 4.341239995913506,
+      "latitude": 50.8536300025207
+    },
+    {
+      "id": "CLW239",
+      "street": "Boulevard de la Woluwe 34 - 1200 Woluwe-Saint-Lambert",
+      "active": true,
+      "longitude": 4.4348299958887285,
+      "latitude": 50.83799800253579
+    },
+    {
+      "id": "COM205",
+      "street": "Boulevard du Souverain 213 - 1160 Auderghem",
+      "active": true,
+      "longitude": 4.430120995888016,
+      "latitude": 50.82029000254048
+    },
+    {
+      "id": "CVT387",
+      "street": "rue de Hal 164 - 1190 Forest",
+      "active": true,
+      "longitude": 4.311588995915708,
+      "latitude": 50.805366002531436
+    }
+  ]
+}

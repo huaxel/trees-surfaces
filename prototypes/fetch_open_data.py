@@ -6,19 +6,25 @@ prove that the underlying public source shapes are accessible and inspectable.
 """
 from __future__ import annotations
 
+import gzip
 import json
+import math
 import re
 from pathlib import Path
 from urllib.parse import unquote, urlencode, urlparse, parse_qs
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
 
 
 def get_json(base: str, **params):
     url = f"{base}?{urlencode(params)}"
-    with urlopen(url, timeout=30) as response:
-        return json.load(response)
+    request = Request(url, headers={"Accept-Encoding": "identity", "User-Agent": "final-work-feasibility-spike/1.0"})
+    with urlopen(request, timeout=30) as response:
+        body = response.read()
+    if body[:2] == b"\x1f\x8b":
+        body = gzip.decompress(body)
+    return json.loads(body)
 
 
 def fetch_trees() -> None:
@@ -71,6 +77,66 @@ def fetch_trees() -> None:
     remarkable_out.write_text(json.dumps({"source": remarkable["total_count"], "records": remarkable_rows}, ensure_ascii=False, indent=2) + "\n")
 
 
+def fetch_bike_devices() -> None:
+    payload = get_json("https://data.mobility.brussels/bike/api/counts/", request="devices")
+    rows = []
+    for feature in payload.get("features", []):
+        properties = feature.get("properties", {})
+        coordinates = feature.get("geometry", {}).get("coordinates", [None, None])
+        rows.append(
+            {
+                "id": properties.get("device_name"),
+                "street": properties.get("road_en") or properties.get("road_fr"),
+                "active": properties.get("active"),
+                "longitude": coordinates[0],
+                "latitude": coordinates[1],
+            }
+        )
+    out = ROOT / "trees-surfaces" / "data" / "brussels-bike-counters.json"
+    out.write_text(json.dumps({"source": payload.get("totalFeatures"), "records": rows}, ensure_ascii=False, indent=2) + "\n")
+
+
+def fetch_bike_history() -> None:
+    payload = get_json(
+        "https://data.mobility.brussels/bike/api/counts/",
+        request="history",
+        featureID="CB2105",
+        startDate="20240101",
+        endDate="20240107",
+    )
+    out = ROOT / "trees-surfaces" / "data" / "brussels-bike-history-CB2105-2024-01.json"
+    out.write_text(json.dumps({
+        "source": "Brussels Mobility bicycle counter API",
+        "feature": payload.get("feature"),
+        "start_date": payload.get("startDate"),
+        "end_date": payload.get("endDate"),
+        "records": payload.get("data", []),
+    }, ensure_ascii=False, indent=2) + "\n")
+
+
+def build_tree_mobility_join() -> None:
+    trees_path = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
+    bikes_path = ROOT / "trees-surfaces" / "data" / "brussels-bike-counters.json"
+    trees = json.loads(trees_path.read_text())["records"]
+    bikes = json.loads(bikes_path.read_text())["records"]
+
+    def distance_m(a, b):
+        radius = 6_371_000
+        lat1, lon1, lat2, lon2 = map(math.radians, [a["latitude"], a["longitude"], b["latitude"], b["longitude"]])
+        dlat, dlon = lat2 - lat1, lon2 - lon1
+        h = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        return 2 * radius * math.asin(math.sqrt(h))
+
+    rows = []
+    for tree in trees:
+        if tree["latitude"] is None or tree["longitude"] is None:
+            continue
+        nearest = min(bikes, key=lambda bike: distance_m(tree, bike))
+        rows.append({**tree, "nearest_counter": nearest["id"], "nearest_counter_distance_m": round(distance_m(tree, nearest), 1)})
+    out = ROOT / "trees-surfaces" / "data" / "brussels-tree-bike-nearest.json"
+    out.write_text(json.dumps({"records": rows, "method": "great-circle nearest-counter distance; no causal interpretation"}, ensure_ascii=False, indent=2) + "\n")
+
+
 def fetch_grand_place() -> None:
     payload = get_json(
         "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place/records",
@@ -109,5 +175,8 @@ def fetch_grand_place() -> None:
 
 if __name__ == "__main__":
     fetch_trees()
+    fetch_bike_devices()
+    fetch_bike_history()
+    build_tree_mobility_join()
     fetch_grand_place()
     print("Fetched public-data snapshots for both prototype spikes.")

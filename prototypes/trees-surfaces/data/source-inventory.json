@@ -1,0 +1,27 @@
+{
+  "heat": {
+    "name": "Urban heat islands — WBGT mean",
+    "scope": "Brussels-Capital Region",
+    "date": "2016-08-24 representative hot day",
+    "type": "raster",
+    "download": "https://app.bruxellesenvironnement.be/carto/urban_heat_islands_WBGT_MEAN.zip",
+    "wms": "https://ows.environnement.brussels/air?service=wms&version=1.3.0&request=getcapabilities",
+    "note": "Heat-stress proxy, not a continuous air-temperature measurement. The full ZIP is approximately 19 MB and is not committed; heat-preview.png is a downsampled visual preview generated from it. Source licensing should be confirmed in the final project documentation."
+  },
+  "canopy": {
+    "name": "Urban Vegetation Data — Canopy Height Model",
+    "scope": "Brussels-Capital Region",
+    "year": 2021,
+    "type": "vector GIS",
+    "download": "https://zenodo.org/records/13869065",
+    "note": "Useful canopy/vegetation layer, but the full shapefile is large and is not committed to this prototype."
+  },
+  "mobility": {
+    "name": "Brussels bicycle counters",
+    "scope": "Brussels-Capital Region",
+    "type": "15-minute counter observations",
+    "devices": "https://data.mobility.brussels/bike/api/counts/?request=devices",
+    "history": "https://data.mobility.brussels/bike/api/counts/?request=history&featureID=CB2105&startDate=20240101&endDate=20240131",
+    "note": "A mobility proxy. Counters are sparse and are not equivalent to general pedestrian street use."
+  }
+}
