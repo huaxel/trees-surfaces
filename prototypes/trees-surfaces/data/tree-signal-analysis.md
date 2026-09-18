@@ -6,7 +6,8 @@ This report answers the working screening question using the committed 100-recor
 
 ## Sample summary
 
-- Records analyzed: 100
+- Records analyzed: 100 of 31,643 managed-tree records reported by the source (0.32% of the reported register)
+- Sampling note: the committed records are a feasibility snapshot, not a probability sample or city-wide estimate
 - WBGT pixel: min 50, median 71.5, max 95
 - Counter distance: min 8.1 m, median 490.5 m, max 1518.3 m
 - Counter history context: 672 fifteen-minute observations from 2024/01/01 to 2024/01/07; mean count 11.2, maximum 44

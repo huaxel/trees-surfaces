@@ -19,6 +19,7 @@ def normalize(value: float, lower: float, upper: float) -> float:
 
 
 def main() -> None:
+    managed_payload = json.loads((DATA / "brussels-trees-sample.json").read_text())
     heat = json.loads((DATA / "brussels-tree-heat-sample.json").read_text())["records"]
     joined = json.loads((DATA / "brussels-tree-bike-nearest.json").read_text())["records"]
     history_payload = json.loads((DATA / "brussels-bike-history-CB2105-2024-01.json").read_text())
@@ -115,7 +116,8 @@ def main() -> None:
         "",
         "## Sample summary",
         "",
-        f"- Records analyzed: {len(rows)}",
+        f"- Records analyzed: {len(rows)} of {managed_payload['source']:,} managed-tree records reported by the source ({len(rows) / managed_payload['source'] * 100:.2f}% of the reported register)",
+        "- Sampling note: the committed records are a feasibility snapshot, not a probability sample or city-wide estimate",
         f"- WBGT pixel: min {min(heats):.0f}, median {statistics.median(heats):.1f}, max {max(heats):.0f}",
         f"- Counter distance: min {min(distances):.1f} m, median {statistics.median(distances):.1f} m, max {max(distances):.1f} m",
         f"- Counter history context: {len(history)} fifteen-minute observations from {history_payload['start_date']} to {history_payload['end_date']}; mean count {statistics.mean(record['count'] for record in history):.1f}, maximum {max(record['count'] for record in history)}",
