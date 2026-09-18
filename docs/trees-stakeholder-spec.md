@@ -10,7 +10,7 @@ This is a working specification for the next conversation with a Brussels urban-
 
 This is a project-level working decision; it should still be validated with the eventual coach or stakeholder.
 
-## Proposed decision question
+## Working MVP decision question
 
 > Which observed tree areas combine relatively high heat-stress values with proximity to bicycle counters, and therefore merit more detailed field or mobility analysis?
 
@@ -55,6 +55,7 @@ The current sensitivity artifact compares three scenarios: the heat-only top ten
 ## Acceptance criteria for the next MVP
 
 - [x] Working stakeholder and decision direction are recorded in writing.
+- [x] Working MVP screening question is recorded in writing.
 - [x] Retention of nearest-counter distance as a clearly labelled context proxy is documented.
 - [ ] Heat-date choice and normalization are justified.
 - [ ] Every displayed point can be traced to its source records and join method.
