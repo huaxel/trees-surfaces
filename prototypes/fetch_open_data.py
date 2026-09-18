@@ -53,7 +53,7 @@ def fetch_trees() -> None:
     }
     out = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"source": payload["total_count"], "completeness": completeness, "records": rows}, ensure_ascii=False, indent=2) + "\n")
+    out.write_text(json.dumps({"source": payload["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "completeness": completeness, "records": rows}, ensure_ascii=False, indent=2) + "\n")
 
     remarkable = get_json(
         "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
@@ -75,7 +75,7 @@ def fetch_trees() -> None:
             }
         )
     remarkable_out = ROOT / "trees-surfaces" / "data" / "brussels-remarkable-trees-sample.json"
-    remarkable_out.write_text(json.dumps({"source": remarkable["total_count"], "records": remarkable_rows}, ensure_ascii=False, indent=2) + "\n")
+    remarkable_out.write_text(json.dumps({"source": remarkable["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "records": remarkable_rows}, ensure_ascii=False, indent=2) + "\n")
 
 
 def fetch_bike_devices() -> None:

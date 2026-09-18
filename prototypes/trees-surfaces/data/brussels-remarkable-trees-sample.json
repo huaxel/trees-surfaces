@@ -1,5 +1,6 @@
 {
   "source": 582,
+  "sampling": "first 100 records in API response order; not a probability sample",
   "records": [
     {
       "id": "447",

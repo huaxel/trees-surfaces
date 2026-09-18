@@ -20,6 +20,7 @@ def require(condition: bool, message: str) -> None:
 
 def main() -> None:
     trees = read_json("trees-surfaces/data/brussels-trees-sample.json")
+    remarkable = read_json("trees-surfaces/data/brussels-remarkable-trees-sample.json")
     heat = read_json("trees-surfaces/data/brussels-tree-heat-sample.json")
     mobility = read_json("trees-surfaces/data/brussels-tree-bike-nearest.json")
     history = read_json("trees-surfaces/data/brussels-bike-history-CB2105-2024-01.json")
@@ -35,6 +36,8 @@ def main() -> None:
     heat_ids = {record["id"] for record in heat["records"]}
     mobility_ids = {record["id"] for record in mobility["records"]}
     require(len(trees["records"]) == 100, "expected 100 managed-tree records")
+    require(trees.get("sampling", "").startswith("first 100"), "managed-tree sampling metadata is missing")
+    require(len(remarkable["records"]) == 100 and remarkable.get("sampling", "").startswith("first 100"), "remarkable-tree sampling metadata is missing")
     require(heat_ids == tree_ids, "heat join IDs do not match tree snapshot IDs")
     require(mobility_ids == tree_ids, "mobility join IDs do not match tree snapshot IDs")
     require(len(history["records"]) == 672, "expected 672 counter observations")
