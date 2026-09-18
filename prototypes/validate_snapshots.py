@@ -26,6 +26,7 @@ def main() -> None:
     inventory = read_json("trees-surfaces/data/source-inventory.json")
     sensitivity = read_json("trees-surfaces/data/tree-signal-sensitivity.json")
     balanced_csv = (ROOT / "trees-surfaces/data/tree-signal-balanced-screen.csv").read_text().splitlines()
+    analysis_report = (ROOT / "trees-surfaces/data/tree-signal-analysis.md").read_text()
     buildings = read_json("three-ages/data/grand-place-buildings.json")
     pilot = read_json("three-ages/data/three-ages-pilot.json")
     pilot_csv = (ROOT / "three-ages/data/three-ages-pilot-export.csv").read_text().splitlines()
@@ -45,6 +46,7 @@ def main() -> None:
     require(sensitivity.get("record_count") == 100, "sensitivity report has unexpected record count")
     require(len(sensitivity.get("balanced_screening", [])) == 100, "balanced screening export is incomplete")
     require(len(balanced_csv) == 101 and balanced_csv[0].startswith("rank,id,street"), "balanced CSV export is incomplete")
+    require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report, "descriptive analysis report is incomplete")
     require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
     require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
 

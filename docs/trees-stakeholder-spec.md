@@ -50,7 +50,7 @@ The committed feasibility snapshot contains 100 records.
 
 Weights are normalized to sum to 1. The interface exposes the weights, displays the normalized values, and must label the result as exploratory.
 
-The current sensitivity artifact compares three scenarios: the heat-only top ten shares 7 of 10 points with the balanced top ten, while the proximity-only top ten shares 3 of 10. It also stores all 100 points ranked under the balanced 60/40 weights so each displayed point can be traced and exported. This demonstrates that the ranking is weight-sensitive and should not be presented as a stable priority list.
+The current descriptive report finds 6 of 100 points at or above the sample's third quartile on both normalized heat and proximity scores. The sensitivity artifact compares three scenarios: the heat-only top ten shares 7 of 10 points with the balanced top ten, while the proximity-only top ten shares 3 of 10. It also stores all 100 points ranked under the balanced 60/40 weights so each displayed point can be traced and exported. This demonstrates that the ranking is weight-sensitive and should not be presented as a stable priority list.
 
 ## Acceptance criteria for the next MVP
 

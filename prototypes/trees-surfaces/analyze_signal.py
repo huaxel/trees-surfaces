@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import csv
 import json
+import statistics
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 OUTPUT = DATA / "tree-signal-sensitivity.json"
 CSV_OUTPUT = DATA / "tree-signal-balanced-screen.csv"
+MARKDOWN_OUTPUT = DATA / "tree-signal-analysis.md"
 
 
 def normalize(value: float, lower: float, upper: float) -> float:
@@ -81,7 +83,47 @@ def main() -> None:
         writer.writeheader()
         for rank, row in enumerate(ranked["balanced"], start=1):
             writer.writerow({"rank": rank, **{field: row[field] for field in writer.fieldnames if field != "rank"}})
-    print(f"wrote {OUTPUT.relative_to(ROOT)} and {CSV_OUTPUT.relative_to(ROOT)}")
+
+    heat_scores = [row["heat_score"] for row in rows]
+    proximity_scores = [row["proximity_score"] for row in rows]
+    heat_q3 = statistics.quantiles(heat_scores, n=4, method="inclusive")[2]
+    proximity_q3 = statistics.quantiles(proximity_scores, n=4, method="inclusive")[2]
+    high_high = [row for row in ranked["balanced"] if row["heat_score"] >= heat_q3 and row["proximity_score"] >= proximity_q3]
+    lines = [
+        "# Tree signal descriptive analysis",
+        "",
+        "This report answers the working screening question using the committed 100-record feasibility sample.",
+        "",
+        "> Which observed tree areas combine relatively high heat-stress values with proximity to bicycle counters, and therefore merit more detailed field or mobility analysis?",
+        "",
+        "## Sample summary",
+        "",
+        f"- Records analyzed: {len(rows)}",
+        f"- WBGT pixel: min {min(heats):.0f}, median {statistics.median(heats):.1f}, max {max(heats):.0f}",
+        f"- Counter distance: min {min(distances):.1f} m, median {statistics.median(distances):.1f} m, max {max(distances):.1f} m",
+        f"- High-heat/high-proximity quadrant: {len(high_high)} points at or above the sample's third quartile on both normalized components",
+        "",
+        "## Balanced screen",
+        "",
+        "The balanced screen uses heat weight 0.6 and proximity weight 0.4. The table shows the ten highest exploratory signals.",
+        "",
+        "| Rank | ID | Street | WBGT pixel | Counter distance | Signal |",
+        "|---:|---|---|---:|---:|---:|",
+    ]
+    for rank, row in enumerate(ranked["balanced"][:10], start=1):
+        lines.append(f"| {rank} | {row['id']} | {row.get('street') or 'Unnamed street'} | {row['heat_pixel']:.0f} | {row['distance_m']:.1f} m | {row['signal']:.1f} |")
+    lines.extend([
+        "",
+        "## Interpretation boundary",
+        "",
+        "- The WBGT layer represents one representative hot day in 2016.",
+        "- Counter distance is a spatial context proxy, not bicycle flow, pedestrian use or street occupancy.",
+        "- Min–max normalization is sample-relative; rankings change with the weights and sample.",
+        "- These points are candidates for follow-up analysis, not planting recommendations or causal findings.",
+        "",
+    ])
+    MARKDOWN_OUTPUT.write_text("\n".join(lines))
+    print(f"wrote {OUTPUT.relative_to(ROOT)}, {CSV_OUTPUT.relative_to(ROOT)} and {MARKDOWN_OUTPUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
