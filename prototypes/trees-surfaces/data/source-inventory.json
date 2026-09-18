@@ -1,4 +1,18 @@
 {
+  "managed_trees": {
+    "name": "Brussels managed-tree register",
+    "scope": "Brussels-Capital Region",
+    "type": "tree register",
+    "records": "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records",
+    "note": "The prototype commits a 100-record feasibility snapshot."
+  },
+  "remarkable_trees": {
+    "name": "Brussels remarkable-tree register",
+    "scope": "Brussels-Capital Region",
+    "type": "heritage tree register",
+    "records": "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
+    "note": "The prototype commits a 100-record feasibility snapshot."
+  },
   "heat": {
     "name": "Urban heat islands — WBGT mean",
     "scope": "Brussels-Capital Region",

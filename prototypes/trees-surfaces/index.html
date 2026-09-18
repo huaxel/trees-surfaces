@@ -11,8 +11,8 @@
     .notice { background:#fff8df; border:1px solid #ecd88a; padding:10px 14px; border-radius:8px; margin:20px 0; }
     .layout { display:grid; grid-template-columns:320px 1fr; gap:20px; align-items:start; } .panel,.card { background:white; border:1px solid var(--line); border-radius:10px; padding:18px; box-shadow:0 2px 8px #16324b0b; }
     label { display:block; margin:15px 0 4px; font-weight:650; } input[type=range] { width:100%; accent-color:var(--green); } output { float:right; color:var(--muted); font-weight:500; }
-    .map { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; min-height:340px; padding:12px; background:linear-gradient(135deg,#e5f3e8,#eaf3f8); border-radius:8px; }
-    .site { min-height:85px; border:2px solid white; border-radius:8px; padding:8px; color:white; cursor:pointer; transition:.15s transform; text-shadow:0 1px 2px #0008; } .site:hover,.site.selected { transform:scale(1.04); border-color:#17202a; }
+    .map { position:relative; min-height:380px; padding:12px; background:linear-gradient(135deg,#e5f3e8,#eaf3f8); border-radius:8px; overflow:hidden; }
+    .site { position:absolute; width:18%; min-height:70px; border:2px solid white; border-radius:8px; padding:8px; color:white; cursor:pointer; transition:.15s transform; text-shadow:0 1px 2px #0008; overflow:hidden; } .site:hover,.site.selected { transform:scale(1.04); border-color:#17202a; } .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     .site small { display:block; opacity:.9; } .legend { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:8px; }
     table { width:100%; border-collapse:collapse; margin-top:18px; } th,td { padding:9px 7px; text-align:left; border-bottom:1px solid var(--line); } th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
     .detail { margin-top:18px; } .metric { display:inline-block; margin:5px 12px 5px 0; } .metric b { display:block; font-size:20px; } .muted { color:var(--muted); } code { background:#eef3f5; padding:2px 4px; border-radius:4px; } figure { margin:20px 0 0; } figure img { display:block; width:100%; max-height:430px; object-fit:contain; background:#102236; border-radius:8px; } figcaption { color:var(--muted); font-size:12px; margin-top:7px; }
@@ -22,24 +22,25 @@
 <body>
 <main>
   <h1>Trees &amp; Surfaces</h1>
-  <p class="lede">A tiny intervention explorer: where might a tree improve heat exposure and greenery without creating too much street-use friction?</p>
-  <div class="notice"><b>Feasibility spike:</b> values below are illustrative sample data. They demonstrate the interaction and decision logic, not a city-wide finding.</div>
-  <p id="source" class="muted">Loading public-source snapshot…</p>
+  <p class="lede">An exploratory view of sampled managed trees: where do higher WBGT pixels coincide with closer bicycle counters?</p>
+  <div class="notice"><b>Interpretation boundary:</b> the signal uses one 2016 heat raster and counter proximity. It is not a street-use measure or an intervention recommendation.</div>
+  <p id="source" class="muted" aria-live="polite">Loading public-source snapshot…</p>
+  <p id="sourceLinks" class="muted" aria-live="polite"></p>
   <div class="layout">
     <section class="panel">
-      <h2>Decision lens</h2>
-      <p class="muted">Change the weights to see how priorities alter the ranking.</p>
-      <label for="heat">Heat reduction <output id="heatOut">40%</output></label><input id="heat" type="range" min="0" max="100" value="40">
-      <label for="green">Canopy gain <output id="greenOut">35%</output></label><input id="green" type="range" min="0" max="100" value="35">
-      <label for="street">Street-use preservation <output id="streetOut">25%</output></label><input id="street" type="range" min="0" max="100" value="25">
-      <p class="muted">The score normalises the weights automatically. A real study would replace this with a validated model and stakeholder-defined objectives.</p>
+      <h2>Exploratory lens</h2>
+      <p class="muted">Change the weights to see how the descriptive signal changes.</p>
+      <label for="heat">Heat exposure relevance <output id="heatOut">60%</output></label><input id="heat" type="range" min="0" max="100" value="60">
+      <label for="proximity">Counter proximity relevance <output id="proximityOut">40%</output></label><input id="proximity" type="range" min="0" max="100" value="40">
+      <p class="muted">The score normalises the weights automatically. Counter proximity is used only as a spatial context proxy; it does not measure pedestrian or bicycle flow.</p>
       <div id="detail" class="detail"></div>
     </section>
     <section class="card">
-      <h2>Candidate sites</h2>
-      <div id="map" class="map"></div>
-      <div class="legend"><span>lower combined score</span><span>higher priority</span></div>
-      <table><thead><tr><th>Site</th><th>Heat</th><th>Canopy</th><th>Street use</th><th>Priority</th></tr></thead><tbody id="rows"></tbody></table>
+      <h2>Observed tree points</h2>
+      <div id="map" class="map" role="group" aria-label="Relative geographic preview of ranked tree points"></div>
+      <p class="muted">Relative geographic preview of the ranked points; no basemap or street geometry is implied.</p>
+      <div class="legend"><span>lower exploratory signal</span><span>higher exploratory signal</span></div>
+      <table><caption class="sr-only">Ranked observed tree points and exploratory signal components</caption><thead><tr><th>Tree point</th><th>Heat pixel</th><th>Nearest counter</th><th>Distance</th><th>Signal</th></tr></thead><tbody id="rows"></tbody></table>
       <h3>Public register preview</h3>
       <div id="register" class="muted">Loading records…</div>
       <figure><img src="data/heat-preview.png" alt="Preview of the Brussels WBGT heat raster"><figcaption>Preview of the Brussels WBGT mean raster for 24 August 2016. This is a heat-stress layer, not a live temperature map.</figcaption></figure>
@@ -47,44 +48,67 @@
   </div>
 </main>
 <script>
-const sites = [
-  {id:'A1',name:'Rue des Tilleuls',x:1,y:1,heat:92,canopy:78,street:66},
-  {id:'A2',name:'Place du Canal',x:2,y:1,heat:83,canopy:54,street:42},
-  {id:'B1',name:'Chaussée Nord',x:3,y:1,heat:75,canopy:63,street:82},
-  {id:'B2',name:'Rue Royale',x:4,y:1,heat:68,canopy:38,street:30},
-  {id:'C1',name:'Square des Arts',x:1,y:2,heat:55,canopy:91,street:74},
-  {id:'C2',name:'Avenue du Parc',x:2,y:2,heat:71,canopy:69,street:58},
-  {id:'D1',name:'Rue de l\'École',x:3,y:2,heat:62,canopy:47,street:88},
-  {id:'D2',name:'Place Verte',x:4,y:2,heat:88,canopy:84,street:51},
-  {id:'E1',name:'Boulevard Sud',x:1,y:3,heat:79,canopy:44,street:73},
-  {id:'E2',name:'Rue du Marché',x:2,y:3,heat:64,canopy:52,street:36}
-];
 const $ = id => document.getElementById(id);
-function weights(){ const h=+$('heat').value,g=+$('green').value,s=+$('street').value,total=h+g+s||1; return {h:h/total,g:g/total,s:s/total}; }
-function score(site,w){ return (site.heat*w.h + site.canopy*w.g + (100-site.street)*w.s); }
+const escapeHTML=value=>String(value ?? '').replace(/[&<>"']/g, character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+let sites=[];
+function weights(){ const h=+$('heat').value,p=+$('proximity').value,total=h+p||1; return {h:h/total,p:p/total}; }
+function score(site,w){ return site.heatScore*w.h + site.proximityScore*w.p; }
 function colour(value){ const hue=145 - value*1.25; return `hsl(${hue},55%,38%)`; }
 function render(){
-  const w=weights(); ['heat','green','street'].forEach((id,i)=>$(id+'Out').textContent=$(id).value+'%');
-  const ranked=[...sites].map(s=>({...s,priority:score(s,w)})).sort((a,b)=>b.priority-a.priority);
-  $('map').innerHTML=ranked.map(s=>`<button class="site" data-id="${s.id}" style="background:${colour(s.priority)}"><b>${s.id}</b><small>${s.name}</small><small>${s.priority.toFixed(0)} priority</small></button>`).join('');
-  $('rows').innerHTML=ranked.map(s=>`<tr><td><b>${s.id}</b> ${s.name}</td><td>${s.heat}</td><td>${s.canopy}</td><td>${s.street}</td><td><b>${s.priority.toFixed(1)}</b></td></tr>`).join('');
+  if(!sites.length) return;
+  const w=weights();
+  $('heatOut').textContent=Math.round(w.h*100)+'%';
+  $('proximityOut').textContent=Math.round(w.p*100)+'%';
+  const ranked=[...sites].map(s=>({...s,signal:score(s,w)})).sort((a,b)=>b.signal-a.signal);
+  const visible=ranked.slice(0,20);
+  $('map').innerHTML=visible.map(s=>`<button type="button" class="site" aria-label="${escapeHTML(s.name)}, signal ${s.signal.toFixed(0)}" aria-pressed="false" data-id="${escapeHTML(s.id)}" style="left:${s.mapX}%;top:${s.mapY}%;background:${colour(s.signal)}"><b>${escapeHTML(s.id)}</b><small>${escapeHTML(s.name)}</small><small>${s.signal.toFixed(0)} signal</small></button>`).join('');
+  $('rows').innerHTML=visible.map(s=>`<tr><td><b>${escapeHTML(s.id)}</b> ${escapeHTML(s.name)}</td><td>${s.heatPixel}</td><td>${escapeHTML(s.counter)}</td><td>${s.distanceM.toLocaleString()} m</td><td><b>${s.signal.toFixed(1)}</b></td></tr>`).join('');
   document.querySelectorAll('.site').forEach(el=>el.addEventListener('click',()=>select(el.dataset.id,ranked)));
   select(ranked[0].id,ranked);
 }
-function select(id,ranked){ const s=ranked.find(x=>x.id===id); document.querySelectorAll('.site').forEach(el=>el.classList.toggle('selected',el.dataset.id===id)); $('detail').innerHTML=`<h3>${s.name}</h3><div class="metric"><b>${s.heat}</b><span class="muted">heat exposure</span></div><div class="metric"><b>${s.canopy}</b><span class="muted">canopy opportunity</span></div><div class="metric"><b>${s.street}</b><span class="muted">street-use intensity</span></div><p class="muted">Prototype interpretation: a higher priority indicates a stronger combined intervention signal under the current weights.</p>`; }
-['heat','green','street'].forEach(id=>$(id).addEventListener('input',render)); render();
+function select(id,ranked){
+  const s=ranked.find(x=>x.id===id);
+  document.querySelectorAll('.site').forEach(el=>{ const selected=el.dataset.id===id; el.classList.toggle('selected',selected); el.setAttribute('aria-pressed',selected); });
+  $('detail').innerHTML=`<h3>${escapeHTML(s.name)}</h3><div class="metric"><b>${s.heatPixel}</b><span class="muted">WBGT raster pixel</span></div><div class="metric"><b>${s.distanceM.toLocaleString()} m</b><span class="muted">nearest counter distance</span></div><div class="metric"><b>${escapeHTML(s.counter)}</b><span class="muted">nearest counter</span></div><p class="muted">This is a descriptive signal for the sampled point, not a causal mobility estimate or a planting recommendation.</p>`;
+}
+['heat','proximity'].forEach(id=>$(id).addEventListener('input',render));
 Promise.all([
   fetch('data/brussels-trees-sample.json').then(r=>r.json()),
   fetch('data/brussels-remarkable-trees-sample.json').then(r=>r.json()),
   fetch('data/brussels-bike-counters.json').then(r=>r.json()),
   fetch('data/brussels-bike-history-CB2105-2024-01.json').then(r=>r.json()),
   fetch('data/brussels-tree-bike-nearest.json').then(r=>r.json()),
-  fetch('data/brussels-tree-heat-sample.json').then(r=>r.json())
-]).then(([managed, remarkable, bikes, history, joined, heat])=>{
-  const heatById=new Map(heat.records.map(x=>[x.id,x.heat_pixel]));
-  $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, ${remarkable.source.toLocaleString()} remarkable trees and ${bikes.source} bike counters; one counter contributes ${history.records.length} fifteen-minute observations (${history.start_date}–${history.end_date}, total count ${history.records.reduce((sum,x)=>sum+x.count,0).toLocaleString()}). The local joins link ${joined.records.length} trees to a counter and ${heat.records.length} trees to a WBGT raster pixel. Proximity is not a mobility measurement.`;
-  $('register').innerHTML='<ul>'+joined.records.slice(0,8).map(x=>`<li><b>${x.street || 'Unnamed street'}</b> — heat ${heatById.get(x.id) ?? 'n/a'} · nearest ${x.nearest_counter} (${x.nearest_counter_distance_m} m)</li>`).join('')+'</ul>';
-}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and fetch script first.'; $('register').textContent='Public-source snapshot unavailable.'});
+  fetch('data/brussels-tree-heat-sample.json').then(r=>r.json()),
+  fetch('data/source-inventory.json').then(r=>r.json())
+]).then(([managed, remarkable, bikes, history, joined, heat, inventory])=>{
+  const heatById=new Map(heat.records.map(x=>[x.id,Number(x.heat_pixel)]));
+  const distances=joined.records.map(x=>Number(x.nearest_counter_distance_m));
+  const minDistance=Math.min(...distances), maxDistance=Math.max(...distances);
+  const heatValues=[...heatById.values()];
+  const minHeat=Math.min(...heatValues), maxHeat=Math.max(...heatValues);
+  const scale=(value,min,max)=>max===min?50:(value-min)/(max-min)*100;
+  const points=joined.records.filter(x=>heatById.has(x.id));
+  const longitudes=points.map(x=>Number(x.longitude)), latitudes=points.map(x=>Number(x.latitude));
+  const minLongitude=Math.min(...longitudes), maxLongitude=Math.max(...longitudes);
+  const minLatitude=Math.min(...latitudes), maxLatitude=Math.max(...latitudes);
+  const mapPosition=(value,min,max)=>max===min?50:1+(value-min)/(max-min)*82;
+  sites=points.map(x=>({
+    id:x.id,
+    name:x.street || 'Unnamed street',
+    heatPixel:heatById.get(x.id),
+    distanceM:Number(x.nearest_counter_distance_m),
+    counter:x.nearest_counter,
+    heatScore:scale(heatById.get(x.id),minHeat,maxHeat),
+    proximityScore:100-scale(Number(x.nearest_counter_distance_m),minDistance,maxDistance),
+    mapX:mapPosition(Number(x.longitude),minLongitude,maxLongitude),
+    mapY:1+82-mapPosition(Number(x.latitude),minLatitude,maxLatitude)
+  }));
+  $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, ${remarkable.source.toLocaleString()} remarkable trees and ${bikes.source} bike counters; one counter contributes ${history.records.length} fifteen-minute observations (${history.start_date}–${history.end_date}, total count ${history.records.reduce((sum,x)=>sum+x.count,0).toLocaleString()}). The local joins provide ${sites.length} tree points with a WBGT pixel and nearest-counter distance. Proximity is not a mobility measurement.`;
+  const sourceLink=(label,url)=>`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${label}</a>`;
+  $('sourceLinks').innerHTML=`Sources: ${sourceLink('managed trees',inventory.managed_trees.records)} · ${sourceLink('heat raster',inventory.heat.download)} · ${sourceLink('bicycle counters',inventory.mobility.devices)}`;
+  $('register').innerHTML='<ul>'+sites.slice(0,8).map(x=>`<li><b>${escapeHTML(x.name)}</b> — heat ${x.heatPixel} · nearest ${escapeHTML(x.counter)} (${x.distanceM.toLocaleString()} m)</li>`).join('')+'</ul>';
+  render();
+}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and check the local data files.'; $('sourceLinks').textContent='Source links unavailable.'; $('register').textContent='Public-source snapshot unavailable.'});
 </script>
 </body>
 </html>

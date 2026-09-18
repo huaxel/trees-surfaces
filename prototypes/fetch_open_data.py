@@ -15,6 +15,7 @@ from urllib.parse import unquote, urlencode, urlparse, parse_qs
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
+GRAND_PLACE_DATASET_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place/records"
 
 
 def get_json(base: str, **params):
@@ -139,7 +140,7 @@ def build_tree_mobility_join() -> None:
 
 def fetch_grand_place() -> None:
     payload = get_json(
-        "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place/records",
+        GRAND_PLACE_DATASET_URL,
         limit=100,
     )
     rows = []
@@ -170,7 +171,7 @@ def fetch_grand_place() -> None:
     }
     out = ROOT / "three-ages" / "data" / "grand-place-buildings.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"source": payload["total_count"], "completeness": completeness, "records": rows}, ensure_ascii=False, indent=2) + "\n")
+    out.write_text(json.dumps({"source": payload["total_count"], "dataset_url": GRAND_PLACE_DATASET_URL, "completeness": completeness, "records": rows}, ensure_ascii=False, indent=2) + "\n")
 
 
 if __name__ == "__main__":
