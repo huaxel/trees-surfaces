@@ -9,6 +9,7 @@ This report answers the working screening question using the committed 100-recor
 - Records analyzed: 100
 - WBGT pixel: min 50, median 71.5, max 95
 - Counter distance: min 8.1 m, median 490.5 m, max 1518.3 m
+- Counter history context: 672 fifteen-minute observations from 2024/01/01 to 2024/01/07; mean count 11.2, maximum 44
 - High-heat/high-proximity quadrant: 6 points at or above the sample's third quartile on both normalized components
 
 ## Balanced screen

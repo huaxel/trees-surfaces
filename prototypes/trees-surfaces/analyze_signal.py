@@ -21,6 +21,8 @@ def normalize(value: float, lower: float, upper: float) -> float:
 def main() -> None:
     heat = json.loads((DATA / "brussels-tree-heat-sample.json").read_text())["records"]
     joined = json.loads((DATA / "brussels-tree-bike-nearest.json").read_text())["records"]
+    history_payload = json.loads((DATA / "brussels-bike-history-CB2105-2024-01.json").read_text())
+    history = history_payload["records"]
     heat_by_id = {record["id"]: float(record["heat_pixel"]) for record in heat}
     points = [record for record in joined if record["id"] in heat_by_id]
     distances = [float(record["nearest_counter_distance_m"]) for record in points]
@@ -101,6 +103,7 @@ def main() -> None:
         f"- Records analyzed: {len(rows)}",
         f"- WBGT pixel: min {min(heats):.0f}, median {statistics.median(heats):.1f}, max {max(heats):.0f}",
         f"- Counter distance: min {min(distances):.1f} m, median {statistics.median(distances):.1f} m, max {max(distances):.1f} m",
+        f"- Counter history context: {len(history)} fifteen-minute observations from {history_payload['start_date']} to {history_payload['end_date']}; mean count {statistics.mean(record['count'] for record in history):.1f}, maximum {max(record['count'] for record in history)}",
         f"- High-heat/high-proximity quadrant: {len(high_high)} points at or above the sample's third quartile on both normalized components",
         "",
         "## Balanced screen",
