@@ -24,7 +24,7 @@ To validate the committed snapshots:
 python3 validate_snapshots.py
 ```
 
-To regenerate the tree signal sensitivity report:
+To regenerate the tree signal sensitivity report and balanced CSV export:
 
 ```bash
 python3 trees-surfaces/analyze_signal.py

@@ -2,12 +2,14 @@
 """Generate a small weight-sensitivity report for the tree-point signal."""
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 OUTPUT = DATA / "tree-signal-sensitivity.json"
+CSV_OUTPUT = DATA / "tree-signal-balanced-screen.csv"
 
 
 def normalize(value: float, lower: float, upper: float) -> float:
@@ -74,7 +76,12 @@ def main() -> None:
         "caveat": "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure.",
     }
     OUTPUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    print(f"wrote {OUTPUT.relative_to(ROOT)}")
+    with CSV_OUTPUT.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["rank", "id", "street", "heat_pixel", "nearest_counter", "distance_m", "heat_score", "proximity_score", "signal"], lineterminator="\n")
+        writer.writeheader()
+        for rank, row in enumerate(ranked["balanced"], start=1):
+            writer.writerow({"rank": rank, **{field: row[field] for field in writer.fieldnames if field != "rank"}})
+    print(f"wrote {OUTPUT.relative_to(ROOT)} and {CSV_OUTPUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

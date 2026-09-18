@@ -110,7 +110,7 @@ Promise.all([
   const sourceLink=(label,url)=>`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${label}</a>`;
   $('sourceLinks').innerHTML=`Sources: ${sourceLink('managed trees',inventory.managed_trees.records)} · ${sourceLink('heat raster',inventory.heat.download)} · ${sourceLink('bicycle counters',inventory.mobility.devices)}`;
   const sensitivityByName=Object.fromEntries(sensitivity.scenarios.map(scenario=>[scenario.name,scenario]));
-  $('sensitivity').innerHTML=`Sensitivity check: balanced top ten overlaps ${sensitivityByName.heat_only.top_10_overlap_with_balanced}/10 with heat-only and ${sensitivityByName.proximity_only.top_10_overlap_with_balanced}/10 with proximity-only. <a href="data/tree-signal-sensitivity.json">View report</a>`;
+  $('sensitivity').innerHTML=`Sensitivity check: balanced top ten overlaps ${sensitivityByName.heat_only.top_10_overlap_with_balanced}/10 with heat-only and ${sensitivityByName.proximity_only.top_10_overlap_with_balanced}/10 with proximity-only. <a href="data/tree-signal-sensitivity.json">JSON report</a> · <a href="data/tree-signal-balanced-screen.csv">CSV export</a>`;
   const noDataCount=heat.records.filter(record=>Number(record.heat_pixel)===0).length;
   const validCoordinates=joined.records.filter(record=>Number.isFinite(Number(record.latitude)) && Number.isFinite(Number(record.longitude))).length;
   $('dataQuality').textContent=`Data quality: ${validCoordinates}/${joined.records.length} joined points have coordinates; ${heat.records.length-noDataCount}/${heat.records.length} have non-NoData heat pixels; counter distances range from ${Math.min(...distances).toLocaleString()} to ${Math.max(...distances).toLocaleString()} m.`;
