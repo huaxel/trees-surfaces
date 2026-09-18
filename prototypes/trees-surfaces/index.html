@@ -27,6 +27,7 @@
   <p id="source" class="muted" aria-live="polite">Loading public-source snapshot…</p>
   <p id="sourceLinks" class="muted" aria-live="polite"></p>
   <p id="sensitivity" class="muted" aria-live="polite"></p>
+  <p id="dataQuality" class="muted" aria-live="polite"></p>
   <div class="layout">
     <section class="panel">
       <h2>Exploratory lens</h2>
@@ -110,9 +111,12 @@ Promise.all([
   $('sourceLinks').innerHTML=`Sources: ${sourceLink('managed trees',inventory.managed_trees.records)} · ${sourceLink('heat raster',inventory.heat.download)} · ${sourceLink('bicycle counters',inventory.mobility.devices)}`;
   const sensitivityByName=Object.fromEntries(sensitivity.scenarios.map(scenario=>[scenario.name,scenario]));
   $('sensitivity').innerHTML=`Sensitivity check: balanced top ten overlaps ${sensitivityByName.heat_only.top_10_overlap_with_balanced}/10 with heat-only and ${sensitivityByName.proximity_only.top_10_overlap_with_balanced}/10 with proximity-only. <a href="data/tree-signal-sensitivity.json">View report</a>`;
+  const noDataCount=heat.records.filter(record=>Number(record.heat_pixel)===0).length;
+  const validCoordinates=joined.records.filter(record=>Number.isFinite(Number(record.latitude)) && Number.isFinite(Number(record.longitude))).length;
+  $('dataQuality').textContent=`Data quality: ${validCoordinates}/${joined.records.length} joined points have coordinates; ${heat.records.length-noDataCount}/${heat.records.length} have non-NoData heat pixels; counter distances range from ${Math.min(...distances).toLocaleString()} to ${Math.max(...distances).toLocaleString()} m.`;
   $('register').innerHTML='<ul>'+sites.slice(0,8).map(x=>`<li><b>${escapeHTML(x.name)}</b> — heat ${x.heatPixel} · nearest ${escapeHTML(x.counter)} (${x.distanceM.toLocaleString()} m)</li>`).join('')+'</ul>';
   render();
-}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and check the local data files.'; $('sourceLinks').textContent='Source links unavailable.'; $('sensitivity').textContent='Sensitivity report unavailable.'; $('register').textContent='Public-source snapshot unavailable.'});
+}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and check the local data files.'; $('sourceLinks').textContent='Source links unavailable.'; $('sensitivity').textContent='Sensitivity report unavailable.'; $('dataQuality').textContent='Data-quality summary unavailable.'; $('register').textContent='Public-source snapshot unavailable.'});
 </script>
 </body>
 </html>
