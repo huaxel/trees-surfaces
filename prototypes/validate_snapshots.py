@@ -28,6 +28,7 @@ def main() -> None:
     balanced_csv = (ROOT / "trees-surfaces/data/tree-signal-balanced-screen.csv").read_text().splitlines()
     buildings = read_json("three-ages/data/grand-place-buildings.json")
     pilot = read_json("three-ages/data/three-ages-pilot.json")
+    pilot_csv = (ROOT / "three-ages/data/three-ages-pilot-export.csv").read_text().splitlines()
 
     tree_ids = {record["id"] for record in trees["records"]}
     heat_ids = {record["id"] for record in heat["records"]}
@@ -58,6 +59,7 @@ def main() -> None:
     require(all(required_pilot_fields <= set(record) for record in pilot["records"]), "pilot record schema is incomplete")
     require(all(all(field in record[claim] for field in ("status", "value", "note")) for record in pilot["records"] for claim in ("register", "facade", "structure")), "pilot claim schema is incomplete")
     require(all(not record["image_evidence"] for record in pilot["records"]), "pilot image evidence should remain explicitly empty")
+    require(len(pilot_csv) == 7 and pilot_csv[0].startswith("source_id,name,address"), "Three Ages pilot CSV export is incomplete")
 
     print("snapshot validation passed")
     print(f"tree points: {len(tree_ids)}; heat joins: {len(heat_ids)}; mobility joins: {len(mobility_ids)}")

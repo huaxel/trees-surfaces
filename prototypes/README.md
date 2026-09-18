@@ -30,6 +30,12 @@ To regenerate the tree signal sensitivity report and balanced CSV export:
 python3 trees-surfaces/analyze_signal.py
 ```
 
+To regenerate the Three Ages annotation worksheet:
+
+```bash
+python3 three-ages/export_pilot.py
+```
+
 To refresh the public-data snapshots:
 
 ```bash
