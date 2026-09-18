@@ -1,12 +1,14 @@
 # Trees & Surfaces — stakeholder specification
 
-This is a working specification for the next conversation with a Brussels urban-greening or spatial-planning stakeholder. The stakeholder identity and final decision question still require confirmation.
+This is a working specification for the next conversation with a Brussels urban-greening or spatial-planning stakeholder. The final decision question and external stakeholder confirmation still remain open.
 
-## Proposed stakeholder
+## Confirmed working direction
 
-A Brussels team responsible for urban trees, heat adaptation or public-space planning.
+- **Stakeholder:** urban greening / heat adaptation team.
+- **Use of mobility data:** retain nearest bicycle-counter distance as a clearly labelled context proxy.
+- **Boundary:** the team needs a screening view for follow-up analysis, not an automated planting recommendation.
 
-**Assumption to confirm:** the team needs a screening view that identifies locations for follow-up analysis, not an automated planting recommendation.
+This is a project-level working decision; it should still be validated with the eventual coach or stakeholder.
 
 ## Proposed decision question
 
@@ -40,7 +42,7 @@ The committed feasibility snapshot contains 100 records.
 - **Raw measure:** great-circle distance to the nearest bicycle counter.
 - **Displayed score:** inverse min–max normalization within the sample to 0–100.
 - **Interpretation:** spatial proximity to observed cycling infrastructure, not bicycle flow, pedestrian use or street occupancy.
-- **Required decision:** stakeholder must accept this as a context proxy or provide a stronger mobility measure.
+- **Current MVP decision:** retain this as a context proxy and never label it as street usage, bicycle flow or occupancy.
 
 ### Exploratory signal
 
@@ -52,8 +54,8 @@ The current sensitivity artifact compares three scenarios: the heat-only top ten
 
 ## Acceptance criteria for the next MVP
 
-- [ ] Stakeholder and decision question are confirmed in writing.
-- [ ] A replacement or explicit acceptance of nearest-counter distance is documented.
+- [x] Working stakeholder and decision direction are recorded in writing.
+- [x] Retention of nearest-counter distance as a clearly labelled context proxy is documented.
 - [ ] Heat-date choice and normalization are justified.
 - [ ] Every displayed point can be traced to its source records and join method.
 - [ ] Weight sensitivity is reported, including whether the top points change materially.
