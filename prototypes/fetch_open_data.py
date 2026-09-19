@@ -61,13 +61,21 @@ def validate_history_payload(payload: dict, feature: str) -> list[dict]:
     return records
 
 
-def preserve_sample(records: list[dict], path: Path, raw_id_field: str) -> list[dict]:
+def committed_sample_ids(path: Path) -> list[str] | None:
     if not path.exists():
-        require(len(records) >= 100, f"source returned fewer than 100 records for {path.name}")
-        return records[:100]
+        return None
     previous = json.loads(path.read_text()).get("records", [])
     previous_ids = [str(record.get("id")) for record in previous]
     require(len(previous_ids) == 100 and all(identifier != "None" for identifier in previous_ids), f"committed sample IDs are invalid in {path.name}")
+    return previous_ids
+
+
+def preserve_sample(records: list[dict], path: Path, raw_id_field: str) -> list[dict]:
+    previous_ids = committed_sample_ids(path)
+    if previous_ids is None:
+        require(len(records) >= 100, f"source returned fewer than 100 records for {path.name}")
+        return records[:100]
+
     by_id = {str(record.get(raw_id_field)): record for record in records}
     missing = [identifier for identifier in previous_ids if identifier not in by_id]
     require(not missing, f"source no longer returns committed sample IDs for {path.name}: {missing[:3]}")
@@ -88,12 +96,15 @@ def fetch_all_records(base: str, **params) -> tuple[dict, list[dict]]:
 
 
 def fetch_trees() -> None:
-    payload = get_json(
-        "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records",
-        limit=100,
-    )
-    require(payload.get("total_count", 0) >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
+    managed_url = "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records"
     out = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
+    previous_ids = committed_sample_ids(out)
+    params = {"limit": 100}
+    if previous_ids:
+        quoted_ids = ",".join(f"'{identifier.replace(chr(39), chr(39) * 2)}'" for identifier in previous_ids)
+        params["where"] = f"id IN ({quoted_ids})"
+    payload = get_json(managed_url, **params)
+    require(payload.get("total_count", 0) >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
     rows = []
     for item in preserve_sample(payload["results"], out, "id"):
         point = item.get("geo_point_2d") or {}
