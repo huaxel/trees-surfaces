@@ -30,7 +30,7 @@ To regenerate the tree signal sensitivity report, descriptive analysis and balan
 python3 trees-surfaces/analyze_signal.py
 ```
 
-To regenerate the Three Ages annotation worksheet:
+To regenerate the Three Ages building annotation worksheet and historical-image review worksheet:
 
 ```bash
 python3 three-ages/export_pilot.py
