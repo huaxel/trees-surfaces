@@ -1,0 +1,4040 @@
+{
+  "source": "Brussels Mobility bicycle counter API",
+  "feature": "CB1142",
+  "start_date": "2024/01/01",
+  "end_date": "2024/01/07",
+  "records": [
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 1,
+      "count": 4,
+      "average_speed": 27
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 2,
+      "count": 2,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 3,
+      "count": 1,
+      "average_speed": 11
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 4,
+      "count": 3,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 5,
+      "count": 7,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 6,
+      "count": 5,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 7,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 8,
+      "count": 2,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 9,
+      "count": 6,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 10,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 11,
+      "count": 6,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 12,
+      "count": 4,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 13,
+      "count": 6,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 14,
+      "count": 6,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 15,
+      "count": 6,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 16,
+      "count": 4,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 17,
+      "count": 1,
+      "average_speed": 11
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 18,
+      "count": 2,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 19,
+      "count": 4,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 20,
+      "count": 2,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 21,
+      "count": 4,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 22,
+      "count": 2,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 23,
+      "count": 2,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 24,
+      "count": 1,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 25,
+      "count": 2,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 26,
+      "count": 1,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 27,
+      "count": 2,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 28,
+      "count": 5,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 29,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 30,
+      "count": 2,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 31,
+      "count": 4,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 32,
+      "count": 5,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 33,
+      "count": 2,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 34,
+      "count": 1,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 35,
+      "count": 6,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 36,
+      "count": 2,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 37,
+      "count": 1,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 38,
+      "count": 6,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 39,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 40,
+      "count": 3,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 41,
+      "count": 4,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 42,
+      "count": 1,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 43,
+      "count": 4,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 44,
+      "count": 7,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 45,
+      "count": 8,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 46,
+      "count": 12,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 47,
+      "count": 5,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 48,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 49,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 50,
+      "count": 18,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 51,
+      "count": 16,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 52,
+      "count": 17,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 53,
+      "count": 7,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 54,
+      "count": 9,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 55,
+      "count": 15,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 56,
+      "count": 11,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 57,
+      "count": 22,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 58,
+      "count": 19,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 59,
+      "count": 18,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 60,
+      "count": 17,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 61,
+      "count": 14,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 62,
+      "count": 26,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 63,
+      "count": 11,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 64,
+      "count": 14,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 65,
+      "count": 11,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 66,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 67,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 68,
+      "count": 8,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 69,
+      "count": 7,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 70,
+      "count": 7,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 71,
+      "count": 7,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 72,
+      "count": 1,
+      "average_speed": 28
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 73,
+      "count": 9,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 74,
+      "count": 5,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 75,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 76,
+      "count": 2,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 77,
+      "count": 7,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 78,
+      "count": 9,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 79,
+      "count": 7,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 80,
+      "count": 14,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 81,
+      "count": 12,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 82,
+      "count": 8,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 83,
+      "count": 4,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 84,
+      "count": 5,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 85,
+      "count": 6,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 86,
+      "count": 7,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 87,
+      "count": 6,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 88,
+      "count": 1,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 89,
+      "count": 4,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 90,
+      "count": 2,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 91,
+      "count": 2,
+      "average_speed": 28
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 92,
+      "count": 2,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 93,
+      "count": 1,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 94,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 95,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/01",
+      "time_gap": 96,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 1,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 2,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 3,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 4,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 5,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 6,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 7,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 8,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 9,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 10,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 11,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 12,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 13,
+      "count": 1,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 14,
+      "count": 4,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 15,
+      "count": 6,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 16,
+      "count": 1,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 17,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 18,
+      "count": 1,
+      "average_speed": 33
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 19,
+      "count": 3,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 20,
+      "count": 2,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 21,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 22,
+      "count": 4,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 23,
+      "count": 9,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 24,
+      "count": 8,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 25,
+      "count": 5,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 26,
+      "count": 9,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 27,
+      "count": 16,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 28,
+      "count": 32,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 29,
+      "count": 20,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 30,
+      "count": 28,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 31,
+      "count": 49,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 32,
+      "count": 57,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 33,
+      "count": 25,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 34,
+      "count": 26,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 35,
+      "count": 11,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 36,
+      "count": 9,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 37,
+      "count": 14,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 38,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 39,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 40,
+      "count": 8,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 41,
+      "count": 3,
+      "average_speed": 36
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 42,
+      "count": 3,
+      "average_speed": 30
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 43,
+      "count": 4,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 44,
+      "count": 6,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 45,
+      "count": 4,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 46,
+      "count": 10,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 47,
+      "count": 6,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 48,
+      "count": 9,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 49,
+      "count": 6,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 50,
+      "count": 7,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 51,
+      "count": 8,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 52,
+      "count": 16,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 53,
+      "count": 8,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 54,
+      "count": 9,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 55,
+      "count": 12,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 56,
+      "count": 7,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 57,
+      "count": 15,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 58,
+      "count": 6,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 59,
+      "count": 9,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 60,
+      "count": 4,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 61,
+      "count": 11,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 62,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 63,
+      "count": 13,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 64,
+      "count": 10,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 65,
+      "count": 13,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 66,
+      "count": 13,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 67,
+      "count": 17,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 68,
+      "count": 8,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 69,
+      "count": 20,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 70,
+      "count": 9,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 71,
+      "count": 11,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 72,
+      "count": 15,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 73,
+      "count": 14,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 74,
+      "count": 9,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 75,
+      "count": 10,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 76,
+      "count": 9,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 77,
+      "count": 7,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 78,
+      "count": 13,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 79,
+      "count": 4,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 80,
+      "count": 10,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 81,
+      "count": 8,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 82,
+      "count": 4,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 83,
+      "count": 10,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 84,
+      "count": 10,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 85,
+      "count": 6,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 86,
+      "count": 4,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 87,
+      "count": 3,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 88,
+      "count": 5,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 89,
+      "count": 5,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 90,
+      "count": 8,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 91,
+      "count": 1,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 92,
+      "count": 5,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 93,
+      "count": 3,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 94,
+      "count": 1,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 95,
+      "count": 3,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/02",
+      "time_gap": 96,
+      "count": 3,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 1,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 2,
+      "count": 1,
+      "average_speed": 7
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 3,
+      "count": 3,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 4,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 5,
+      "count": 1,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 6,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 7,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 8,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 9,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 10,
+      "count": 2,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 11,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 12,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 13,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 14,
+      "count": 1,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 15,
+      "count": 6,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 16,
+      "count": 1,
+      "average_speed": 28
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 17,
+      "count": 2,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 18,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 19,
+      "count": 2,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 20,
+      "count": 2,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 21,
+      "count": 2,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 22,
+      "count": 3,
+      "average_speed": 29
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 23,
+      "count": 8,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 24,
+      "count": 11,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 25,
+      "count": 3,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 26,
+      "count": 11,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 27,
+      "count": 26,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 28,
+      "count": 28,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 29,
+      "count": 21,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 30,
+      "count": 31,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 31,
+      "count": 53,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 32,
+      "count": 60,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 33,
+      "count": 42,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 34,
+      "count": 39,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 35,
+      "count": 19,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 36,
+      "count": 20,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 37,
+      "count": 15,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 38,
+      "count": 15,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 39,
+      "count": 9,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 40,
+      "count": 11,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 41,
+      "count": 8,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 42,
+      "count": 9,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 43,
+      "count": 13,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 44,
+      "count": 15,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 45,
+      "count": 16,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 46,
+      "count": 13,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 47,
+      "count": 19,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 48,
+      "count": 22,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 49,
+      "count": 17,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 50,
+      "count": 6,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 51,
+      "count": 9,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 52,
+      "count": 22,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 53,
+      "count": 16,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 54,
+      "count": 13,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 55,
+      "count": 15,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 56,
+      "count": 23,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 57,
+      "count": 20,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 58,
+      "count": 12,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 59,
+      "count": 20,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 60,
+      "count": 17,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 61,
+      "count": 20,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 62,
+      "count": 16,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 63,
+      "count": 19,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 64,
+      "count": 28,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 65,
+      "count": 27,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 66,
+      "count": 25,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 67,
+      "count": 24,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 68,
+      "count": 22,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 69,
+      "count": 26,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 70,
+      "count": 27,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 71,
+      "count": 20,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 72,
+      "count": 16,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 73,
+      "count": 27,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 74,
+      "count": 23,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 75,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 76,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 77,
+      "count": 16,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 78,
+      "count": 9,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 79,
+      "count": 12,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 80,
+      "count": 9,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 81,
+      "count": 18,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 82,
+      "count": 6,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 83,
+      "count": 5,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 84,
+      "count": 1,
+      "average_speed": 10
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 85,
+      "count": 7,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 86,
+      "count": 12,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 87,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 88,
+      "count": 4,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 89,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 90,
+      "count": 1,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 91,
+      "count": 1,
+      "average_speed": 10
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 92,
+      "count": 3,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 93,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 94,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 95,
+      "count": 4,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/03",
+      "time_gap": 96,
+      "count": 1,
+      "average_speed": 12
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 1,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 2,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 3,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 4,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 5,
+      "count": 2,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 6,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 7,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 8,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 9,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 10,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 11,
+      "count": 2,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 12,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 13,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 14,
+      "count": 2,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 15,
+      "count": 3,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 16,
+      "count": 1,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 17,
+      "count": 2,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 18,
+      "count": 3,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 19,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 20,
+      "count": 4,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 21,
+      "count": 4,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 22,
+      "count": 3,
+      "average_speed": 29
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 23,
+      "count": 11,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 24,
+      "count": 11,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 25,
+      "count": 14,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 26,
+      "count": 15,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 27,
+      "count": 25,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 28,
+      "count": 32,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 29,
+      "count": 45,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 30,
+      "count": 46,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 31,
+      "count": 72,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 32,
+      "count": 93,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 33,
+      "count": 69,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 34,
+      "count": 53,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 35,
+      "count": 50,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 36,
+      "count": 37,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 37,
+      "count": 25,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 38,
+      "count": 16,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 39,
+      "count": 80,
+      "average_speed": 11
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 40,
+      "count": 19,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 41,
+      "count": 18,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 42,
+      "count": 15,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 43,
+      "count": 26,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 44,
+      "count": 19,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 45,
+      "count": 22,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 46,
+      "count": 33,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 47,
+      "count": 24,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 48,
+      "count": 17,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 49,
+      "count": 23,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 50,
+      "count": 18,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 51,
+      "count": 21,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 52,
+      "count": 20,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 53,
+      "count": 27,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 54,
+      "count": 20,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 55,
+      "count": 12,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 56,
+      "count": 26,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 57,
+      "count": 28,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 58,
+      "count": 23,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 59,
+      "count": 18,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 60,
+      "count": 24,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 61,
+      "count": 25,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 62,
+      "count": 32,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 63,
+      "count": 30,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 64,
+      "count": 37,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 65,
+      "count": 43,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 66,
+      "count": 41,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 67,
+      "count": 52,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 68,
+      "count": 35,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 69,
+      "count": 48,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 70,
+      "count": 35,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 71,
+      "count": 30,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 72,
+      "count": 32,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 73,
+      "count": 33,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 74,
+      "count": 24,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 75,
+      "count": 23,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 76,
+      "count": 24,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 77,
+      "count": 15,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 78,
+      "count": 16,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 79,
+      "count": 19,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 80,
+      "count": 14,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 81,
+      "count": 10,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 82,
+      "count": 7,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 83,
+      "count": 6,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 84,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 85,
+      "count": 4,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 86,
+      "count": 7,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 87,
+      "count": 3,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 88,
+      "count": 6,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 89,
+      "count": 7,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 90,
+      "count": 5,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 91,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 92,
+      "count": 1,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 93,
+      "count": 4,
+      "average_speed": 27
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 94,
+      "count": 2,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 95,
+      "count": 4,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/04",
+      "time_gap": 96,
+      "count": 6,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 1,
+      "count": 1,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 2,
+      "count": 2,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 3,
+      "count": 1,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 4,
+      "count": 1,
+      "average_speed": 12
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 5,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 6,
+      "count": 1,
+      "average_speed": 30
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 7,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 8,
+      "count": 2,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 9,
+      "count": 2,
+      "average_speed": 12
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 10,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 11,
+      "count": 2,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 12,
+      "count": 1,
+      "average_speed": 27
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 13,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 14,
+      "count": 3,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 15,
+      "count": 2,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 16,
+      "count": 4,
+      "average_speed": 25
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 17,
+      "count": 1,
+      "average_speed": 33
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 18,
+      "count": 4,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 19,
+      "count": 2,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 20,
+      "count": 5,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 21,
+      "count": 3,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 22,
+      "count": 4,
+      "average_speed": 30
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 23,
+      "count": 4,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 24,
+      "count": 7,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 25,
+      "count": 9,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 26,
+      "count": 13,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 27,
+      "count": 14,
+      "average_speed": 27
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 28,
+      "count": 34,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 29,
+      "count": 30,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 30,
+      "count": 36,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 31,
+      "count": 53,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 32,
+      "count": 48,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 33,
+      "count": 35,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 34,
+      "count": 34,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 35,
+      "count": 25,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 36,
+      "count": 23,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 37,
+      "count": 15,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 38,
+      "count": 15,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 39,
+      "count": 11,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 40,
+      "count": 13,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 41,
+      "count": 11,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 42,
+      "count": 5,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 43,
+      "count": 15,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 44,
+      "count": 27,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 45,
+      "count": 12,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 46,
+      "count": 11,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 47,
+      "count": 20,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 48,
+      "count": 10,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 49,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 50,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 51,
+      "count": 15,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 52,
+      "count": 22,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 53,
+      "count": 15,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 54,
+      "count": 15,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 55,
+      "count": 18,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 56,
+      "count": 22,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 57,
+      "count": 15,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 58,
+      "count": 16,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 59,
+      "count": 11,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 60,
+      "count": 22,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 61,
+      "count": 14,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 62,
+      "count": 23,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 63,
+      "count": 28,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 64,
+      "count": 21,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 65,
+      "count": 29,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 66,
+      "count": 33,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 67,
+      "count": 29,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 68,
+      "count": 31,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 69,
+      "count": 21,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 70,
+      "count": 18,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 71,
+      "count": 23,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 72,
+      "count": 25,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 73,
+      "count": 18,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 74,
+      "count": 26,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 75,
+      "count": 13,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 76,
+      "count": 10,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 77,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 78,
+      "count": 10,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 79,
+      "count": 11,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 80,
+      "count": 15,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 81,
+      "count": 10,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 82,
+      "count": 10,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 83,
+      "count": 10,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 84,
+      "count": 19,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 85,
+      "count": 8,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 86,
+      "count": 10,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 87,
+      "count": 8,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 88,
+      "count": 7,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 89,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 90,
+      "count": 4,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 91,
+      "count": 4,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 92,
+      "count": 6,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 93,
+      "count": 6,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 94,
+      "count": 5,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 95,
+      "count": 5,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/05",
+      "time_gap": 96,
+      "count": 4,
+      "average_speed": 13
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 1,
+      "count": 2,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 2,
+      "count": 3,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 3,
+      "count": 7,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 4,
+      "count": 1,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 5,
+      "count": 2,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 6,
+      "count": 2,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 7,
+      "count": 4,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 8,
+      "count": 7,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 9,
+      "count": 1,
+      "average_speed": 13
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 10,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 11,
+      "count": 2,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 12,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 13,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 14,
+      "count": 2,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 15,
+      "count": 3,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 16,
+      "count": 1,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 17,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 18,
+      "count": 1,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 19,
+      "count": 1,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 20,
+      "count": 5,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 21,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 22,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 23,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 24,
+      "count": 1,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 25,
+      "count": 2,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 26,
+      "count": 6,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 27,
+      "count": 4,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 28,
+      "count": 3,
+      "average_speed": 28
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 29,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 30,
+      "count": 4,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 31,
+      "count": 4,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 32,
+      "count": 7,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 33,
+      "count": 5,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 34,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 35,
+      "count": 10,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 36,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 37,
+      "count": 10,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 38,
+      "count": 12,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 39,
+      "count": 13,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 40,
+      "count": 12,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 41,
+      "count": 10,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 42,
+      "count": 6,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 43,
+      "count": 10,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 44,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 45,
+      "count": 15,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 46,
+      "count": 10,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 47,
+      "count": 13,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 48,
+      "count": 18,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 49,
+      "count": 16,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 50,
+      "count": 17,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 51,
+      "count": 18,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 52,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 53,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 54,
+      "count": 23,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 55,
+      "count": 16,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 56,
+      "count": 20,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 57,
+      "count": 20,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 58,
+      "count": 13,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 59,
+      "count": 17,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 60,
+      "count": 15,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 61,
+      "count": 15,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 62,
+      "count": 16,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 63,
+      "count": 22,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 64,
+      "count": 15,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 65,
+      "count": 16,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 66,
+      "count": 12,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 67,
+      "count": 20,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 68,
+      "count": 30,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 69,
+      "count": 15,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 70,
+      "count": 16,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 71,
+      "count": 24,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 72,
+      "count": 20,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 73,
+      "count": 10,
+      "average_speed": 13
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 74,
+      "count": 15,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 75,
+      "count": 12,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 76,
+      "count": 19,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 77,
+      "count": 14,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 78,
+      "count": 12,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 79,
+      "count": 16,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 80,
+      "count": 14,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 81,
+      "count": 9,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 82,
+      "count": 14,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 83,
+      "count": 19,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 84,
+      "count": 10,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 85,
+      "count": 9,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 86,
+      "count": 6,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 87,
+      "count": 8,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 88,
+      "count": 6,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 89,
+      "count": 4,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 90,
+      "count": 7,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 91,
+      "count": 3,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 92,
+      "count": 5,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 93,
+      "count": 8,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 94,
+      "count": 6,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 95,
+      "count": 3,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/06",
+      "time_gap": 96,
+      "count": 10,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 1,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 2,
+      "count": 12,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 3,
+      "count": 2,
+      "average_speed": 12
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 4,
+      "count": 5,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 5,
+      "count": 8,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 6,
+      "count": 7,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 7,
+      "count": 3,
+      "average_speed": 13
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 8,
+      "count": 4,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 9,
+      "count": 4,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 10,
+      "count": 3,
+      "average_speed": 12
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 11,
+      "count": 1,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 12,
+      "count": 1,
+      "average_speed": 27
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 13,
+      "count": 2,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 14,
+      "count": 2,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 15,
+      "count": 1,
+      "average_speed": 14
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 16,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 17,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 18,
+      "count": 1,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 19,
+      "count": 1,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 20,
+      "count": 1,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 21,
+      "count": 1,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 22,
+      "count": 1,
+      "average_speed": 9
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 23,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 24,
+      "count": 3,
+      "average_speed": 26
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 25,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 26,
+      "count": 1,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 27,
+      "count": 1,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 28,
+      "count": 2,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 29,
+      "count": 1,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 30,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 31,
+      "count": 4,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 32,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 33,
+      "count": 3,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 34,
+      "count": 3,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 35,
+      "count": 10,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 36,
+      "count": 7,
+      "average_speed": 23
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 37,
+      "count": 6,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 38,
+      "count": 8,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 39,
+      "count": 16,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 40,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 41,
+      "count": 9,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 42,
+      "count": 9,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 43,
+      "count": 14,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 44,
+      "count": 18,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 45,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 46,
+      "count": 8,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 47,
+      "count": 14,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 48,
+      "count": 20,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 49,
+      "count": 9,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 50,
+      "count": 22,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 51,
+      "count": 16,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 52,
+      "count": 17,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 53,
+      "count": 17,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 54,
+      "count": 17,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 55,
+      "count": 16,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 56,
+      "count": 18,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 57,
+      "count": 19,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 58,
+      "count": 12,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 59,
+      "count": 18,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 60,
+      "count": 18,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 61,
+      "count": 20,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 62,
+      "count": 18,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 63,
+      "count": 15,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 64,
+      "count": 16,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 65,
+      "count": 5,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 66,
+      "count": 12,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 67,
+      "count": 14,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 68,
+      "count": 13,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 69,
+      "count": 10,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 70,
+      "count": 14,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 71,
+      "count": 13,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 72,
+      "count": 10,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 73,
+      "count": 11,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 74,
+      "count": 14,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 75,
+      "count": 13,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 76,
+      "count": 10,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 77,
+      "count": 6,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 78,
+      "count": 10,
+      "average_speed": 20
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 79,
+      "count": 9,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 80,
+      "count": 13,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 81,
+      "count": 12,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 82,
+      "count": 7,
+      "average_speed": 22
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 83,
+      "count": 6,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 84,
+      "count": 9,
+      "average_speed": 21
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 85,
+      "count": 3,
+      "average_speed": 16
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 86,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 87,
+      "count": 8,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 88,
+      "count": 3,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 89,
+      "count": 1,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 90,
+      "count": 5,
+      "average_speed": 19
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 91,
+      "count": 3,
+      "average_speed": 18
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 92,
+      "count": 2,
+      "average_speed": 24
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 93,
+      "count": 4,
+      "average_speed": 15
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 94,
+      "count": 0,
+      "average_speed": -1
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 95,
+      "count": 2,
+      "average_speed": 17
+    },
+    {
+      "count_date": "2024/01/07",
+      "time_gap": 96,
+      "count": 0,
+      "average_speed": -1
+    }
+  ]
+}

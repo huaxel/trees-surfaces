@@ -44,6 +44,20 @@ The balanced screen uses heat weight 0.6 and proximity weight 0.4. The table sho
 | 9 | vbx_56554 | Rue du Midi 177 | 89 | 507.3 m | 78.8 |
 | 10 | vbx_56604 | Boulevard de Dixmude 65 | 91 | 608.6 m | 78.8 |
 
+## Mobility context
+
+A measured-flow context now supplements nearest-counter distance: 97 of 100 sampled trees have their nearest counter covered by the same 2024/01/01 - 2024/01/07 week of 15-minute counts. The three remaining trees are nearest to counters without committed history.
+
+| Counter | Mean 15-min count | Day-mean range |
+|---|---:|---:|
+| CJM90 | 23.9 | 16.0 - 35.0 |
+| CB1101 | 17.9 | 10.8 - 27.9 |
+| CB1142 | 11.2 | 6.4 - 19.4 |
+| CB2105 | 11.2 | 8.3 - 14.8 |
+| CB1143 | 8.8 | 5.0 - 14.9 |
+
+Flow is measured at the nearest counter, not at the tree, and covers a single winter week; it is contextual mobility evidence, not a seasonal or street-level estimate. See `brussels-tree-counter-flow.json` for per-tree values.
+
 ## Interpretation boundary
 
 - The WBGT layer represents one representative hot day in 2016.

@@ -22,6 +22,7 @@ def main() -> None:
     managed_payload = json.loads((DATA / "brussels-trees-sample.json").read_text())
     heat = json.loads((DATA / "brussels-tree-heat-sample.json").read_text())["records"]
     joined = json.loads((DATA / "brussels-tree-bike-nearest.json").read_text())["records"]
+    flow_payload = json.loads((DATA / "brussels-tree-counter-flow.json").read_text())
     history_payload = json.loads((DATA / "brussels-bike-history-CB2105-2024-01.json").read_text())
     history = history_payload["records"]
     heat_by_id = {record["id"]: float(record["heat_pixel"]) for record in heat}
@@ -144,6 +145,19 @@ def main() -> None:
     for rank, row in enumerate(ranked["balanced"][:10], start=1):
         lines.append(f"| {rank} | {row['id']} | {row.get('street') or 'Unnamed street'} | {row['heat_pixel']:.0f} | {row['distance_m']:.1f} m | {row['signal']:.1f} |")
     lines.extend([
+        "",
+        "## Mobility context",
+        "",
+        f"A measured-flow context now supplements nearest-counter distance: {flow_payload['trees_with_measured_flow']} of {flow_payload['record_count']} sampled trees have their nearest counter covered by the same {flow_payload['period']} week of 15-minute counts. The three remaining trees are nearest to counters without committed history.",
+        "",
+        "| Counter | Mean 15-min count | Day-mean range |",
+        "|---|---:|---:|",
+    ])
+    for feature, meta in sorted(flow_payload["counter_flow"].items(), key=lambda item: -item[1]["mean_all"]):
+        lines.append(f"| {feature} | {meta['mean_all']:.1f} | {meta['min_day_mean']:.1f} - {meta['max_day_mean']:.1f} |")
+    lines.extend([
+        "",
+        "Flow is measured at the nearest counter, not at the tree, and covers a single winter week; it is contextual mobility evidence, not a seasonal or street-level estimate. See `brussels-tree-counter-flow.json` for per-tree values.",
         "",
         "## Interpretation boundary",
         "",

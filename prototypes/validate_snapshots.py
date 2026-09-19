@@ -77,6 +77,8 @@ def main() -> None:
     heat = read_json("trees-surfaces/data/brussels-tree-heat-sample.json")
     mobility = read_json("trees-surfaces/data/brussels-tree-bike-nearest.json")
     history = read_json("trees-surfaces/data/brussels-bike-history-CB2105-2024-01.json")
+    history_flows = {feature: read_json(f"trees-surfaces/data/brussels-bike-history-{feature}-2024-01.json") for feature in ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")}
+    flow_context = read_json("trees-surfaces/data/brussels-tree-counter-flow.json")
     inventory = read_json("trees-surfaces/data/source-inventory.json")
     sensitivity = read_json("trees-surfaces/data/tree-signal-sensitivity.json")
     balanced_csv = (ROOT / "trees-surfaces/data/tree-signal-balanced-screen.csv").read_text().splitlines()
@@ -97,6 +99,10 @@ def main() -> None:
     require(heat_ids == tree_ids, "heat join IDs do not match tree snapshot IDs")
     require(mobility_ids == tree_ids, "mobility join IDs do not match tree snapshot IDs")
     require(len(history["records"]) == 672, "expected 672 counter observations")
+    require(all(len(payload["records"]) == 672 for payload in history_flows.values()), "counter history snapshots must hold 672 observations")
+    require(flow_context.get("record_count") == 100 and flow_context.get("trees_with_measured_flow") == 97, "counter-flow context is incomplete")
+    require(flow_context.get("caveat", "").startswith("Flow is measured at the nearest counter"), "counter-flow context caveat is missing")
+    require(all(entry["has_measured_flow"] == (entry["nearest_counter"] in history_flows) for entry in flow_context["records"]), "counter-flow context flags are inconsistent")
     require(all(0 < record["heat_pixel"] for record in heat["records"]), "heat join contains NoData values")
     require(all(record["nearest_counter_distance_m"] >= 0 for record in mobility["records"]), "negative counter distance")
     require(all(inventory.get(key, {}).get("records", "").startswith("https://") for key in ("managed_trees", "remarkable_trees")), "tree source inventory is missing record URLs")
@@ -105,7 +111,7 @@ def main() -> None:
     require(sensitivity.get("record_count") == 100, "sensitivity report has unexpected record count")
     require(len(sensitivity.get("balanced_screening", [])) == 100, "balanced screening export is incomplete")
     require(len(balanced_csv) == 101 and balanced_csv[0].startswith("rank,id,street"), "balanced CSV export is incomplete")
-    require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report, "descriptive analysis report is incomplete")
+    require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report and "## Mobility context" in analysis_report and "not a seasonal or street-level estimate" in analysis_report, "descriptive analysis report is incomplete")
     require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
     require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
 

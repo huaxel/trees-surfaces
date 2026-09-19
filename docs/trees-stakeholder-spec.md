@@ -42,7 +42,8 @@ The committed feasibility snapshot contains 100 records.
 - **Raw measure:** great-circle distance to the nearest bicycle counter.
 - **Displayed score:** inverse min–max normalization within the sample to 0–100.
 - **Interpretation:** spatial proximity to observed cycling infrastructure, not bicycle flow, pedestrian use or street occupancy.
-- **Current MVP decision:** retain this as a context proxy and never label it as street usage, bicycle flow or occupancy.
+- **Measured-flow supplement:** a new context snapshot (`brussels-tree-counter-flow.json`) attaches each tree's nearest-counter mean measured flow over the same one-week period (1–7 January 2024, 15-minute counts) for five counters, covering 97 of 100 trees. It is stored as contextual evidence next to distance, not folded into the ranking, and is explicitly not a seasonal or street-level estimate.
+- **Current MVP decision:** retain distance as a context proxy and never label it as street usage, bicycle flow or occupancy; use the measured-flow supplement to inform the stakeholder question about a stronger mobility measure.
 
 ### Exploratory signal
 
