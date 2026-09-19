@@ -2,6 +2,7 @@
 """Validate the small committed snapshots used by both prototypes."""
 from __future__ import annotations
 
+import csv
 import json
 import statistics
 from pathlib import Path
@@ -91,6 +92,7 @@ def main() -> None:
     preview_2022_path = ROOT / "three-ages/data/urbisgrid-2022-grand-place.png"
     pilot_csv = (ROOT / "three-ages/data/three-ages-pilot-export.csv").read_text().splitlines()
     image_review_csv = (ROOT / "three-ages/data/three-ages-image-review.csv").read_text().splitlines()
+    image_review_rows = list(csv.DictReader(image_review_csv))
 
     tree_ids = {record["id"] for record in trees["records"]}
     heat_ids = {record["id"] for record in heat["records"]}
@@ -185,9 +187,12 @@ def main() -> None:
             require(preview.is_file() and preview.read_bytes().startswith(b"\xff\xd8\xff"), f"historical image preview is missing for {asset['asset_id']}")
     require(len(pilot_csv) == 7 and pilot_csv[0].startswith("source_id,name,address"), "Three Ages pilot CSV export is incomplete")
     require(all(field in pilot_csv[0] for field in ("register_source_kind", "register_source_url", "image_evidence_ids", "image_evidence_epochs", "image_evidence_urls")), "Three Ages pilot CSV is missing provenance columns")
-    require(len(image_review_csv) == 6 and image_review_csv[0].startswith("source_id,name,address,asset_id,epoch"), "historical-image review worksheet is incomplete")
+    require(len(image_review_csv) == 7 and image_review_csv[0].startswith("source_id,name,address,asset_id,epoch"), "historical-image review worksheet is incomplete")
     require(all(field in image_review_csv[0] for field in ("source_observation", "annotation_status", "facade_observation", "structural_observation", "reviewer", "reviewed_at", "confidence")), "historical-image review worksheet is missing review columns")
+    require({row["source_id"] for row in image_review_rows} == set(expected_images), "historical-image review worksheet does not cover every pilot case")
     require(all(asset_id in "\n".join(image_review_csv) for asset_id in ("T084580", "B031587", "A102887", "B024641", "B031502")), "historical-image review worksheet is missing an asset")
+    missing_image_row = next(row for row in image_review_rows if row["source_id"] == "024")
+    require(not missing_image_row["asset_id"] and missing_image_row["annotation_status"] == "pending historical source", "uncovered historical-image gap is not explicit")
 
     print("snapshot validation passed")
     print(f"tree points: {len(tree_ids)}; heat joins: {len(heat_ids)}; mobility joins: {len(mobility_ids)}")
