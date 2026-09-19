@@ -112,7 +112,7 @@ def fetch_trees() -> None:
         field: sum(row.get(field) is not None for row in rows)
         for field in ("latitude", "longitude", "street", "district", "species")
     }
-    write_json(out, {"source": payload["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "completeness": completeness, "records": rows})
+    write_json(out, {"source": payload["total_count"], "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "completeness": completeness, "records": rows})
 
     remarkable, remarkable_results = fetch_all_records(
         "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
@@ -134,7 +134,7 @@ def fetch_trees() -> None:
                 "url": item.get("url_fr") or item.get("url_nl"),
             }
         )
-    write_json(remarkable_out, {"source": remarkable["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "records": remarkable_rows})
+    write_json(remarkable_out, {"source": remarkable["total_count"], "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "records": remarkable_rows})
 
 
 def fetch_bike_devices() -> None:

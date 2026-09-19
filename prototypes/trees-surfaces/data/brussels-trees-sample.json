@@ -1,6 +1,6 @@
 {
   "source": 31643,
-  "sampling": "first 100 records in API response order; not a probability sample",
+  "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample",
   "completeness": {
     "latitude": 100,
     "longitude": 100,
