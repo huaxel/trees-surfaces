@@ -1,4 +1,10 @@
 {
+  "source": "Derived from the committed managed-tree and bicycle-counter snapshots",
+  "inputs": [
+    "brussels-trees-sample.json",
+    "brussels-bike-counters.json"
+  ],
+  "method": "Haversine great-circle nearest-counter distance using Earth radius 6371000 m; no causal interpretation",
   "records": [
     {
       "id": "vbx_56544",
@@ -1100,6 +1106,5 @@
       "nearest_counter": "CJE181",
       "nearest_counter_distance_m": 1498.2
     }
-  ],
-  "method": "great-circle nearest-counter distance; no causal interpretation"
+  ]
 }

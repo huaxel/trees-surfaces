@@ -217,7 +217,12 @@ def build_tree_mobility_join() -> None:
         rows.append({**tree, "nearest_counter": nearest["id"], "nearest_counter_distance_m": round(distance_m(tree, nearest), 1)})
     out = ROOT / "trees-surfaces" / "data" / "brussels-tree-bike-nearest.json"
     require(len(rows) == len(trees), "nearest-counter join dropped tree records")
-    write_json(out, {"records": rows, "method": "great-circle nearest-counter distance; no causal interpretation"})
+    write_json(out, {
+        "source": "Derived from the committed managed-tree and bicycle-counter snapshots",
+        "inputs": ["brussels-trees-sample.json", "brussels-bike-counters.json"],
+        "method": "Haversine great-circle nearest-counter distance using Earth radius 6371000 m; no causal interpretation",
+        "records": rows,
+    })
 
 
 def fetch_grand_place() -> None:

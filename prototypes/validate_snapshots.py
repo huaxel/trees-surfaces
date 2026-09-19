@@ -105,6 +105,9 @@ def main() -> None:
     require(len(remarkable["records"]) == 100 and remarkable.get("sampling", "").startswith("first 100"), "remarkable-tree sampling metadata is missing")
     require(heat_ids == tree_ids, "heat join IDs do not match tree snapshot IDs")
     require(mobility_ids == tree_ids, "mobility join IDs do not match tree snapshot IDs")
+    require(mobility.get("source", "").startswith("Derived from the committed"), "mobility join source metadata is missing")
+    require(mobility.get("inputs") == ["brussels-trees-sample.json", "brussels-bike-counters.json"], "mobility join input metadata is missing")
+    require(mobility.get("method", "").startswith("Haversine great-circle"), "mobility join distance method metadata is missing")
     tree_by_id = {record["id"]: record for record in trees["records"]}
     require(all(record["latitude"] == tree_by_id[record["id"]]["latitude"] and record["longitude"] == tree_by_id[record["id"]]["longitude"] for record in heat["records"]), "heat join coordinates are stale")
     require(all(record["latitude"] == tree_by_id[record["id"]]["latitude"] and record["longitude"] == tree_by_id[record["id"]]["longitude"] for record in mobility["records"]), "mobility join coordinates are stale")
