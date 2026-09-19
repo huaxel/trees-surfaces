@@ -31,6 +31,7 @@ def main() -> None:
     buildings = read_json("three-ages/data/grand-place-buildings.json")
     pilot = read_json("three-ages/data/three-ages-pilot.json")
     three_ages_inventory = read_json("three-ages/data/source-inventory.json")
+    preview_path = ROOT / "three-ages/data/bruciel-1996-grand-place.png"
     pilot_csv = (ROOT / "three-ages/data/three-ages-pilot-export.csv").read_text().splitlines()
 
     tree_ids = {record["id"] for record in trees["records"]}
@@ -64,6 +65,8 @@ def main() -> None:
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
     require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
+    require(three_ages_inventory["bruciel_1996"].get("preview") == "data/bruciel-1996-grand-place.png", "1996 BruCiel preview metadata is missing")
+    require(preview_path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), "1996 BruCiel preview is not a PNG")
     require(three_ages_inventory["bruciel_1944"].get("licence", "").startswith("CC0"), "1944 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1944"].get("status", "").startswith("WMS layer unavailable"), "1944 BruCiel failure status is missing")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")

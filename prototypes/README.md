@@ -36,6 +36,12 @@ To regenerate the Three Ages annotation worksheet:
 python3 three-ages/export_pilot.py
 ```
 
+To refresh the verified 1996 BruCiel preview:
+
+```bash
+python3 three-ages/download_bruciel_preview.py
+```
+
 To refresh the public-data snapshots:
 
 ```bash
