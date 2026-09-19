@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 import statistics
 from pathlib import Path
 
@@ -84,6 +85,7 @@ def main() -> None:
     inventory = read_json("trees-surfaces/data/source-inventory.json")
     sensitivity = read_json("trees-surfaces/data/tree-signal-sensitivity.json")
     balanced_csv = (ROOT / "trees-surfaces/data/tree-signal-balanced-screen.csv").read_text().splitlines()
+    balanced_rows = list(csv.DictReader(balanced_csv))
     analysis_report = (ROOT / "trees-surfaces/data/tree-signal-analysis.md").read_text()
     buildings = read_json("three-ages/data/grand-place-buildings.json")
     pilot = read_json("three-ages/data/three-ages-pilot.json")
@@ -133,6 +135,54 @@ def main() -> None:
     require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report and "## Mobility context" in analysis_report and "not a seasonal or street-level estimate" in analysis_report and "## Heat data and normalization" in analysis_report and "## Traceability" in analysis_report, "descriptive analysis report is incomplete")
     require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
     require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
+    bike_ids = {record["id"] for record in json.loads((ROOT / "trees-surfaces/data/brussels-bike-counters.json").read_text())["records"]}
+    require(all(record["nearest_counter"] in bike_ids for record in mobility["records"]), "mobility join references an unknown counter")
+    heat_by_id = {record["id"]: float(record["heat_pixel"]) for record in heat["records"]}
+    distances = [float(record["nearest_counter_distance_m"]) for record in mobility["records"]]
+    heat_values = list(heat_by_id.values())
+    min_distance, max_distance = min(distances), max(distances)
+    min_heat, max_heat = min(heat_values), max(heat_values)
+
+    def normalize(value: float, lower: float, upper: float) -> float:
+        return 50.0 if upper == lower else (value - lower) / (upper - lower) * 100
+
+    analysis_rows = []
+    for record in mobility["records"]:
+        heat_value = heat_by_id[record["id"]]
+        distance = float(record["nearest_counter_distance_m"])
+        analysis_rows.append({
+            "id": record["id"],
+            "street": record.get("street"),
+            "district": record.get("district") or "Unknown",
+            "heat_pixel": heat_value,
+            "nearest_counter": record["nearest_counter"],
+            "distance_m": distance,
+            "heat_score": round(normalize(heat_value, min_heat, max_heat), 3),
+            "proximity_score": round(100 - normalize(distance, min_distance, max_distance), 3),
+        })
+
+    scenario_weights = {
+        "heat_only": {"heat": 1.0, "proximity": 0.0},
+        "balanced": {"heat": 0.6, "proximity": 0.4},
+        "proximity_only": {"heat": 0.0, "proximity": 1.0},
+    }
+    expected_rankings = {}
+    for name, weights in scenario_weights.items():
+        ranked = sorted(analysis_rows, key=lambda row: row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], reverse=True)
+        expected_rankings[name] = [{**row, "signal": round(row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], 3)} for row in ranked]
+
+    def compare_ranked(actual_rows, expected_rows, label):
+        require([row["id"] for row in actual_rows] == [row["id"] for row in expected_rows], f"{label} ranking order is stale")
+        for actual, expected in zip(actual_rows, expected_rows):
+            for field in ("heat_pixel", "distance_m", "heat_score", "proximity_score", "signal"):
+                require(math.isclose(float(actual[field]), float(expected[field]), rel_tol=0, abs_tol=0.001), f"{label} {field} is stale for {actual['id']}")
+            require(actual["nearest_counter"] == expected["nearest_counter"], f"{label} counter is stale for {actual['id']}")
+
+    compare_ranked(sensitivity["balanced_screening"], expected_rankings["balanced"], "balanced screening")
+    require(len(balanced_rows) == 100 and [int(row["rank"]) for row in balanced_rows] == list(range(1, 101)), "balanced CSV ranks are incomplete")
+    compare_ranked([{**row, **{"heat_pixel": float(row["heat_pixel"]), "distance_m": float(row["distance_m"]), "heat_score": float(row["heat_score"]), "proximity_score": float(row["proximity_score"]), "signal": float(row["signal"]), "nearest_counter": row["nearest_counter"]}} for row in balanced_rows], expected_rankings["balanced"], "balanced CSV")
+    for scenario in sensitivity["scenarios"]:
+        compare_ranked(scenario["top_records"], expected_rankings[scenario["name"]][:10], f"{scenario['name']} top ten")
 
     building_ids = {str(record["id"]) for record in buildings["records"]}
     pilot_ids = {record["source_id"] for record in pilot["records"]}
