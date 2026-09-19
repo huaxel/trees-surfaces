@@ -259,6 +259,27 @@ def main() -> None:
     require(all(field in image_review_csv[0] for field in ("source_observation", "annotation_status", "facade_observation", "structural_observation", "reviewer", "reviewed_at", "confidence")), "historical-image review worksheet is missing review columns")
     require({row["source_id"] for row in image_review_rows} == set(expected_images), "historical-image review worksheet does not cover every pilot case")
     require(all(asset_id in "\n".join(image_review_csv) for asset_id in ("T084580", "B031587", "A102887", "B024641", "B031502")), "historical-image review worksheet is missing an asset")
+    expected_review_rows = {}
+    for case in pilot["records"]:
+        assets = case["image_evidence"] or [None]
+        for asset in assets:
+            asset = asset or {}
+            key = (case["source_id"], asset.get("asset_id", ""))
+            expected_review_rows[key] = {
+                "epoch": str(asset.get("epoch", "")),
+                "source_url": asset.get("source_url", ""),
+                "image_url": asset.get("image_url", ""),
+                "preview": asset.get("preview", ""),
+                "licence": asset.get("licence", ""),
+                "credit": asset.get("credit", ""),
+                "source_observation": asset.get("observation", "No permitted historical preview is attached."),
+                "annotation_status": asset.get("annotation_status", "pending historical source"),
+            }
+    require(len(image_review_rows) == len(expected_review_rows), "historical-image review worksheet has unexpected rows")
+    for row in image_review_rows:
+        key = (row["source_id"], row["asset_id"])
+        require(key in expected_review_rows, f"historical-image review worksheet has an unexpected case or asset: {key}")
+        require(all(row[field] == expected for field, expected in expected_review_rows[key].items()), f"historical-image review worksheet is stale for {key}")
     missing_image_row = next(row for row in image_review_rows if row["source_id"] == "024")
     require(not missing_image_row["asset_id"] and missing_image_row["annotation_status"] == "pending historical source", "uncovered historical-image gap is not explicit")
 
