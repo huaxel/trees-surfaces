@@ -2,7 +2,7 @@
 
 These are two deliberately small, dependency-free feasibility spikes for the two BAP candidates.
 
-Trees & Surfaces now uses an **exploratory** signal from real joins, not a validated research result. Three Ages uses source-linked records, while its register and image-derived annotations remain explicitly pending. Each spike includes a small reproducible snapshot from a real public source to test data availability and schema shape. See [`docs/prototype-next-iteration.md`](../docs/prototype-next-iteration.md) for the next definition of done.
+Trees & Surfaces now uses an **exploratory** signal from real joins, not a validated research result. Three Ages uses source-linked records, with three sourced register proxies, three pending register lookups, and two modern source previews; historical image-derived annotations remain pending. Each spike includes reproducible snapshots from real public sources to test data availability and schema shape. See [`docs/prototype-next-iteration.md`](../docs/prototype-next-iteration.md) for the next definition of done.
 
 ## Run locally
 
@@ -36,10 +36,17 @@ To regenerate the Three Ages annotation worksheet:
 python3 three-ages/export_pilot.py
 ```
 
-To refresh the verified 1996 BruCiel preview:
+To refresh the verified 1996 BruCiel preview and 2022 urbisgrid preview:
 
 ```bash
 python3 three-ages/download_bruciel_preview.py
+python3 three-ages/download_urbisgrid_preview.py
+```
+
+To regenerate the measured counter-flow context:
+
+```bash
+python3 trees-surfaces/join_counter_flow.py
 ```
 
 To refresh the public-data snapshots:
@@ -58,10 +65,10 @@ python3 trees-surfaces/join_heat.py /path/to/WBGT_MEAN_24082016_0-1_byte.tif tre
 
 An exploratory tree-point view. Adjust the relative importance of a sampled WBGT pixel and nearest bicycle-counter proximity. The prototype ranks the top 20 observed points and positions them in a relative geographic preview; it does not recommend planting locations.
 
-The spike includes 100 records from Brussels' managed-tree register, 100 records from its remarkable-tree register, the current 18 bicycle-counter locations and 672 fifteen-minute observations from counter CB2105 over 1–7 January 2024. It also includes a downsampled preview of the real Brussels WBGT heat raster and a descriptive report with district context plus sensitivity comparisons of heat-only, balanced and proximity-only rankings, including the complete balanced screen for export. Each sampled tree is linked to its nearest bicycle counter and to a WBGT raster pixel. These are feasibility joins, not causal findings: proximity is not street use, and one hot-day WBGT raster is not a long-term temperature series.
+The spike includes 100 records from Brussels' managed-tree register, 100 records from its remarkable-tree register, the current 18 bicycle-counter locations and five seven-day counter-history snapshots (672 fifteen-minute observations each) covering measured-flow context for 97/100 trees. It also includes a downsampled preview of the real Brussels WBGT heat raster and a descriptive report with heat-date justification, traceability, district context, sensitivity comparisons and the complete balanced screen for export. Each sampled tree is linked to its nearest bicycle counter, measured counter-flow context where available, and a WBGT raster pixel. These are feasibility joins, not causal findings: counter flow is measured at the counter, not the tree; proximity is not street use; and one hot-day WBGT raster is not a long-term temperature series.
 
 ## Prototype B — Three Ages
 
 A building-history evidence explorer. Select a real Grand Place source record and compare the registered-year, facade-style and structural evidence fields without presenting pending annotations as facts.
 
-The spike includes the 34-building City of Brussels Grand Place dataset and a six-record source-linked pilot. The pilot distinguishes source-described style, documented reconstruction dates and fields still awaiting a register lookup or permitted historical imagery.
+The spike includes the 34-building City of Brussels Grand Place dataset and a six-record source-linked pilot. The pilot distinguishes source-described style, documented reconstruction proxies, three heritage-register-linked register proxies, two reusable modern ortho previews, and fields still awaiting a register lookup or permitted historical imagery.

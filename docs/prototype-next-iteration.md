@@ -17,7 +17,7 @@ The current spikes are ready for review as **evidence-shaped prototypes**, not f
 **Definition of done for an analytical MVP:**
 
 - choose one stakeholder and one intervention or descriptive decision;
-- replace the single heat date with a justified multi-date or seasonal measure;
+- replace the single heat date with a justified multi-date or seasonal measure (progress: the 2016 regional WBGT choice, normalization and missingness are documented; the WMS exposes no multi-date layer, so ERA5 or satellite LST remains future work);
 - use a validated mobility measure rather than nearest-counter distance alone (progress: a measured-flow context — nearest-counter mean flow for one week, five counters, 97/100 trees — is committed as `brussels-tree-counter-flow.json` and reported in the analysis; distance still drives the ranking until the stakeholder question accepts a flow-based alternative);
 - document normalization, missing data and sensitivity to the weights;
 - keep the output descriptive unless a causal design is established.
