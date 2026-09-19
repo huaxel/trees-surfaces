@@ -79,6 +79,7 @@ def main() -> None:
     remarkable = read_json("trees-surfaces/data/brussels-remarkable-trees-sample.json")
     heat = read_json("trees-surfaces/data/brussels-tree-heat-sample.json")
     mobility = read_json("trees-surfaces/data/brussels-tree-bike-nearest.json")
+    bikes = read_json("trees-surfaces/data/brussels-bike-counters.json")
     history = read_json("trees-surfaces/data/brussels-bike-history-CB2105-2024-01.json")
     history_flows = {feature: read_json(f"trees-surfaces/data/brussels-bike-history-{feature}-2024-01.json") for feature in ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")}
     flow_context = read_json("trees-surfaces/data/brussels-tree-counter-flow.json")
@@ -104,6 +105,9 @@ def main() -> None:
     require(len(remarkable["records"]) == 100 and remarkable.get("sampling", "").startswith("first 100"), "remarkable-tree sampling metadata is missing")
     require(heat_ids == tree_ids, "heat join IDs do not match tree snapshot IDs")
     require(mobility_ids == tree_ids, "mobility join IDs do not match tree snapshot IDs")
+    tree_by_id = {record["id"]: record for record in trees["records"]}
+    require(all(record["latitude"] == tree_by_id[record["id"]]["latitude"] and record["longitude"] == tree_by_id[record["id"]]["longitude"] for record in heat["records"]), "heat join coordinates are stale")
+    require(all(record["latitude"] == tree_by_id[record["id"]]["latitude"] and record["longitude"] == tree_by_id[record["id"]]["longitude"] for record in mobility["records"]), "mobility join coordinates are stale")
     require(len(history["records"]) == 672, "expected 672 counter observations")
     require(all(len(payload["records"]) == 672 for payload in history_flows.values()), "counter history snapshots must hold 672 observations")
     for feature, payload in history_flows.items():
@@ -135,8 +139,22 @@ def main() -> None:
     require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report and "## Mobility context" in analysis_report and "not a seasonal or street-level estimate" in analysis_report and "## Heat data and normalization" in analysis_report and "## Traceability" in analysis_report, "descriptive analysis report is incomplete")
     require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
     require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
-    bike_ids = {record["id"] for record in json.loads((ROOT / "trees-surfaces/data/brussels-bike-counters.json").read_text())["records"]}
+    bike_ids = {record["id"] for record in bikes["records"]}
     require(all(record["nearest_counter"] in bike_ids for record in mobility["records"]), "mobility join references an unknown counter")
+
+    def distance_m(a, b):
+        radius = 6_371_000
+        lat1, lon1, lat2, lon2 = map(math.radians, [a["latitude"], a["longitude"], b["latitude"], b["longitude"]])
+        dlat, dlon = lat2 - lat1, lon2 - lon1
+        h = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        return 2 * radius * math.asin(math.sqrt(h))
+
+    bikes_by_id = {record["id"]: record for record in bikes["records"]}
+    for tree in trees["records"]:
+        nearest = min(bikes["records"], key=lambda bike: distance_m(tree, bike))
+        joined = next(record for record in mobility["records"] if record["id"] == tree["id"])
+        require(joined["nearest_counter"] == nearest["id"], f"nearest counter is stale for {tree['id']}")
+        require(abs(float(joined["nearest_counter_distance_m"]) - round(distance_m(tree, bikes_by_id[nearest["id"]]), 1)) < 0.051, f"nearest counter distance is stale for {tree['id']}")
     heat_by_id = {record["id"]: float(record["heat_pixel"]) for record in heat["records"]}
     distances = [float(record["nearest_counter_distance_m"]) for record in mobility["records"]]
     heat_values = list(heat_by_id.values())
