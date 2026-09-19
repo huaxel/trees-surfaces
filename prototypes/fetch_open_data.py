@@ -61,14 +61,41 @@ def validate_history_payload(payload: dict, feature: str) -> list[dict]:
     return records
 
 
+def preserve_sample(records: list[dict], path: Path, raw_id_field: str) -> list[dict]:
+    if not path.exists():
+        require(len(records) >= 100, f"source returned fewer than 100 records for {path.name}")
+        return records[:100]
+    previous = json.loads(path.read_text()).get("records", [])
+    previous_ids = [str(record.get("id")) for record in previous]
+    require(len(previous_ids) == 100 and all(identifier != "None" for identifier in previous_ids), f"committed sample IDs are invalid in {path.name}")
+    by_id = {str(record.get(raw_id_field)): record for record in records}
+    missing = [identifier for identifier in previous_ids if identifier not in by_id]
+    require(not missing, f"source no longer returns committed sample IDs for {path.name}: {missing[:3]}")
+    return [by_id[identifier] for identifier in previous_ids]
+
+
+def fetch_all_records(base: str, **params) -> tuple[dict, list[dict]]:
+    page_size = 100
+    first = get_json(base, limit=page_size, offset=0, **params)
+    records = list(first.get("results", []))
+    total = first.get("total_count", len(records))
+    for offset in range(page_size, total, page_size):
+        page = get_json(base, limit=page_size, offset=offset, **params)
+        require(page.get("total_count") == total, f"source total changed while paging {base}")
+        records.extend(page.get("results", []))
+    require(len(records) >= total, f"source paging incomplete for {base}")
+    return first, records
+
+
 def fetch_trees() -> None:
     payload = get_json(
         "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records",
         limit=100,
     )
     require(payload.get("total_count", 0) >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
+    out = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
     rows = []
-    for item in payload["results"]:
+    for item in preserve_sample(payload["results"], out, "id"):
         point = item.get("geo_point_2d") or {}
         rows.append(
             {
@@ -85,16 +112,15 @@ def fetch_trees() -> None:
         field: sum(row.get(field) is not None for row in rows)
         for field in ("latitude", "longitude", "street", "district", "species")
     }
-    out = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
     write_json(out, {"source": payload["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "completeness": completeness, "records": rows})
 
-    remarkable = get_json(
+    remarkable, remarkable_results = fetch_all_records(
         "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
-        limit=100,
     )
-    require(remarkable.get("total_count", 0) >= 100 and len(remarkable.get("results", [])) == 100, "remarkable-tree API returned fewer than 100 records")
+    require(remarkable.get("total_count", 0) >= 100 and len(remarkable_results) >= 100, "remarkable-tree API returned fewer than 100 records")
+    remarkable_out = ROOT / "trees-surfaces" / "data" / "brussels-remarkable-trees-sample.json"
     remarkable_rows = []
-    for item in remarkable["results"]:
+    for item in preserve_sample(remarkable_results, remarkable_out, "id_arbres_cms"):
         point = item.get("geo_point_2d") or {}
         remarkable_rows.append(
             {
@@ -108,7 +134,6 @@ def fetch_trees() -> None:
                 "url": item.get("url_fr") or item.get("url_nl"),
             }
         )
-    remarkable_out = ROOT / "trees-surfaces" / "data" / "brussels-remarkable-trees-sample.json"
     write_json(remarkable_out, {"source": remarkable["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "records": remarkable_rows})
 
 
