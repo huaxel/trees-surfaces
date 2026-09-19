@@ -139,6 +139,8 @@ def main() -> None:
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
     require({"bruciel_app", "grand_place_dataset", "brussels_heritage_inventory", "kik_irpa_historical", "bruciel_1996", "bruciel_1944", "brussels_archives", "urbisgrid_2022"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
+    require(three_ages_inventory["kik_irpa_historical"].get("licence", "").startswith("CC BY 4.0"), "KIK-IRPA licence metadata is missing")
+    require(three_ages_inventory["kik_irpa_historical"].get("status", "").startswith("five 1941-1942"), "KIK-IRPA verification status is missing")
     require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
     require(three_ages_inventory["bruciel_1996"].get("preview") == "data/bruciel-1996-grand-place.png", "1996 BruCiel preview metadata is missing")
