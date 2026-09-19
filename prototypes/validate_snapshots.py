@@ -13,6 +13,59 @@ def read_json(relative: str) -> dict:
     return json.loads(path.read_text())
 
 
+def _png_has_content(path: Path) -> bool:
+    """Return True when the PNG carries non-trivial imagery, not a blank tile.
+
+    GeoServer 1.3.0 requests for the BruCiel 1996 layer return fully
+    transparent, single-colour tiles; 1.1.1 requests return real imagery.
+    The guard is intentionally dependency-free: parse the IDAT with zlib,
+    then require spread in the decoded grey values.
+    """
+    import struct
+    import zlib
+
+    data = path.read_bytes()
+    if not data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return False
+    pos, idat = 8, bytearray()
+    width = height = None
+    while pos < len(data):
+        length, typ = struct.unpack(">I4s", data[pos:pos + 8])
+        chunk = data[pos + 8:pos + 8 + length]
+        if typ == b"IHDR":
+            width, height, _depth, _ctype = struct.unpack(">IIBB", chunk[:10])
+        elif typ == b"IDAT":
+            idat += chunk
+        elif typ == b"IEND":
+            break
+        pos += 12 + length
+    if not width or not height or not idat:
+        return False
+    try:
+        raw = zlib.decompress(bytes(idat))
+    except zlib.error:
+        return False
+    bpp = 4 if data[25] == 6 else 3  # colortype byte within IHDR payload
+    stride = width * bpp
+    if len(raw) < (height * (stride + 1)):
+        return False
+    # unfiltered scanlines are enough for a blank-vs-content spread check
+    pixels = bytearray()
+    off = 0
+    for _ in range(height):
+        filter_type = raw[off]
+        off += 1
+        line = raw[off:off + stride]
+        off += stride
+        if filter_type != 0:
+            return True  # filtered data implies real image processing
+        pixels += line[::bpp]
+    if not pixels:
+        return False
+    seen = set(pixels)
+    return len(seen) > 50 and (max(seen) - min(seen)) > 40
+
+
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise SystemExit(f"validation failed: {message}")
@@ -67,6 +120,7 @@ def main() -> None:
     require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
     require(three_ages_inventory["bruciel_1996"].get("preview") == "data/bruciel-1996-grand-place.png", "1996 BruCiel preview metadata is missing")
     require(preview_path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), "1996 BruCiel preview is not a PNG")
+    require(_png_has_content(preview_path), "1996 BruCiel preview is blank")
     require(three_ages_inventory["bruciel_1944"].get("licence", "").startswith("CC0"), "1944 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1944"].get("status", "").startswith("WMS layer unavailable"), "1944 BruCiel failure status is missing")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")
