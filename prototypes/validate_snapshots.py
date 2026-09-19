@@ -85,6 +85,7 @@ def main() -> None:
     pilot = read_json("three-ages/data/three-ages-pilot.json")
     three_ages_inventory = read_json("three-ages/data/source-inventory.json")
     preview_path = ROOT / "three-ages/data/bruciel-1996-grand-place.png"
+    preview_2022_path = ROOT / "three-ages/data/urbisgrid-2022-grand-place.png"
     pilot_csv = (ROOT / "three-ages/data/three-ages-pilot-export.csv").read_text().splitlines()
 
     tree_ids = {record["id"] for record in trees["records"]}
@@ -114,13 +115,16 @@ def main() -> None:
     require(buildings.get("dataset_url", "").startswith("https://"), "building snapshot is missing dataset URL")
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
-    require({"bruciel_app", "grand_place_dataset", "bruciel_1996", "bruciel_1944", "brussels_archives"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
+    require({"bruciel_app", "grand_place_dataset", "bruciel_1996", "bruciel_1944", "brussels_archives", "urbisgrid_2022"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
     require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
     require(three_ages_inventory["bruciel_1996"].get("preview") == "data/bruciel-1996-grand-place.png", "1996 BruCiel preview metadata is missing")
     require(preview_path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), "1996 BruCiel preview is not a PNG")
     require(_png_has_content(preview_path), "1996 BruCiel preview is blank")
+    require(three_ages_inventory["urbisgrid_2022"].get("preview") == "data/urbisgrid-2022-grand-place.png", "2022 urbisgrid preview metadata is missing")
+    require(preview_2022_path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), "2022 urbisgrid preview is not a PNG")
+    require(_png_has_content(preview_2022_path), "2022 urbisgrid preview is blank")
     require(three_ages_inventory["bruciel_1944"].get("licence", "").startswith("CC0"), "1944 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1944"].get("status", "").startswith("WMS layer unavailable"), "1944 BruCiel failure status is missing")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")

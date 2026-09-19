@@ -36,7 +36,7 @@ The current spikes are ready for review as **evidence-shaped prototypes**, not f
 
 **Definition of done for a curated MVP:**
 
-- obtain permission for at least two historical image epochs;
+- obtain permission for at least two historical image epochs (partial: two modern epochs — 1996 CC0 and 2022 open data — are committed and legally reusable; the historical 1940s epoch remains pending on the archives request and the retired 1944 WMS);
 - add an official register-year source for each pilot case (progress: three cases now carry sourced `proxy` years via Wikidata inception claims referenced to Brussels heritage register records, with agreement/disagreement recorded; three remain pending);
 - annotate facade period and structural change with source, epoch, rationale and reviewer;
 - record inter-annotator disagreement before assigning confidence;
