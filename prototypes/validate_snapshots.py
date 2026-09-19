@@ -127,6 +127,10 @@ def main() -> None:
     required_pilot_fields = {"source_id", "selection_reason", "register", "facade", "structure", "image_evidence", "next_step"}
     require(all(required_pilot_fields <= set(record) for record in pilot["records"]), "pilot record schema is incomplete")
     require(all(all(field in record[claim] for field in ("status", "value", "note")) for record in pilot["records"] for claim in ("register", "facade", "structure")), "pilot claim schema is incomplete")
+    require(all(record["register"]["status"] in ("pending", "proxy", "reviewed") for record in pilot["records"]), "pilot register status is not in the agreed vocabulary")
+    register_sources = {record["source_id"]: record["register"].get("source") for record in pilot["records"]}
+    require(all(source.get("kind") == "wikidata-inception" and source.get("qid", "").startswith("Q") and source.get("claim_url", "").startswith("https://www.wikidata.org/") and source.get("heritage_id") and source.get("heritage_url", "").startswith("https://heritage.toolforge.org/") for source in register_sources.values() if source), "register proxy source chain is incomplete")
+    require(all((record["register"]["status"] == "proxy") == (record["register"].get("source") is not None) for record in pilot["records"]), "register proxy status and source do not match")
     require(all(not record["image_evidence"] for record in pilot["records"]), "pilot image evidence should remain explicitly empty")
     require(len(pilot_csv) == 7 and pilot_csv[0].startswith("source_id,name,address"), "Three Ages pilot CSV export is incomplete")
 
