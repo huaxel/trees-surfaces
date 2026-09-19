@@ -88,38 +88,9 @@ async function testTrees() {
   requireIncludes(element("detail").innerHTML, "not a causal mobility estimate or a planting recommendation", "Trees interpretation boundary");
 }
 
-async function testThreeAges() {
-  const { context, element } = await loadPrototype("three-ages");
-  const source = element("source").textContent;
-  requireIncludes(source, "18 aligned case crops", "Three Ages source summary");
-  requireIncludes(source, "CC BY 4.0", "Three Ages dataset licence");
-  requireIncludes(source, "Behind Brussels, Google Maps", "Three Ages dataset attribution");
-  requireIncludes(source, "0 completed register decisions", "Three Ages source summary");
-  requireIncludes(element("access").innerHTML, "text quotations and reused information permitted with explicit source attribution", "Three Ages heritage text terms");
-  requireIncludes(element("access").innerHTML, "CC0 1.0 for structured data", "Three Ages Wikidata terms");
-  requireIncludes(element("access").innerHTML, "Wikidata contributors", "Three Ages Wikidata acknowledgement");
-  requireIncludes(element("access").innerHTML, "EmDee, via Wikimedia Commons", "Three Ages image attribution");
-  for (const id of ["imageReviewLink", "structuralReviewLink", "registerReviewLink"]) {
-    if (element(id).hidden) throw new Error(`Three Ages: ${id} remains hidden`);
-  }
-  context.show("024");
-  const content = element("content").innerHTML;
-  for (const expected of [
-    "Identity check · pending reviewer confirmation",
-    "wikimedia-commons 2043-0177/0",
-    "british-library-flickr-commons 11271682895",
-    "024-bruciel-grand-place-1935.png",
-    "024-bruciel-grand-place-1996.png",
-    "024-urbisgrid-grand-place-2022.png",
-    "No completed register-semantics decision",
-    "No completed case-level structural review",
-  ]) requireIncludes(content, expected, "Three Ages case rendering");
-}
-
 (async () => {
   await testTrees();
-  await testThreeAges();
-  console.log("prototype UI smoke tests passed");
+  console.log("Trees & Surfaces UI smoke test passed");
 })().catch(error => {
   console.error(error.stack || error);
   process.exit(1);

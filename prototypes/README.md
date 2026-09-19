@@ -1,106 +1,131 @@
-# Mini prototypes
+# Trees & Surfaces Prototype
 
-These are two deliberately small feasibility spikes for the two BAP candidates. The browser prototypes use no third-party runtime libraries; offline image-processing scripts require Pillow.
+This directory contains the standalone feasibility prototype and reproducible data pipeline for **Trees & Surfaces**, exploring where sampled managed trees in Brussels combine higher heat exposure (WBGT raster indicator) with closer bicycle counters.
 
-Trees & Surfaces now uses an **exploratory** signal from real joins, not a validated research result. Three Ages uses source-linked records, with six explicit register-date proxies (three Wikidata/heritage-linked and three official architectural-inventory reconstruction dates), three aligned ortho previews (1930–1935, 1996 and 2022), five licensed 1941–1942 KIK-IRPA facade previews and an exact-case La Balance pair: an 1878 British Library engraving and a 2011 Wikimedia Commons photograph. Image-derived annotations remain pending. Each spike includes reproducible snapshots from real public sources to test data availability and schema shape. See [`docs/prototype-next-iteration.md`](../docs/prototype-next-iteration.md) for the next definition of done.
+The browser prototype uses no third-party runtime libraries. Offline geospatial raster extraction requires Pillow.
 
 ## Setup and validation
 
-The regeneration scripts require Python 3.10+, Pillow and Node.js for the dependency-free UI smoke harness. From the repository root:
+The tooling requires Python 3.10+, Pillow, and Node.js (for the dependency-free UI smoke harness).
+
+From the repository root:
 
 ```bash
 python3 -m pip install -r prototypes/requirements.txt
 scripts/validate-prototypes.sh
 ```
 
-The validation script regenerates all derived local artifacts, verifies completed-review preservation, provenance-change refusal and explicit reset behavior in isolated copies, validates snapshots, compiles Python, exercises both browser UIs, strictly parses every JSON file and runs `git diff --check`. GitHub Actions runs the same command with `--check-clean` on Python 3.10 and 3.13, which also fails when committed generated artifacts are stale, missing or version-dependent.
+The validation gate:
+1. Regenerates the sensitivity analysis and descriptive markdown report (`analyze_signal.py`).
+2. Regenerates the stakeholder review worksheet and compiled review payload (`export_stakeholder_review.py`).
+3. Validates snapshot schemas, coordinate transforms, flow statistics, and source inventory provenance (`validate_snapshots.py`).
+4. Verifies stakeholder review preservation, provenance-change refusal, and explicit reset in an isolated sandbox (`test_review_workflows.py`).
+5. Compiles Python source files (`python3 -m compileall`).
+6. Executes the browser DOM smoke test (`smoke_ui.js`).
+7. Enforces strict standard JSON parsing (no `NaN`, `Infinity`, or comments).
+8. Enforces group/other-readable artifact and directory permissions.
+9. Runs `git diff --check`.
+10. With `--check-clean`, fails if any committed or generated files were modified or left untracked.
 
 ## Run locally
 
-From this directory:
+Start a static HTTP server from this directory:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open:
+Then navigate to:
+- <http://localhost:8000/> (redirects to the prototype)
+- <http://localhost:8000/trees-surfaces/> (interactive prototype)
 
-- http://localhost:8000/
-- http://localhost:8000/trees-surfaces/
-- http://localhost:8000/three-ages/
+## Pipeline scripts and data generation
 
-To validate only the committed snapshot invariants from this directory:
+All commands below assume execution from the `prototypes/` directory.
 
-```bash
-python3 validate_snapshots.py
-```
-
-Use `../scripts/validate-prototypes.sh` for the complete repository gate.
-
-To regenerate the tree signal sensitivity report, descriptive analysis, balanced CSV export and stakeholder-review worksheet:
+### 1. Regenerate sensitivity analysis and balanced screen
 
 ```bash
 python3 trees-surfaces/analyze_signal.py
+```
+
+Outputs:
+- `trees-surfaces/data/tree-signal-sensitivity.json` — multi-scenario weight sensitivity and completeness audit.
+- `trees-surfaces/data/tree-signal-balanced-screen.csv` — full 100-record ranking under balanced weights (60% heat / 40% proximity).
+- `trees-surfaces/data/tree-signal-analysis.md` — comprehensive descriptive analysis report with methodology, district breakdown, and interpretation boundaries.
+
+### 2. Export and preserve stakeholder reviews
+
+```bash
 python3 trees-surfaces/export_stakeholder_review.py
 ```
 
-The stakeholder exporter preserves a completed review only while the exact proposal, core-join audit and sensitivity evidence remain unchanged. Every completed row requires reviewer metadata, false-positive preference, evidence threshold and notes plus an allowed status (`accepted`, `accepted with changes`, `needs more evidence`, or `rejected`). Accepted statuses additionally require the agreed question, unit, mobility measure and heat period; negative statuses do not require fabricated accepted values. Use `--reset-review` only to deliberately clear that decision.
+Outputs:
+- `trees-surfaces/data/tree-stakeholder-review.csv` — one-row review worksheet for decision-maker sign-off.
+- `trees-surfaces/data/tree-stakeholder-reviews.json` — compiled review JSON consumed by the browser UI.
 
-To regenerate the aligned building-centred structural crops, then the Three Ages building, facade-image, structural-comparison and register-semantics worksheets:
+Options:
+- `--reset-review` — deliberately clears completed review fields while strictly preserving source-derived provenance columns.
 
-```bash
-python3 three-ages/generate_structural_crops.py  # requires Pillow
-python3 three-ages/export_pilot.py
-```
-
-The crop generator projects each building coordinate into the shared WMS bounds, applies the same 160 px box to all three epochs and records stable pixel hashes; the crops are review aids, not structural observations. The export preserves completed human review fields only while their source provenance still matches. A facade-image row needs a facade or structural observation; a structural-comparison row needs a structural observation. A register row requires one controlled decision: `accept proxy for MVP`, `retain as reconstruction evidence`, or `reject source mapping`. Every completed row also requires reviewer, ISO-8601 review date and `low`, `medium` or `high` confidence. Completed rows compile to the corresponding `three-ages-*-reviews.json` artifact and appear beside the evidence in the explorer. The command refuses to carry reviews onto changed or removed assets, comparison epochs, bounds, crop pixels, identity notes, source semantics or source comparisons. Use `--reset-reviews` only to deliberately clear all three review worksheets.
-
-To refresh the verified 1930–1935 and 1996 BruCiel previews, 2022 urbisgrid preview, KIK-IRPA historical previews and exact-case Wikimedia Commons preview:
-
-```bash
-python3 three-ages/download_bruciel_1935_preview.py
-python3 three-ages/download_bruciel_preview.py
-python3 three-ages/download_urbisgrid_preview.py
-python3 three-ages/download_kik_previews.py
-python3 three-ages/download_commons_previews.py
-```
-
-All ten committed source previews are SHA-256 pinned in `three-ages-pilot.json`; the downloaders verify those bytes before overwriting evidence, and the worksheets carry the hashes as review provenance. A checksum change therefore requires source inspection and a deliberate provenance update rather than silent acceptance.
-
-To refresh the exact 1878 La Balance engraving from the British Library Flickr Commons record:
-
-```bash
-python3 three-ages/download_british_library_preview.py
-```
-
-The downloader verifies the source's rights label, scan page, book identifier and publication year before accepting the checksum-pinned original JPEG.
-
-To regenerate the measured counter-flow context:
+### 3. Regenerate measured counter-flow context
 
 ```bash
 python3 trees-surfaces/join_counter_flow.py
 ```
 
-To refresh the public-data snapshots:
+Outputs:
+- `trees-surfaces/data/brussels-tree-counter-flow.json` — joins each sampled tree to measured flow statistics from its nearest bicycle counter (1–7 January 2024, 15-minute counts, covering 97/100 trees across 5 active counters).
+
+### 4. Fetch open data snapshots
 
 ```bash
 python3 fetch_open_data.py
 ```
 
-To regenerate the heat join, download the source GeoTIFF from `data/source-inventory.json` and run:
+Refreshes:
+- `trees-surfaces/data/brussels-trees-sample.json` (City of Brussels managed trees sample)
+- `trees-surfaces/data/brussels-remarkable-trees-sample.json` (heritage.brussels remarkable trees sample)
+- `trees-surfaces/data/brussels-bike-counters.json` (Brussels Mobility counter locations)
+- `trees-surfaces/data/brussels-bike-history-*-2024-01.json` (7-day 15-minute count histories for 5 counters)
+- `trees-surfaces/data/brussels-tree-bike-nearest.json` (Haversine nearest-counter spatial join)
+- Runs `join_counter_flow.py` to update the counter flow join.
+
+### 5. Regenerate heat join (GeoTIFF extraction)
+
+To re-extract the heat indicator values from the official Brussels Environment WBGT GeoTIFF:
 
 ```bash
-python3 trees-surfaces/join_heat.py /path/to/WBGT_MEAN_24082016_0-1_byte.tif trees-surfaces/data/brussels-trees-sample.json trees-surfaces/data/brussels-tree-heat-sample.json
+python3 trees-surfaces/join_heat.py /path/to/urban_heat_islands_WBGT_MEAN_24082016_0-1_byte.tif trees-surfaces/data/brussels-trees-sample.json trees-surfaces/data/brussels-tree-heat-sample.json
 ```
 
-## Prototype A — Trees & Surfaces
+This performs an EPSG 7-parameter datum transformation from WGS84 to the Belgian 1972 datum (BD72), followed by a Belgian Lambert 72 projection (EPSG:31370) and pixel sampling on the 10,000 × 9,000 raster.
 
-An exploratory tree-point view. Adjust the relative importance of a sampled WBGT pixel and nearest bicycle-counter proximity. The prototype ranks the top 20 observed points and positions them in a relative geographic preview; it does not recommend planting locations.
+## Review workflow and provenance safety
 
-The spike includes 100 records from Brussels' managed-tree register, 100 records from its remarkable-tree register, the current 18 bicycle-counter locations and five seven-day counter-history snapshots (672 fifteen-minute observations each) covering measured-flow context for 97/100 trees. The authoritative catalogues license both tree registers under CC BY 4.0 and the Brussels Mobility counter source under CC0 1.0; their required publisher and catalogue attributions are recorded in `trees-surfaces/data/source-inventory.json` and displayed in the interface. It also includes a downsampled preview of the real Brussels WBGT heat raster and a descriptive report with heat-date justification, traceability, district context, sensitivity comparisons and the complete balanced screen for export. The authoritative Brussels Environment metadata identifies that raster as normalized 0–100 WBGT indicator values for 24 August 2016 and licenses it under CC BY 4.0 with source attribution. Each sampled tree is linked to its nearest bicycle counter, measured counter-flow context where available, and a WBGT raster pixel. These are feasibility joins, not causal findings: counter flow is measured at the counter, not the tree; proximity is not street use; and one hot-day WBGT raster is not a long-term temperature series.
+The stakeholder review mechanism connects the analytical model to operational decision-making:
 
-## Prototype B — Three Ages
+- **Proposal contract:** `trees-surfaces/data/tree-stakeholder-proposal.json` defines the proposed screening question, spatial unit, measures, and allowed statuses (`accepted`, `accepted with changes`, `needs more evidence`, `rejected`).
+- **Worksheet:** `trees-surfaces/data/tree-stakeholder-review.csv` contains one row. Completed reviews require `reviewer_name`, `reviewer_role`, `reviewed_at` (ISO 8601), `false_positive_preference`, `evidence_threshold`, and `review_notes`.
+- **Accepted decisions:** Statuses `accepted` and `accepted with changes` require explicit entries for `accepted_decision_question`, `accepted_spatial_unit`, `accepted_mobility_measure`, and `accepted_heat_period`.
+- **Stale-evidence refusal:** `export_stakeholder_review.py` compares the existing worksheet's provenance columns (proposal ID, core join audit summary, sensitivity summary) against regenerated values. If any input evidence changed, the script **refuses to write** and raises a `RuntimeError` to prevent attaching an obsolete stakeholder approval to changed findings.
+- **Compiled artifact:** Valid completed reviews compile to `trees-surfaces/data/tree-stakeholder-reviews.json` and are presented in the prototype interface.
 
-A building-history evidence explorer. Select a real Grand Place source record and compare the registered-year, facade-style and structural evidence fields without presenting pending annotations as facts.
+## Sources and provenance
 
-The spike includes the 34-building City of Brussels Grand Place dataset and a six-record source-linked pilot. The dataset catalogue states CC BY 4.0 and requires the City publisher plus `Behind Brussels` and `Google Maps` attributions. The architectural-inventory terms permit text quotations and reused information with explicit source attribution; they do not grant a general image licence. The three Wikidata structured inception claims are CC0 1.0 and acknowledged to Wikidata contributors, but remain crowd-sourced proxies rather than official register dates. The pilot distinguishes source-described style, documented reconstruction proxies, six explicitly labelled register-date proxies, three reusable aligned ortho previews and seven reusable case-level facade previews. Five facade photographs date to 1941–1942; La Balance has a 1878 British Library engraving and a 2011 Commons photograph. Historical facade and structural source access is now demonstrated; case-level observations and reviewed labels remain open. The La Balance crosswalk remains visible for review: the City dataset uses `Grand-Place 24`; heritage inventory Urban 30991 uses `Rue de la Colline 24`; the British Library caption says `rue de la Colline`; and Commons says `Grand-Place` with monument id `2043-0177/0`.
+All source licences, access points, and mandatory attribution strings are formally documented in [`trees-surfaces/data/source-inventory.json`](trees-surfaces/data/source-inventory.json):
+
+| Dataset | Publisher | Licence | Attributions / Notes |
+|---|---|---|---|
+| Managed Trees | City of Brussels / Data Management | CC BY 4.0 | Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts |
+| Remarkable Trees | heritage.brussels | CC BY 4.0 | National Geographic Institute (NGI-IGN, ngi.be) |
+| Bicycle Counters & History | Brussels Mobility | CC0 1.0 | Real-time counting API; 15-minute observations |
+| Heat Island Raster (WBGT) | Brussels Environment / Leefmilieu Brussel | CC BY 4.0 | Metadata ID `BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531`; normalized 0–100 WBGT indicator for 2016-08-24 |
+| Canopy Layer Lead | Elsa Gallez | CC BY 4.0 | Zenodo DOI `10.5281/zenodo.13869065` |
+
+## Caveats and interpretation boundaries
+
+1. **Screening only:** The output signal is descriptive exploratory screening. It is **not** a planting recommendation or intervention priority list.
+2. **Mobility proxy:** Great-circle distance to the nearest bicycle counter is a spatial context proxy. It does not measure cyclist volume, pedestrian activity, or street use.
+3. **Measured flow context:** The counter-flow data represents measured flow at the counter (not at the tree) during one winter week (1–7 January 2024); it is not a seasonal or annual mobility metric.
+4. **Heat model scope:** The heat raster models mean 24-hour WBGT on a single representative hot day (24 August 2016). It is an indicator of relative heat stress, not a real-time air temperature measurement.
+5. **Sample-relative normalization:** Min-max normalization is performed within the 100-record feasibility sample. Rankings shift if the sample changes or if different weights are applied.

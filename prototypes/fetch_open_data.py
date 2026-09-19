@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch small public-data snapshots used to assess both BAP candidates.
+"""Fetch small public-data snapshots used by the Trees & Surfaces prototype.
 
 The prototype UI still uses illustrative analytical values. These snapshots only
 prove that the underlying public source shapes are accessible and inspectable.
@@ -24,8 +24,6 @@ MANAGED_TREE_METADATA_URL = "https://bruxellesdata.opendatasoft.com/api/explore/
 MANAGED_TREE_RECORDS_URL = f"{MANAGED_TREE_METADATA_URL}/records"
 REMARKABLE_TREE_METADATA_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables"
 REMARKABLE_TREE_RECORDS_URL = f"{REMARKABLE_TREE_METADATA_URL}/records"
-GRAND_PLACE_DATASET_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place/records"
-GRAND_PLACE_METADATA_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place"
 MOBILITY_METADATA_URL = "https://data.mobility.brussels/en/info/rt_counting/"
 MOBILITY_LICENCE = "CC0 1.0"
 MOBILITY_CREDIT = "Brussels Mobility"
@@ -296,65 +294,10 @@ def build_tree_mobility_join() -> None:
     })
 
 
-def fetch_grand_place() -> None:
-    payload = get_json(
-        GRAND_PLACE_DATASET_URL,
-        limit=100,
-    )
-    metadata = get_json(GRAND_PLACE_METADATA_URL)
-    metadata_default = metadata.get("metas", {}).get("default", {})
-    require(metadata_default.get("license") == "CC BY 4.0", "Grand Place catalogue licence changed")
-    require(metadata_default.get("publisher") == "Ville de Bruxelles/Data Management", "Grand Place catalogue publisher changed")
-    attributions = metadata_default.get("attributions", [])
-    require(attributions == ["Behind Brussels", "Google Maps"], "Grand Place catalogue attributions changed")
-    require(payload.get("total_count", 0) >= 34 and len(payload.get("results", [])) == 34, "Grand Place API returned fewer than 34 records")
-    rows = []
-    for item in payload["results"]:
-        maps_url = item.get("google_maps") or ""
-        query = parse_qs(urlparse(maps_url).query).get("query", [""])[0]
-        query = unquote(query)
-        coords = query.split(",", 1) if "," in query else [None, None]
-        history = item.get("history_and_successive_restorations") or ""
-        history_years = [int(year) for year in re.findall(r"\b(1[5-9]\d{2}|20\d{2})\b", history)]
-        rows.append(
-            {
-                "id": item.get("id"),
-                "name": item.get("name"),
-                "address": item.get("adresse"),
-                "latitude": float(coords[0]) if coords[0] else None,
-                "longitude": float(coords[1]) if coords[1] else None,
-                "history": history,
-                "history_years": sorted(set(history_years)),
-                "facade": item.get("composition_of_the_facade_and_decorative_program"),
-                "original_function": item.get("original_main_function"),
-                "source_url": maps_url,
-            }
-        )
-    identifiers = [row["id"] for row in rows]
-    require(all(identifier not in (None, "") for identifier in identifiers), "Grand Place API returned a building without an ID")
-    require(len(set(identifiers)) == len(identifiers), "Grand Place API returned duplicate building IDs")
-    completeness = {
-        field: sum(bool(row.get(field)) for row in rows)
-        for field in ("history", "history_years", "facade", "original_function")
-    }
-    out = ROOT / "three-ages" / "data" / "grand-place-buildings.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    write_json(out, {
-        "source": payload["total_count"],
-        "dataset_url": GRAND_PLACE_DATASET_URL,
-        "dataset_metadata_url": GRAND_PLACE_METADATA_URL,
-        "source_licence": metadata_default["license"],
-        "source_credit": f"{metadata_default['publisher']}; catalogue attributions: {', '.join(attributions)}",
-        "completeness": completeness,
-        "records": rows,
-    })
-
-
 if __name__ == "__main__":
     fetch_trees()
     fetch_bike_devices()
     fetch_bike_history()
     build_tree_mobility_join()
     subprocess.run([sys.executable, str(ROOT / "trees-surfaces" / "join_counter_flow.py")], check=True)
-    fetch_grand_place()
-    print("Fetched public-data snapshots for both prototype spikes.")
+    print("Fetched public-data snapshots for Trees & Surfaces.")

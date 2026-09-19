@@ -1,4 +1,4 @@
-name: Validate prototypes
+name: Validate Trees & Surfaces
 
 on:
   push:
@@ -35,5 +35,5 @@ jobs:
       - name: Install Python dependencies
         run: python3 -m pip install -r prototypes/requirements.txt
 
-      - name: Regenerate and validate prototypes
+      - name: Regenerate and validate Trees & Surfaces
         run: scripts/validate-prototypes.sh --check-clean
