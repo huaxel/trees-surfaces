@@ -9,15 +9,31 @@ from __future__ import annotations
 import gzip
 import json
 import math
+import os
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from urllib.parse import unquote, urlencode, urlparse, parse_qs
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
 GRAND_PLACE_DATASET_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place/records"
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        raise RuntimeError(message)
+
+
+def write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
+        json.dump(payload, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+        temporary = Path(handle.name)
+    os.replace(temporary, path)
 
 
 def get_json(base: str, **params):
@@ -27,7 +43,22 @@ def get_json(base: str, **params):
         body = response.read()
     if body[:2] == b"\x1f\x8b":
         body = gzip.decompress(body)
-    return json.loads(body)
+    payload = json.loads(body)
+    require(isinstance(payload, dict), f"expected JSON object from {url}")
+    return payload
+
+
+def validate_history_payload(payload: dict, feature: str) -> list[dict]:
+    records = payload.get("data")
+    require(payload.get("feature") == feature, f"counter API returned unexpected feature for {feature}")
+    require(payload.get("startDate") == "2024/01/01" and payload.get("endDate") == "2024/01/07", f"counter API returned unexpected period for {feature}")
+    require(isinstance(records, list) and len(records) == 672, f"counter history for {feature} must contain 672 observations")
+    by_day = {}
+    for record in records:
+        require(isinstance(record.get("count"), (int, float)) and record["count"] >= 0, f"counter history for {feature} contains an invalid count")
+        by_day.setdefault(record.get("count_date"), []).append(record)
+    require(len(by_day) == 7 and all(len(day_records) == 96 for day_records in by_day.values()), f"counter history for {feature} must contain 96 observations per day")
+    return records
 
 
 def fetch_trees() -> None:
@@ -35,6 +66,7 @@ def fetch_trees() -> None:
         "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records",
         limit=100,
     )
+    require(payload.get("total_count", 0) >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
     rows = []
     for item in payload["results"]:
         point = item.get("geo_point_2d") or {}
@@ -54,13 +86,13 @@ def fetch_trees() -> None:
         for field in ("latitude", "longitude", "street", "district", "species")
     }
     out = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"source": payload["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "completeness": completeness, "records": rows}, ensure_ascii=False, indent=2) + "\n")
+    write_json(out, {"source": payload["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "completeness": completeness, "records": rows})
 
     remarkable = get_json(
         "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
         limit=100,
     )
+    require(remarkable.get("total_count", 0) >= 100 and len(remarkable.get("results", [])) == 100, "remarkable-tree API returned fewer than 100 records")
     remarkable_rows = []
     for item in remarkable["results"]:
         point = item.get("geo_point_2d") or {}
@@ -77,11 +109,12 @@ def fetch_trees() -> None:
             }
         )
     remarkable_out = ROOT / "trees-surfaces" / "data" / "brussels-remarkable-trees-sample.json"
-    remarkable_out.write_text(json.dumps({"source": remarkable["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "records": remarkable_rows}, ensure_ascii=False, indent=2) + "\n")
+    write_json(remarkable_out, {"source": remarkable["total_count"], "sampling": "first 100 records in API response order; not a probability sample", "records": remarkable_rows})
 
 
 def fetch_bike_devices() -> None:
     payload = get_json("https://data.mobility.brussels/bike/api/counts/", request="devices")
+    require(payload.get("totalFeatures", 0) >= 1 and payload.get("features"), "bicycle-counter API returned no devices")
     rows = []
     for feature in payload.get("features", []):
         properties = feature.get("properties", {})
@@ -96,7 +129,7 @@ def fetch_bike_devices() -> None:
             }
         )
     out = ROOT / "trees-surfaces" / "data" / "brussels-bike-counters.json"
-    out.write_text(json.dumps({"source": payload.get("totalFeatures"), "records": rows}, ensure_ascii=False, indent=2) + "\n")
+    write_json(out, {"source": payload.get("totalFeatures"), "records": rows})
 
 
 COUNTER_HISTORY_FEATURES = ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")
@@ -112,13 +145,14 @@ def fetch_bike_history() -> None:
             endDate="20240107",
         )
         out = ROOT / "trees-surfaces" / "data" / f"brussels-bike-history-{feature}-2024-01.json"
-        out.write_text(json.dumps({
+        records = validate_history_payload(payload, feature)
+        write_json(out, {
             "source": "Brussels Mobility bicycle counter API",
             "feature": payload.get("feature"),
             "start_date": payload.get("startDate"),
             "end_date": payload.get("endDate"),
-            "records": payload.get("data", []),
-        }, ensure_ascii=False, indent=2) + "\n")
+            "records": records,
+        })
 
 
 def build_tree_mobility_join() -> None:
@@ -141,7 +175,8 @@ def build_tree_mobility_join() -> None:
         nearest = min(bikes, key=lambda bike: distance_m(tree, bike))
         rows.append({**tree, "nearest_counter": nearest["id"], "nearest_counter_distance_m": round(distance_m(tree, nearest), 1)})
     out = ROOT / "trees-surfaces" / "data" / "brussels-tree-bike-nearest.json"
-    out.write_text(json.dumps({"records": rows, "method": "great-circle nearest-counter distance; no causal interpretation"}, ensure_ascii=False, indent=2) + "\n")
+    require(len(rows) == len(trees), "nearest-counter join dropped tree records")
+    write_json(out, {"records": rows, "method": "great-circle nearest-counter distance; no causal interpretation"})
 
 
 def fetch_grand_place() -> None:
@@ -149,6 +184,7 @@ def fetch_grand_place() -> None:
         GRAND_PLACE_DATASET_URL,
         limit=100,
     )
+    require(payload.get("total_count", 0) >= 34 and len(payload.get("results", [])) == 34, "Grand Place API returned fewer than 34 records")
     rows = []
     for item in payload["results"]:
         maps_url = item.get("google_maps") or ""
@@ -177,7 +213,7 @@ def fetch_grand_place() -> None:
     }
     out = ROOT / "three-ages" / "data" / "grand-place-buildings.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"source": payload["total_count"], "dataset_url": GRAND_PLACE_DATASET_URL, "completeness": completeness, "records": rows}, ensure_ascii=False, indent=2) + "\n")
+    write_json(out, {"source": payload["total_count"], "dataset_url": GRAND_PLACE_DATASET_URL, "completeness": completeness, "records": rows})
 
 
 if __name__ == "__main__":
