@@ -1,5 +1,8 @@
 {
   "source": 31643,
+  "dataset_metadata_url": "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm",
+  "source_licence": "CC BY 4.0",
+  "source_credit": "City of Brussels/Data Management; catalogue attributions: Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts",
   "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample",
   "completeness": {
     "latitude": 100,

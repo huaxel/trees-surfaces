@@ -1,7 +1,11 @@
 {
   "source": "urban_heat_islands_WBGT_MEAN_24082016_0-1_byte.tif",
+  "source_metadata_id": "BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531",
+  "source_licence": "CC BY 4.0",
+  "value_semantics": "source-normalized 0–100 WBGT indicator; value 0 is source NoData, not degrees Celsius",
   "crs": "EPSG:31370",
-  "sampling": "nearest raster pixel at tree point; value 0 is source NoData",
+  "coordinate_transform": "WGS84 to Belgian 1972 datum using the EPSG seven-parameter transform, then Belgian Lambert 72 projection",
+  "sampling": "nearest raster pixel at tree point",
   "records": [
     {
       "id": "vbx_56544",
@@ -11,9 +15,9 @@
       "longitude": 4.342365,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 89,
-      "heat_pixel_column": 4115,
-      "heat_pixel_row": 4056
+      "heat_pixel": 81,
+      "heat_pixel_column": 4070,
+      "heat_pixel_row": 4026
     },
     {
       "id": "vbx_56550",
@@ -23,9 +27,9 @@
       "longitude": 4.345726,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 84,
-      "heat_pixel_column": 4233,
-      "heat_pixel_row": 3885
+      "heat_pixel": 86,
+      "heat_pixel_column": 4189,
+      "heat_pixel_row": 3855
     },
     {
       "id": "vbx_56554",
@@ -35,9 +39,9 @@
       "longitude": 4.345959,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 89,
-      "heat_pixel_column": 4241,
-      "heat_pixel_row": 3882
+      "heat_pixel": 86,
+      "heat_pixel_column": 4197,
+      "heat_pixel_row": 3852
     },
     {
       "id": "vbx_56557",
@@ -47,9 +51,9 @@
       "longitude": 4.345439,
       "species": "Acer x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 87,
-      "heat_pixel_column": 4223,
-      "heat_pixel_row": 3882
+      "heat_pixel": 84,
+      "heat_pixel_column": 4179,
+      "heat_pixel_row": 3852
     },
     {
       "id": "vbx_56558",
@@ -59,9 +63,9 @@
       "longitude": 4.346216,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 85,
-      "heat_pixel_column": 4250,
-      "heat_pixel_row": 3889
+      "heat_pixel": 87,
+      "heat_pixel_column": 4206,
+      "heat_pixel_row": 3859
     },
     {
       "id": "vbx_56561",
@@ -71,9 +75,9 @@
       "longitude": 4.346237,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 84,
-      "heat_pixel_column": 4251,
-      "heat_pixel_row": 3895
+      "heat_pixel": 88,
+      "heat_pixel_column": 4207,
+      "heat_pixel_row": 3864
     },
     {
       "id": "vbx_56567",
@@ -83,9 +87,9 @@
       "longitude": 4.345652,
       "species": "Ilex x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 87,
-      "heat_pixel_column": 4231,
-      "heat_pixel_row": 3873
+      "heat_pixel": 84,
+      "heat_pixel_column": 4186,
+      "heat_pixel_row": 3843
     },
     {
       "id": "vbx_56571",
@@ -95,9 +99,9 @@
       "longitude": 4.346139,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 88,
-      "heat_pixel_column": 4248,
-      "heat_pixel_row": 3914
+      "heat_pixel": 79,
+      "heat_pixel_column": 4203,
+      "heat_pixel_row": 3884
     },
     {
       "id": "vbx_56573",
@@ -107,9 +111,9 @@
       "longitude": 4.346009,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 89,
-      "heat_pixel_column": 4243,
-      "heat_pixel_row": 3920
+      "heat_pixel": 81,
+      "heat_pixel_column": 4199,
+      "heat_pixel_row": 3890
     },
     {
       "id": "vbx_56587",
@@ -119,9 +123,9 @@
       "longitude": 4.344917,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 90,
-      "heat_pixel_column": 4205,
-      "heat_pixel_row": 3134
+      "heat_pixel": 67,
+      "heat_pixel_column": 4160,
+      "heat_pixel_row": 3104
     },
     {
       "id": "vbx_56592",
@@ -131,9 +135,9 @@
       "longitude": 4.348258,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 84,
-      "heat_pixel_column": 4323,
-      "heat_pixel_row": 3076
+      "heat_pixel": 67,
+      "heat_pixel_column": 4278,
+      "heat_pixel_row": 3046
     },
     {
       "id": "vbx_56593",
@@ -143,9 +147,9 @@
       "longitude": 4.348175,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 86,
-      "heat_pixel_column": 4320,
-      "heat_pixel_row": 3077
+      "heat_pixel": 68,
+      "heat_pixel_column": 4275,
+      "heat_pixel_row": 3047
     },
     {
       "id": "vbx_56596",
@@ -155,9 +159,9 @@
       "longitude": 4.347931,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 85,
-      "heat_pixel_column": 4311,
-      "heat_pixel_row": 3082
+      "heat_pixel": 68,
+      "heat_pixel_column": 4266,
+      "heat_pixel_row": 3052
     },
     {
       "id": "vbx_56604",
@@ -167,9 +171,9 @@
       "longitude": 4.347608,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 91,
-      "heat_pixel_column": 4300,
-      "heat_pixel_row": 3088
+      "heat_pixel": 68,
+      "heat_pixel_column": 4255,
+      "heat_pixel_row": 3058
     },
     {
       "id": "vbx_56605",
@@ -179,9 +183,9 @@
       "longitude": 4.347306,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 82,
-      "heat_pixel_column": 4289,
-      "heat_pixel_row": 3089
+      "heat_pixel": 69,
+      "heat_pixel_column": 4244,
+      "heat_pixel_row": 3059
     },
     {
       "id": "vbx_56610",
@@ -191,9 +195,9 @@
       "longitude": 4.347036,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 77,
-      "heat_pixel_column": 4280,
-      "heat_pixel_row": 3099
+      "heat_pixel": 69,
+      "heat_pixel_column": 4235,
+      "heat_pixel_row": 3068
     },
     {
       "id": "vbx_56619",
@@ -203,9 +207,9 @@
       "longitude": 4.347071,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 73,
-      "heat_pixel_column": 4281,
-      "heat_pixel_row": 3094
+      "heat_pixel": 69,
+      "heat_pixel_column": 4236,
+      "heat_pixel_row": 3063
     },
     {
       "id": "vbx_56620",
@@ -215,9 +219,9 @@
       "longitude": 4.347109,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 77,
-      "heat_pixel_column": 4282,
-      "heat_pixel_row": 3097
+      "heat_pixel": 69,
+      "heat_pixel_column": 4238,
+      "heat_pixel_row": 3067
     },
     {
       "id": "vbx_56622",
@@ -227,9 +231,9 @@
       "longitude": 4.34649,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 83,
-      "heat_pixel_column": 4260,
-      "heat_pixel_row": 3105
+      "heat_pixel": 70,
+      "heat_pixel_column": 4216,
+      "heat_pixel_row": 3075
     },
     {
       "id": "vbx_56625",
@@ -239,9 +243,9 @@
       "longitude": 4.346399,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 82,
-      "heat_pixel_column": 4257,
-      "heat_pixel_row": 3106
+      "heat_pixel": 69,
+      "heat_pixel_column": 4213,
+      "heat_pixel_row": 3076
     },
     {
       "id": "vbx_56635",
@@ -251,9 +255,9 @@
       "longitude": 4.345993,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 95,
-      "heat_pixel_column": 4243,
-      "heat_pixel_row": 3114
+      "heat_pixel": 69,
+      "heat_pixel_column": 4198,
+      "heat_pixel_row": 3084
     },
     {
       "id": "vbx_56637",
@@ -263,9 +267,9 @@
       "longitude": 4.345913,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 90,
-      "heat_pixel_column": 4240,
-      "heat_pixel_row": 3116
+      "heat_pixel": 68,
+      "heat_pixel_column": 4195,
+      "heat_pixel_row": 3085
     },
     {
       "id": "vbx_56643",
@@ -275,9 +279,9 @@
       "longitude": 4.345718,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 86,
-      "heat_pixel_column": 4233,
-      "heat_pixel_row": 3124
+      "heat_pixel": 68,
+      "heat_pixel_column": 4189,
+      "heat_pixel_row": 3093
     },
     {
       "id": "vbx_56653",
@@ -287,9 +291,9 @@
       "longitude": 4.345395,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 86,
-      "heat_pixel_column": 4222,
-      "heat_pixel_row": 3130
+      "heat_pixel": 68,
+      "heat_pixel_column": 4177,
+      "heat_pixel_row": 3100
     },
     {
       "id": "vbx_56665",
@@ -299,9 +303,9 @@
       "longitude": 4.385561,
       "species": "Catalpa bignonioides",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 61,
-      "heat_pixel_column": 5636,
-      "heat_pixel_row": 3444
+      "heat_pixel": 72,
+      "heat_pixel_column": 5591,
+      "heat_pixel_row": 3413
     },
     {
       "id": "vbx_56666",
@@ -311,9 +315,9 @@
       "longitude": 4.385608,
       "species": "Catalpa bignonioides",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 62,
-      "heat_pixel_column": 5638,
-      "heat_pixel_row": 3440
+      "heat_pixel": 71,
+      "heat_pixel_column": 5593,
+      "heat_pixel_row": 3410
     },
     {
       "id": "vbx_56669",
@@ -323,9 +327,9 @@
       "longitude": 4.385732,
       "species": "Catalpa bignonioides",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 70,
-      "heat_pixel_column": 5642,
-      "heat_pixel_row": 3431
+      "heat_pixel": 67,
+      "heat_pixel_column": 5597,
+      "heat_pixel_row": 3401
     },
     {
       "id": "vbx_56672",
@@ -335,9 +339,9 @@
       "longitude": 4.385069,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 62,
-      "heat_pixel_column": 5619,
-      "heat_pixel_row": 3479
+      "heat_pixel": 77,
+      "heat_pixel_column": 5574,
+      "heat_pixel_row": 3449
     },
     {
       "id": "vbx_56676",
@@ -347,9 +351,9 @@
       "longitude": 4.384681,
       "species": "Fraxinus excelsior",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 72,
-      "heat_pixel_column": 5605,
-      "heat_pixel_row": 3498
+      "heat_pixel": 77,
+      "heat_pixel_column": 5560,
+      "heat_pixel_row": 3467
     },
     {
       "id": "vbx_56681",
@@ -359,9 +363,9 @@
       "longitude": 4.384936,
       "species": "Fraxinus excelsior",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 68,
-      "heat_pixel_column": 5614,
-      "heat_pixel_row": 3478
+      "heat_pixel": 78,
+      "heat_pixel_column": 5569,
+      "heat_pixel_row": 3448
     },
     {
       "id": "vbx_56685",
@@ -371,9 +375,9 @@
       "longitude": 4.385247,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 59,
-      "heat_pixel_column": 5625,
-      "heat_pixel_row": 3474
+      "heat_pixel": 78,
+      "heat_pixel_column": 5580,
+      "heat_pixel_row": 3444
     },
     {
       "id": "vbx_56692",
@@ -383,9 +387,9 @@
       "longitude": 4.384862,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 59,
-      "heat_pixel_column": 5611,
-      "heat_pixel_row": 3726
+      "heat_pixel": 70,
+      "heat_pixel_column": 5567,
+      "heat_pixel_row": 3696
     },
     {
       "id": "vbx_56696",
@@ -395,9 +399,9 @@
       "longitude": 4.384968,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 80,
-      "heat_pixel_column": 5615,
-      "heat_pixel_row": 3732
+      "heat_pixel": 68,
+      "heat_pixel_column": 5571,
+      "heat_pixel_row": 3702
     },
     {
       "id": "vbx_56706",
@@ -407,9 +411,9 @@
       "longitude": 4.385688,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 57,
-      "heat_pixel_column": 5640,
-      "heat_pixel_row": 3772
+      "heat_pixel": 72,
+      "heat_pixel_column": 5596,
+      "heat_pixel_row": 3741
     },
     {
       "id": "vbx_56714",
@@ -419,9 +423,9 @@
       "longitude": 4.385383,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 61,
-      "heat_pixel_column": 5630,
-      "heat_pixel_row": 3745
+      "heat_pixel": 72,
+      "heat_pixel_column": 5585,
+      "heat_pixel_row": 3715
     },
     {
       "id": "vbx_56733",
@@ -431,9 +435,9 @@
       "longitude": 4.386151,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 80,
-      "heat_pixel_column": 5657,
-      "heat_pixel_row": 3797
+      "heat_pixel": 68,
+      "heat_pixel_column": 5612,
+      "heat_pixel_row": 3767
     },
     {
       "id": "vbx_56735",
@@ -443,9 +447,9 @@
       "longitude": 4.386287,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 66,
-      "heat_pixel_column": 5662,
-      "heat_pixel_row": 3805
+      "heat_pixel": 68,
+      "heat_pixel_column": 5617,
+      "heat_pixel_row": 3774
     },
     {
       "id": "vbx_56738",
@@ -455,9 +459,9 @@
       "longitude": 4.386398,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 57,
-      "heat_pixel_column": 5665,
-      "heat_pixel_row": 3811
+      "heat_pixel": 68,
+      "heat_pixel_column": 5621,
+      "heat_pixel_row": 3781
     },
     {
       "id": "vbx_56739",
@@ -467,9 +471,9 @@
       "longitude": 4.38645,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 57,
-      "heat_pixel_column": 5667,
-      "heat_pixel_row": 3814
+      "heat_pixel": 69,
+      "heat_pixel_column": 5623,
+      "heat_pixel_row": 3783
     },
     {
       "id": "vbx_56741",
@@ -479,9 +483,9 @@
       "longitude": 4.386586,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 69,
-      "heat_pixel_column": 5672,
-      "heat_pixel_row": 3821
+      "heat_pixel": 68,
+      "heat_pixel_column": 5628,
+      "heat_pixel_row": 3791
     },
     {
       "id": "vbx_56748",
@@ -491,9 +495,9 @@
       "longitude": 4.386931,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 55,
-      "heat_pixel_column": 5684,
-      "heat_pixel_row": 3830
+      "heat_pixel": 70,
+      "heat_pixel_column": 5640,
+      "heat_pixel_row": 3800
     },
     {
       "id": "vbx_56751",
@@ -503,9 +507,9 @@
       "longitude": 4.38676,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 57,
-      "heat_pixel_column": 5678,
-      "heat_pixel_row": 3820
+      "heat_pixel": 73,
+      "heat_pixel_column": 5634,
+      "heat_pixel_row": 3790
     },
     {
       "id": "vbx_56753",
@@ -515,9 +519,9 @@
       "longitude": 4.386647,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 56,
-      "heat_pixel_column": 5674,
-      "heat_pixel_row": 3814
+      "heat_pixel": 72,
+      "heat_pixel_column": 5630,
+      "heat_pixel_row": 3784
     },
     {
       "id": "vbx_56755",
@@ -527,9 +531,9 @@
       "longitude": 4.386529,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 56,
-      "heat_pixel_column": 5670,
-      "heat_pixel_row": 3808
+      "heat_pixel": 72,
+      "heat_pixel_column": 5626,
+      "heat_pixel_row": 3778
     },
     {
       "id": "vbx_56761",
@@ -539,9 +543,9 @@
       "longitude": 4.386019,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 75,
-      "heat_pixel_column": 5652,
-      "heat_pixel_row": 3790
+      "heat_pixel": 71,
+      "heat_pixel_column": 5608,
+      "heat_pixel_row": 3759
     },
     {
       "id": "vbx_56765",
@@ -551,9 +555,9 @@
       "longitude": 4.384507,
       "species": "Magnolia kobus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 57,
-      "heat_pixel_column": 5599,
-      "heat_pixel_row": 3707
+      "heat_pixel": 73,
+      "heat_pixel_column": 5554,
+      "heat_pixel_row": 3677
     },
     {
       "id": "vbx_56769",
@@ -563,9 +567,9 @@
       "longitude": 4.383659,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 58,
-      "heat_pixel_column": 5569,
-      "heat_pixel_row": 3730
+      "heat_pixel": 71,
+      "heat_pixel_column": 5524,
+      "heat_pixel_row": 3699
     },
     {
       "id": "vbx_56789",
@@ -575,9 +579,9 @@
       "longitude": 4.383823,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 78,
-      "heat_pixel_column": 5575,
-      "heat_pixel_row": 3754
+      "heat_pixel": 71,
+      "heat_pixel_column": 5530,
+      "heat_pixel_row": 3723
     },
     {
       "id": "vbx_56803",
@@ -587,9 +591,9 @@
       "longitude": 4.38491,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 58,
-      "heat_pixel_column": 5613,
-      "heat_pixel_row": 3800
+      "heat_pixel": 73,
+      "heat_pixel_column": 5568,
+      "heat_pixel_row": 3770
     },
     {
       "id": "vbx_56807",
@@ -599,9 +603,9 @@
       "longitude": 4.385288,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 67,
-      "heat_pixel_column": 5626,
-      "heat_pixel_row": 3792
+      "heat_pixel": 71,
+      "heat_pixel_column": 5582,
+      "heat_pixel_row": 3761
     },
     {
       "id": "vbx_56811",
@@ -611,9 +615,9 @@
       "longitude": 4.385491,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 74,
-      "heat_pixel_column": 5634,
-      "heat_pixel_row": 3787
+      "heat_pixel": 72,
+      "heat_pixel_column": 5589,
+      "heat_pixel_row": 3757
     },
     {
       "id": "vbx_56818",
@@ -623,9 +627,9 @@
       "longitude": 4.387289,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 72,
-      "heat_pixel_column": 5697,
-      "heat_pixel_row": 3743
+      "heat_pixel": 78,
+      "heat_pixel_column": 5652,
+      "heat_pixel_row": 3713
     },
     {
       "id": "vbx_56837",
@@ -635,9 +639,9 @@
       "longitude": 4.389672,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 71,
-      "heat_pixel_column": 5781,
-      "heat_pixel_row": 3695
+      "heat_pixel": 74,
+      "heat_pixel_column": 5736,
+      "heat_pixel_row": 3665
     },
     {
       "id": "vbx_56839",
@@ -648,8 +652,8 @@
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
       "heat_pixel": 78,
-      "heat_pixel_column": 5785,
-      "heat_pixel_row": 3688
+      "heat_pixel_column": 5740,
+      "heat_pixel_row": 3658
     },
     {
       "id": "vbx_56840",
@@ -659,9 +663,9 @@
       "longitude": 4.389996,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 60,
-      "heat_pixel_column": 5792,
-      "heat_pixel_row": 3684
+      "heat_pixel": 81,
+      "heat_pixel_column": 5748,
+      "heat_pixel_row": 3653
     },
     {
       "id": "vbx_56843",
@@ -671,9 +675,9 @@
       "longitude": 4.39054,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 66,
-      "heat_pixel_column": 5811,
-      "heat_pixel_row": 3672
+      "heat_pixel": 76,
+      "heat_pixel_column": 5767,
+      "heat_pixel_row": 3641
     },
     {
       "id": "vbx_56845",
@@ -683,9 +687,9 @@
       "longitude": 4.387062,
       "species": "Hibiscus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 60,
-      "heat_pixel_column": 5689,
-      "heat_pixel_row": 3678
+      "heat_pixel": 78,
+      "heat_pixel_column": 5644,
+      "heat_pixel_row": 3648
     },
     {
       "id": "vbx_56846",
@@ -695,9 +699,9 @@
       "longitude": 4.387295,
       "species": "Hibiscus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 69,
-      "heat_pixel_column": 5697,
-      "heat_pixel_row": 3696
+      "heat_pixel": 74,
+      "heat_pixel_column": 5652,
+      "heat_pixel_row": 3666
     },
     {
       "id": "vbx_56848",
@@ -707,9 +711,9 @@
       "longitude": 4.387572,
       "species": "Hibiscus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 68,
-      "heat_pixel_column": 5707,
-      "heat_pixel_row": 3711
+      "heat_pixel": 76,
+      "heat_pixel_column": 5662,
+      "heat_pixel_row": 3681
     },
     {
       "id": "vbx_56852",
@@ -719,9 +723,9 @@
       "longitude": 4.378479,
       "species": "Acer platanoides",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 77,
-      "heat_pixel_column": 5387,
-      "heat_pixel_row": 3822
+      "heat_pixel": 60,
+      "heat_pixel_column": 5342,
+      "heat_pixel_row": 3791
     },
     {
       "id": "vbx_56856",
@@ -731,9 +735,9 @@
       "longitude": 4.378211,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 70,
-      "heat_pixel_column": 5377,
-      "heat_pixel_row": 3806
+      "heat_pixel": 62,
+      "heat_pixel_column": 5333,
+      "heat_pixel_row": 3776
     },
     {
       "id": "vbx_56870",
@@ -743,9 +747,9 @@
       "longitude": 4.379166,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 83,
-      "heat_pixel_column": 5411,
-      "heat_pixel_row": 3846
+      "heat_pixel": 61,
+      "heat_pixel_column": 5366,
+      "heat_pixel_row": 3816
     },
     {
       "id": "vbx_56873",
@@ -755,9 +759,9 @@
       "longitude": 4.379119,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 74,
-      "heat_pixel_column": 5409,
-      "heat_pixel_row": 3858
+      "heat_pixel": 62,
+      "heat_pixel_column": 5365,
+      "heat_pixel_row": 3827
     },
     {
       "id": "vbx_56876",
@@ -767,9 +771,9 @@
       "longitude": 4.378851,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 75,
-      "heat_pixel_column": 5400,
-      "heat_pixel_row": 3855
+      "heat_pixel": 61,
+      "heat_pixel_column": 5355,
+      "heat_pixel_row": 3825
     },
     {
       "id": "vbx_58411",
@@ -779,9 +783,9 @@
       "longitude": 4.388111,
       "species": "Ligustrum japonicum",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 79,
-      "heat_pixel_column": 5725,
-      "heat_pixel_row": 1162
+      "heat_pixel": 73,
+      "heat_pixel_column": 5680,
+      "heat_pixel_row": 1132
     },
     {
       "id": "vbx_58413",
@@ -791,9 +795,9 @@
       "longitude": 4.38826,
       "species": "Ligustrum japonicum",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 79,
-      "heat_pixel_column": 5730,
-      "heat_pixel_row": 1155
+      "heat_pixel": 74,
+      "heat_pixel_column": 5686,
+      "heat_pixel_row": 1124
     },
     {
       "id": "vbx_58421",
@@ -803,9 +807,9 @@
       "longitude": 4.365262,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 78,
-      "heat_pixel_column": 4921,
-      "heat_pixel_row": 3780
+      "heat_pixel": 57,
+      "heat_pixel_column": 4877,
+      "heat_pixel_row": 3749
     },
     {
       "id": "vbx_58428",
@@ -815,9 +819,9 @@
       "longitude": 4.364541,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 69,
-      "heat_pixel_column": 4896,
-      "heat_pixel_row": 3771
+      "heat_pixel": 55,
+      "heat_pixel_column": 4851,
+      "heat_pixel_row": 3741
     },
     {
       "id": "vbx_58429",
@@ -827,9 +831,9 @@
       "longitude": 4.364787,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 72,
-      "heat_pixel_column": 4904,
-      "heat_pixel_row": 3758
+      "heat_pixel": 57,
+      "heat_pixel_column": 4860,
+      "heat_pixel_row": 3728
     },
     {
       "id": "vbx_58435",
@@ -839,9 +843,9 @@
       "longitude": 4.364597,
       "species": "Paulownia tomentosa",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 72,
-      "heat_pixel_column": 4898,
-      "heat_pixel_row": 3766
+      "heat_pixel": 56,
+      "heat_pixel_column": 4853,
+      "heat_pixel_row": 3735
     },
     {
       "id": "vbx_58444",
@@ -851,9 +855,9 @@
       "longitude": 4.364968,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 70,
-      "heat_pixel_column": 4911,
-      "heat_pixel_row": 3744
+      "heat_pixel": 56,
+      "heat_pixel_column": 4866,
+      "heat_pixel_row": 3714
     },
     {
       "id": "vbx_58451",
@@ -863,9 +867,9 @@
       "longitude": 4.364703,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 59,
-      "heat_pixel_column": 4901,
-      "heat_pixel_row": 3728
+      "heat_pixel": 57,
+      "heat_pixel_column": 4857,
+      "heat_pixel_row": 3697
     },
     {
       "id": "vbx_58453",
@@ -875,9 +879,9 @@
       "longitude": 4.364734,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 59,
-      "heat_pixel_column": 4903,
-      "heat_pixel_row": 3723
+      "heat_pixel": 58,
+      "heat_pixel_column": 4858,
+      "heat_pixel_row": 3693
     },
     {
       "id": "vbx_58462",
@@ -887,9 +891,9 @@
       "longitude": 4.363473,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 60,
-      "heat_pixel_column": 4858,
-      "heat_pixel_row": 3730
+      "heat_pixel": 55,
+      "heat_pixel_column": 4814,
+      "heat_pixel_row": 3700
     },
     {
       "id": "vbx_58466",
@@ -899,9 +903,9 @@
       "longitude": 4.363587,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 55,
-      "heat_pixel_column": 4862,
-      "heat_pixel_row": 3736
+      "heat_pixel": 54,
+      "heat_pixel_column": 4818,
+      "heat_pixel_row": 3706
     },
     {
       "id": "vbx_58471",
@@ -911,9 +915,9 @@
       "longitude": 4.362343,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 53,
-      "heat_pixel_column": 4818,
-      "heat_pixel_row": 3745
+      "heat_pixel": 54,
+      "heat_pixel_column": 4774,
+      "heat_pixel_row": 3715
     },
     {
       "id": "vbx_58485",
@@ -924,8 +928,8 @@
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
       "heat_pixel": 54,
-      "heat_pixel_column": 4827,
-      "heat_pixel_row": 3721
+      "heat_pixel_column": 4783,
+      "heat_pixel_row": 3690
     },
     {
       "id": "vbx_58488",
@@ -936,8 +940,8 @@
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
       "heat_pixel": 56,
-      "heat_pixel_column": 4827,
-      "heat_pixel_row": 3696
+      "heat_pixel_column": 4783,
+      "heat_pixel_row": 3666
     },
     {
       "id": "vbx_58493",
@@ -947,9 +951,9 @@
       "longitude": 4.365461,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 73,
-      "heat_pixel_column": 4928,
-      "heat_pixel_row": 3810
+      "heat_pixel": 56,
+      "heat_pixel_column": 4884,
+      "heat_pixel_row": 3779
     },
     {
       "id": "vbx_58494",
@@ -959,9 +963,9 @@
       "longitude": 4.365504,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 74,
-      "heat_pixel_column": 4930,
-      "heat_pixel_row": 3812
+      "heat_pixel": 56,
+      "heat_pixel_column": 4885,
+      "heat_pixel_row": 3782
     },
     {
       "id": "vbx_58495",
@@ -971,9 +975,9 @@
       "longitude": 4.365021,
       "species": "Quercus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 67,
-      "heat_pixel_column": 4913,
-      "heat_pixel_row": 3804
+      "heat_pixel": 55,
+      "heat_pixel_column": 4868,
+      "heat_pixel_row": 3773
     },
     {
       "id": "vbx_58496",
@@ -983,9 +987,9 @@
       "longitude": 4.364801,
       "species": null,
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 77,
-      "heat_pixel_column": 4905,
-      "heat_pixel_row": 3798
+      "heat_pixel": 55,
+      "heat_pixel_column": 4860,
+      "heat_pixel_row": 3768
     },
     {
       "id": "vbx_58498",
@@ -995,9 +999,9 @@
       "longitude": 4.364762,
       "species": "Aesculus hippocastanum",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 70,
-      "heat_pixel_column": 4904,
-      "heat_pixel_row": 3811
+      "heat_pixel": 54,
+      "heat_pixel_column": 4859,
+      "heat_pixel_row": 3781
     },
     {
       "id": "vbx_58502",
@@ -1007,9 +1011,9 @@
       "longitude": 4.364933,
       "species": "Quercus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 58,
-      "heat_pixel_column": 4910,
-      "heat_pixel_row": 3857
+      "heat_pixel": 53,
+      "heat_pixel_column": 4865,
+      "heat_pixel_row": 3827
     },
     {
       "id": "vbx_58503",
@@ -1019,9 +1023,9 @@
       "longitude": 4.364798,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 70,
-      "heat_pixel_column": 4905,
-      "heat_pixel_row": 3844
+      "heat_pixel": 52,
+      "heat_pixel_column": 4860,
+      "heat_pixel_row": 3814
     },
     {
       "id": "vbx_58507",
@@ -1031,9 +1035,9 @@
       "longitude": 4.36497,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 60,
-      "heat_pixel_column": 4911,
-      "heat_pixel_row": 3829
+      "heat_pixel": 54,
+      "heat_pixel_column": 4866,
+      "heat_pixel_row": 3799
     },
     {
       "id": "vbx_58517",
@@ -1043,9 +1047,9 @@
       "longitude": 4.361647,
       "species": "Acer",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 51,
-      "heat_pixel_column": 4794,
-      "heat_pixel_row": 3824
+      "heat_pixel": 55,
+      "heat_pixel_column": 4749,
+      "heat_pixel_row": 3794
     },
     {
       "id": "vbx_58518",
@@ -1055,9 +1059,9 @@
       "longitude": 4.362023,
       "species": "Aesculus hippocastanum",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 51,
-      "heat_pixel_column": 4807,
-      "heat_pixel_row": 3763
+      "heat_pixel": 54,
+      "heat_pixel_column": 4763,
+      "heat_pixel_row": 3733
     },
     {
       "id": "vbx_58519",
@@ -1067,9 +1071,9 @@
       "longitude": 4.362133,
       "species": "Carpinus betulus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 52,
-      "heat_pixel_column": 4811,
-      "heat_pixel_row": 3764
+      "heat_pixel": 54,
+      "heat_pixel_column": 4766,
+      "heat_pixel_row": 3734
     },
     {
       "id": "vbx_58524",
@@ -1079,9 +1083,9 @@
       "longitude": 4.362189,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 51,
-      "heat_pixel_column": 4813,
-      "heat_pixel_row": 3775
+      "heat_pixel": 65,
+      "heat_pixel_column": 4768,
+      "heat_pixel_row": 3745
     },
     {
       "id": "vbx_58539",
@@ -1091,9 +1095,9 @@
       "longitude": 4.363564,
       "species": "Fraxinus",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 54,
-      "heat_pixel_column": 4861,
-      "heat_pixel_row": 3779
+      "heat_pixel": 53,
+      "heat_pixel_column": 4817,
+      "heat_pixel_row": 3748
     },
     {
       "id": "vbx_58544",
@@ -1103,9 +1107,9 @@
       "longitude": 4.363384,
       "species": "Acer",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 53,
-      "heat_pixel_column": 4855,
-      "heat_pixel_row": 3796
+      "heat_pixel": 51,
+      "heat_pixel_column": 4810,
+      "heat_pixel_row": 3766
     },
     {
       "id": "vbx_58567",
@@ -1115,9 +1119,9 @@
       "longitude": 4.365883,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 80,
-      "heat_pixel_column": 4943,
-      "heat_pixel_row": 3771
+      "heat_pixel": 59,
+      "heat_pixel_column": 4898,
+      "heat_pixel_row": 3741
     },
     {
       "id": "vbx_58570",
@@ -1127,9 +1131,9 @@
       "longitude": 4.365969,
       "species": "Acer",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 80,
-      "heat_pixel_column": 4946,
-      "heat_pixel_row": 3757
+      "heat_pixel": 59,
+      "heat_pixel_column": 4901,
+      "heat_pixel_row": 3727
     },
     {
       "id": "vbx_58576",
@@ -1139,9 +1143,9 @@
       "longitude": 4.366237,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 79,
-      "heat_pixel_column": 4955,
-      "heat_pixel_row": 3738
+      "heat_pixel": 61,
+      "heat_pixel_column": 4911,
+      "heat_pixel_row": 3708
     },
     {
       "id": "vbx_58578",
@@ -1151,9 +1155,9 @@
       "longitude": 4.366153,
       "species": "Tilia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 78,
-      "heat_pixel_column": 4953,
-      "heat_pixel_row": 3743
+      "heat_pixel": 63,
+      "heat_pixel_column": 4908,
+      "heat_pixel_row": 3713
     },
     {
       "id": "vbx_58580",
@@ -1163,9 +1167,9 @@
       "longitude": 4.366217,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 84,
-      "heat_pixel_column": 4955,
-      "heat_pixel_row": 3729
+      "heat_pixel": 60,
+      "heat_pixel_column": 4910,
+      "heat_pixel_row": 3699
     },
     {
       "id": "vbx_58582",
@@ -1175,9 +1179,9 @@
       "longitude": 4.365903,
       "species": "Platanus x acerifolia",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 83,
-      "heat_pixel_column": 4944,
-      "heat_pixel_row": 3726
+      "heat_pixel": 60,
+      "heat_pixel_column": 4899,
+      "heat_pixel_row": 3696
     },
     {
       "id": "vbx_58583",
@@ -1187,9 +1191,9 @@
       "longitude": 4.362175,
       "species": "Ziziphus jujuba",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 50,
-      "heat_pixel_column": 4812,
-      "heat_pixel_row": 3799
+      "heat_pixel": 52,
+      "heat_pixel_column": 4768,
+      "heat_pixel_row": 3769
     },
     {
       "id": "vbx_58589",
@@ -1199,9 +1203,9 @@
       "longitude": 4.319077,
       "species": "Liquidambar styraciflua",
       "source": "Ville de Bruxelles - Espaces publics et verts - Projets verts et cartographie",
-      "heat_pixel": 61,
-      "heat_pixel_column": 3296,
-      "heat_pixel_row": 1071
+      "heat_pixel": 59,
+      "heat_pixel_column": 3252,
+      "heat_pixel_row": 1040
     }
   ]
 }

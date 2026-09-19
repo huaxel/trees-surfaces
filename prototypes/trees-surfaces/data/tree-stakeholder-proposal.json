@@ -1,0 +1,25 @@
+{
+  "proposal_id": "trees-screening-v1",
+  "status": "working proposal; stakeholder confirmation pending",
+  "proposed_stakeholder": "Brussels urban greening or heat-adaptation team",
+  "decision_question": "Which observed tree areas combine relatively high heat-stress values with proximity to bicycle counters, and therefore merit more detailed field or mobility analysis?",
+  "spatial_unit": "individual managed-tree record in the 100-point feasibility snapshot",
+  "heat_measure": "sample-relative WBGT raster pixel from the Brussels Environment mean 24-hour layer for 2016-08-24",
+  "mobility_measure": "great-circle distance to the nearest bicycle counter, used only as a spatial context proxy",
+  "measured_flow_context": "nearest-counter mean 15-minute count for 2024-01-01 through 2024-01-07 where a committed counter history exists; contextual only",
+  "output_boundary": "descriptive follow-up screening; not a planting recommendation, priority list, optimization, street-use estimate or causal finding",
+  "review_topics": [
+    "decision question",
+    "spatial unit",
+    "mobility measure",
+    "operational heat period",
+    "false-positive preference",
+    "evidence threshold for follow-up"
+  ],
+  "allowed_review_statuses": [
+    "accepted",
+    "accepted with changes",
+    "needs more evidence",
+    "rejected"
+  ]
+}

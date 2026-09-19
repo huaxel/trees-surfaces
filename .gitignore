@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local tooling and operating-system files
+.DS_Store
+*.log
+
+# Editor state
+.vscode/
+.idea/
+
+# Prototype snapshots and derived review artifacts are intentionally tracked.

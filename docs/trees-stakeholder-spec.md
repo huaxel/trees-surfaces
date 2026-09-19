@@ -51,7 +51,7 @@ The committed feasibility snapshot contains 100 records.
 
 Weights are normalized to sum to 1. The interface exposes the weights, displays the normalized values, and must label the result as exploratory.
 
-The current descriptive report finds 6 of 100 points at or above the sample's third quartile on both normalized heat and proximity scores. The sensitivity artifact compares three scenarios: the heat-only top ten shares 7 of 10 points with the balanced top ten, while the proximity-only top ten shares 3 of 10. It also stores all 100 points ranked under the balanced 60/40 weights so each displayed point can be traced and exported. This demonstrates that the ranking is weight-sensitive and should not be presented as a stable priority list.
+The current descriptive report finds 1 of 100 points at or above the sample's third quartile on both normalized heat and proximity scores. The sensitivity artifact compares three scenarios: the heat-only top ten shares 9 of 10 points with the balanced top ten, while the proximity-only top ten shares 1 of 10. It also stores all 100 points ranked under the balanced 60/40 weights so each displayed point can be traced and exported. This shows that the current balanced ranking is strongly heat-led and should not be presented as a stable priority list.
 
 ## Acceptance criteria for the next MVP
 
@@ -60,10 +60,14 @@ The current descriptive report finds 6 of 100 points at or above the sample's th
 - [x] Retention of nearest-counter distance as a clearly labelled context proxy is documented.
 - [x] Heat-date choice and normalization are justified (single regional WBGT scenario documented, min-max sample normalization, no heat missingness; multi-date options noted as future work in the analysis report).
 - [x] Every displayed point can be traced to its source records and join method (per-point source-record links in the interface; heat and mobility join methods documented in the analysis report).
-- [ ] Weight sensitivity is reported, including whether the top points change materially.
-- [ ] Missing coordinates, NoData pixels and unmatched joins are reported.
-- [ ] The interface does not use “street use”, “priority”, “optimal” or “plant here” unless supported by validated measures.
-- [ ] Results are described as screening or follow-up candidates, not causal findings.
+- [x] Weight sensitivity is reported, including material top-ten membership change under proximity-only weighting.
+- [x] Missing coordinates, NoData pixels and unmatched joins are reported; all core joins are complete and the three measured-flow gaps are named.
+- [x] The interface explicitly negates unsupported street-use and intervention interpretations and does not present points as priorities, optima or planting locations.
+- [x] Results are described as screening or follow-up candidates, not causal findings.
+
+## Review handoff
+
+The exact working proposal is versioned in `tree-stakeholder-proposal.json`. `tree-stakeholder-review.csv` binds one stakeholder response to that proposal, the current completeness audit and the 9/10 versus 1/10 sensitivity result. A completed review must identify the reviewer and role, use an allowed status (`accepted`, `accepted with changes`, `needs more evidence`, or `rejected`), and record false-positive preference, evidence threshold and notes. Accepted statuses must also state the agreed decision question, unit, mobility measure and heat period; negative statuses may leave those accepted-value fields blank and explain the outcome in notes. Regeneration refuses to carry the response onto changed proposal evidence; completed responses compile to `tree-stakeholder-reviews.json` for the prototype.
 
 ## Stakeholder interview questions
 
@@ -78,4 +82,4 @@ The current descriptive report finds 6 of 100 points at or above the sample's th
 
 ## Immediate next action
 
-Conduct one stakeholder or coach review using the questions above. Do not expand the model or add canopy/optimization features until the decision question and mobility measure are accepted.
+Conduct one stakeholder or coach review using the questions above and record it in `tree-stakeholder-review.csv`. Regenerate with `export_stakeholder_review.py` and verify the decision appears in the prototype. Do not expand the model or add canopy/optimization features until the decision question and mobility measure are accepted.

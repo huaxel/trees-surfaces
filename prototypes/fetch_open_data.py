@@ -7,6 +7,7 @@ prove that the underlying public source shapes are accessible and inspectable.
 from __future__ import annotations
 
 import gzip
+import io
 import json
 import math
 import os
@@ -19,7 +20,16 @@ from urllib.parse import unquote, urlencode, urlparse, parse_qs
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
+MANAGED_TREE_METADATA_URL = "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm"
+MANAGED_TREE_RECORDS_URL = f"{MANAGED_TREE_METADATA_URL}/records"
+REMARKABLE_TREE_METADATA_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables"
+REMARKABLE_TREE_RECORDS_URL = f"{REMARKABLE_TREE_METADATA_URL}/records"
 GRAND_PLACE_DATASET_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place/records"
+GRAND_PLACE_METADATA_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/description-des-batiments-de-la-grand-place"
+MOBILITY_METADATA_URL = "https://data.mobility.brussels/en/info/rt_counting/"
+MOBILITY_LICENCE = "CC0 1.0"
+MOBILITY_CREDIT = "Brussels Mobility"
+MAX_RESPONSE_BYTES = 20 * 1024 * 1024
 
 
 def require(condition: bool, message: str) -> None:
@@ -33,19 +43,31 @@ def write_json(path: Path, payload: dict) -> None:
         json.dump(payload, handle, ensure_ascii=False, indent=2)
         handle.write("\n")
         temporary = Path(handle.name)
+    temporary.chmod(0o644)
     os.replace(temporary, path)
+
+
+def get_body(url: str) -> bytes:
+    request = Request(url, headers={"Accept-Encoding": "identity", "User-Agent": "final-work-feasibility-spike/1.0"})
+    with urlopen(request, timeout=30) as response:
+        body = response.read(MAX_RESPONSE_BYTES + 1)
+    require(len(body) <= MAX_RESPONSE_BYTES, f"response exceeds {MAX_RESPONSE_BYTES:,} bytes: {url}")
+    if body[:2] == b"\x1f\x8b":
+        with gzip.GzipFile(fileobj=io.BytesIO(body)) as compressed:
+            body = compressed.read(MAX_RESPONSE_BYTES + 1)
+        require(len(body) <= MAX_RESPONSE_BYTES, f"decompressed response exceeds {MAX_RESPONSE_BYTES:,} bytes: {url}")
+    return body
 
 
 def get_json(base: str, **params):
     url = f"{base}?{urlencode(params)}"
-    request = Request(url, headers={"Accept-Encoding": "identity", "User-Agent": "final-work-feasibility-spike/1.0"})
-    with urlopen(request, timeout=30) as response:
-        body = response.read()
-    if body[:2] == b"\x1f\x8b":
-        body = gzip.decompress(body)
-    payload = json.loads(body)
+    payload = json.loads(get_body(url))
     require(isinstance(payload, dict), f"expected JSON object from {url}")
     return payload
+
+
+def get_text(url: str) -> str:
+    return get_body(url).decode("utf-8")
 
 
 def validate_history_payload(payload: dict, feature: str) -> list[dict]:
@@ -57,7 +79,14 @@ def validate_history_payload(payload: dict, feature: str) -> list[dict]:
     for record in records:
         require(isinstance(record.get("count"), (int, float)) and record["count"] >= 0, f"counter history for {feature} contains an invalid count")
         by_day.setdefault(record.get("count_date"), []).append(record)
-    require(len(by_day) == 7 and all(len(day_records) == 96 for day_records in by_day.values()), f"counter history for {feature} must contain 96 observations per day")
+    expected_days = {f"2024/01/{day:02d}" for day in range(1, 8)}
+    require(set(by_day) == expected_days, f"counter history for {feature} must cover 2024/01/01 through 2024/01/07")
+    require(all(len(day_records) == 96 for day_records in by_day.values()), f"counter history for {feature} must contain 96 observations per day")
+    expected_slots = set(range(1, 97))
+    require(
+        all({record.get("time_gap") for record in day_records} == expected_slots for day_records in by_day.values()),
+        f"counter history for {feature} must contain each 15-minute slot exactly once per day",
+    )
     return records
 
 
@@ -66,11 +95,15 @@ def committed_sample_ids(path: Path) -> list[str] | None:
         return None
     previous = json.loads(path.read_text()).get("records", [])
     previous_ids = [str(record.get("id")) for record in previous]
-    require(len(previous_ids) == 100 and all(identifier != "None" for identifier in previous_ids), f"committed sample IDs are invalid in {path.name}")
+    require(len(previous_ids) == 100 and all(identifier not in {"", "None"} for identifier in previous_ids), f"committed sample IDs are invalid in {path.name}")
+    require(len(set(previous_ids)) == len(previous_ids), f"committed sample IDs are duplicated in {path.name}")
     return previous_ids
 
 
 def preserve_sample(records: list[dict], path: Path, raw_id_field: str) -> list[dict]:
+    record_ids = [str(record.get(raw_id_field)) for record in records]
+    require(all(identifier not in {"", "None"} for identifier in record_ids), f"source returned missing IDs for {path.name}")
+    require(len(set(record_ids)) == len(record_ids), f"source returned duplicate IDs for {path.name}")
     previous_ids = committed_sample_ids(path)
     if previous_ids is None:
         require(len(records) >= 100, f"source returned fewer than 100 records for {path.name}")
@@ -91,23 +124,28 @@ def fetch_all_records(base: str, **params) -> tuple[dict, list[dict]]:
         page = get_json(base, limit=page_size, offset=offset, **params)
         require(page.get("total_count") == total, f"source total changed while paging {base}")
         records.extend(page.get("results", []))
-    require(len(records) >= total, f"source paging incomplete for {base}")
+    require(len(records) == total, f"source paging returned {len(records)} records for declared total {total}: {base}")
     return first, records
 
 
 def fetch_trees() -> None:
-    managed_url = "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records"
+    managed_metadata = get_json(MANAGED_TREE_METADATA_URL)
+    managed_terms = managed_metadata.get("metas", {}).get("default", {})
+    require(managed_terms.get("license") == "CC BY 4.0", "managed-tree catalogue licence changed")
+    require(managed_terms.get("publisher_en") == "City of Brussels/Data Management", "managed-tree catalogue publisher changed")
+    managed_attributions = managed_terms.get("attributions", [])
+    require(managed_attributions == ["Bruxelles Mobilité", "Bruxelles Environnement", "Google Maps", "Ville de Bruxelles/Espaces publics et verts"], "managed-tree catalogue attributions changed")
     out = ROOT / "trees-surfaces" / "data" / "brussels-trees-sample.json"
     previous_ids = committed_sample_ids(out)
     params = {"limit": 100}
     if previous_ids:
-        source_summary = get_json(managed_url, limit=1)
+        source_summary = get_json(MANAGED_TREE_RECORDS_URL, limit=1)
         source_count = source_summary.get("total_count", 0)
         quoted_ids = ",".join(f"'{identifier.replace(chr(39), chr(39) * 2)}'" for identifier in previous_ids)
         params["where"] = f"id IN ({quoted_ids})"
     else:
         source_count = None
-    payload = get_json(managed_url, **params)
+    payload = get_json(MANAGED_TREE_RECORDS_URL, **params)
     source_count = source_count or payload.get("total_count", 0)
     require(source_count >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
     rows = []
@@ -128,11 +166,22 @@ def fetch_trees() -> None:
         field: sum(row.get(field) is not None for row in rows)
         for field in ("latitude", "longitude", "street", "district", "species")
     }
-    write_json(out, {"source": source_count, "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "completeness": completeness, "records": rows})
+    write_json(out, {
+        "source": source_count,
+        "dataset_metadata_url": MANAGED_TREE_METADATA_URL,
+        "source_licence": managed_terms["license"],
+        "source_credit": "City of Brussels/Data Management; catalogue attributions: Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts",
+        "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample",
+        "completeness": completeness,
+        "records": rows,
+    })
 
-    remarkable, remarkable_results = fetch_all_records(
-        "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
-    )
+    remarkable_metadata = get_json(REMARKABLE_TREE_METADATA_URL)
+    remarkable_terms = remarkable_metadata.get("metas", {}).get("default", {})
+    require(remarkable_terms.get("license") == "CC BY 4.0", "remarkable-tree catalogue licence changed")
+    require(remarkable_terms.get("publisher_en") == "heritage.brussels", "remarkable-tree catalogue publisher changed")
+    require(remarkable_terms.get("attributions") == ["National Geographic Institute (NGI-IGN, ngi.be)"], "remarkable-tree catalogue attribution changed")
+    remarkable, remarkable_results = fetch_all_records(REMARKABLE_TREE_RECORDS_URL)
     require(remarkable.get("total_count", 0) >= 100 and len(remarkable_results) >= 100, "remarkable-tree API returned fewer than 100 records")
     remarkable_out = ROOT / "trees-surfaces" / "data" / "brussels-remarkable-trees-sample.json"
     remarkable_rows = []
@@ -150,10 +199,20 @@ def fetch_trees() -> None:
                 "url": item.get("url_fr") or item.get("url_nl"),
             }
         )
-    write_json(remarkable_out, {"source": remarkable["total_count"], "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "records": remarkable_rows})
+    write_json(remarkable_out, {
+        "source": remarkable["total_count"],
+        "dataset_metadata_url": REMARKABLE_TREE_METADATA_URL,
+        "source_licence": remarkable_terms["license"],
+        "source_credit": "heritage.brussels; catalogue attribution: National Geographic Institute (NGI-IGN, ngi.be)",
+        "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample",
+        "records": remarkable_rows,
+    })
 
 
 def fetch_bike_devices() -> None:
+    metadata_html = get_text(MOBILITY_METADATA_URL)
+    require('href="https://creativecommons.org/publicdomain/zero/1.0">CC0</a>' in metadata_html, "bicycle-counter metadata licence changed")
+    require("Bruxelles Mobilité" in metadata_html, "bicycle-counter metadata source changed")
     payload = get_json("https://data.mobility.brussels/bike/api/counts/", request="devices")
     require(payload.get("totalFeatures", 0) >= 1 and payload.get("features"), "bicycle-counter API returned no devices")
     rows = []
@@ -169,8 +228,17 @@ def fetch_bike_devices() -> None:
                 "latitude": coordinates[1],
             }
         )
+    identifiers = [row["id"] for row in rows]
+    require(all(identifier not in (None, "") for identifier in identifiers), "bicycle-counter API returned a device without an ID")
+    require(len(set(identifiers)) == len(identifiers), "bicycle-counter API returned duplicate device IDs")
     out = ROOT / "trees-surfaces" / "data" / "brussels-bike-counters.json"
-    write_json(out, {"source": payload.get("totalFeatures"), "records": rows})
+    write_json(out, {
+        "source": payload.get("totalFeatures"),
+        "dataset_metadata_url": MOBILITY_METADATA_URL,
+        "source_licence": MOBILITY_LICENCE,
+        "source_credit": MOBILITY_CREDIT,
+        "records": rows,
+    })
 
 
 COUNTER_HISTORY_FEATURES = ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")
@@ -189,6 +257,9 @@ def fetch_bike_history() -> None:
         records = validate_history_payload(payload, feature)
         write_json(out, {
             "source": "Brussels Mobility bicycle counter API",
+            "dataset_metadata_url": MOBILITY_METADATA_URL,
+            "source_licence": MOBILITY_LICENCE,
+            "source_credit": MOBILITY_CREDIT,
             "feature": payload.get("feature"),
             "start_date": payload.get("startDate"),
             "end_date": payload.get("endDate"),
@@ -230,6 +301,12 @@ def fetch_grand_place() -> None:
         GRAND_PLACE_DATASET_URL,
         limit=100,
     )
+    metadata = get_json(GRAND_PLACE_METADATA_URL)
+    metadata_default = metadata.get("metas", {}).get("default", {})
+    require(metadata_default.get("license") == "CC BY 4.0", "Grand Place catalogue licence changed")
+    require(metadata_default.get("publisher") == "Ville de Bruxelles/Data Management", "Grand Place catalogue publisher changed")
+    attributions = metadata_default.get("attributions", [])
+    require(attributions == ["Behind Brussels", "Google Maps"], "Grand Place catalogue attributions changed")
     require(payload.get("total_count", 0) >= 34 and len(payload.get("results", [])) == 34, "Grand Place API returned fewer than 34 records")
     rows = []
     for item in payload["results"]:
@@ -253,13 +330,24 @@ def fetch_grand_place() -> None:
                 "source_url": maps_url,
             }
         )
+    identifiers = [row["id"] for row in rows]
+    require(all(identifier not in (None, "") for identifier in identifiers), "Grand Place API returned a building without an ID")
+    require(len(set(identifiers)) == len(identifiers), "Grand Place API returned duplicate building IDs")
     completeness = {
         field: sum(bool(row.get(field)) for row in rows)
         for field in ("history", "history_years", "facade", "original_function")
     }
     out = ROOT / "three-ages" / "data" / "grand-place-buildings.json"
     out.parent.mkdir(parents=True, exist_ok=True)
-    write_json(out, {"source": payload["total_count"], "dataset_url": GRAND_PLACE_DATASET_URL, "completeness": completeness, "records": rows})
+    write_json(out, {
+        "source": payload["total_count"],
+        "dataset_url": GRAND_PLACE_DATASET_URL,
+        "dataset_metadata_url": GRAND_PLACE_METADATA_URL,
+        "source_licence": metadata_default["license"],
+        "source_credit": f"{metadata_default['publisher']}; catalogue attributions: {', '.join(attributions)}",
+        "completeness": completeness,
+        "records": rows,
+    })
 
 
 if __name__ == "__main__":

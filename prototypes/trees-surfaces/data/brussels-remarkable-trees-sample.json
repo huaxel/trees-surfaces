@@ -1,5 +1,8 @@
 {
   "source": 582,
+  "dataset_metadata_url": "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables",
+  "source_licence": "CC BY 4.0",
+  "source_credit": "heritage.brussels; catalogue attribution: National Geographic Institute (NGI-IGN, ngi.be)",
   "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample",
   "records": [
     {

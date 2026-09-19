@@ -4,6 +4,9 @@
     "scope": "Brussels-Capital Region",
     "type": "tree register",
     "records": "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records",
+    "metadata": "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm",
+    "licence": "CC BY 4.0",
+    "credit": "City of Brussels/Data Management; catalogue attributions: Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts",
     "note": "The prototype commits a 100-record feasibility snapshot."
   },
   "remarkable_trees": {
@@ -11,6 +14,9 @@
     "scope": "Brussels-Capital Region",
     "type": "heritage tree register",
     "records": "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
+    "metadata": "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables",
+    "licence": "CC BY 4.0",
+    "credit": "heritage.brussels; catalogue attribution: National Geographic Institute (NGI-IGN, ngi.be)",
     "note": "The prototype commits a 100-record feasibility snapshot."
   },
   "heat": {
@@ -18,9 +24,17 @@
     "scope": "Brussels-Capital Region",
     "date": "2016-08-24 representative hot day",
     "type": "raster",
+    "raster_size_pixels": {
+      "width": 10000,
+      "height": 9000
+    },
     "download": "https://app.bruxellesenvironnement.be/carto/urban_heat_islands_WBGT_MEAN.zip",
     "wms": "https://ows.environnement.brussels/air?service=wms&version=1.3.0&request=getcapabilities",
-    "note": "Heat-stress proxy, not a continuous air-temperature measurement. The full ZIP is approximately 19 MB and is not committed; heat-preview.png is a downsampled visual preview generated from it. Source licensing should be confirmed in the final project documentation."
+    "metadata": "https://geobru.irisnet.be/geonetwork/srv/fre/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&outputFormat=application%2Fxml&resultType=results&ElementSetName=full&id=73b4f29a-cff0-4d6a-a239-cb99d3140531",
+    "metadata_id": "BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531",
+    "licence": "CC BY 4.0",
+    "credit": "Brussels Environment / Leefmilieu Brussel",
+    "note": "Heat-stress proxy, not a continuous air-temperature measurement. The authoritative metadata defines pixels as normalized 0–100 WBGT indicator values for 24 August 2016 and permits reuse under CC BY 4.0 with source attribution. The approximately 19 MB ZIP is not committed; heat-preview.png is a downsampled visual preview."
   },
   "canopy": {
     "name": "Urban Vegetation Data — Canopy Height Model",
@@ -28,6 +42,10 @@
     "year": 2021,
     "type": "vector GIS",
     "download": "https://zenodo.org/records/13869065",
+    "metadata": "https://zenodo.org/api/records/13869065",
+    "doi": "10.5281/zenodo.13869065",
+    "licence": "CC BY 4.0",
+    "credit": "Elsa Gallez, Vrije Universiteit Brussel",
     "note": "Useful canopy/vegetation layer, but the full shapefile is large and is not committed to this prototype."
   },
   "mobility": {
@@ -35,7 +53,10 @@
     "scope": "Brussels-Capital Region",
     "type": "15-minute counter observations",
     "devices": "https://data.mobility.brussels/bike/api/counts/?request=devices",
-    "history": "https://data.mobility.brussels/bike/api/counts/?request=history&featureID=CB2105&startDate=20240101&endDate=20240131",
+    "history": "https://data.mobility.brussels/bike/api/counts/?request=history&featureID=CB2105&startDate=20240101&endDate=20240107",
+    "metadata": "https://data.mobility.brussels/en/info/rt_counting/",
+    "licence": "CC0 1.0",
+    "credit": "Brussels Mobility",
     "note": "A mobility proxy. Counters are sparse and are not equivalent to general pedestrian street use."
   }
 }

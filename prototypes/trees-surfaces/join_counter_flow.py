@@ -20,9 +20,12 @@ OUTPUT = DATA / "brussels-tree-counter-flow.json"
 COUNTERS = ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")
 
 
+def load_history_payload(feature: str) -> dict:
+    return json.loads((DATA / f"brussels-bike-history-{feature}-2024-01.json").read_text())
+
+
 def load_history(feature: str) -> list:
-    payload = json.loads((DATA / f"brussels-bike-history-{feature}-2024-01.json").read_text())
-    return payload["records"]
+    return load_history_payload(feature)["records"]
 
 
 def main() -> None:
@@ -43,6 +46,18 @@ def main() -> None:
             "max_day_mean": max(means.values()),
         }
 
+    source_terms = set()
+    for feature in COUNTERS:
+        history_payload = load_history_payload(feature)
+        source_terms.add((
+            history_payload.get("dataset_metadata_url"),
+            history_payload.get("source_licence"),
+            history_payload.get("source_credit"),
+        ))
+    if len(source_terms) != 1:
+        raise RuntimeError(f"counter history provenance differs across snapshots: {source_terms}")
+    metadata_url, source_licence, source_credit = source_terms.pop()
+
     records = []
     covered = 0
     for row in joined:
@@ -53,14 +68,17 @@ def main() -> None:
             "street": row.get("street"),
             "nearest_counter": counter,
             "distance_m": distance,
-            "counter_flow_mean": round(flow.get(counter, float("nan")), 3),
+            "counter_flow_mean": round(flow[counter], 3) if counter in flow else None,
             "has_measured_flow": counter in flow,
         }
         records.append(entry)
         covered += entry["has_measured_flow"]
 
     payload = {
-        "source": "Brussels Mobility bicycle counter API (same 7-day period as the CB2105 snapshot)",
+        "source": "Brussels Mobility bicycle counter API (five committed counter snapshots sharing one 7-day period)",
+        "source_metadata_url": metadata_url,
+        "source_licence": source_licence,
+        "source_credit": source_credit,
         "period": "2024/01/01 - 2024/01/07",
         "record_count": len(records),
         "trees_with_measured_flow": covered,
@@ -69,6 +87,7 @@ def main() -> None:
         "records": records,
     }
     OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+    OUTPUT.chmod(0o644)
     print(f"wrote {OUTPUT.relative_to(ROOT)}")
     print(f"trees with measured flow at nearest counter: {covered}/{len(records)}")
     print(f"counter mean flows: { {k: v['mean_all'] for k, v in weekday.items()} }")

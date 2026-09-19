@@ -1,5 +1,8 @@
 {
-  "source": "Brussels Mobility bicycle counter API (same 7-day period as the CB2105 snapshot)",
+  "source": "Brussels Mobility bicycle counter API (five committed counter snapshots sharing one 7-day period)",
+  "source_metadata_url": "https://data.mobility.brussels/en/info/rt_counting/",
+  "source_licence": "CC0 1.0",
+  "source_credit": "Brussels Mobility",
   "period": "2024/01/01 - 2024/01/07",
   "record_count": 100,
   "trees_with_measured_flow": 97,
@@ -554,7 +557,7 @@
       "street": "Rue des Faînes 153",
       "nearest_counter": "CB02411",
       "distance_m": 1499.7,
-      "counter_flow_mean": NaN,
+      "counter_flow_mean": null,
       "has_measured_flow": false
     },
     {
@@ -562,7 +565,7 @@
       "street": "Rue des Faînes 145",
       "nearest_counter": "CB02411",
       "distance_m": 1518.3,
-      "counter_flow_mean": NaN,
+      "counter_flow_mean": null,
       "has_measured_flow": false
     },
     {
@@ -834,7 +837,7 @@
       "street": "Rue du Rubis 3",
       "nearest_counter": "CJE181",
       "distance_m": 1498.2,
-      "counter_flow_mean": NaN,
+      "counter_flow_mean": null,
       "has_measured_flow": false
     }
   ]

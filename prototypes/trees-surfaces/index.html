@@ -28,6 +28,8 @@
   <p id="sourceLinks" class="muted" aria-live="polite"></p>
   <p id="sensitivity" class="muted" aria-live="polite"></p>
   <p id="dataQuality" class="muted" aria-live="polite"></p>
+  <div id="stakeholderDecision" class="notice" aria-live="polite">Loading stakeholder-review status…</div>
+  <p><a href="data/tree-stakeholder-review.csv" download>Download the stakeholder-review worksheet</a></p>
   <div class="layout">
     <section class="panel">
       <h2>Exploratory lens</h2>
@@ -42,10 +44,10 @@
       <div id="map" class="map" role="group" aria-label="Relative geographic preview of ranked tree points"></div>
       <p class="muted">Relative geographic preview of the ranked points; no basemap or street geometry is implied.</p>
       <div class="legend"><span>lower exploratory signal</span><span>higher exploratory signal</span></div>
-      <table><caption class="sr-only">Ranked observed tree points and exploratory signal components</caption><thead><tr><th>Tree point</th><th>Heat pixel</th><th>Nearest counter</th><th>Distance</th><th>Signal</th></tr></thead><tbody id="rows"></tbody></table>
+      <table><caption class="sr-only">Ranked observed tree points and exploratory signal components</caption><thead><tr><th>Tree point</th><th>WBGT indicator</th><th>Nearest counter</th><th>Distance</th><th>Signal</th></tr></thead><tbody id="rows"></tbody></table>
       <h3>Public register preview</h3>
       <div id="register" class="muted">Loading records…</div>
-      <figure><img src="data/heat-preview.png" alt="Preview of the Brussels WBGT heat raster"><figcaption>Preview of the Brussels WBGT mean raster for 24 August 2016. This is a heat-stress layer, not a live temperature map.</figcaption></figure>
+      <figure><img src="data/heat-preview.png" alt="Preview of the Brussels WBGT heat raster"><figcaption>Preview of the normalized 0–100 WBGT indicator raster for 24 August 2016. Source: <a href="https://geobru.irisnet.be/geonetwork/srv/fre/csw?service=CSW&amp;version=2.0.2&amp;request=GetRecordById&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;outputFormat=application%2Fxml&amp;resultType=results&amp;ElementSetName=full&amp;id=73b4f29a-cff0-4d6a-a239-cb99d3140531" target="_blank" rel="noopener">Brussels Environment / Leefmilieu Brussel</a>, CC BY 4.0. This is a heat-stress layer, not a live temperature map.</figcaption></figure>
     </section>
   </div>
 </main>
@@ -53,6 +55,8 @@
 const $ = id => document.getElementById(id);
 const escapeHTML=value=>String(value ?? '').replace(/[&<>"']/g, character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
 let sites=[];
+let flowById=new Map();
+const recordUrl=id=>`https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records?where=id%3D%27${encodeURIComponent(id)}%27&limit=1`;
 function weights(){ const h=+$('heat').value,p=+$('proximity').value,total=h+p||1; return {h:h/total,p:p/total}; }
 function score(site,w){ return site.heatScore*w.h + site.proximityScore*w.p; }
 function colour(value){ const hue=145 - value*1.25; return `hsl(${hue},55%,38%)`; }
@@ -71,7 +75,7 @@ function render(){
 function select(id,ranked){
   const s=ranked.find(x=>x.id===id);
   document.querySelectorAll('.site').forEach(el=>{ const selected=el.dataset.id===id; el.classList.toggle('selected',selected); el.setAttribute('aria-pressed',selected); });
-  $('detail').innerHTML=`<h3>${escapeHTML(s.name)}</h3><div class="metric"><b>${s.heatPixel}</b><span class="muted">WBGT raster pixel</span></div><div class="metric"><b>${s.distanceM.toLocaleString()} m</b><span class="muted">nearest counter distance</span></div><div class="metric"><b>${escapeHTML(s.counter)}</b><span class="muted">nearest counter</span></div>${flowById.has(s.id)?`<div class="metric"><b>${Number(flowById.get(s.id)).toFixed(1)}</b><span class="muted">counter mean 15-min count</span></div>`:''}<p class="muted">Join methods: WBGT raster pixel at tree coordinates; great-circle distance to the nearest bicycle counter. Flow is measured at the counter, not at the tree (one winter week). This is a descriptive signal for the sampled point, not a causal mobility estimate or a planting recommendation.</p><p><a href="${escapeHTML(recordUrl(s.id))}" target="_blank" rel="noopener">Open source tree record</a></p>`;
+  $('detail').innerHTML=`<h3>${escapeHTML(s.name)}</h3><div class="metric"><b>${s.heatPixel}</b><span class="muted">WBGT indicator (0–100)</span></div><div class="metric"><b>${s.distanceM.toLocaleString()} m</b><span class="muted">nearest counter distance</span></div><div class="metric"><b>${escapeHTML(s.counter)}</b><span class="muted">nearest counter</span></div>${flowById.has(s.id)?`<div class="metric"><b>${Number(flowById.get(s.id)).toFixed(1)}</b><span class="muted">counter mean 15-min count</span></div>`:''}<p class="muted">Join methods: WBGT raster pixel at tree coordinates; great-circle distance to the nearest bicycle counter. Flow is measured at the counter, not at the tree (one winter week). This is a descriptive signal for the sampled point, not a causal mobility estimate or a planting recommendation.</p><p><a href="${escapeHTML(recordUrl(s.id))}" target="_blank" rel="noopener">Open source tree record</a></p>`;
 }
 ['heat','proximity'].forEach(id=>$(id).addEventListener('input',render));
 Promise.all([
@@ -84,8 +88,10 @@ Promise.all([
   fetch('data/source-inventory.json').then(r=>r.json()),
   fetch('data/tree-signal-sensitivity.json').then(r=>r.json()),
   fetch('data/brussels-tree-counter-flow.json').then(r=>r.json()),
-]).then(([managed, remarkable, bikes, history, joined, heat, inventory, sensitivity, flow])=>{
-  const flowById=new Map(flow.records.map(x=>[x.id,x.counter_flow_mean]));
+  fetch('data/tree-stakeholder-proposal.json').then(r=>r.json()),
+  fetch('data/tree-stakeholder-reviews.json').then(r=>r.json()),
+]).then(([managed, remarkable, bikes, history, joined, heat, inventory, sensitivity, flow, proposal, stakeholderReviews])=>{
+  flowById=new Map(flow.records.filter(x=>x.has_measured_flow).map(x=>[x.id,x.counter_flow_mean]));
   const heatById=new Map(heat.records.map(x=>[x.id,Number(x.heat_pixel)]));
   const distances=joined.records.map(x=>Number(x.nearest_counter_distance_m));
   const minDistance=Math.min(...distances), maxDistance=Math.max(...distances);
@@ -109,17 +115,23 @@ Promise.all([
     mapY:1+82-mapPosition(Number(x.latitude),minLatitude,maxLatitude)
   }));
   $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, ${remarkable.source.toLocaleString()} remarkable trees and ${bikes.source} bike counters; one counter contributes ${history.records.length} fifteen-minute observations (${history.start_date}–${history.end_date}, total count ${history.records.reduce((sum,x)=>sum+x.count,0).toLocaleString()}). The local joins provide ${sites.length} tree points with a WBGT pixel and nearest-counter distance. Proximity is not a mobility measurement.`;
-  const sourceLink=(label,url)=>`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${label}</a>`;
-  $('sourceLinks').innerHTML=`Sources: ${sourceLink('managed trees',inventory.managed_trees.records)} · ${sourceLink('heat raster',inventory.heat.download)} · ${sourceLink('bicycle counters',inventory.mobility.devices)}`;
-  const recordUrl=id=>`https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records?where=id%3D%27${encodeURIComponent(id)}%27&limit=1`;
+  const sourceLink=(label,url)=>`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${escapeHTML(label)}</a>`;
+  $('sourceLinks').innerHTML=`Sources: ${sourceLink(`managed trees — ${inventory.managed_trees.credit}, ${inventory.managed_trees.licence}`,inventory.managed_trees.metadata)} · ${sourceLink(`remarkable trees — ${inventory.remarkable_trees.credit}, ${inventory.remarkable_trees.licence}`,inventory.remarkable_trees.metadata)} · ${sourceLink(`heat raster — ${inventory.heat.credit}, ${inventory.heat.licence}`,inventory.heat.metadata)} · ${sourceLink(`bicycle counters — ${inventory.mobility.credit}, ${inventory.mobility.licence}`,inventory.mobility.metadata)}`;
   const sensitivityByName=Object.fromEntries(sensitivity.scenarios.map(scenario=>[scenario.name,scenario]));
   $('sensitivity').innerHTML=`Sensitivity check: balanced top ten overlaps ${sensitivityByName.heat_only.top_10_overlap_with_balanced}/10 with heat-only and ${sensitivityByName.proximity_only.top_10_overlap_with_balanced}/10 with proximity-only. <a href="data/tree-signal-analysis.md">Analysis</a> · <a href="data/tree-signal-sensitivity.json">JSON</a> · <a href="data/tree-signal-balanced-screen.csv">CSV</a>`;
-  const noDataCount=heat.records.filter(record=>Number(record.heat_pixel)===0).length;
-  const validCoordinates=joined.records.filter(record=>Number.isFinite(Number(record.latitude)) && Number.isFinite(Number(record.longitude))).length;
-  $('dataQuality').textContent=`Data quality: ${validCoordinates}/${joined.records.length} joined points have coordinates; ${heat.records.length-noDataCount}/${heat.records.length} have non-NoData heat pixels; counter distances range from ${Math.min(...distances).toLocaleString()} to ${Math.max(...distances).toLocaleString()} m.`;
+  const audit=sensitivity.data_completeness;
+  const stakeholderReview=stakeholderReviews.records[0];
+  const acceptedReview=stakeholderReview && ['accepted','accepted with changes'].includes(stakeholderReview.review_status);
+  const completedReviewHTML=stakeholderReview && (acceptedReview
+    ? `<p><b>Decision question:</b> ${escapeHTML(stakeholderReview.accepted_decision_question)}<br><b>Spatial unit:</b> ${escapeHTML(stakeholderReview.accepted_spatial_unit)}<br><b>Mobility measure:</b> ${escapeHTML(stakeholderReview.accepted_mobility_measure)}<br><b>Heat period:</b> ${escapeHTML(stakeholderReview.accepted_heat_period)}</p>`
+    : `<p><b>Review outcome:</b> ${escapeHTML(stakeholderReview.review_notes)}</p>`);
+  $('stakeholderDecision').innerHTML=stakeholderReview
+    ? `<b>Stakeholder review · ${escapeHTML(stakeholderReview.review_status)}</b>${completedReviewHTML}<p><b>False-positive preference:</b> ${escapeHTML(stakeholderReview.false_positive_preference)}<br><b>Evidence threshold:</b> ${escapeHTML(stakeholderReview.evidence_threshold)}</p>${acceptedReview?`<p><b>Notes:</b> ${escapeHTML(stakeholderReview.review_notes)}</p>`:''}<small>${escapeHTML(stakeholderReview.reviewer_name)} · ${escapeHTML(stakeholderReview.reviewer_role)} · ${escapeHTML(stakeholderReview.reviewed_at)}</small>`
+    : `<b>Stakeholder review pending</b><p><b>Proposed stakeholder:</b> ${escapeHTML(proposal.proposed_stakeholder)}<br><b>Decision question:</b> ${escapeHTML(proposal.decision_question)}</p><small>${escapeHTML(proposal.output_boundary)}</small>`;
+  $('dataQuality').textContent=`Data completeness: ${audit.valid_coordinate_records}/${audit.managed_records} valid coordinates; heat joined ${audit.heat_joined_records}/${audit.managed_records} with ${audit.heat_nodata_ids.length} NoData pixels; nearest-counter joined ${audit.mobility_joined_records}/${audit.managed_records}; measured-flow context ${audit.measured_flow_context_records}/${audit.managed_records}. Flow context is unavailable for ${audit.measured_flow_unmatched_ids.join(', ')}; all core analysis joins are complete. Counter distances range from ${Math.min(...distances).toLocaleString()} to ${Math.max(...distances).toLocaleString()} m.`;
   $('register').innerHTML='<ul>'+sites.slice(0,8).map(x=>`<li><b>${escapeHTML(x.name)}</b> — heat ${x.heatPixel} · nearest ${escapeHTML(x.counter)} (${x.distanceM.toLocaleString()} m)</li>`).join('')+'</ul>';
   render();
-}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and check the local data files.'; $('sourceLinks').textContent='Source links unavailable.'; $('sensitivity').textContent='Sensitivity report unavailable.'; $('dataQuality').textContent='Data-quality summary unavailable.'; $('register').textContent='Public-source snapshot unavailable.'});
+}).catch(()=>{$('source').textContent='Public-source snapshot unavailable; run the local server and check the local data files.'; $('sourceLinks').textContent='Source links unavailable.'; $('sensitivity').textContent='Sensitivity report unavailable.'; $('dataQuality').textContent='Data-quality summary unavailable.'; $('stakeholderDecision').textContent='Stakeholder-review status unavailable.'; $('register').textContent='Public-source snapshot unavailable.'});
 </script>
 </body>
 </html>

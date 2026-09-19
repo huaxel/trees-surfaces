@@ -1,5 +1,8 @@
 {
   "source": 18,
+  "dataset_metadata_url": "https://data.mobility.brussels/en/info/rt_counting/",
+  "source_licence": "CC0 1.0",
+  "source_credit": "Brussels Mobility",
   "records": [
     {
       "id": "CAT17",
