@@ -63,7 +63,9 @@ def main() -> None:
     require({"grand_place_dataset", "bruciel_1996", "bruciel_1944", "brussels_archives"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
     require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
+    require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
     require(three_ages_inventory["bruciel_1944"].get("licence", "").startswith("CC0"), "1944 BruCiel licence metadata is missing")
+    require(three_ages_inventory["bruciel_1944"].get("status", "").startswith("WMS layer unavailable"), "1944 BruCiel failure status is missing")
     require(pilot_ids <= building_ids, "pilot contains an unknown building source ID")
     required_pilot_fields = {"source_id", "selection_reason", "register", "facade", "structure", "image_evidence", "next_step"}
     require(all(required_pilot_fields <= set(record) for record in pilot["records"]), "pilot record schema is incomplete")
