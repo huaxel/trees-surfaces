@@ -10,6 +10,8 @@ import gzip
 import json
 import math
 import re
+import subprocess
+import sys
 from pathlib import Path
 from urllib.parse import unquote, urlencode, urlparse, parse_qs
 from urllib.request import Request, urlopen
@@ -97,22 +99,26 @@ def fetch_bike_devices() -> None:
     out.write_text(json.dumps({"source": payload.get("totalFeatures"), "records": rows}, ensure_ascii=False, indent=2) + "\n")
 
 
+COUNTER_HISTORY_FEATURES = ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")
+
+
 def fetch_bike_history() -> None:
-    payload = get_json(
-        "https://data.mobility.brussels/bike/api/counts/",
-        request="history",
-        featureID="CB2105",
-        startDate="20240101",
-        endDate="20240107",
-    )
-    out = ROOT / "trees-surfaces" / "data" / "brussels-bike-history-CB2105-2024-01.json"
-    out.write_text(json.dumps({
-        "source": "Brussels Mobility bicycle counter API",
-        "feature": payload.get("feature"),
-        "start_date": payload.get("startDate"),
-        "end_date": payload.get("endDate"),
-        "records": payload.get("data", []),
-    }, ensure_ascii=False, indent=2) + "\n")
+    for feature in COUNTER_HISTORY_FEATURES:
+        payload = get_json(
+            "https://data.mobility.brussels/bike/api/counts/",
+            request="history",
+            featureID=feature,
+            startDate="20240101",
+            endDate="20240107",
+        )
+        out = ROOT / "trees-surfaces" / "data" / f"brussels-bike-history-{feature}-2024-01.json"
+        out.write_text(json.dumps({
+            "source": "Brussels Mobility bicycle counter API",
+            "feature": payload.get("feature"),
+            "start_date": payload.get("startDate"),
+            "end_date": payload.get("endDate"),
+            "records": payload.get("data", []),
+        }, ensure_ascii=False, indent=2) + "\n")
 
 
 def build_tree_mobility_join() -> None:
@@ -179,5 +185,6 @@ if __name__ == "__main__":
     fetch_bike_devices()
     fetch_bike_history()
     build_tree_mobility_join()
+    subprocess.run([sys.executable, str(ROOT / "trees-surfaces" / "join_counter_flow.py")], check=True)
     fetch_grand_place()
     print("Fetched public-data snapshots for both prototype spikes.")
