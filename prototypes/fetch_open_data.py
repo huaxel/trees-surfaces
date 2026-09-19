@@ -101,10 +101,15 @@ def fetch_trees() -> None:
     previous_ids = committed_sample_ids(out)
     params = {"limit": 100}
     if previous_ids:
+        source_summary = get_json(managed_url, limit=1)
+        source_count = source_summary.get("total_count", 0)
         quoted_ids = ",".join(f"'{identifier.replace(chr(39), chr(39) * 2)}'" for identifier in previous_ids)
         params["where"] = f"id IN ({quoted_ids})"
+    else:
+        source_count = None
     payload = get_json(managed_url, **params)
-    require(payload.get("total_count", 0) >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
+    source_count = source_count or payload.get("total_count", 0)
+    require(source_count >= 100 and len(payload.get("results", [])) == 100, "managed-tree API returned fewer than 100 records")
     rows = []
     for item in preserve_sample(payload["results"], out, "id"):
         point = item.get("geo_point_2d") or {}
@@ -123,7 +128,7 @@ def fetch_trees() -> None:
         field: sum(row.get(field) is not None for row in rows)
         for field in ("latitude", "longitude", "street", "district", "species")
     }
-    write_json(out, {"source": payload["total_count"], "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "completeness": completeness, "records": rows})
+    write_json(out, {"source": source_count, "sampling": "first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "completeness": completeness, "records": rows})
 
     remarkable, remarkable_results = fetch_all_records(
         "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables/records",
