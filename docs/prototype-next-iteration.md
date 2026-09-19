@@ -36,9 +36,9 @@ The current spikes are ready for review as **evidence-shaped prototypes**, not f
 
 **Definition of done for a curated MVP:**
 
-- obtain permission for at least two historical image epochs (partial: two modern epochs — 1996 CC0 and 2022 open data — are committed and legally reusable; the historical 1940s epoch remains pending on the archives request and the retired 1944 WMS);
+- obtain permission for at least two historical image epochs (partial: 1996 CC0 and 2022 open data are committed, and five 1941–1942 KIK-IRPA facade previews are committed under CC BY 4.0 for five of six cases; Grand-Place 24 and a structural/aerial historical comparison remain pending);
 - add an official register-year source for each pilot case (progress: three cases carry sourced `proxy` years via Wikidata inception claims referenced to Brussels heritage register records; the three previously pending cases now carry direct Brussels architectural heritage inventory reconstruction-date proxies of 1697, 1704 and 1697. These official dates still need review because they are not structured original-construction-year fields);
-- annotate facade period and structural change with source, epoch, rationale and reviewer;
+- annotate facade period and structural change with source, epoch, rationale and reviewer (progress: five licensed source previews now carry per-asset source, epoch, credit and explicit no-annotation status);
 - record inter-annotator disagreement before assigning confidence;
 - publish the image licence and a reproducible annotation export.
 

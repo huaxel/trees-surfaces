@@ -137,7 +137,7 @@ def main() -> None:
     require(buildings.get("dataset_url", "").startswith("https://"), "building snapshot is missing dataset URL")
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
-    require({"bruciel_app", "grand_place_dataset", "brussels_heritage_inventory", "bruciel_1996", "bruciel_1944", "brussels_archives", "urbisgrid_2022"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
+    require({"bruciel_app", "grand_place_dataset", "brussels_heritage_inventory", "kik_irpa_historical", "bruciel_1996", "bruciel_1944", "brussels_archives", "urbisgrid_2022"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
     require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
@@ -162,9 +162,26 @@ def main() -> None:
     expected_inventory_proxies = {"005": 1697, "024": 1704, "026": 1697}
     require(all(pilot_record["register"]["value"] == value and register_sources[source_id]["kind"] == "brussels-architectural-inventory" for source_id, value in expected_inventory_proxies.items() for pilot_record in pilot["records"] if pilot_record["source_id"] == source_id), "official inventory proxy values are stale")
     require(all((record["register"]["status"] == "proxy") == (record["register"].get("source") is not None) for record in pilot["records"]), "register proxy status and source do not match")
-    require(all(not record["image_evidence"] for record in pilot["records"]), "pilot image evidence should remain explicitly empty")
+    expected_images = {
+        "005": [("T084580", 1942)],
+        "009": [("B031587", 1942)],
+        "022": [("A102887", 1941)],
+        "023": [("B024641", 1941)],
+        "024": [],
+        "026": [("B031502", 1942)],
+    }
+    for record in pilot["records"]:
+        evidence = record["image_evidence"]
+        require([(asset.get("asset_id"), asset.get("epoch")) for asset in evidence] == expected_images[record["source_id"]], f"historical image evidence is unexpected for {record['source_id']}")
+        for asset in evidence:
+            require(all(asset.get(field) for field in ("asset_id", "epoch", "source_url", "image_url", "preview", "licence", "credit", "observation", "annotation_status")), f"historical image evidence schema is incomplete for {record['source_id']}")
+            require(asset["source_url"].startswith("https://balat.kikirpa.be/en/photo/"), f"historical image source URL is invalid for {asset['asset_id']}")
+            require(asset["image_url"].startswith("https://iiif.kikirpa.be/iiif/2/"), f"historical image IIIF URL is invalid for {asset['asset_id']}")
+            require(asset["licence"] == "CC BY 4.0" and asset["annotation_status"].startswith("source preview"), f"historical image rights or review status is missing for {asset['asset_id']}")
+            preview = ROOT / "three-ages" / asset["preview"]
+            require(preview.is_file() and preview.read_bytes().startswith(b"\xff\xd8\xff"), f"historical image preview is missing for {asset['asset_id']}")
     require(len(pilot_csv) == 7 and pilot_csv[0].startswith("source_id,name,address"), "Three Ages pilot CSV export is incomplete")
-    require("register_source_kind" in pilot_csv[0] and "register_source_url" in pilot_csv[0], "Three Ages pilot CSV is missing register provenance columns")
+    require(all(field in pilot_csv[0] for field in ("register_source_kind", "register_source_url", "image_evidence_ids", "image_evidence_epochs", "image_evidence_urls")), "Three Ages pilot CSV is missing provenance columns")
 
     print("snapshot validation passed")
     print(f"tree points: {len(tree_ids)}; heat joins: {len(heat_ids)}; mobility joins: {len(mobility_ids)}")
