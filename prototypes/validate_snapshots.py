@@ -137,7 +137,7 @@ def main() -> None:
     require(buildings.get("dataset_url", "").startswith("https://"), "building snapshot is missing dataset URL")
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
-    require({"bruciel_app", "grand_place_dataset", "brussels_heritage_inventory", "kik_irpa_historical", "bruciel_1996", "bruciel_1944", "brussels_archives", "urbisgrid_2022"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
+    require({"bruciel_app", "grand_place_dataset", "brussels_heritage_inventory", "heritage_collection_1749", "kik_irpa_historical", "bruciel_1996", "bruciel_1944", "brussels_archives", "urbisgrid_2022"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
     require(three_ages_inventory["kik_irpa_historical"].get("licence", "").startswith("CC BY 4.0"), "KIK-IRPA licence metadata is missing")
     require(three_ages_inventory["kik_irpa_historical"].get("status", "").startswith("five 1941-1942"), "KIK-IRPA verification status is missing")
