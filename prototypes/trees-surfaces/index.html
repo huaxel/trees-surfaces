@@ -71,7 +71,7 @@ function render(){
 function select(id,ranked){
   const s=ranked.find(x=>x.id===id);
   document.querySelectorAll('.site').forEach(el=>{ const selected=el.dataset.id===id; el.classList.toggle('selected',selected); el.setAttribute('aria-pressed',selected); });
-  $('detail').innerHTML=`<h3>${escapeHTML(s.name)}</h3><div class="metric"><b>${s.heatPixel}</b><span class="muted">WBGT raster pixel</span></div><div class="metric"><b>${s.distanceM.toLocaleString()} m</b><span class="muted">nearest counter distance</span></div><div class="metric"><b>${escapeHTML(s.counter)}</b><span class="muted">nearest counter</span></div><p class="muted">This is a descriptive signal for the sampled point, not a causal mobility estimate or a planting recommendation.</p>`;
+  $('detail').innerHTML=`<h3>${escapeHTML(s.name)}</h3><div class="metric"><b>${s.heatPixel}</b><span class="muted">WBGT raster pixel</span></div><div class="metric"><b>${s.distanceM.toLocaleString()} m</b><span class="muted">nearest counter distance</span></div><div class="metric"><b>${escapeHTML(s.counter)}</b><span class="muted">nearest counter</span></div>${flowById.has(s.id)?`<div class="metric"><b>${Number(flowById.get(s.id)).toFixed(1)}</b><span class="muted">counter mean 15-min count</span></div>`:''}<p class="muted">Join methods: WBGT raster pixel at tree coordinates; great-circle distance to the nearest bicycle counter. Flow is measured at the counter, not at the tree (one winter week). This is a descriptive signal for the sampled point, not a causal mobility estimate or a planting recommendation.</p><p><a href="${escapeHTML(recordUrl(s.id))}" target="_blank" rel="noopener">Open source tree record</a></p>`;
 }
 ['heat','proximity'].forEach(id=>$(id).addEventListener('input',render));
 Promise.all([
@@ -82,8 +82,10 @@ Promise.all([
   fetch('data/brussels-tree-bike-nearest.json').then(r=>r.json()),
   fetch('data/brussels-tree-heat-sample.json').then(r=>r.json()),
   fetch('data/source-inventory.json').then(r=>r.json()),
-  fetch('data/tree-signal-sensitivity.json').then(r=>r.json())
-]).then(([managed, remarkable, bikes, history, joined, heat, inventory, sensitivity])=>{
+  fetch('data/tree-signal-sensitivity.json').then(r=>r.json()),
+  fetch('data/brussels-tree-counter-flow.json').then(r=>r.json()),
+]).then(([managed, remarkable, bikes, history, joined, heat, inventory, sensitivity, flow])=>{
+  const flowById=new Map(flow.records.map(x=>[x.id,x.counter_flow_mean]));
   const heatById=new Map(heat.records.map(x=>[x.id,Number(x.heat_pixel)]));
   const distances=joined.records.map(x=>Number(x.nearest_counter_distance_m));
   const minDistance=Math.min(...distances), maxDistance=Math.max(...distances);
@@ -109,6 +111,7 @@ Promise.all([
   $('source').textContent=`Public sources connected: Brussels managed-tree register — ${managed.source.toLocaleString()} total records, ${remarkable.source.toLocaleString()} remarkable trees and ${bikes.source} bike counters; one counter contributes ${history.records.length} fifteen-minute observations (${history.start_date}–${history.end_date}, total count ${history.records.reduce((sum,x)=>sum+x.count,0).toLocaleString()}). The local joins provide ${sites.length} tree points with a WBGT pixel and nearest-counter distance. Proximity is not a mobility measurement.`;
   const sourceLink=(label,url)=>`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${label}</a>`;
   $('sourceLinks').innerHTML=`Sources: ${sourceLink('managed trees',inventory.managed_trees.records)} · ${sourceLink('heat raster',inventory.heat.download)} · ${sourceLink('bicycle counters',inventory.mobility.devices)}`;
+  const recordUrl=id=>`https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records?where=id%3D%27${encodeURIComponent(id)}%27&limit=1`;
   const sensitivityByName=Object.fromEntries(sensitivity.scenarios.map(scenario=>[scenario.name,scenario]));
   $('sensitivity').innerHTML=`Sensitivity check: balanced top ten overlaps ${sensitivityByName.heat_only.top_10_overlap_with_balanced}/10 with heat-only and ${sensitivityByName.proximity_only.top_10_overlap_with_balanced}/10 with proximity-only. <a href="data/tree-signal-analysis.md">Analysis</a> · <a href="data/tree-signal-sensitivity.json">JSON</a> · <a href="data/tree-signal-balanced-screen.csv">CSV</a>`;
   const noDataCount=heat.records.filter(record=>Number(record.heat_pixel)===0).length;

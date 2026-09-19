@@ -111,7 +111,7 @@ def main() -> None:
     require(sensitivity.get("record_count") == 100, "sensitivity report has unexpected record count")
     require(len(sensitivity.get("balanced_screening", [])) == 100, "balanced screening export is incomplete")
     require(len(balanced_csv) == 101 and balanced_csv[0].startswith("rank,id,street"), "balanced CSV export is incomplete")
-    require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report and "## Mobility context" in analysis_report and "not a seasonal or street-level estimate" in analysis_report, "descriptive analysis report is incomplete")
+    require(analysis_report.startswith("# Tree signal descriptive analysis") and "High-heat/high-proximity quadrant" in analysis_report and "## Mobility context" in analysis_report and "not a seasonal or street-level estimate" in analysis_report and "## Heat data and normalization" in analysis_report and "## Traceability" in analysis_report, "descriptive analysis report is incomplete")
     require({scenario["name"] for scenario in sensitivity.get("scenarios", [])} == {"heat_only", "balanced", "proximity_only"}, "sensitivity scenarios are incomplete")
     require(all(len(scenario["top_records"]) == 10 for scenario in sensitivity["scenarios"]), "sensitivity report must contain ten top records per scenario")
 

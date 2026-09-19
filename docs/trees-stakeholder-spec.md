@@ -58,8 +58,8 @@ The current descriptive report finds 6 of 100 points at or above the sample's th
 - [x] Working stakeholder and decision direction are recorded in writing.
 - [x] Working MVP screening question is recorded in writing.
 - [x] Retention of nearest-counter distance as a clearly labelled context proxy is documented.
-- [ ] Heat-date choice and normalization are justified.
-- [ ] Every displayed point can be traced to its source records and join method.
+- [x] Heat-date choice and normalization are justified (single regional WBGT scenario documented, min-max sample normalization, no heat missingness; multi-date options noted as future work in the analysis report).
+- [x] Every displayed point can be traced to its source records and join method (per-point source-record links in the interface; heat and mobility join methods documented in the analysis report).
 - [ ] Weight sensitivity is reported, including whether the top points change materially.
 - [ ] Missing coordinates, NoData pixels and unmatched joins are reported.
 - [ ] The interface does not use “street use”, “priority”, “optimal” or “plant here” unless supported by validated measures.
