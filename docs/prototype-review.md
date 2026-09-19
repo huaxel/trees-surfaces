@@ -12,7 +12,7 @@ The interaction makes the candidate's identity clear: the product is an evidence
 
 A first public source is now available: the City of Brussels dataset describing 34 Grand Place buildings, including restoration/history and facade-description fields. The committed snapshot now preserves its public dataset endpoint. The 1996 BruCiel orthophoto is CC0 and the 2022 urbisgrid ortho is open data with attribution recorded; both are committed, aligned source previews. The 1944 BruCiel layer is a retired cascade, so the remaining access risk is obtaining a genuinely historical image epoch from the archives or provider.
 
-The 34 source records all contain history text and 32 contain facade-description text. A six-record source-linked pilot now separates source-described facade style, reconstruction proxies, three heritage-register-linked register proxies and the still-pending register/image annotations. **Still needed:** a permitted 1940s-era image set, register sources for three cases and reviewed labels.
+The 34 source records all contain history text and 32 contain facade-description text. A six-record source-linked pilot now separates source-described facade style, reconstruction proxies, and register evidence. Three cases retain heritage-register-linked Wikidata proxies; the other three now have direct Brussels architectural heritage inventory reconstruction-date proxies (1697, 1704 and 1697). These are official source dates, but not structured original-construction-year fields, so they remain explicitly unreviewed proxies. **Still needed:** a permitted 1940s-era image set, confirmation of the exact register-year interpretation and reviewed labels.
 
 ## Current conclusion
 

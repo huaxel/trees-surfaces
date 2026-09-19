@@ -2,7 +2,7 @@
 
 These are two deliberately small, dependency-free feasibility spikes for the two BAP candidates.
 
-Trees & Surfaces now uses an **exploratory** signal from real joins, not a validated research result. Three Ages uses source-linked records, with three sourced register proxies, three pending register lookups, and two modern source previews; historical image-derived annotations remain pending. Each spike includes reproducible snapshots from real public sources to test data availability and schema shape. See [`docs/prototype-next-iteration.md`](../docs/prototype-next-iteration.md) for the next definition of done.
+Trees & Surfaces now uses an **exploratory** signal from real joins, not a validated research result. Three Ages uses source-linked records, with six explicit register-date proxies (three Wikidata/heritage-linked and three official architectural-inventory reconstruction dates) and two modern source previews; historical image-derived annotations remain pending. Each spike includes reproducible snapshots from real public sources to test data availability and schema shape. See [`docs/prototype-next-iteration.md`](../docs/prototype-next-iteration.md) for the next definition of done.
 
 ## Run locally
 
@@ -71,4 +71,4 @@ The spike includes 100 records from Brussels' managed-tree register, 100 records
 
 A building-history evidence explorer. Select a real Grand Place source record and compare the registered-year, facade-style and structural evidence fields without presenting pending annotations as facts.
 
-The spike includes the 34-building City of Brussels Grand Place dataset and a six-record source-linked pilot. The pilot distinguishes source-described style, documented reconstruction proxies, three heritage-register-linked register proxies, two reusable modern ortho previews, and fields still awaiting a register lookup or permitted historical imagery.
+The spike includes the 34-building City of Brussels Grand Place dataset and a six-record source-linked pilot. The pilot distinguishes source-described style, documented reconstruction proxies, six explicitly labelled register-date proxies, two reusable modern ortho previews, and fields still awaiting register-year interpretation or permitted historical imagery.
