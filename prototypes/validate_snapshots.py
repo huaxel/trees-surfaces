@@ -60,7 +60,7 @@ def main() -> None:
     require(buildings.get("dataset_url", "").startswith("https://"), "building snapshot is missing dataset URL")
     require(len(pilot["records"]) == 6, "expected six curated pilot records")
     require(pilot.get("review_status") == "source-grounded pilot", "pilot review status is missing")
-    require({"grand_place_dataset", "bruciel_1996", "bruciel_1944", "brussels_archives"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
+    require({"bruciel_app", "grand_place_dataset", "bruciel_1996", "bruciel_1944", "brussels_archives"} <= set(three_ages_inventory), "Three Ages source inventory is incomplete")
     require(all(entry.get("url", "").startswith("https://") for entry in three_ages_inventory.values()), "Three Ages source inventory has an invalid URL")
     require(three_ages_inventory["bruciel_1996"].get("licence", "").startswith("CC0"), "1996 BruCiel licence metadata is missing")
     require(three_ages_inventory["bruciel_1996"].get("status", "").startswith("WMS extract verified"), "1996 BruCiel test status is missing")
