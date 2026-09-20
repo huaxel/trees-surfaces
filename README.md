@@ -16,7 +16,10 @@ The project evaluates open data feasibility for urban greening and climate adapt
 - [`prototypes/`](prototypes/) — dependency-free browser interface, data snapshots, and processing scripts:
   - [`prototypes/trees-surfaces/`](prototypes/trees-surfaces/) — interactive browser application, analytical scripts, and data directory.
   - [`prototypes/README.md`](prototypes/README.md) — detailed pipeline execution, script options, and snapshot documentation.
+- [`julia/`](julia/) — Julia-backed server-rendered UI prototype using the same committed snapshots.
 - [`scripts/validate-prototypes.sh`](scripts/validate-prototypes.sh) — end-to-end regeneration, snapshot validation, and test runner.
+- [`scripts/validate-julia.sh`](scripts/validate-julia.sh) — Julia unit tests and live UI/API smoke test.
+- [`scripts/validate-all.sh`](scripts/validate-all.sh) — runs both the Python/Node and Julia validation gates.
 - [`.github/workflows/validate-prototypes.yml`](.github/workflows/validate-prototypes.yml) — continuous integration matrix testing clean-state artifact generation.
 
 ## Quick start
@@ -44,6 +47,22 @@ The project evaluates open data feasibility for urban greening and climate adapt
 3. Open <http://localhost:8000/trees-surfaces/> in your browser (or <http://localhost:8000/> to use the landing redirect).
 
 The browser application runs completely in client-side standard HTML5/CSS/JavaScript with zero third-party runtime dependencies.
+
+### Optional Julia UI
+
+The same exploratory view can be served by Julia, which loads the snapshots and prepares the initial UI state:
+
+```bash
+julia --project=julia julia/run.jl
+```
+
+Open <http://127.0.0.1:8080/>. See [`julia/README.md`](julia/README.md) for details.
+
+Validate current public API contracts without changing committed snapshots:
+
+```bash
+julia --project=julia julia/refresh_open_data.jl --check
+```
 
 ## Data pipeline and regeneration
 
@@ -73,6 +92,20 @@ The validation suite executes:
 - Strict JSON syntax validation (disallowing non-standard tokens like `NaN` or `Infinity`)
 - Group- and other-readability permission checks for all data artifacts
 - Git diff whitespace and conflict checks (`git diff --check`)
+
+The Julia-backed UI has a separate gate:
+
+```bash
+scripts/validate-julia.sh
+```
+
+Or run both implementations with:
+
+```bash
+scripts/validate-all.sh
+```
+
+It covers Julia snapshot validation, spatial joins, artifact generation, stakeholder review preservation, the HTTP UI, and container-facing behavior.
 
 ### 2. Analytical signal generation
 

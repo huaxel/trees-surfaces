@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "blocks": [
+    {
+      "id": "block-455716e1cda8",
+      "heading": "Document preamble",
+      "body": ""
+    },
+    {
+      "id": "block-5057faf07a14",
+      "heading": "Choose an interesting implementation language — 2026-07-15",
+      "body": ""
+    },
+    {
+      "id": "block-0e297d3ab256",
+      "heading": "Task",
+      "body": "Recommend an interesting programming language for this project.\n"
+    },
+    {
+      "id": "block-b2818cc3bbb3",
+      "heading": "Human notes",
+      "body": "<!-- goals, constraints, or requested direction -->\n"
+    },
+    {
+      "id": "block-0500bd1242ea",
+      "heading": "Todos",
+      "body": "- [ ] Inspect the project shape and constraints\n- [ ] Recommend a language with concrete tradeoffs\n"
+    },
+    {
+      "id": "block-e714b06500c4",
+      "heading": "Progress",
+      "body": "- Started analysis\n"
+    },
+    {
+      "id": "block-0cac061ce5fc",
+      "heading": "Findings",
+      "body": ""
+    },
+    {
+      "id": "block-6553e92f5d21",
+      "heading": "Decisions",
+      "body": ""
+    },
+    {
+      "id": "block-849aa4b13333",
+      "heading": "Questions / Next steps",
+      "body": "- Decide whether novelty or practicality should dominate the choice.\n"
+    }
+  ]
+}

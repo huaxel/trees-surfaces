@@ -82,6 +82,14 @@ Outputs:
 python3 fetch_open_data.py
 ```
 
+The equivalent Julia source-refresh command is:
+
+```bash
+julia --project=../../julia ../../julia/refresh_open_data.jl [--check|--with-derived|--with-analysis]
+```
+
+It preserves committed sample IDs, validates source metadata and counter-history shape, and writes snapshots atomically. `--check` performs the live validation in a temporary directory without changing committed files; `--with-derived` also regenerates Julia's derived joins; `--with-analysis` additionally regenerates sensitivity artifacts and requires `--with-derived`. The Python command remains the fallback for the derived nearest-counter/flow joins and unsupported source formats.
+
 Refreshes:
 - `trees-surfaces/data/brussels-trees-sample.json` (City of Brussels managed trees sample)
 - `trees-surfaces/data/brussels-remarkable-trees-sample.json` (heritage.brussels remarkable trees sample)

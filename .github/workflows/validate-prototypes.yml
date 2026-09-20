@@ -37,3 +37,62 @@ jobs:
 
       - name: Regenerate and validate Trees & Surfaces
         run: scripts/validate-prototypes.sh --check-clean
+
+  validate-julia:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2.7.0
+        with:
+          version: "1.10"
+
+      - name: Validate Julia UI
+        run: scripts/validate-julia.sh
+
+  validate-julia-refresh:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@4c0cb0fce8556fdb04a90347310e5db8b1f98fb9 # v2.7.0
+        with:
+          version: "1.10"
+
+      - name: Check live public API contracts
+        run: JULIA_REFRESH_CHECK=1 scripts/validate-julia.sh
+
+  validate-julia-container:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build Julia UI container
+        run: docker build -f julia/Dockerfile -t trees-surfaces-julia:ci .
+
+      - name: Smoke test Julia UI container
+        run: |
+          set -euo pipefail
+          container=$(docker run -d -p 18080:8080 trees-surfaces-julia:ci)
+          cleanup() { docker rm -f "$container" >/dev/null 2>&1 || true; }
+          trap cleanup EXIT
+          ready=false
+          for _ in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:18080/health >/dev/null 2>&1; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          [[ "$ready" == true ]]
+          curl -fsS http://127.0.0.1:18080/health | grep -Fx ok >/dev/null
+          curl -fsS 'http://127.0.0.1:18080/api/screen?heat=0&proximity=100' | grep -F vbx_56876 >/dev/null

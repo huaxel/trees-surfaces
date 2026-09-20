@@ -1,0 +1,92 @@
+using Test
+
+include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
+using .TreesSurfaces
+include(joinpath(@__DIR__, "..", "src", "Analysis.jl"))
+using .Analysis
+include(joinpath(@__DIR__, "..", "src", "Flow.jl"))
+using .Flow
+include(joinpath(@__DIR__, "..", "src", "Validation.jl"))
+using .Validation
+include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
+using .Spatial
+include(joinpath(@__DIR__, "..", "src", "Projection.jl"))
+using .Projection
+include(joinpath(@__DIR__, "..", "src", "Heat.jl"))
+using .Heat
+include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
+using .Refresh
+
+@testset "Trees & Surfaces Julia UI" begin
+    state = TreesSurfaces.build_state()
+    @test length(state["sites"]) == 100
+    @test state["quality"]["validCoordinates"] == 100
+    @test state["quality"]["heatJoined"] == 100
+    @test state["quality"]["flowContext"] == 97
+    @test state["sensitivity"]["heatOverlap"] == 9
+    @test state["sensitivity"]["proximityOverlap"] == 1
+    validation = Validation.validate_snapshots()
+    @test validation["managed_records"] == 100
+    @test validation["valid_coordinates"] == 100
+    @test validation["measured_flow_records"] == 97
+    @test Heat.gray_byte((0.5,)) == 128
+    @test Refresh.encode_query("id IN ('a b')") == "id%20IN%20%28%27a%20b%27%29"
+    @test (Refresh.counter_row(Dict("properties"=>Dict("device_name"=>"CB-test"), "geometry"=>Dict("coordinates"=>[4.0, 50.0])))["id"]) == "CB-test"
+    @test_throws ErrorException Refresh.counter_row(Dict("properties"=>Dict("device_name"=>"CB-test"), "geometry"=>Dict("coordinates"=>[4.0])))
+    history = Dict{String,Any}("feature"=>"CB2105", "startDate"=>"2024/01/01", "endDate"=>"2024/01/07", "data"=>Any[Dict("count"=>1, "count_date"=>"2024/01/$(lpad(day, 2, '0'))", "time_gap"=>slot) for day in 1:7 for slot in 1:96])
+    @test length(Refresh.validate_history_payload(history, "CB2105")) == 672
+    invalid_history = deepcopy(history)
+    invalid_history["data"][1]["count"] = -1
+    @test_throws ErrorException Refresh.validate_history_payload(invalid_history, "CB2105")
+    incomplete_history = deepcopy(history)
+    pop!(incomplete_history["data"])
+    @test_throws ErrorException Refresh.validate_history_payload(incomplete_history, "CB2105")
+    mktempdir() do directory
+        path = joinpath(directory, "sample.json")
+        rows = [Dict("id"=>"id-$i") for i in 1:100]
+        Refresh.atomic_write_json(path, Dict("records"=>rows))
+        @test [row["id"] for row in Refresh.preserve_sample(rows[100:-1:1], path, "id")] == ["id-$i" for i in 1:100]
+    end
+    @test round(Spatial.haversine_distance_m(50.0, 4.0, 50.0, 4.0); digits = 1) == 0.0
+    heat = TreesSurfaces.read_json("brussels-tree-heat-sample.json")
+    for row in TreesSurfaces.records(heat)
+        column, pixel_row = Projection.raster_pixel(TreesSurfaces.number(row["latitude"]), TreesSurfaces.number(row["longitude"]), 10_000, 9_000)
+        @test column == row["heat_pixel_column"]
+        @test pixel_row == row["heat_pixel_row"]
+    end
+    mktempdir() do directory
+        join = Spatial.generate_tree_mobility_join(directory)
+        @test length(join["records"]) == 100
+        @test join["records"][1]["nearest_counter"] == "CB2105"
+    end
+    summary = Analysis.signal_summary()
+    @test summary["record_count"] == 100
+    @test summary["scenarios"]["heat_only"]["top_10_overlap_with_balanced"] == 9
+    @test summary["scenarios"]["proximity_only"]["top_10_overlap_with_balanced"] == 1
+    mktempdir() do directory
+        report = Analysis.generate_signal_artifacts(directory)
+        @test report["record_count"] == 100
+        @test isfile(joinpath(directory, "tree-signal-sensitivity.json"))
+        @test isfile(joinpath(directory, "tree-signal-balanced-screen.csv"))
+        @test isfile(joinpath(directory, "tree-signal-analysis.md"))
+    end
+    mktempdir() do directory
+        flow = Flow.generate_counter_flow_artifact(directory)
+        @test flow["record_count"] == 100
+        @test flow["trees_with_measured_flow"] == 97
+    end
+    @test first(state["screen"]["sites"])["id"] == "vbx_56561"
+    proximity_screen = TreesSurfaces.ranked_sites(state["sites"], 0.0, 100.0)
+    @test first(proximity_screen["sites"])["id"] == "vbx_56876"
+    artifact = TreesSurfaces.read_json("tree-signal-sensitivity.json")
+    expected_ids = [row["id"] for row in artifact["balanced_screening"][1:10]]
+    actual_ids = [row["id"] for row in state["screen"]["sites"][1:10]]
+    @test actual_ids == expected_ids
+    @test isapprox(first(state["screen"]["sites"])["signal"], artifact["balanced_screening"][1]["signal"]; atol = 0.0005)
+
+    html = TreesSurfaces.render_index()
+    @test !occursin("__INITIAL_STATE__", html)
+    @test occursin("Julia-served exploratory view", html)
+    @test occursin("vbx_56561", html)
+    @test occursin("\"heatOverlap\":9", html)
+end
