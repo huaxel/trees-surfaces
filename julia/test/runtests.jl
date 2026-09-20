@@ -16,6 +16,8 @@ include(joinpath(@__DIR__, "..", "src", "Heat.jl"))
 using .Heat
 include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
 using .Refresh
+include(joinpath(@__DIR__, "..", "src", "Review.jl"))
+using .Review
 
 @testset "Trees & Surfaces Julia UI" begin
     state = TreesSurfaces.build_state()
@@ -78,11 +80,39 @@ using .Refresh
     @test first(state["screen"]["sites"])["id"] == "vbx_56561"
     proximity_screen = TreesSurfaces.ranked_sites(state["sites"], 0.0, 100.0)
     @test first(proximity_screen["sites"])["id"] == "vbx_56876"
+    @test TreesSurfaces.query_number("heat=NaN&proximity=Inf", "heat", 60.0) == 60.0
+    @test TreesSurfaces.query_number("heat=NaN&proximity=Inf", "proximity", 40.0) == 40.0
+    invalid_screen = TreesSurfaces.ranked_sites(state["sites"], NaN, Inf)
+    @test invalid_screen["heatWeight"] == 0.0
+    @test invalid_screen["proximityWeight"] == 0.0
+    @test all(isfinite(Float64(site["signal"])) for site in invalid_screen["sites"])
     artifact = TreesSurfaces.read_json("tree-signal-sensitivity.json")
     expected_ids = [row["id"] for row in artifact["balanced_screening"][1:10]]
     actual_ids = [row["id"] for row in state["screen"]["sites"][1:10]]
     @test actual_ids == expected_ids
     @test isapprox(first(state["screen"]["sites"])["signal"], artifact["balanced_screening"][1]["signal"]; atol = 0.0005)
+
+    mktempdir() do directory
+        cp(joinpath(TreesSurfaces.DATA_DIR, "tree-stakeholder-proposal.json"), joinpath(directory, "tree-stakeholder-proposal.json"))
+        cp(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-sensitivity.json"), joinpath(directory, "tree-signal-sensitivity.json"))
+        row, _ = Review.generate_stakeholder_review_artifacts(directory)
+        row["review_status"] = "accepted"
+        row["reviewer_name"] = "Multiline Reviewer"
+        row["reviewer_role"] = "Stakeholder"
+        row["reviewed_at"] = "2026-09-20T22:37:00+02:00"
+        row["accepted_decision_question"] = row["decision_question"]
+        row["accepted_spatial_unit"] = row["spatial_unit"]
+        row["accepted_mobility_measure"] = row["mobility_measure"]
+        row["accepted_heat_period"] = "2016-08-24"
+        row["false_positive_preference"] = "Prefer recall"
+        row["evidence_threshold"] = "Manual review"
+        row["review_notes"] = "First line\nSecond line"
+        Review.write_csv(joinpath(directory, "tree-stakeholder-review.csv"), row)
+        preserved, compiled = Review.generate_stakeholder_review_artifacts(directory)
+        @test preserved["reviewer_name"] == "Multiline Reviewer"
+        @test preserved["review_notes"] == "First line\nSecond line"
+        @test compiled["record_count"] == 1
+    end
 
     html = TreesSurfaces.render_index()
     @test !occursin("__INITIAL_STATE__", html)

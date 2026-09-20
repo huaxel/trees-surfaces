@@ -25,37 +25,47 @@ const PROVENANCE_FIELDS = [field for field in FIELDS if !(field in REVIEW_FIELDS
 
 text(value) = value === nothing ? "" : string(value)
 
-function parse_csv_line(line)
+function parse_csv_records(content)
+    rows = Vector{Vector{String}}()
     fields = String[]
     buffer = IOBuffer()
     quoted = false
-    index = firstindex(line)
-    while index <= lastindex(line)
-        character = line[index]
+    index = firstindex(content)
+    while index <= lastindex(content)
+        character = content[index]
         if character == '"'
-            if quoted && index < lastindex(line) && line[nextind(line, index)] == '"'
+            if quoted && index < lastindex(content) && content[nextind(content, index)] == '"'
                 print(buffer, '"')
-                index = nextind(line, index)
+                index = nextind(content, index)
             else
                 quoted = !quoted
             end
         elseif character == ',' && !quoted
             push!(fields, String(take!(buffer)))
+        elseif (character == '\n' || character == '\r') && !quoted
+            push!(fields, String(take!(buffer)))
+            push!(rows, fields)
+            fields = String[]
+            if character == '\r' && index < lastindex(content) && content[nextind(content, index)] == '\n'
+                index = nextind(content, index)
+            end
         else
             print(buffer, character)
         end
-        index = nextind(line, index)
+        index = nextind(content, index)
     end
-    push!(fields, String(take!(buffer)))
-    fields
+    if !isempty(fields) || position(buffer) > 0
+        push!(fields, String(take!(buffer)))
+        push!(rows, fields)
+    end
+    rows
 end
 
 function read_existing(path)
     isfile(path) || return nothing
-    lines = split(chomp(replace(read(path, String), "\r\n" => "\n")), '\n')
-    length(lines) == 2 || error("stakeholder worksheet must contain exactly one proposal row")
-    header = parse_csv_line(lines[1])
-    values = parse_csv_line(lines[2])
+    rows = parse_csv_records(read(path, String))
+    length(rows) == 2 || error("stakeholder worksheet must contain exactly one proposal row")
+    header, values = rows
     length(header) == length(values) || error("stakeholder worksheet has mismatched CSV columns")
     row = Dict(header[index] => values[index] for index in eachindex(header))
     required = Set(["proposal_id", REVIEW_FIELDS...])
@@ -75,9 +85,10 @@ function validate_review(row, allowed_statuses)
             isempty(review_values[field]) && error("accepted stakeholder review is missing $(field)")
         end
     end
-    timestamp = replace(review_values["reviewed_at"], "Z" => "")
+    match_result = match(r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[+-]\d{2}:?\d{2})?$", review_values["reviewed_at"])
+    match_result === nothing && error("stakeholder reviewed_at must be ISO 8601")
     try
-        DateTime(timestamp)
+        DateTime(match_result.captures[1])
     catch
         error("stakeholder reviewed_at must be ISO 8601")
     end
@@ -112,8 +123,8 @@ end
 
 function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
     mkpath(data_dir)
-    proposal = TreesSurfaces.read_json(joinpath(data_dir, "tree-stakeholder-proposal.json"))
-    sensitivity = TreesSurfaces.read_json(joinpath(data_dir, "tree-signal-sensitivity.json"))
+    proposal = TreesSurfaces.read_json_path(joinpath(data_dir, "tree-stakeholder-proposal.json"))
+    sensitivity = TreesSurfaces.read_json_path(joinpath(data_dir, "tree-signal-sensitivity.json"))
     audit = sensitivity["data_completeness"]
     weights = sensitivity["weight_sensitivity"]
     allowed_statuses = Set(string(status) for status in proposal["allowed_review_statuses"])

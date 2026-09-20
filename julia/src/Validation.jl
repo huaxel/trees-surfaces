@@ -4,12 +4,13 @@ using ..TreesSurfaces
 
 export validate_snapshots
 
-function validate_snapshots()
-    managed = TreesSurfaces.read_json("brussels-trees-sample.json")
-    heat = TreesSurfaces.read_json("brussels-tree-heat-sample.json")
-    joined = TreesSurfaces.read_json("brussels-tree-bike-nearest.json")
-    flow = TreesSurfaces.read_json("brussels-tree-counter-flow.json")
-    inventory = TreesSurfaces.read_json("source-inventory.json")
+function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
+    read_snapshot(filename) = TreesSurfaces.read_json_path(joinpath(data_dir, filename))
+    managed = read_snapshot("brussels-trees-sample.json")
+    heat = read_snapshot("brussels-tree-heat-sample.json")
+    joined = read_snapshot("brussels-tree-bike-nearest.json")
+    flow = read_snapshot("brussels-tree-counter-flow.json")
+    inventory = read_snapshot("source-inventory.json")
 
     managed_records = TreesSurfaces.records(managed)
     heat_records = TreesSurfaces.records(heat)

@@ -130,13 +130,14 @@ function refresh_trees(output_dir=DATA_DIR)
     require(terms == "CC BY 4.0" && get(default_terms, "publisher_en", nothing) == "City of Brussels/Data Management" && get(default_terms, "attributions", Any[]) == ["Bruxelles Mobilité", "Bruxelles Environnement", "Google Maps", "Ville de Bruxelles/Espaces publics et verts"], "managed-tree catalogue provenance changed")
     out = joinpath(output_dir, "brussels-trees-sample.json")
     previous = committed_sample_ids(out)
+    source_summary = fetch_json(MANAGED_TREE_METADATA_URL * "/records"; params=["limit"=>"1", "offset"=>"0"])
+    source = Int(get(source_summary, "total_count", 0))
     params = Pair{String,String}["limit"=>"100"]
     if previous !== nothing
         quoted = join(["'" * replace(id, "'"=>"''") * "'" for id in previous], ",")
         params = ["limit"=>"100", "where"=>"id IN ($quoted)"]
     end
     payload = fetch_json(MANAGED_TREE_METADATA_URL * "/records"; params=params)
-    source = Int(get(payload, "total_count", 0))
     require(source >= 100 && length(get(payload, "results", Any[])) == 100, "managed-tree API returned fewer than 100 records")
     rows = [tree_row(item, ("id", "address_fr", "adress_nl", "district_fr", "district_nl", "species", "source_fr", "source_nl")) for item in preserve_sample(get(payload, "results", Any[]), out, "id")]
     completeness = Dict(field => count(get(row, field, nothing) !== nothing for row in rows) for field in ("latitude", "longitude", "street", "district", "species"))

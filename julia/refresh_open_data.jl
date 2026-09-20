@@ -15,11 +15,13 @@ include(joinpath(@__DIR__, "src", "Flow.jl"))
 using .Flow
 include(joinpath(@__DIR__, "src", "Analysis.jl"))
 using .Analysis
+include(joinpath(@__DIR__, "src", "Validation.jl"))
+using .Validation
 
 if "--help" in ARGS || "-h" in ARGS
     println("Usage: julia --project=julia julia/refresh_open_data.jl [--check] [--with-derived] [--with-analysis]")
-    println("  --check          validate live APIs in a temporary directory")
-    println("  --with-derived   regenerate nearest-counter and measured-flow artifacts")
+    println("  --check          validate live APIs and derived snapshots in a temporary directory")
+    println("  --with-derived   regenerate derived artifacts (also enables analysis with --with-analysis)")
     println("  --with-analysis  regenerate sensitivity artifacts (requires --with-derived)")
     exit()
 end
@@ -36,14 +38,13 @@ if "--check" in ARGS
             cp(joinpath(Refresh.DATA_DIR, filename), joinpath(directory, filename))
         end
         Refresh.refresh_open_data(output_dir=directory)
-        if "--with-derived" in ARGS
-            Spatial.generate_tree_mobility_join(directory; data_dir=directory)
-            Flow.generate_counter_flow_artifact(directory; data_dir=directory)
-            if "--with-analysis" in ARGS
-                Analysis.generate_signal_artifacts(directory; data_dir=directory)
-            end
-            println("Julia derived refresh check passed in the temporary directory.")
+        Spatial.generate_tree_mobility_join(directory; data_dir=directory)
+        Flow.generate_counter_flow_artifact(directory; data_dir=directory)
+        if "--with-analysis" in ARGS
+            Analysis.generate_signal_artifacts(directory; data_dir=directory)
         end
+        Validation.validate_snapshots(directory)
+        println("Julia refreshed snapshots and derived artifacts validated in the temporary directory.")
         all(read(joinpath(Refresh.DATA_DIR, filename)) == content for (filename, content) in originals) || error("--check modified a committed snapshot")
         println("Julia public API check passed; committed snapshots were not modified.")
     end

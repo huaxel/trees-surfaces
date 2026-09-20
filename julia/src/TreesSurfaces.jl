@@ -32,9 +32,14 @@ function scenario_by_name(scenarios, name)
     return Dict{String, Any}()
 end
 
+function safe_weight(value)
+    parsed = Float64(value)
+    isfinite(parsed) && parsed >= 0.0 ? parsed : 0.0
+end
+
 function ranked_sites(points, heat_percentage, proximity_percentage)
-    heat = max(0.0, Float64(heat_percentage))
-    proximity = max(0.0, Float64(proximity_percentage))
+    heat = safe_weight(heat_percentage)
+    proximity = safe_weight(proximity_percentage)
     total = heat + proximity
     total = total == 0.0 ? 1.0 : total
     heat_weight = heat / total
@@ -62,7 +67,9 @@ function query_number(query, key, fallback)
         length(parts) == 2 || continue
         parts[1] == key || continue
         parsed = tryparse(Float64, parts[2])
-        parsed === nothing || return parsed
+        if parsed !== nothing && isfinite(parsed) && parsed >= 0.0
+            return parsed
+        end
     end
     return fallback
 end
