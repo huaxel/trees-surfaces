@@ -6,6 +6,7 @@ import argparse
 import csv
 import json
 import os
+import shutil
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -67,25 +68,62 @@ ACCEPTED_DECISION_FIELDS = [
 ]
 ACCEPTED_STATUSES = {"accepted", "accepted with changes"}
 PROVENANCE_FIELDS = [field for field in FIELDS if field not in REVIEW_FIELDS]
+SPREADSHEET_FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r")
+ESCAPED_FIELDS_COLUMN = "_spreadsheet_escaped_fields"
 
 
 def text(value: object) -> str:
     return "" if value is None else str(value)
 
 
+def spreadsheet_formula_payload(value: str) -> bool:
+    return value.startswith(SPREADSHEET_FORMULA_PREFIXES)
+
+
+def spreadsheet_safe(value: object) -> str:
+    string_value = text(value)
+    return f"'{string_value}" if spreadsheet_formula_payload(string_value) else string_value
+
+
+def spreadsheet_unescape(value: str) -> str:
+    if not value.startswith("'") or not spreadsheet_formula_payload(value[1:]):
+        raise RuntimeError("stakeholder worksheet escape metadata does not match its cell value")
+    return value[1:]
+
+
 def read_existing(path: Path) -> dict[str, str] | None:
     if not path.exists():
         return None
-    with path.open(newline="", encoding="utf-8") as handle:
-        reader = csv.DictReader(handle)
-        required = {"proposal_id", *REVIEW_FIELDS}
-        missing = required - set(reader.fieldnames or [])
-        if missing:
-            raise RuntimeError(f"existing stakeholder worksheet is missing required columns: {sorted(missing)}")
-        rows = list(reader)
+    try:
+        with path.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle, strict=True)
+            fields = reader.fieldnames or []
+            if len(set(fields)) != len(fields):
+                raise RuntimeError("existing stakeholder worksheet contains duplicate columns")
+            required = {"proposal_id", *REVIEW_FIELDS}
+            missing = required - set(fields)
+            if missing:
+                raise RuntimeError(f"existing stakeholder worksheet is missing required columns: {sorted(missing)}")
+            rows = list(reader)
+    except csv.Error as error:
+        raise RuntimeError(f"existing stakeholder worksheet is malformed CSV: {error}") from error
     if len(rows) != 1:
         raise RuntimeError(f"stakeholder worksheet must contain exactly one proposal row, found {len(rows)}")
-    return rows[0]
+    row = rows[0]
+    serialized_escape_map = row.pop(ESCAPED_FIELDS_COLUMN, "")
+    try:
+        escape_map = json.loads(serialized_escape_map) if serialized_escape_map else {}
+    except json.JSONDecodeError as error:
+        raise RuntimeError("stakeholder worksheet contains malformed spreadsheet escape metadata") from error
+    if not isinstance(escape_map, dict) or not all(isinstance(field, str) and isinstance(value, str) for field, value in escape_map.items()):
+        raise RuntimeError("stakeholder worksheet spreadsheet escape metadata must be a string map")
+    unknown_escaped_fields = set(escape_map) - set(FIELDS)
+    if unknown_escaped_fields:
+        raise RuntimeError(f"stakeholder worksheet has escape metadata for unknown columns: {sorted(unknown_escaped_fields)}")
+    for field, escaped_value in escape_map.items():
+        if row.get(field, "") == escaped_value:
+            row[field] = spreadsheet_unescape(escaped_value)
+    return row
 
 
 def validate_review(row: dict[str, object], allowed_statuses: set[str]) -> None:
@@ -128,9 +166,13 @@ def preserve_review(
 def write_csv(path: Path, row: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", newline="", encoding="utf-8", dir=path.parent, delete=False) as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")
+        writer = csv.DictWriter(handle, fieldnames=[*FIELDS, ESCAPED_FIELDS_COLUMN], lineterminator="\n")
         writer.writeheader()
-        writer.writerow(row)
+        escaped_fields = [field for field in FIELDS if spreadsheet_formula_payload(text(row.get(field, "")))]
+        output_row = {field: spreadsheet_safe(row.get(field, "")) for field in FIELDS}
+        escape_map = {field: output_row[field] for field in escaped_fields}
+        output_row[ESCAPED_FIELDS_COLUMN] = json.dumps(escape_map, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        writer.writerow(output_row)
         temporary = Path(handle.name)
     temporary.chmod(0o644)
     os.replace(temporary, path)
@@ -144,6 +186,31 @@ def write_json(path: Path, payload: dict[str, object]) -> None:
         temporary = Path(handle.name)
     temporary.chmod(0o644)
     os.replace(temporary, path)
+
+
+def promote_review_artifacts(stage: Path, data: Path, filenames: tuple[str, ...], replace_file=os.replace) -> None:
+    with tempfile.TemporaryDirectory(prefix=".review-backup-", dir=data.parent) as temporary:
+        backup = Path(temporary)
+        existing = set()
+        for filename in filenames:
+            destination = data / filename
+            if destination.is_file():
+                shutil.copy2(destination, backup / filename)
+                existing.add(filename)
+
+        promoted = []
+        try:
+            for filename in filenames:
+                replace_file(stage / filename, data / filename)
+                promoted.append(filename)
+        except BaseException:
+            for filename in reversed(promoted):
+                destination = data / filename
+                if filename in existing:
+                    os.replace(backup / filename, destination)
+                else:
+                    destination.unlink(missing_ok=True)
+            raise
 
 
 def main() -> None:
@@ -185,15 +252,20 @@ def main() -> None:
     compiled_output = data / "tree-stakeholder-reviews.json"
     existing = None if args.reset_review else read_existing(output)
     row = preserve_review(row, existing, allowed_statuses)
-    write_csv(output, row)
     completed = any(text(row.get(field)).strip() for field in REVIEW_FIELDS)
-    write_json(compiled_output, {
+    compiled = {
         "source": output.name,
         "proposal_id": proposal["proposal_id"],
         "status": "completed stakeholder review" if completed else "stakeholder review pending",
         "record_count": 1 if completed else 0,
         "records": [{field: text(row[field]) for field in FIELDS}] if completed else [],
-    })
+    }
+    artifact_names = (output.name, compiled_output.name)
+    with tempfile.TemporaryDirectory(prefix=".review-stage-", dir=data.parent) as temporary:
+        stage = Path(temporary)
+        write_csv(stage / output.name, row)
+        write_json(stage / compiled_output.name, compiled)
+        promote_review_artifacts(stage, data, artifact_names)
     try:
         display_output = output.relative_to(ROOT)
         display_compiled = compiled_output.relative_to(ROOT)

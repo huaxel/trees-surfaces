@@ -145,6 +145,18 @@ assert payload["proximityWeight"] == 1
 assert payload["sites"][0]["id"] == "vbx_56876"
 print("Julia HTTP smoke test passed")
 PY
+curl -fsS "http://127.0.0.1:${port}/api/screen?heat=0&proximity=0" >"$response"
+python3 - "$response" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as handle:
+    payload = json.load(handle)
+
+assert payload["heatWeight"] == payload["proximityWeight"] == 0.5
+assert len({site["signal"] for site in payload["sites"]}) > 1
+print("Julia zero-sum weight HTTP smoke test passed")
+PY
 curl -fsS "http://127.0.0.1:${port}/api/screen?heat=NaN&proximity=Inf" >"$response"
 python3 - "$response" <<'PY'
 import json
@@ -158,6 +170,18 @@ assert payload["heatWeight"] == 0.6
 assert payload["proximityWeight"] == 0.4
 assert all(math.isfinite(site["signal"]) for site in payload["sites"])
 print("Julia malformed-weight HTTP smoke test passed")
+PY
+curl -fsS "http://127.0.0.1:${port}/api/screen?heat=1e308&proximity=1e308" >"$response"
+python3 - "$response" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as handle:
+    payload = json.load(handle)
+
+assert payload["heatWeight"] == payload["proximityWeight"] == 0.5
+assert len({site["signal"] for site in payload["sites"]}) > 1
+print("Julia extreme-weight HTTP smoke test passed")
 PY
 
 page=$(curl -fsS "http://127.0.0.1:${port}/")

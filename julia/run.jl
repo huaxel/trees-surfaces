@@ -2,7 +2,7 @@
 
 using Pkg
 Pkg.activate(@__DIR__)
-Pkg.instantiate()
+get(ENV, "JULIA_INSTANTIATE", "1") == "1" && Pkg.instantiate()
 
 include(joinpath(@__DIR__, "src", "TreesSurfaces.jl"))
 using .TreesSurfaces

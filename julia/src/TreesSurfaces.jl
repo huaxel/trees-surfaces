@@ -2,6 +2,7 @@ module TreesSurfaces
 
 using HTTP
 using JSON3
+using Random
 
 export serve_app, read_json_path
 
@@ -9,6 +10,13 @@ const REPO_ROOT = normpath(joinpath(@__DIR__, "..", ".."))
 const DATA_DIR = joinpath(REPO_ROOT, "prototypes", "trees-surfaces", "data")
 const PUBLIC_DIR = joinpath(@__DIR__, "..", "public")
 const APP_STATE = Ref{Any}(nothing)
+const SECURITY_HEADERS = [
+    "Cache-Control" => "no-store",
+    "Permissions-Policy" => "geolocation=(), camera=(), microphone=()",
+    "Referrer-Policy" => "no-referrer",
+    "X-Content-Type-Options" => "nosniff",
+    "X-Frame-Options" => "DENY",
+]
 
 text(value) = value === nothing ? "" : string(value)
 number(value) = value isa Number ? Float64(value) : parse(Float64, text(value))
@@ -40,19 +48,26 @@ end
 function ranked_sites(points, heat_percentage, proximity_percentage)
     heat = safe_weight(heat_percentage)
     proximity = safe_weight(proximity_percentage)
-    total = heat + proximity
-    total = total == 0.0 ? 1.0 : total
-    heat_weight = heat / total
-    proximity_weight = proximity / total
+    largest = max(heat, proximity)
+    if largest == 0.0
+        heat_weight = 0.5
+        proximity_weight = 0.5
+    else
+        scaled_heat = heat / largest
+        scaled_proximity = proximity / largest
+        total = scaled_heat + scaled_proximity
+        heat_weight = scaled_heat / total
+        proximity_weight = scaled_proximity / total
+    end
     ranked = [
         begin
             result = copy(point)
-            result["signal"] = point["heatScore"] * heat_weight + point["proximityScore"] * proximity_weight
+            result["signal"] = round(point["heatScore"] * heat_weight + point["proximityScore"] * proximity_weight; digits=3)
             result
         end
         for point in points
     ]
-    sort!(ranked, by = point -> point["signal"], rev = true)
+    sort!(ranked, by = point -> (-point["signal"], text(get(point, "id", ""))))
     return Dict{String, Any}(
         "heatWeight" => heat_weight,
         "proximityWeight" => proximity_weight,
@@ -62,16 +77,14 @@ end
 
 function query_number(query, key, fallback)
     query === nothing && return fallback
-    for pair in split(String(query), '&')
-        parts = split(pair, '='; limit = 2)
-        length(parts) == 2 || continue
-        parts[1] == key || continue
-        parsed = tryparse(Float64, parts[2])
-        if parsed !== nothing && isfinite(parsed) && parsed >= 0.0
-            return parsed
-        end
+    parameters = try
+        HTTP.URIs.queryparams(String(query))
+    catch error
+        error isa ArgumentError || rethrow()
+        return fallback
     end
-    return fallback
+    parsed = tryparse(Float64, get(parameters, key, ""))
+    parsed !== nothing && isfinite(parsed) && parsed >= 0.0 ? parsed : fallback
 end
 
 function build_state()
@@ -123,8 +136,8 @@ function build_state()
     position(value, low, high) = high == low ? 50.0 : 1 + (value - low) / (high - low) * 82
 
     for point in raw_points
-        point["heatScore"] = scale(point["heatPixel"], min_heat, max_heat)
-        point["proximityScore"] = 100 - scale(point["distanceM"], min_distance, max_distance)
+        point["heatScore"] = round(scale(point["heatPixel"], min_heat, max_heat); digits=3)
+        point["proximityScore"] = round(100 - scale(point["distanceM"], min_distance, max_distance); digits=3)
         point["mapX"] = position(point["longitude"], min_longitude, max_longitude)
         point["mapY"] = 1 + 82 - position(point["latitude"], min_latitude, max_latitude)
         delete!(point, "longitude")
@@ -174,28 +187,38 @@ function app_state()
     return APP_STATE[]
 end
 
-function render_index()
+csp_nonce() = randstring(RandomDevice(), 32)
+
+function render_index(nonce=csp_nonce())
     template = read(joinpath(PUBLIC_DIR, "index.html"), String)
+    template = replace(template, "__CSP_NONCE__" => nonce)
     serialized = JSON3.write(app_state())
     # Prevent a data value from terminating the inline script element.
     serialized = replace(serialized, "<" => "\\u003c")
     replace(template, "__INITIAL_STATE__" => serialized)
 end
 
+function app_response(status, content_type, body; headers=Pair{String,String}[])
+    HTTP.Response(status, [SECURITY_HEADERS..., "Content-Type" => content_type, headers...], body)
+end
+
 function static_response(path, content_type)
-    isfile(path) || return HTTP.Response(404, "Not found")
-    HTTP.Response(200, ["Content-Type" => content_type], read(path))
+    isfile(path) || return app_response(404, "text/plain; charset=utf-8", "Not found\n")
+    app_response(200, content_type, read(path))
 end
 
 function json_response(payload)
-    HTTP.Response(200, ["Content-Type" => "application/json; charset=utf-8"], JSON3.write(payload))
+    app_response(200, "application/json; charset=utf-8", JSON3.write(payload))
 end
 
 function handler(request)
+    request.method in ("GET", "HEAD") || return app_response(405, "text/plain; charset=utf-8", "Method not allowed\n"; headers=["Allow" => "GET, HEAD"])
     uri = HTTP.URI(request.target)
     path = uri.path
     if path == "/" || path == "/index.html"
-        return HTTP.Response(200, ["Content-Type" => "text/html; charset=utf-8"], render_index())
+        nonce = csp_nonce()
+        content_security_policy = "default-src 'self'; script-src 'nonce-$(nonce)'; style-src 'nonce-$(nonce)'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"
+        return app_response(200, "text/html; charset=utf-8", render_index(nonce); headers=["Content-Security-Policy" => content_security_policy])
     elseif path == "/api/screen"
         state = app_state()
         heat = query_number(uri.query, "heat", 60.0)
@@ -206,9 +229,9 @@ function handler(request)
     elseif path == "/stakeholder-review.csv"
         return static_response(joinpath(DATA_DIR, "tree-stakeholder-review.csv"), "text/csv; charset=utf-8")
     elseif path == "/health"
-        return HTTP.Response(200, ["Content-Type" => "text/plain"], "ok\n")
+        return app_response(200, "text/plain; charset=utf-8", "ok\n")
     end
-    HTTP.Response(404, "Not found\n")
+    app_response(404, "text/plain; charset=utf-8", "Not found\n")
 end
 
 function serve_app(; host = "127.0.0.1", port = 8080)

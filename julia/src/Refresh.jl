@@ -12,10 +12,18 @@ const REMARKABLE_TREE_METADATA_URL = "https://opendata.brussels.be/api/explore/v
 const MOBILITY_METADATA_URL = "https://data.mobility.brussels/en/info/rt_counting/"
 const MOBILITY_API_URL = "https://data.mobility.brussels/bike/api/counts/"
 const COUNTER_HISTORY_FEATURES = ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")
+const REFRESH_FILENAMES = (
+    "brussels-trees-sample.json",
+    "brussels-remarkable-trees-sample.json",
+    "brussels-bike-counters.json",
+    ("brussels-bike-history-$(feature)-2024-01.json" for feature in COUNTER_HISTORY_FEATURES)...,
+)
 const MAX_RESPONSE_BYTES = 20 * 1024 * 1024
 
 require(condition, message) = condition || throw(ErrorException(message))
 text(value) = value === nothing ? "" : string(value)
+finite_number(value) = value isa Number && !(value isa Bool) && isfinite(Float64(value))
+valid_brussels_coordinates(latitude, longitude) = finite_number(latitude) && finite_number(longitude) && 50.7 <= latitude <= 51.0 && 4.1 <= longitude <= 4.7
 
 function encode_query(value)
     io = IOBuffer()
@@ -30,11 +38,22 @@ function encode_query(value)
 end
 
 function get_body(url)
-    response = HTTP.request("GET", url, ["Accept-Encoding" => "identity", "User-Agent" => "trees-surfaces-julia-refresh/1.0"]; status_exception=false)
-    require(200 <= response.status < 300, "HTTP $(response.status) from $url")
-    body = Vector{UInt8}(response.body)
-    require(length(body) <= MAX_RESPONSE_BYTES, "response exceeds $(MAX_RESPONSE_BYTES) bytes: $url")
-    body
+    body = IOBuffer()
+    headers = ["Accept-Encoding" => "identity", "User-Agent" => "trees-surfaces-julia-refresh/1.0"]
+    HTTP.open("GET", url, headers; connect_timeout=10, response_header_timeout=30, read_idle_timeout=30) do stream
+        response = HTTP.startread(stream)
+        require(200 <= response.status < 300, "HTTP $(response.status) from $url")
+        buffer = Vector{UInt8}(undef, 64 * 1024)
+        total = 0
+        while true
+            count = readbytes!(stream, buffer)
+            count == 0 && break
+            total += count
+            require(total <= MAX_RESPONSE_BYTES, "response exceeds $(MAX_RESPONSE_BYTES) bytes: $url")
+            write(body, @view buffer[1:count])
+        end
+    end
+    take!(body)
 end
 
 function fetch_json(base; params=Pair{String,String}[])
@@ -93,14 +112,21 @@ function validate_history_payload(payload, feature)
     by_day = Dict{String,Vector{Any}}()
     for row in rows
         count = get(row, "count", nothing)
-        require(count isa Number && count >= 0, "counter history for $feature contains an invalid count")
+        require(finite_number(count) && count >= 0, "counter history for $feature contains an invalid count")
         day = text(get(row, "count_date", nothing))
         push!(get!(by_day, day, Any[]), row)
     end
     expected_days = Set("2024/01/$(lpad(day, 2, '0'))" for day in 1:7)
     require(Set(keys(by_day)) == expected_days, "counter history for $feature must cover 2024/01/01 through 2024/01/07")
     require(all(length(day_rows) == 96 for day_rows in values(by_day)), "counter history for $feature must contain 96 observations per day")
-    require(all(Set(get(row, "time_gap", nothing) for row in day_rows) == Set(1:96) for day_rows in values(by_day)), "counter history for $feature must contain each 15-minute slot exactly once per day")
+    require(
+        all(
+            all((slot = get(row, "time_gap", nothing); slot isa Integer && !(slot isa Bool) && 1 <= slot <= 96) for row in day_rows) &&
+            Set(get(row, "time_gap", nothing) for row in day_rows) == Set(1:96)
+            for day_rows in values(by_day)
+        ),
+        "counter history for $feature must contain each integer 15-minute slot exactly once per day",
+    )
     rows
 end
 
@@ -118,9 +144,18 @@ function fetch_all_records(base)
     first, rows
 end
 
+function first_present(values...)
+    for value in values
+        if value !== nothing && value !== missing && !isempty(strip(string(value)))
+            return value
+        end
+    end
+    nothing
+end
+
 function tree_row(item, fields)
     point = get(item, "geo_point_2d", Dict{String,Any}())
-    Dict{String,Any}("id"=>get(item, fields[1], nothing), "street"=>coalesce(get(item, fields[2], nothing), get(item, fields[3], nothing)), "district"=>coalesce(get(item, fields[4], nothing), get(item, fields[5], nothing)), "latitude"=>get(point, "lat", nothing), "longitude"=>get(point, "lon", nothing), "species"=>get(item, fields[6], nothing), "source"=>coalesce(get(item, fields[7], nothing), get(item, fields[8], nothing)))
+    Dict{String,Any}("id"=>get(item, fields[1], nothing), "street"=>first_present(get(item, fields[2], nothing), get(item, fields[3], nothing)), "district"=>first_present(get(item, fields[4], nothing), get(item, fields[5], nothing)), "latitude"=>get(point, "lat", nothing), "longitude"=>get(point, "lon", nothing), "species"=>get(item, fields[6], nothing), "source"=>first_present(get(item, fields[7], nothing), get(item, fields[8], nothing)))
 end
 
 function refresh_trees(output_dir=DATA_DIR)
@@ -140,6 +175,7 @@ function refresh_trees(output_dir=DATA_DIR)
     payload = fetch_json(MANAGED_TREE_METADATA_URL * "/records"; params=params)
     require(source >= 100 && length(get(payload, "results", Any[])) == 100, "managed-tree API returned fewer than 100 records")
     rows = [tree_row(item, ("id", "address_fr", "adress_nl", "district_fr", "district_nl", "species", "source_fr", "source_nl")) for item in preserve_sample(get(payload, "results", Any[]), out, "id")]
+    require(all(valid_brussels_coordinates(get(row, "latitude", nothing), get(row, "longitude", nothing)) for row in rows), "managed-tree sample contains coordinates outside the Brussels region")
     completeness = Dict(field => count(get(row, field, nothing) !== nothing for row in rows) for field in ("latitude", "longitude", "street", "district", "species"))
     atomic_write_json(out, Dict("source"=>source, "dataset_metadata_url"=>MANAGED_TREE_METADATA_URL, "source_licence"=>"CC BY 4.0", "source_credit"=>"City of Brussels/Data Management; catalogue attributions: Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts", "sampling"=>"first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "completeness"=>completeness, "records"=>rows))
 
@@ -150,7 +186,8 @@ function refresh_trees(output_dir=DATA_DIR)
     metadata, all_rows = fetch_all_records(REMARKABLE_TREE_METADATA_URL * "/records")
     require(Int(get(metadata, "total_count", 0)) >= 100 && length(all_rows) >= 100, "remarkable-tree API returned fewer than 100 records")
     remarkable_out = joinpath(output_dir, "brussels-remarkable-trees-sample.json")
-    rows = [Dict("id"=>get(item, "id_arbres_cms", nothing), "species"=>get(item, "nom_la", nothing), "status"=>coalesce(get(item, "statuts_fr", nothing), get(item, "statuts_nl", nothing)), "circumference"=>get(item, "circonference", nothing), "crown_diameter"=>get(item, "diametre_cime", nothing), "latitude"=>get(get(item, "geo_point_2d", Dict()), "lat", nothing), "longitude"=>get(get(item, "geo_point_2d", Dict()), "lon", nothing), "url"=>coalesce(get(item, "url_fr", nothing), get(item, "url_nl", nothing))) for item in preserve_sample(all_rows, remarkable_out, "id_arbres_cms")]
+    rows = [Dict("id"=>get(item, "id_arbres_cms", nothing), "species"=>get(item, "nom_la", nothing), "status"=>first_present(get(item, "statuts_fr", nothing), get(item, "statuts_nl", nothing)), "circumference"=>get(item, "circonference", nothing), "crown_diameter"=>get(item, "diametre_cime", nothing), "latitude"=>get(get(item, "geo_point_2d", Dict()), "lat", nothing), "longitude"=>get(get(item, "geo_point_2d", Dict()), "lon", nothing), "url"=>first_present(get(item, "url_fr", nothing), get(item, "url_nl", nothing))) for item in preserve_sample(all_rows, remarkable_out, "id_arbres_cms")]
+    require(all(valid_brussels_coordinates(get(row, "latitude", nothing), get(row, "longitude", nothing)) for row in rows), "remarkable-tree sample contains coordinates outside the Brussels region")
     atomic_write_json(remarkable_out, Dict("source"=>get(metadata, "total_count", 0), "dataset_metadata_url"=>REMARKABLE_TREE_METADATA_URL, "source_licence"=>"CC BY 4.0", "source_credit"=>"heritage.brussels; catalogue attribution: National Geographic Institute (NGI-IGN, ngi.be)", "sampling"=>"first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "records"=>rows))
 end
 
@@ -159,7 +196,8 @@ function counter_row(feature)
     geometry = get(feature, "geometry", Dict())
     coords = geometry isa Dict ? get(geometry, "coordinates", Any[]) : Any[]
     require(coords isa AbstractVector && length(coords) >= 2, "bicycle-counter API returned invalid geometry")
-    Dict("id"=>get(properties, "device_name", nothing), "street"=>coalesce(get(properties, "road_en", nothing), get(properties, "road_fr", nothing)), "active"=>get(properties, "active", nothing), "longitude"=>coords[1], "latitude"=>coords[2])
+    require(valid_brussels_coordinates(coords[2], coords[1]), "bicycle-counter API returned coordinates outside the Brussels region")
+    Dict("id"=>get(properties, "device_name", nothing), "street"=>first_present(get(properties, "road_en", nothing), get(properties, "road_fr", nothing)), "active"=>get(properties, "active", nothing), "longitude"=>coords[1], "latitude"=>coords[2])
 end
 
 function refresh_bikes(output_dir=DATA_DIR)
@@ -179,9 +217,58 @@ function refresh_bikes(output_dir=DATA_DIR)
     end
 end
 
+function promote_files(stage, output_dir, filenames; move_file! = (source, destination) -> mv(source, destination; force=true))
+    mktempdir(dirname(output_dir)) do backup
+        existing = Set{String}()
+        for filename in filenames
+            destination = joinpath(output_dir, filename)
+            if isfile(destination)
+                cp(destination, joinpath(backup, filename))
+                push!(existing, filename)
+            end
+        end
+
+        promoted = String[]
+        try
+            for filename in filenames
+                move_file!(joinpath(stage, filename), joinpath(output_dir, filename))
+                push!(promoted, filename)
+            end
+        catch
+            for filename in reverse(promoted)
+                destination = joinpath(output_dir, filename)
+                if filename in existing
+                    mv(joinpath(backup, filename), destination; force=true)
+                else
+                    rm(destination; force=true)
+                end
+            end
+            rethrow()
+        end
+    end
+end
+
+function staged_refresh(update!; output_dir=DATA_DIR, filenames=REFRESH_FILENAMES)
+    mkpath(output_dir)
+    mktempdir(dirname(output_dir)) do temporary
+        stage = joinpath(temporary, "data")
+        mkpath(stage)
+        for filename in readdir(output_dir)
+            source = joinpath(output_dir, filename)
+            isfile(source) && cp(source, joinpath(stage, filename))
+        end
+        update!(stage)
+        missing = [filename for filename in filenames if !isfile(joinpath(stage, filename))]
+        isempty(missing) || error("staged refresh did not produce required outputs: $(missing)")
+        promote_files(stage, output_dir, filenames)
+    end
+end
+
 function refresh_open_data(; output_dir=DATA_DIR)
-    refresh_trees(output_dir)
-    refresh_bikes(output_dir)
+    staged_refresh(output_dir=output_dir) do stage
+        refresh_trees(stage)
+        refresh_bikes(stage)
+    end
     println("Julia refreshed public-data snapshots; Python remains the derived-join fallback.")
 end
 

@@ -5,6 +5,8 @@ using ..TreesSurfaces
 
 export signal_summary, generate_signal_artifacts
 
+const SPREADSHEET_FORMULA_PREFIXES = ('=', '+', '-', '@', '\t', '\r')
+
 function signal_summary()
     state = TreesSurfaces.build_state()
     scenarios = Dict(
@@ -35,6 +37,9 @@ end
 function csv_escape(value)
     value === nothing && return ""
     string_value = string(value)
+    if !isempty(string_value) && first(string_value) in SPREADSHEET_FORMULA_PREFIXES
+        string_value = "'" * string_value
+    end
     (occursin(',', string_value) || occursin('"', string_value) || occursin('\n', string_value) || occursin('\r', string_value)) || return string_value
     return "\"" * replace(string_value, "\"" => "\"\"") * "\""
 end
@@ -82,9 +87,9 @@ function artifact_row(site)
     )
 end
 
-function markdown_value(value)
-    value === nothing && return "Unnamed street"
-    replace(string(value), "|" => "\\|")
+function markdown_value(value; fallback="")
+    string_value = value === nothing ? fallback : string(value)
+    replace(string_value, "\\" => "\\\\", "|" => "\\|", "\r" => " ", "\n" => " ")
 end
 
 function write_analysis_report(report, output_dir)
@@ -127,7 +132,7 @@ function write_analysis_report(report, output_dir)
         "|---:|---|---|---:|---:|---:|",
     ]
     for (rank, row) in enumerate(balanced[1:10])
-        push!(lines, "| $(rank) | $(row["id"]) | $(markdown_value(row["street"])) | $(row["heat_pixel"]) | $(row["distance_m"]) m | $(row["signal"]) |")
+        push!(lines, "| $(rank) | $(markdown_value(row["id"])) | $(markdown_value(row["street"]; fallback="Unnamed street")) | $(row["heat_pixel"]) | $(row["distance_m"]) m | $(row["signal"]) |")
     end
     push!(lines, "")
     push!(lines, "## Interpretation boundary")

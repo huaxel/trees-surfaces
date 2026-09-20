@@ -6,8 +6,10 @@ import csv
 import hashlib
 import json
 import math
+import os
 import runpy
 import statistics
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -174,7 +176,16 @@ def main() -> None:
     require(heat.get("value_semantics") == heat_join.get("VALUE_SEMANTICS"), "heat join value semantics are stale")
     control_x, control_y = heat_join["wgs84_to_lambert72"](50.85, 4.35)
     require(abs(control_x - 148679.4474) < 0.01 and abs(control_y - 171066.8103) < 0.01, "Belgian Lambert 72 transform fails the EPSG control point")
-    require(all((record["heat_pixel_column"], record["heat_pixel_row"]) == heat_join["raster_pixel"](record["latitude"], record["longitude"], 100_000, 100_000) for record in heat["records"]), "heat raster cells are stale relative to the coordinate transform")
+    raster_width, raster_height = heat_join["EXPECTED_RASTER_SIZE"]
+    require(all((record["heat_pixel_column"], record["heat_pixel_row"]) == heat_join["raster_pixel"](record["latitude"], record["longitude"], raster_width, raster_height) for record in heat["records"]), "heat raster cells are stale relative to the coordinate transform")
+    pixel_from_projection = heat_join["projected_to_raster_pixel"]
+    require(pixel_from_projection(heat_join["ORIGIN_X"], heat_join["ORIGIN_Y"], raster_width, raster_height) == (0, 0), "heat raster origin maps to the wrong pixel")
+    try:
+        pixel_from_projection(heat_join["ORIGIN_X"] - 0.5, heat_join["ORIGIN_Y"], raster_width, raster_height)
+    except ValueError:
+        pass
+    else:
+        require(False, "heat raster accepts a point just west of its boundary")
     require(all(record["latitude"] == tree_by_id[record["id"]]["latitude"] and record["longitude"] == tree_by_id[record["id"]]["longitude"] for record in mobility["records"]), "mobility join coordinates are stale")
     require(len(history["records"]) == 672, "expected 672 counter observations")
     require(all(len(payload["records"]) == 672 for payload in history_flows.values()), "counter history snapshots must hold 672 observations")
@@ -188,8 +199,18 @@ def main() -> None:
         require(set(days) == expected_days, f"history observations do not cover the expected seven dates for {feature}")
         require(all(len(records) == 96 for records in days.values()), f"history observations are not 96 per day for {feature}")
         expected_slots = set(range(1, 97))
-        require(all({record.get("time_gap") for record in records} == expected_slots for records in days.values()), f"history observations do not contain each 15-minute slot exactly once per day for {feature}")
-        require(all(record["count"] >= 0 for record in payload["records"]), f"negative counter count for {feature}")
+        require(
+            all(
+                all(type(record.get("time_gap")) is int and 1 <= record["time_gap"] <= 96 for record in records)
+                and {record["time_gap"] for record in records} == expected_slots
+                for records in days.values()
+            ),
+            f"history observations do not contain each integer 15-minute slot exactly once per day for {feature}",
+        )
+        require(
+            all(isinstance(record.get("count"), (int, float)) and not isinstance(record["count"], bool) and math.isfinite(record["count"]) and record["count"] >= 0 for record in payload["records"]),
+            f"invalid counter count for {feature}",
+        )
     require(flow_context.get("record_count") == 100 and flow_context.get("trees_with_measured_flow") == 97, "counter-flow context is incomplete")
     require(flow_context.get("source") == "Brussels Mobility bicycle counter API (five committed counter snapshots sharing one 7-day period)", "counter-flow source provenance is stale")
     require(flow_context.get("source_metadata_url") == inventory["mobility"]["metadata"] and flow_context.get("source_licence") == inventory["mobility"]["licence"] and flow_context.get("source_credit") == inventory["mobility"]["credit"], "counter-flow licence provenance is stale")
@@ -223,6 +244,81 @@ def main() -> None:
     require(inventory.get("mobility", {}).get("licence") == "CC0 1.0" and inventory.get("mobility", {}).get("credit") == "Brussels Mobility", "mobility licence or source credit is missing")
     refresh_script = runpy.run_path(str(ROOT / "fetch_open_data.py"))
     require(refresh_script.get("MOBILITY_METADATA_URL") == inventory["mobility"]["metadata"] and refresh_script.get("MOBILITY_LICENCE") == inventory["mobility"]["licence"] and refresh_script.get("MOBILITY_CREDIT") == inventory["mobility"]["credit"], "mobility refresh expectations disagree with the source inventory")
+    require(not refresh_script["finite_number"](float("inf")) and not refresh_script["finite_number"](True), "Python refresh accepts non-finite or boolean measurements")
+    for invalid_slot in (True, 1.0):
+        malformed_history = {
+            "feature": history["feature"],
+            "startDate": history["start_date"],
+            "endDate": history["end_date"],
+            "data": [dict(record) for record in history["records"]],
+        }
+        malformed_history["data"][0]["time_gap"] = invalid_slot
+        try:
+            refresh_script["validate_history_payload"](malformed_history, history["feature"])
+        except RuntimeError:
+            pass
+        else:
+            require(False, "Python refresh accepts a non-integer counter-history slot")
+    valid_brussels_coordinates = refresh_script["valid_brussels_coordinates"]
+    require(valid_brussels_coordinates(50.85, 4.35), "Python refresh rejects valid Brussels coordinates")
+    require(not valid_brussels_coordinates(4.35, 50.85) and not valid_brussels_coordinates(0.0, 0.0), "Python refresh accepts swapped or out-of-region coordinates")
+    for coordinates in ([float("inf"), 50.0], [50.85, 4.35], [0.0, 0.0]):
+        try:
+            refresh_script["bike_device_row"]({"properties": {"device_name": "bad"}, "geometry": {"coordinates": coordinates}})
+        except RuntimeError:
+            pass
+        else:
+            require(False, "Python refresh accepts invalid bicycle-counter coordinates")
+    with tempfile.TemporaryDirectory() as temporary:
+        staged_data = Path(temporary) / "data"
+        staged_data.mkdir()
+        sentinel = staged_data / "sentinel.json"
+        sentinel.write_text("old", encoding="utf-8")
+        staged_refresh = refresh_script["staged_refresh"]
+        refresh_globals = staged_refresh.__globals__
+        original_fetch_trees = refresh_globals["fetch_trees"]
+
+        def fail_after_staged_write(stage: Path) -> None:
+            (stage / "sentinel.json").write_text("new", encoding="utf-8")
+            raise RuntimeError("simulated refresh failure")
+
+        refresh_globals["fetch_trees"] = fail_after_staged_write
+        try:
+            try:
+                staged_refresh(staged_data)
+            except RuntimeError as error:
+                require(str(error) == "simulated refresh failure", "staged Python refresh raised an unexpected error")
+            else:
+                require(False, "staged Python refresh did not propagate a fetch failure")
+        finally:
+            refresh_globals["fetch_trees"] = original_fetch_trees
+        require(sentinel.read_text(encoding="utf-8") == "old", "failed Python refresh modified a committed snapshot")
+    with tempfile.TemporaryDirectory() as temporary:
+        root = Path(temporary)
+        stage = root / "stage"
+        destination = root / "data"
+        stage.mkdir()
+        destination.mkdir()
+        filenames = ("first.json", "second.json", "third.json")
+        for filename in filenames:
+            (stage / filename).write_text(f"new-{filename}", encoding="utf-8")
+            (destination / filename).write_text(f"old-{filename}", encoding="utf-8")
+        calls = 0
+
+        def fail_second_replace(source: Path, target: Path) -> None:
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise OSError("simulated promotion failure")
+            os.replace(source, target)
+
+        try:
+            refresh_script["promote_files"](stage, destination, filenames, fail_second_replace)
+        except OSError as error:
+            require(str(error) == "simulated promotion failure", "Python promotion rollback raised an unexpected error")
+        else:
+            require(False, "Python promotion did not propagate a rename failure")
+        require(all((destination / filename).read_text(encoding="utf-8") == f"old-{filename}" for filename in filenames), "failed Python promotion left mixed-generation outputs")
     history_url = inventory.get("mobility", {}).get("history", "")
     require(history_url.startswith("https://data.mobility.brussels/bike/api/counts/"), "mobility source inventory is missing history URL")
     require(parse_qs(urlparse(history_url).query) == {
@@ -305,7 +401,13 @@ def main() -> None:
     }
     expected_rankings = {}
     for name, weights in scenario_weights.items():
-        ranked = sorted(analysis_rows, key=lambda row: row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], reverse=True)
+        ranked = sorted(
+            analysis_rows,
+            key=lambda row: (
+                -round(row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], 3),
+                str(row["id"]),
+            ),
+        )
         expected_rankings[name] = [{**row, "signal": round(row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], 3)} for row in ranked]
 
     def compare_ranked(actual_rows, expected_rows, label):
@@ -367,6 +469,32 @@ def main() -> None:
     require(compiled_stakeholder_reviews.get("records") == ([stakeholder_row] if has_stakeholder_review else []), "compiled stakeholder review does not match the worksheet")
 
     stakeholder_export = runpy.run_path(str(ROOT / "trees-surfaces" / "export_stakeholder_review.py"))
+    require(stakeholder_export["spreadsheet_safe"]("=1+1") == "'=1+1", "stakeholder CSV does not neutralize spreadsheet formulas")
+    require(stakeholder_export["spreadsheet_unescape"]("'=1+1") == "=1+1", "stakeholder CSV formula neutralization is not reversible")
+    with tempfile.TemporaryDirectory() as temporary:
+        malformed_review = Path(temporary) / "review.csv"
+        malformed_review.write_text(
+            ",".join(stakeholder_export["FIELDS"]) + "\n" +
+            ",".join(["test-proposal", *([""] * (len(stakeholder_export["FIELDS"]) - 2)), '"unterminated']),
+            encoding="utf-8",
+        )
+        try:
+            stakeholder_export["read_existing"](malformed_review)
+        except RuntimeError as error:
+            require("malformed CSV" in str(error), "malformed stakeholder CSV raised an unclear error")
+        else:
+            require(False, "unterminated stakeholder CSV field was accepted")
+    analysis_export = runpy.run_path(str(ROOT / "trees-surfaces" / "analyze_signal.py"))
+    require(analysis_export["spreadsheet_safe"]("@SUM(A:A)") == "'@SUM(A:A)", "analysis CSV does not neutralize spreadsheet formulas")
+    require(analysis_export["markdown_value"]("A | B\nC") == "A \\| B C", "analysis report does not escape Markdown table content")
+    tie_rows = [{"id": "b", "heat_score": 50.0, "proximity_score": 50.0}, {"id": "a", "heat_score": 50.0, "proximity_score": 50.0}]
+    tie_weights = {"heat": 0.6, "proximity": 0.4}
+    require([row["id"] for row in sorted(tie_rows, key=lambda row: analysis_export["ranking_key"](row, tie_weights))] == ["a", "b"], "analysis ranking ties are not deterministic")
+    near_tie_rows = [
+        {"id": "b", "heat_score": 50.0, "proximity_score": 50.001},
+        {"id": "a", "heat_score": 50.0, "proximity_score": 50.0},
+    ]
+    require([row["id"] for row in sorted(near_tie_rows, key=lambda row: analysis_export["ranking_key"](row, tie_weights))] == ["a", "b"], "analysis ranking does not tie-break rounded signals by ID")
     generated_stakeholder = {field: "" for field in stakeholder_export["FIELDS"]}
     generated_stakeholder.update({"proposal_id": "test-proposal", "sensitivity_summary": "test evidence"})
     existing_stakeholder = {field: str(generated_stakeholder[field]) for field in stakeholder_export["FIELDS"]}

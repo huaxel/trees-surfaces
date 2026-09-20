@@ -9,6 +9,7 @@ exists, without re-ranking the exploratory signal.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import statistics
 from pathlib import Path
@@ -20,20 +21,20 @@ OUTPUT = DATA / "brussels-tree-counter-flow.json"
 COUNTERS = ("CB1101", "CB1142", "CJM90", "CB1143", "CB2105")
 
 
-def load_history_payload(feature: str) -> dict:
-    return json.loads((DATA / f"brussels-bike-history-{feature}-2024-01.json").read_text())
+def load_history_payload(feature: str, data_dir: Path = DATA) -> dict:
+    return json.loads((data_dir / f"brussels-bike-history-{feature}-2024-01.json").read_text())
 
 
-def load_history(feature: str) -> list:
-    return load_history_payload(feature)["records"]
+def load_history(feature: str, data_dir: Path = DATA) -> list:
+    return load_history_payload(feature, data_dir)["records"]
 
 
-def main() -> None:
-    joined = json.loads((DATA / "brussels-tree-bike-nearest.json").read_text())["records"]
-    flow = {feature: statistics.mean(record["count"] for record in load_history(feature)) for feature in COUNTERS}
+def generate(data_dir: Path = DATA) -> Path:
+    joined = json.loads((data_dir / "brussels-tree-bike-nearest.json").read_text())["records"]
+    flow = {feature: statistics.mean(record["count"] for record in load_history(feature, data_dir)) for feature in COUNTERS}
     weekday = {}
     for feature in COUNTERS:
-        records = load_history(feature)
+        records = load_history(feature, data_dir)
         by_day = {}
         for record in records:
             day = record["count_date"][:10]
@@ -48,7 +49,7 @@ def main() -> None:
 
     source_terms = set()
     for feature in COUNTERS:
-        history_payload = load_history_payload(feature)
+        history_payload = load_history_payload(feature, data_dir)
         source_terms.add((
             history_payload.get("dataset_metadata_url"),
             history_payload.get("source_licence"),
@@ -86,11 +87,24 @@ def main() -> None:
         "caveat": "Flow is measured at the nearest counter, not at the tree; the period is a single winter week, so it is not a seasonal mobility estimate.",
         "records": records,
     }
-    OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
-    OUTPUT.chmod(0o644)
-    print(f"wrote {OUTPUT.relative_to(ROOT)}")
+    output = data_dir / OUTPUT.name
+    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+    output.chmod(0o644)
+    try:
+        display_output = output.relative_to(ROOT)
+    except ValueError:
+        display_output = output
+    print(f"wrote {display_output}")
     print(f"trees with measured flow at nearest counter: {covered}/{len(records)}")
     print(f"counter mean flows: { {k: v['mean_all'] for k, v in weekday.items()} }")
+    return output
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data-dir", type=Path, default=DATA)
+    args = parser.parse_args()
+    generate(args.data_dir)
 
 
 if __name__ == "__main__":

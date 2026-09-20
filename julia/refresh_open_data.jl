@@ -49,24 +49,28 @@ if "--check" in ARGS
         println("Julia public API check passed; committed snapshots were not modified.")
     end
 else
-    Refresh.refresh_open_data()
-end
-
-if "--with-derived" in ARGS && !("--check" in ARGS)
     mktempdir() do directory
-        Spatial.generate_tree_mobility_join(directory)
-        Flow.generate_counter_flow_artifact(directory)
-        generated = ["brussels-tree-bike-nearest.json", "brussels-tree-counter-flow.json"]
-        if "--with-analysis" in ARGS
-            Analysis.generate_signal_artifacts(directory)
-            append!(generated, ["tree-signal-sensitivity.json", "tree-signal-balanced-screen.csv", "tree-signal-analysis.md"])
-            println("Julia regenerated sensitivity artifacts; existing stakeholder review remains untouched.")
+        for filename in readdir(Refresh.DATA_DIR)
+            source = joinpath(Refresh.DATA_DIR, filename)
+            isfile(source) && cp(source, joinpath(directory, filename))
         end
-        for filename in generated
-            cp(joinpath(directory, filename), joinpath(TreesSurfaces.DATA_DIR, filename); force=true)
+        Refresh.refresh_open_data(output_dir=directory)
+        generated = String[Refresh.REFRESH_FILENAMES...]
+        if "--with-derived" in ARGS
+            Spatial.generate_tree_mobility_join(directory; data_dir=directory)
+            Flow.generate_counter_flow_artifact(directory; data_dir=directory)
+            append!(generated, ["brussels-tree-bike-nearest.json", "brussels-tree-counter-flow.json"])
+            if "--with-analysis" in ARGS
+                Analysis.generate_signal_artifacts(directory; data_dir=directory)
+                append!(generated, ["tree-signal-sensitivity.json", "tree-signal-balanced-screen.csv", "tree-signal-analysis.md"])
+                println("Julia regenerated sensitivity artifacts; existing stakeholder review remains untouched.")
+            end
         end
+        Refresh.promote_files(directory, TreesSurfaces.DATA_DIR, generated)
     end
-    println("Julia regenerated derived artifacts atomically.")
-elseif !("--check" in ARGS)
-    println("Derived joins unchanged; use --with-derived or the Python refresh fallback.")
+    if "--with-derived" in ARGS
+        println("Julia promoted refreshed source and derived artifacts after successful generation.")
+    else
+        println("Derived joins unchanged; use --with-derived or the Python refresh fallback.")
+    end
 end

@@ -94,5 +94,6 @@ jobs:
             sleep 1
           done
           [[ "$ready" == true ]]
+          [[ $(docker exec "$container" id -u) != 0 ]]
           curl -fsS http://127.0.0.1:18080/health | grep -Fx ok >/dev/null
           curl -fsS 'http://127.0.0.1:18080/api/screen?heat=0&proximity=100' | grep -F vbx_56876 >/dev/null

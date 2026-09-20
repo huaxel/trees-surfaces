@@ -57,15 +57,16 @@ const escapeHTML=value=>String(value ?? '').replace(/[&<>"']/g, character=>({'&'
 let sites=[];
 let flowById=new Map();
 const recordUrl=id=>`https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records?where=id%3D%27${encodeURIComponent(id)}%27&limit=1`;
-function weights(){ const h=+$('heat').value,p=+$('proximity').value,total=h+p||1; return {h:h/total,p:p/total}; }
-function score(site,w){ return site.heatScore*w.h + site.proximityScore*w.p; }
+function weights(){ const h=+$('heat').value,p=+$('proximity').value,total=h+p; return total===0?{h:.5,p:.5}:{h:h/total,p:p/total}; }
+function score(site,w){ return Math.round((site.heatScore*w.h + site.proximityScore*w.p)*1000)/1000; }
+function compareRanked(a,b){ return b.signal-a.signal || String(a.id).localeCompare(String(b.id)); }
 function colour(value){ const hue=145 - value*1.25; return `hsl(${hue},55%,38%)`; }
 function render(){
   if(!sites.length) return;
   const w=weights();
   $('heatOut').textContent=Math.round(w.h*100)+'%';
   $('proximityOut').textContent=Math.round(w.p*100)+'%';
-  const ranked=[...sites].map(s=>({...s,signal:score(s,w)})).sort((a,b)=>b.signal-a.signal);
+  const ranked=[...sites].map(s=>({...s,signal:score(s,w)})).sort(compareRanked);
   const visible=ranked.slice(0,20);
   $('map').innerHTML=visible.map(s=>`<button type="button" class="site" aria-label="${escapeHTML(s.name)}, signal ${s.signal.toFixed(0)}" aria-pressed="false" data-id="${escapeHTML(s.id)}" style="left:${s.mapX}%;top:${s.mapY}%;background:${colour(s.signal)}"><b>${escapeHTML(s.id)}</b><small>${escapeHTML(s.name)}</small><small>${s.signal.toFixed(0)} signal</small></button>`).join('');
   $('rows').innerHTML=visible.map(s=>`<tr><td><b>${escapeHTML(s.id)}</b> ${escapeHTML(s.name)}</td><td>${s.heatPixel}</td><td>${escapeHTML(s.counter)}</td><td>${s.distanceM.toLocaleString()} m</td><td><b>${s.signal.toFixed(1)}</b></td></tr>`).join('');
@@ -93,12 +94,12 @@ Promise.all([
 ]).then(([managed, remarkable, bikes, history, joined, heat, inventory, sensitivity, flow, proposal, stakeholderReviews])=>{
   flowById=new Map(flow.records.filter(x=>x.has_measured_flow).map(x=>[x.id,x.counter_flow_mean]));
   const heatById=new Map(heat.records.map(x=>[x.id,Number(x.heat_pixel)]));
-  const distances=joined.records.map(x=>Number(x.nearest_counter_distance_m));
+  const points=joined.records.filter(x=>heatById.has(x.id));
+  const distances=points.map(x=>Number(x.nearest_counter_distance_m));
   const minDistance=Math.min(...distances), maxDistance=Math.max(...distances);
-  const heatValues=[...heatById.values()];
+  const heatValues=points.map(x=>heatById.get(x.id));
   const minHeat=Math.min(...heatValues), maxHeat=Math.max(...heatValues);
   const scale=(value,min,max)=>max===min?50:(value-min)/(max-min)*100;
-  const points=joined.records.filter(x=>heatById.has(x.id));
   const longitudes=points.map(x=>Number(x.longitude)), latitudes=points.map(x=>Number(x.latitude));
   const minLongitude=Math.min(...longitudes), maxLongitude=Math.max(...longitudes);
   const minLatitude=Math.min(...latitudes), maxLatitude=Math.max(...latitudes);
@@ -109,8 +110,8 @@ Promise.all([
     heatPixel:heatById.get(x.id),
     distanceM:Number(x.nearest_counter_distance_m),
     counter:x.nearest_counter,
-    heatScore:scale(heatById.get(x.id),minHeat,maxHeat),
-    proximityScore:100-scale(Number(x.nearest_counter_distance_m),minDistance,maxDistance),
+    heatScore:Number(scale(heatById.get(x.id),minHeat,maxHeat).toFixed(3)),
+    proximityScore:Number((100-scale(Number(x.nearest_counter_distance_m),minDistance,maxDistance)).toFixed(3)),
     mapX:mapPosition(Number(x.longitude),minLongitude,maxLongitude),
     mapY:1+82-mapPosition(Number(x.latitude),minLatitude,maxLatitude)
   }));

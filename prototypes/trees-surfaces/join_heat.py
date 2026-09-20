@@ -118,13 +118,20 @@ def wgs84_to_lambert72(latitude: float, longitude: float) -> tuple[float, float]
     return X_0 + rho * math.sin(theta), Y_0 + RHO_0 - rho * math.cos(theta)
 
 
+def projected_to_raster_pixel(x: float, y: float, width: int, height: int) -> tuple[int, int]:
+    col = math.floor((x - ORIGIN_X) / PIXEL_SIZE)
+    row = math.floor((ORIGIN_Y - y) / PIXEL_SIZE)
+    if not (0 <= col < width and 0 <= row < height):
+        raise ValueError(f"projected point outside raster: {x:.1f},{y:.1f}")
+    return col, row
+
+
 def raster_pixel(latitude: float, longitude: float, width: int, height: int) -> tuple[int, int]:
     x, y = wgs84_to_lambert72(latitude, longitude)
-    col = int((x - ORIGIN_X) / PIXEL_SIZE)
-    row = int((ORIGIN_Y - y) / PIXEL_SIZE)
-    if not (0 <= col < width and 0 <= row < height):
-        raise ValueError(f"point outside raster: {latitude},{longitude} -> {x:.1f},{y:.1f}")
-    return col, row
+    try:
+        return projected_to_raster_pixel(x, y, width, height)
+    except ValueError as error:
+        raise ValueError(f"point outside raster: {latitude},{longitude} -> {x:.1f},{y:.1f}") from error
 
 
 def main() -> None:

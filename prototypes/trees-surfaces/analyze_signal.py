@@ -13,10 +13,27 @@ DATA = ROOT / "data"
 OUTPUT = DATA / "tree-signal-sensitivity.json"
 CSV_OUTPUT = DATA / "tree-signal-balanced-screen.csv"
 MARKDOWN_OUTPUT = DATA / "tree-signal-analysis.md"
+SPREADSHEET_FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r")
+
+
+def spreadsheet_safe(value: object) -> object:
+    if isinstance(value, str) and value.startswith(SPREADSHEET_FORMULA_PREFIXES):
+        return f"'{value}"
+    return value
+
+
+def markdown_value(value: object, fallback: str = "") -> str:
+    string_value = fallback if value is None else str(value)
+    return string_value.replace("\\", "\\\\").replace("|", "\\|").replace("\r", " ").replace("\n", " ")
 
 
 def normalize(value: float, lower: float, upper: float) -> float:
     return 50.0 if upper == lower else (value - lower) / (upper - lower) * 100
+
+
+def ranking_key(row: dict, weights: dict[str, float]) -> tuple[float, str]:
+    signal = round(row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], 3)
+    return -signal, str(row["id"])
 
 
 def main() -> None:
@@ -57,11 +74,7 @@ def main() -> None:
     }
     ranked = {}
     for name, weights in scenarios.items():
-        ordered = sorted(
-            rows,
-            key=lambda row: row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"],
-            reverse=True,
-        )
+        ordered = sorted(rows, key=lambda row: ranking_key(row, weights))
         ranked[name] = [
             {**row, "signal": round(row["heat_score"] * weights["heat"] + row["proximity_score"] * weights["proximity"], 3)}
             for row in ordered
@@ -133,7 +146,10 @@ def main() -> None:
         writer = csv.DictWriter(handle, fieldnames=["rank", "id", "street", "district", "heat_pixel", "nearest_counter", "distance_m", "heat_score", "proximity_score", "signal"], lineterminator="\n")
         writer.writeheader()
         for rank, row in enumerate(ranked["balanced"], start=1):
-            writer.writerow({"rank": rank, **{field: row[field] for field in writer.fieldnames if field != "rank"}})
+            writer.writerow({
+                "rank": rank,
+                **{field: spreadsheet_safe(row[field]) for field in writer.fieldnames if field != "rank"},
+            })
     CSV_OUTPUT.chmod(0o644)
 
     heat_scores = [row["heat_score"] for row in rows]
@@ -211,7 +227,7 @@ def main() -> None:
         "|---|---:|---:|---:|---:|",
     ]
     for summary in district_summary:
-        lines.append(f"| {summary['district']} | {summary['count']} | {summary['mean_heat']:.1f} | {summary['median_distance']:.1f} m | {summary['high_high_count']} |")
+        lines.append(f"| {markdown_value(summary['district'], 'Unknown')} | {summary['count']} | {summary['mean_heat']:.1f} | {summary['median_distance']:.1f} m | {summary['high_high_count']} |")
     lines.extend([
         "",
         "## Weight sensitivity",
@@ -232,7 +248,7 @@ def main() -> None:
         "|---:|---|---|---:|---:|---:|",
     ])
     for rank, row in enumerate(ranked["balanced"][:10], start=1):
-        lines.append(f"| {rank} | {row['id']} | {row.get('street') or 'Unnamed street'} | {row['heat_pixel']:.0f} | {row['distance_m']:.1f} m | {row['signal']:.1f} |")
+        lines.append(f"| {rank} | {markdown_value(row['id'])} | {markdown_value(row.get('street'), 'Unnamed street')} | {row['heat_pixel']:.0f} | {row['distance_m']:.1f} m | {row['signal']:.1f} |")
     lines.extend([
         "",
         "## Mobility context",

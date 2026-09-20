@@ -22,8 +22,24 @@ const COMMON_REQUIRED = ["review_status", "reviewer_name", "reviewer_role", "rev
 const ACCEPTED_DECISION = ["accepted_decision_question", "accepted_spatial_unit", "accepted_mobility_measure", "accepted_heat_period"]
 const ACCEPTED_STATUSES = Set(["accepted", "accepted with changes"])
 const PROVENANCE_FIELDS = [field for field in FIELDS if !(field in REVIEW_FIELDS)]
+const SPREADSHEET_FORMULA_PREFIXES = ('=', '+', '-', '@', '\t', '\r')
+const ESCAPED_FIELDS_COLUMN = "_spreadsheet_escaped_fields"
 
 text(value) = value === nothing ? "" : string(value)
+
+spreadsheet_formula_payload(value) = !isempty(value) && first(value) in SPREADSHEET_FORMULA_PREFIXES
+
+function spreadsheet_safe(value)
+    string_value = text(value)
+    spreadsheet_formula_payload(string_value) ? "'" * string_value : string_value
+end
+
+function spreadsheet_unescape(value)
+    startswith(value, "'") && length(value) > 1 || error("stakeholder worksheet escape metadata does not match its cell value")
+    remainder = value[nextind(value, firstindex(value)):end]
+    spreadsheet_formula_payload(remainder) || error("stakeholder worksheet escape metadata does not match its cell value")
+    remainder
+end
 
 function parse_csv_records(content)
     rows = Vector{Vector{String}}()
@@ -54,6 +70,7 @@ function parse_csv_records(content)
         end
         index = nextind(content, index)
     end
+    quoted && error("stakeholder worksheet contains an unterminated quoted field")
     if !isempty(fields) || position(buffer) > 0
         push!(fields, String(take!(buffer)))
         push!(rows, fields)
@@ -66,11 +83,35 @@ function read_existing(path)
     rows = parse_csv_records(read(path, String))
     length(rows) == 2 || error("stakeholder worksheet must contain exactly one proposal row")
     header, values = rows
+    length(unique(header)) == length(header) || error("stakeholder worksheet contains duplicate columns")
     length(header) == length(values) || error("stakeholder worksheet has mismatched CSV columns")
     row = Dict(header[index] => values[index] for index in eachindex(header))
     required = Set(["proposal_id", REVIEW_FIELDS...])
     setdiff(required, Set(header)) |> isempty || error("existing stakeholder worksheet is missing required columns")
+    serialized_escape_map = pop!(row, ESCAPED_FIELDS_COLUMN, "")
+    escape_map = if isempty(serialized_escape_map)
+        Dict{String,Any}()
+    else
+        try
+            JSON3.read(serialized_escape_map, Dict{String,Any})
+        catch
+            error("stakeholder worksheet contains malformed spreadsheet escape metadata")
+        end
+    end
+    all(value isa AbstractString for value in Base.values(escape_map)) || error("stakeholder worksheet spreadsheet escape metadata must be a string map")
+    unknown_escaped_fields = setdiff(Set(keys(escape_map)), Set(FIELDS))
+    isempty(unknown_escaped_fields) || error("stakeholder worksheet has escape metadata for unknown columns: $(collect(unknown_escaped_fields))")
+    for (field, escaped_value) in escape_map
+        get(row, field, "") == escaped_value && (row[field] = spreadsheet_unescape(escaped_value))
+    end
     return row
+end
+
+function valid_iso8601(value)
+    tryparse(Date, value) !== nothing && return true
+    match_result = match(r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[+-]\d{2}:?\d{2})?$", value)
+    match_result === nothing && return false
+    tryparse(DateTime, match_result.captures[1]) !== nothing
 end
 
 function validate_review(row, allowed_statuses)
@@ -85,18 +126,11 @@ function validate_review(row, allowed_statuses)
             isempty(review_values[field]) && error("accepted stakeholder review is missing $(field)")
         end
     end
-    match_result = match(r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[+-]\d{2}:?\d{2})?$", review_values["reviewed_at"])
-    match_result === nothing && error("stakeholder reviewed_at must be ISO 8601")
-    try
-        DateTime(match_result.captures[1])
-    catch
-        error("stakeholder reviewed_at must be ISO 8601")
-    end
+    valid_iso8601(review_values["reviewed_at"]) || error("stakeholder reviewed_at must be ISO 8601")
 end
 
 function csv_escape(value)
-    value === nothing && return ""
-    value = string(value)
+    value = spreadsheet_safe(value)
     (occursin(',', value) || occursin('"', value) || occursin('\n', value) || occursin('\r', value)) || return value
     "\"" * replace(value, "\"" => "\"\"") * "\""
 end
@@ -104,8 +138,12 @@ end
 function write_csv(path, row)
     temporary = path * ".tmp"
     open(temporary, "w") do io
-        println(io, join(csv_escape.(FIELDS), ","))
-        println(io, join((csv_escape(get(row, field, "")) for field in FIELDS), ","))
+        println(io, join(csv_escape.([FIELDS..., ESCAPED_FIELDS_COLUMN]), ","))
+        escaped_fields = [field for field in FIELDS if spreadsheet_formula_payload(text(get(row, field, "")))]
+        values = [csv_escape(get(row, field, "")) for field in FIELDS]
+        escape_map = Dict(field => spreadsheet_safe(get(row, field, "")) for field in escaped_fields)
+        push!(values, csv_escape(JSON3.write(escape_map)))
+        println(io, join(values, ","))
     end
     chmod(temporary, 0o644)
     mv(temporary, path; force = true)
@@ -119,6 +157,37 @@ function write_json(path, payload)
     end
     chmod(temporary, 0o644)
     mv(temporary, path; force = true)
+end
+
+function promote_review_artifacts(stage, data_dir, filenames; move_file! = (source, destination) -> mv(source, destination; force=true))
+    mktempdir(dirname(data_dir)) do backup
+        existing = Set{String}()
+        for filename in filenames
+            destination = joinpath(data_dir, filename)
+            if isfile(destination)
+                cp(destination, joinpath(backup, filename))
+                push!(existing, filename)
+            end
+        end
+
+        promoted = String[]
+        try
+            for filename in filenames
+                move_file!(joinpath(stage, filename), joinpath(data_dir, filename))
+                push!(promoted, filename)
+            end
+        catch
+            for filename in reverse(promoted)
+                destination = joinpath(data_dir, filename)
+                if filename in existing
+                    mv(joinpath(backup, filename), destination; force=true)
+                else
+                    rm(destination; force=true)
+                end
+            end
+            rethrow()
+        end
+    end
 end
 
 function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
@@ -156,7 +225,6 @@ function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
         end
     end
     validate_review(row, allowed_statuses)
-    write_csv(output, row)
     completed = any(!isempty(strip(text(get(row, field, "")))) for field in REVIEW_FIELDS)
     compiled = Dict{String, Any}(
         "source" => basename(output),
@@ -165,7 +233,12 @@ function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
         "record_count" => completed ? 1 : 0,
         "records" => completed ? [Dict(field => text(get(row, field, "")) for field in FIELDS)] : Any[],
     )
-    write_json(joinpath(data_dir, "tree-stakeholder-reviews.json"), compiled)
+    artifact_names = (basename(output), "tree-stakeholder-reviews.json")
+    mktempdir(dirname(data_dir)) do stage
+        write_csv(joinpath(stage, artifact_names[1]), row)
+        write_json(joinpath(stage, artifact_names[2]), compiled)
+        promote_review_artifacts(stage, data_dir, artifact_names)
+    end
     return row, compiled
 end
 

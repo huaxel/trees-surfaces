@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trees &amp; Surfaces — Julia UI</title>
-  <style>
+  <style nonce="__CSP_NONCE__">
     :root { color-scheme: light; --ink:#17202a; --muted:#64748b; --line:#dbe4ea; --green:#16805c; --paper:#f7faf9; }
     * { box-sizing:border-box; }
     body { margin:0; font:15px/1.5 system-ui,sans-serif; color:var(--ink); background:var(--paper); }
@@ -34,6 +34,7 @@
     a { color:#176c8b; }
     @media(max-width:760px){ .layout{grid-template-columns:1fr;} }
   </style>
+  <style nonce="__CSP_NONCE__" id="siteStyles"></style>
 </head>
 <body>
 <main>
@@ -67,7 +68,7 @@
     </section>
   </div>
 </main>
-<script>
+<script nonce="__CSP_NONCE__">
 const initial = __INITIAL_STATE__;
 const $ = id => document.getElementById(id);
 const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
@@ -75,25 +76,30 @@ const recordUrl = id => `https://bruxellesdata.opendatasoft.com/api/explore/v2.1
 let selectedId = null;
 let currentScreen = initial.screen;
 let refreshTimer = null;
+let refreshVersion = 0;
 function colour(value) { return `hsl(${145 - value * 1.25},55%,38%)`; }
 function render(screen) {
   $('heatOut').textContent = Math.round(screen.heatWeight * 100) + '%';
   $('proximityOut').textContent = Math.round(screen.proximityWeight * 100) + '%';
   const ranked = screen.sites;
+  if (!selectedId || !ranked.some(site => site.id === selectedId)) selectedId = ranked[0].id;
   const visible = ranked.slice(0, 20);
-  $('map').innerHTML = visible.map(site => `<button type="button" class="site ${site.id === selectedId ? 'selected' : ''}" aria-label="${escapeHTML(site.name)}, signal ${site.signal.toFixed(0)}" aria-pressed="${site.id === selectedId}" data-id="${escapeHTML(site.id)}" style="left:${site.mapX}%;top:${site.mapY}%;background:${colour(site.signal)}"><b>${escapeHTML(site.id)}</b><small>${escapeHTML(site.name)}</small><small>${site.signal.toFixed(0)} signal</small></button>`).join('');
+  $('siteStyles').textContent = visible.map((site, index) => `.site:nth-child(${index + 1}){left:${Number(site.mapX)}%;top:${Number(site.mapY)}%;background:${colour(Number(site.signal))}}`).join('');
+  $('map').innerHTML = visible.map(site => `<button type="button" class="site ${site.id === selectedId ? 'selected' : ''}" aria-label="${escapeHTML(site.name)}, signal ${site.signal.toFixed(0)}" aria-pressed="${site.id === selectedId}" data-id="${escapeHTML(site.id)}"><b>${escapeHTML(site.id)}</b><small>${escapeHTML(site.name)}</small><small>${site.signal.toFixed(0)} signal</small></button>`).join('');
   $('rows').innerHTML = visible.map(site => `<tr><td><b>${escapeHTML(site.id)}</b> ${escapeHTML(site.name)}</td><td>${site.heatPixel}</td><td>${escapeHTML(site.counter)}</td><td>${site.distanceM.toLocaleString()} m</td><td><b>${site.signal.toFixed(1)}</b></td></tr>`).join('');
   document.querySelectorAll('.site').forEach(button => button.addEventListener('click', () => { selectedId = button.dataset.id; render(currentScreen); }));
-  if (!selectedId || !ranked.some(site => site.id === selectedId)) selectedId = ranked[0].id;
   showDetail(ranked.find(site => site.id === selectedId));
 }
 function refreshScreen() {
   clearTimeout(refreshTimer);
+  const version = ++refreshVersion;
   refreshTimer = setTimeout(async () => {
     const params = new URLSearchParams({ heat: $('heat').value, proximity: $('proximity').value });
     const response = await fetch(`/api/screen?${params}`);
     if (!response.ok) return;
-    currentScreen = await response.json();
+    const screen = await response.json();
+    if (version !== refreshVersion) return;
+    currentScreen = screen;
     render(currentScreen);
   }, 100);
 }
