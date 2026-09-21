@@ -6,8 +6,7 @@ using Random
 
 export serve_app, read_json_path
 
-const REPO_ROOT = normpath(joinpath(@__DIR__, "..", ".."))
-const DATA_DIR = joinpath(REPO_ROOT, "prototypes", "trees-surfaces", "data")
+const DATA_DIR = joinpath(@__DIR__, "..", "data")
 const PUBLIC_DIR = joinpath(@__DIR__, "..", "public")
 const APP_STATE = Ref{Any}(nothing)
 const SECURITY_HEADERS = [
@@ -59,6 +58,8 @@ function ranked_sites(points, heat_percentage, proximity_percentage)
         heat_weight = scaled_heat / total
         proximity_weight = scaled_proximity / total
     end
+    heat_weight = round(heat_weight; digits=6)
+    proximity_weight = round(proximity_weight; digits=6)
     ranked = [
         begin
             result = copy(point)

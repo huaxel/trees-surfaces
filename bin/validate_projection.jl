@@ -1,12 +1,12 @@
 #!/usr/bin/env julia
 
 using Pkg
-Pkg.activate(@__DIR__)
+Pkg.activate(joinpath(@__DIR__, ".."))
 Pkg.instantiate()
 
-include(joinpath(@__DIR__, "src", "TreesSurfaces.jl"))
+include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
 using .TreesSurfaces
-include(joinpath(@__DIR__, "src", "Projection.jl"))
+include(joinpath(@__DIR__, "..", "src", "Projection.jl"))
 using .Projection
 
 function validate_projection()

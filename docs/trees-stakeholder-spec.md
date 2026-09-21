@@ -67,7 +67,7 @@ The current descriptive report finds 1 of 100 points at or above the sample's th
 
 ## Review handoff
 
-The exact working proposal is versioned in `tree-stakeholder-proposal.json`. `tree-stakeholder-review.csv` binds one stakeholder response to that proposal, the current completeness audit and the 9/10 versus 1/10 sensitivity result. A completed review must identify the reviewer and role, use an allowed status (`accepted`, `accepted with changes`, `needs more evidence`, or `rejected`), and record false-positive preference, evidence threshold and notes. Accepted statuses must also state the agreed decision question, unit, mobility measure and heat period; negative statuses may leave those accepted-value fields blank and explain the outcome in notes. Regeneration refuses to carry the response onto changed proposal evidence; completed responses compile to `tree-stakeholder-reviews.json` for the prototype.
+The exact working proposal is versioned in `tree-stakeholder-proposal.json`. `tree-stakeholder-review.csv` binds one stakeholder response to that proposal, the current completeness audit and the 9/10 versus 1/10 sensitivity result. A completed review must identify the reviewer and role, use an allowed status (`accepted`, `accepted with changes`, `needs more evidence`, or `rejected`), and record false-positive preference, evidence threshold and notes. Accepted statuses must also state the agreed decision question, unit, mobility measure and heat period; negative statuses may leave those accepted-value fields blank and explain the outcome in notes. Regeneration refuses to carry the response onto changed proposal evidence; completed responses compile to `tree-stakeholder-reviews.json` for the Julia application.
 
 ## Stakeholder interview questions
 
@@ -82,4 +82,4 @@ The exact working proposal is versioned in `tree-stakeholder-proposal.json`. `tr
 
 ## Immediate next action
 
-Conduct one stakeholder or coach review using the questions above and record it in `tree-stakeholder-review.csv`. Regenerate with `export_stakeholder_review.py` and verify the decision appears in the prototype. Do not expand the model or add canopy/optimization features until the decision question and mobility measure are accepted.
+Conduct one stakeholder or coach review using the questions above and record it in `tree-stakeholder-review.csv`. Regenerate with `julia --project=. bin/generate_stakeholder_review.jl` and verify the decision appears in the Julia application. Do not expand the model or add canopy/optimization features until the decision question and mobility measure are accepted.

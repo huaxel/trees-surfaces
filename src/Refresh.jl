@@ -5,8 +5,7 @@ using JSON3
 
 export refresh_open_data, validate_history_payload, preserve_sample, fetch_json
 
-const REPO_ROOT = normpath(joinpath(@__DIR__, "..", ".."))
-const DATA_DIR = joinpath(REPO_ROOT, "prototypes", "trees-surfaces", "data")
+const DATA_DIR = joinpath(@__DIR__, "..", "data")
 const MANAGED_TREE_METADATA_URL = "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm"
 const REMARKABLE_TREE_METADATA_URL = "https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/bruxelles_arbres_remarquables"
 const MOBILITY_METADATA_URL = "https://data.mobility.brussels/en/info/rt_counting/"
@@ -269,7 +268,7 @@ function refresh_open_data(; output_dir=DATA_DIR)
         refresh_trees(stage)
         refresh_bikes(stage)
     end
-    println("Julia refreshed public-data snapshots; Python remains the derived-join fallback.")
+    println("Julia refreshed public-data snapshots; use --with-derived to regenerate derived joins.")
 end
 
 end

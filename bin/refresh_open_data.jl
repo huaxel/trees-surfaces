@@ -1,25 +1,25 @@
 #!/usr/bin/env julia
 
 using Pkg
-Pkg.activate(@__DIR__)
+Pkg.activate(joinpath(@__DIR__, ".."))
 using JSON3
 Pkg.instantiate()
 
-include(joinpath(@__DIR__, "src", "Refresh.jl"))
+include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
 using .Refresh
-include(joinpath(@__DIR__, "src", "TreesSurfaces.jl"))
+include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
 using .TreesSurfaces
-include(joinpath(@__DIR__, "src", "Spatial.jl"))
+include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
 using .Spatial
-include(joinpath(@__DIR__, "src", "Flow.jl"))
+include(joinpath(@__DIR__, "..", "src", "Flow.jl"))
 using .Flow
-include(joinpath(@__DIR__, "src", "Analysis.jl"))
+include(joinpath(@__DIR__, "..", "src", "Analysis.jl"))
 using .Analysis
-include(joinpath(@__DIR__, "src", "Validation.jl"))
+include(joinpath(@__DIR__, "..", "src", "Validation.jl"))
 using .Validation
 
 if "--help" in ARGS || "-h" in ARGS
-    println("Usage: julia --project=julia julia/refresh_open_data.jl [--check] [--with-derived] [--with-analysis]")
+    println("Usage: julia --project=. bin/refresh_open_data.jl [--check] [--with-derived] [--with-analysis]")
     println("  --check          validate live APIs and derived snapshots in a temporary directory")
     println("  --with-derived   regenerate derived artifacts (also enables analysis with --with-analysis)")
     println("  --with-analysis  regenerate sensitivity artifacts (requires --with-derived)")
@@ -44,7 +44,7 @@ if "--check" in ARGS
             Analysis.generate_signal_artifacts(directory; data_dir=directory)
         end
         Validation.validate_snapshots(directory)
-        println("Julia refreshed snapshots and derived artifacts validated in the temporary directory.")
+        println("Julia refreshed public-data snapshots and derived artifacts validated in the temporary directory.")
         all(read(joinpath(Refresh.DATA_DIR, filename)) == content for (filename, content) in originals) || error("--check modified a committed snapshot")
         println("Julia public API check passed; committed snapshots were not modified.")
     end
@@ -71,6 +71,6 @@ else
     if "--with-derived" in ARGS
         println("Julia promoted refreshed source and derived artifacts after successful generation.")
     else
-        println("Derived joins unchanged; use --with-derived or the Python refresh fallback.")
+        println("Derived joins unchanged; use --with-derived to regenerate them.")
     end
 end

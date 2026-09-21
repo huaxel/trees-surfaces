@@ -4,15 +4,16 @@ WORKDIR /app
 ENV JULIA_DEPOT_PATH=/opt/julia-depot
 
 # Install dependencies before copying source so rebuilds can use Docker cache.
-COPY julia/Project.toml julia/Manifest.toml /app/julia/
-COPY julia/src /app/julia/src
+COPY Project.toml Manifest.toml /app/
+COPY src /app/src
 RUN mkdir -p "$JULIA_DEPOT_PATH" \
-    && julia --project=/app/julia -e 'using Pkg; Pkg.instantiate()' \
+    && julia --project=/app -e 'using Pkg; Pkg.instantiate()' \
     && useradd --create-home --uid 10001 --user-group app \
     && chown -R app:app "$JULIA_DEPOT_PATH"
 
-COPY julia /app/julia
-COPY prototypes/trees-surfaces/data /app/prototypes/trees-surfaces/data
+COPY public /app/public
+COPY data /app/data
+COPY bin /app/bin
 
 ENV JULIA_UI_HOST=0.0.0.0
 ENV JULIA_UI_PORT=8080
@@ -20,4 +21,4 @@ ENV JULIA_INSTANTIATE=0
 USER app
 EXPOSE 8080
 
-CMD ["julia", "--project=/app/julia", "/app/julia/run.jl"]
+CMD ["julia", "--project=/app", "/app/bin/run.jl"]
