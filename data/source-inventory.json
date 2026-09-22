@@ -48,6 +48,18 @@
     "credit": "Elsa Gallez, Vrije Universiteit Brussel",
     "note": "Useful canopy/vegetation layer, but the full shapefile is large and is not committed to this prototype."
   },
+  "road_accidents": {
+    "name": "Geolocation of road traffic accidents 2017–2024",
+    "scope": "Brussels-Capital Region extract from Belgium",
+    "period": "2017–2024",
+    "type": "geolocated injury and fatal road accidents",
+    "source": "https://statbel.fgov.be/en/open-data/geolocation-road-traffic-accidents-2017-2024",
+    "download": "https://statbel.fgov.be/sites/default/files/files/opendata/Accident_XY/OPENDATA_MAP_2017-2024.zip",
+    "licence": "CC BY 4.0",
+    "credit": "Statbel and Federal Police",
+    "coordinate_reference_system": "Belgian Lambert 1972 (EPSG:31370)",
+    "note": "The committed extract contains 30,022 Brussels-region records; bicycle involvement is derived from the two road-user type fields. These are reported bodily-injury or fatal accidents, not all collisions or exposure-adjusted risk."
+  },
   "mobility": {
     "name": "Brussels bicycle counters",
     "scope": "Brussels-Capital Region",
