@@ -1,6 +1,6 @@
 module Projection
 
-export wgs84_to_lambert72, raster_pixel
+export wgs84_to_lambert72, lambert72_to_wgs84, raster_pixel
 
 const WGS84_A = 6378137.0
 const WGS84_F = 1 / 298.257223563
@@ -89,6 +89,46 @@ function wgs84_to_lambert72(latitude, longitude)
     rho = A * F * t(local_latitude)^N
     theta = N * (local_longitude - LON_0)
     return X_0 + rho * sin(theta), Y_0 + RHO_0 - rho * cos(theta)
+end
+
+function lambert72_to_belgian72(x, y)
+    delta_x = x - X_0
+    delta_y = RHO_0 - (y - Y_0)
+    rho = hypot(delta_x, delta_y)
+    theta = atan(delta_x, delta_y)
+    local_longitude = LON_0 + theta / N
+    t_value = (rho / (A * F))^(1 / N)
+    local_latitude = pi / 2 - 2 * atan(t_value)
+    for _ in 1:10
+        updated = pi / 2 - 2 * atan(t_value * ((1 - E * sin(local_latitude)) / (1 + E * sin(local_latitude)))^(E / 2))
+        abs(updated - local_latitude) < 1e-14 && return updated, local_longitude
+        local_latitude = updated
+    end
+    return local_latitude, local_longitude
+end
+
+function belgian72_to_wgs84(local_latitude, local_longitude)
+    local_ecef = geodetic_to_ecef(local_latitude, local_longitude, A, F_LOCAL)
+    rotation_x, rotation_y, rotation_z = DATUM_ROTATION
+    scale = 1 + DATUM_SCALE
+    matrix = [
+        scale -rotation_z rotation_y
+        rotation_z scale -rotation_x
+        -rotation_y rotation_x scale
+    ]
+    translated = (
+        matrix[1, 1] * local_ecef[1] + matrix[1, 2] * local_ecef[2] + matrix[1, 3] * local_ecef[3],
+        matrix[2, 1] * local_ecef[1] + matrix[2, 2] * local_ecef[2] + matrix[2, 3] * local_ecef[3],
+        matrix[3, 1] * local_ecef[1] + matrix[3, 2] * local_ecef[2] + matrix[3, 3] * local_ecef[3],
+    )
+    wgs84_ecef = ntuple(index -> translated[index] + DATUM_TRANSLATION[index], 3)
+    return ecef_to_geodetic(wgs84_ecef[1], wgs84_ecef[2], wgs84_ecef[3], WGS84_A, WGS84_F)
+end
+
+function lambert72_to_wgs84(x, y)
+    local_latitude, local_longitude = lambert72_to_belgian72(x, y)
+    latitude, longitude = belgian72_to_wgs84(local_latitude, local_longitude)
+    return rad2deg(latitude), rad2deg(longitude)
 end
 
 function raster_pixel(latitude, longitude, width, height)
