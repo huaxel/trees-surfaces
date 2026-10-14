@@ -9,6 +9,8 @@ include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
 using .Refresh
 include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
 using .TreesSurfaces
+include(joinpath(@__DIR__, "..", "src", "Projection.jl"))
+using .Projection
 include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
 using .Spatial
 include(joinpath(@__DIR__, "..", "src", "Flow.jl"))
@@ -58,8 +60,9 @@ else
         generated = String[Refresh.REFRESH_FILENAMES...]
         if "--with-derived" in ARGS
             Spatial.generate_tree_mobility_join(directory; data_dir=directory)
+            Spatial.generate_accident_context(directory; data_dir=directory)
             Flow.generate_counter_flow_artifact(directory; data_dir=directory)
-            append!(generated, ["brussels-tree-bike-nearest.json", "brussels-tree-counter-flow.json"])
+            append!(generated, ["brussels-tree-bike-nearest.json", "brussels-counter-accident-context.json", "brussels-tree-counter-flow.json"])
             if "--with-analysis" in ARGS
                 Analysis.generate_signal_artifacts(directory; data_dir=directory)
                 append!(generated, ["tree-signal-sensitivity.json", "tree-signal-balanced-screen.csv", "tree-signal-analysis.md"])

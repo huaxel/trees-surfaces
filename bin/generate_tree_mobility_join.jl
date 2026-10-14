@@ -7,6 +7,8 @@ using JSON3
 
 include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
 using .TreesSurfaces
+include(joinpath(@__DIR__, "..", "src", "Projection.jl"))
+using .Projection
 include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
 using .Spatial
 

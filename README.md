@@ -88,6 +88,7 @@ Generates:
 - `tree-signal-sensitivity.json`: sensitivity scenarios (heat-only 100/0, balanced 60/40, proximity-only 0/100) and data completeness audit.
 - `tree-signal-balanced-screen.csv`: complete ranking under the balanced screening lens.
 - `tree-signal-analysis.md`: comprehensive markdown analysis report including district summaries and method explanations.
+- `brussels-counter-accident-context.json`: counter-level all-accident and bicycle-involved accident counts within 250 m and 500 m.
 
 ### 3. Stakeholder review workflow
 
@@ -111,7 +112,7 @@ Refreshes municipal open-data snapshots from official Brussels APIs while preser
 - Managed trees from City of Brussels Open Data
 - Remarkable trees from Brussels Heritage Open Data
 - Bicycle counter devices and 7-day 15-minute history counts from Brussels Mobility
-- Derives nearest-counter Haversine distances and measured counter flow context in Julia.
+- Derives nearest-counter Haversine distances, measured counter flow context, and national road-accident context in Julia.
 
 ### 5. Heat raster sampling
 
@@ -135,6 +136,7 @@ Implements an exact EPSG 7-parameter datum shift from WGS84 to BD72 and Belgian 
 | Mean WBGT 24/08/2016 | Brussels Environment | CC BY 4.0 | Regional urban-heat-island model; 0–100 indicator pixels (ISO `BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531`). |
 | Canopy Layer (Lead) | Elsa Gallez | CC BY 4.0 | Documented source lead for canopy model integration (Zenodo DOI `10.5281/zenodo.13869065`). |
 | Road accidents 2017–2024 | Statbel / Federal Police | CC BY 4.0 | 30,022 Brussels-region geolocated injury/fatal accident records; bicycle involvement is derived from road-user types. |
+| Counter accident context | Derived | Source licences inherited | Counter-level all/bicycle-involved accident counts within 250 m and 500 m. |
 
 Full metadata, URLs, and attribution terms are maintained in [`data/source-inventory.json`](data/source-inventory.json).
 

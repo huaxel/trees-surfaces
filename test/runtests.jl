@@ -9,10 +9,10 @@ include(joinpath(@__DIR__, "..", "src", "Flow.jl"))
 using .Flow
 include(joinpath(@__DIR__, "..", "src", "Validation.jl"))
 using .Validation
-include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
-using .Spatial
 include(joinpath(@__DIR__, "..", "src", "Projection.jl"))
 using .Projection
+include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
+using .Spatial
 include(joinpath(@__DIR__, "..", "src", "Heat.jl"))
 using .Heat
 include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
@@ -103,6 +103,10 @@ using .Review
         @test all(read(joinpath(output, filename), String) == "old-$filename" for filename in filenames)
     end
     @test round(Spatial.haversine_distance_m(50.0, 4.0, 50.0, 4.0); digits = 1) == 0.0
+    lambert_x, lambert_y = Projection.wgs84_to_lambert72(50.85, 4.35)
+    recovered_latitude, recovered_longitude = Projection.lambert72_to_wgs84(lambert_x, lambert_y)
+    @test isapprox(recovered_latitude, 50.85; atol = 1e-7)
+    @test isapprox(recovered_longitude, 4.35; atol = 1e-7)
     heat = TreesSurfaces.read_json("brussels-tree-heat-sample.json")
     for row in TreesSurfaces.records(heat)
         column, pixel_row = Projection.raster_pixel(TreesSurfaces.number(row["latitude"]), TreesSurfaces.number(row["longitude"]), 10_000, 9_000)
@@ -113,6 +117,22 @@ using .Review
         join = Spatial.generate_tree_mobility_join(directory)
         @test length(join["records"]) == 100
         @test join["records"][1]["nearest_counter"] == "CB2105"
+    end
+    mktempdir() do directory
+        context = Spatial.generate_accident_context(directory)
+        @test context["record_count"] == 26335
+        @test length(context["counters"]) == 18
+        @test context["counters"][1]["bicycle_accidents_within_500m"] > 0
+        by_id = Dict(c["id"] => c for c in context["counters"])
+        @test by_id["CB1101"]["bicycle_accidents_within_500m"] == 182
+        @test by_id["CB1101"]["accidents_within_500m"] == 597
+        @test by_id["CB1143"]["accidents_within_500m"] == 477
+        for counter in context["counters"]
+            @test counter["accidents_within_250m"] <= counter["accidents_within_500m"]
+            @test counter["bicycle_accidents_within_250m"] <= counter["bicycle_accidents_within_500m"]
+            @test counter["bicycle_accidents_within_250m"] <= counter["accidents_within_250m"]
+            @test counter["bicycle_accidents_within_500m"] <= counter["accidents_within_500m"]
+        end
     end
     @test Analysis.csv_escape("=1+1") == "'=1+1"
     @test Analysis.markdown_value("A | B\nC") == "A \\| B C"
