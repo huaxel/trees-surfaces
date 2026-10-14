@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  # The network-dependent live-API refresh check below only runs on dispatch
+  # and schedule. It was dispatch-only until 2026-10-14, which let an upstream
+  # managed-tree identifier re-key break the refresh pipeline unnoticed while
+  # push-triggered CI stayed green. This weekly run is the rot detector.
+  schedule:
+    - cron: "0 6 * * 1"
 
 permissions:
   contents: read
@@ -26,7 +32,7 @@ jobs:
         run: scripts/validate-julia.sh
 
   validate-julia-refresh:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:

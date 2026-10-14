@@ -108,4 +108,4 @@ To also validate the current public endpoints without modifying snapshots:
 JULIA_REFRESH_CHECK=1 scripts/validate-julia.sh
 ```
 
-The GitHub Actions workflow runs this network-dependent check only when manually dispatched; regular pull requests keep the deterministic offline gate.
+The GitHub Actions workflow runs this network-dependent check on manual dispatch and on a weekly schedule (Mondays 06:00 UTC); regular pull requests keep the deterministic offline gate. The scheduled run exists because the check was dispatch-only until 2026-10-14, which let an upstream managed-tree identifier re-key break the refresh pipeline unnoticed.
