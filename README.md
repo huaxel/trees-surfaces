@@ -114,6 +114,12 @@ Refreshes municipal open-data snapshots from official Brussels APIs while preser
 - Bicycle counter devices and 7-day 15-minute history counts from Brussels Mobility
 - Derives nearest-counter Haversine distances, measured counter flow context, and national road-accident context in Julia.
 
+The upstream managed-tree catalogue re-keyed its primary key from numeric suffixes (`vbx_56544`) to UUIDs. [`data/managed-tree-id-crosswalk.json`](data/managed-tree-id-crosswalk.json) maps each committed sample ID to the current live identifier so refreshes stay stable; regenerate it after an upstream re-key:
+
+```bash
+julia --project=. bin/generate_managed_tree_crosswalk.jl
+```
+
 ### 5. Heat raster sampling
 
 For supported uncompressed, PackBits, or Deflate TIFFs, use the native Julia join:

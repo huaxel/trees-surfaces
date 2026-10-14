@@ -3,7 +3,7 @@ module Refresh
 using HTTP
 using JSON3
 
-export refresh_open_data, validate_history_payload, preserve_sample, fetch_json
+export refresh_open_data, validate_history_payload, preserve_sample, fetch_json, generate_managed_tree_crosswalk
 
 const DATA_DIR = joinpath(@__DIR__, "..", "data")
 const MANAGED_TREE_METADATA_URL = "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm"
@@ -18,6 +18,13 @@ const REFRESH_FILENAMES = (
     ("brussels-bike-history-$(feature)-2024-01.json" for feature in COUNTER_HISTORY_FEATURES)...,
 )
 const MAX_RESPONSE_BYTES = 20 * 1024 * 1024
+
+# The upstream managed-tree catalogue re-keyed its primary key from numeric suffixes
+# (`vbx_56544`) to UUIDs between 2026-09-21 and 2026-10-13. `id` in the committed
+# sample is a project-stable identifier, so refreshes resolve it through this
+# crosswalk instead of matching the live key directly.
+const MANAGED_TREE_CROSSWALK_FILENAME = "managed-tree-id-crosswalk.json"
+const MANAGED_TREE_CROSSWALK_RADIUS_M = 2.0
 
 require(condition, message) = condition || throw(ErrorException(message))
 text(value) = value === nothing ? "" : string(value)
@@ -103,6 +110,45 @@ function preserve_sample(rows, path, raw_id_field)
     [by_id[id] for id in previous]
 end
 
+function coordinate(value)
+    value isa Number && return Float64(value)
+    parsed = tryparse(Float64, text(value))
+    parsed === nothing ? NaN : parsed
+end
+
+function managed_tree_crosswalk(data_dir=DATA_DIR)
+    path = joinpath(data_dir, MANAGED_TREE_CROSSWALK_FILENAME)
+    isfile(path) || return Dict{String, String}()
+    payload = JSON3.read(read(path, String), Dict{String, Any})
+    mapping = Dict{String, String}()
+    for row in get(payload, "records", Any[])
+        legacy = text(get(row, "legacy_id", nothing))
+        live = text(get(row, "live_id", nothing))
+        (!isempty(legacy) && !isempty(live)) && (mapping[legacy] = live)
+    end
+    return mapping
+end
+
+function managed_tree_live_ids(crosswalk, previous)
+    missing = [id for id in previous if !haskey(crosswalk, id)]
+    require(
+        isempty(missing),
+        "$(MANAGED_TREE_CROSSWALK_FILENAME) is missing $(length(missing)) committed managed-tree id(s), e.g. $(join(missing[1:min(3, length(missing))], ", ")); regenerate it with bin/generate_managed_tree_crosswalk.jl",
+    )
+    return [crosswalk[id] for id in previous]
+end
+
+function localize_managed_ids(rows, crosswalk)
+    reverse = Dict(live => legacy for (legacy, live) in crosswalk)
+    for row in rows
+        live = text(get(row, "id", nothing))
+        legacy = get(reverse, live, nothing)
+        require(legacy !== nothing, "$(MANAGED_TREE_CROSSWALK_FILENAME) has no entry for live managed-tree record $(live); regenerate it with bin/generate_managed_tree_crosswalk.jl")
+        row["id"] = legacy
+    end
+    return rows
+end
+
 function validate_history_payload(payload, feature)
     rows = get(payload, "data", Any[])
     require(get(payload, "feature", nothing) == feature, "counter API returned unexpected feature for $feature")
@@ -167,13 +213,20 @@ function refresh_trees(output_dir=DATA_DIR)
     source_summary = fetch_json(MANAGED_TREE_METADATA_URL * "/records"; params=["limit"=>"1", "offset"=>"0"])
     source = Int(get(source_summary, "total_count", 0))
     params = Pair{String,String}["limit"=>"100"]
+    crosswalk = Dict{String, String}()
     if previous !== nothing
-        quoted = join(["'" * replace(id, "'"=>"''") * "'" for id in previous], ",")
+        crosswalk = managed_tree_crosswalk(output_dir)
+        live_ids = managed_tree_live_ids(crosswalk, previous)
+        quoted = join(["'" * replace(id, "'"=>"''") * "'" for id in live_ids], ",")
         params = ["limit"=>"100", "where"=>"id IN ($quoted)"]
     end
     payload = fetch_json(MANAGED_TREE_METADATA_URL * "/records"; params=params)
-    require(source >= 100 && length(get(payload, "results", Any[])) == 100, "managed-tree API returned fewer than 100 records")
-    rows = [tree_row(item, ("id", "address_fr", "adress_nl", "district_fr", "district_nl", "species", "source_fr", "source_nl")) for item in preserve_sample(get(payload, "results", Any[]), out, "id")]
+    fetched = get(payload, "results", Any[])
+    expected = previous === nothing ? 100 : length(previous)
+    require(source >= 100 && length(fetched) == expected, "managed-tree API returned $(length(fetched)) record(s) where $(expected) were expected (live total_count $(source))")
+    rows = [tree_row(item, ("id", "address_fr", "adress_nl", "district_fr", "district_nl", "species", "source_fr", "source_nl")) for item in fetched]
+    previous !== nothing && localize_managed_ids(rows, crosswalk)
+    rows = preserve_sample(rows, out, "id")
     require(all(valid_brussels_coordinates(get(row, "latitude", nothing), get(row, "longitude", nothing)) for row in rows), "managed-tree sample contains coordinates outside the Brussels region")
     completeness = Dict(field => count(get(row, field, nothing) !== nothing for row in rows) for field in ("latitude", "longitude", "street", "district", "species"))
     atomic_write_json(out, Dict("source"=>source, "dataset_metadata_url"=>MANAGED_TREE_METADATA_URL, "source_licence"=>"CC BY 4.0", "source_credit"=>"City of Brussels/Data Management; catalogue attributions: Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts", "sampling"=>"first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "completeness"=>completeness, "records"=>rows))
@@ -188,6 +241,40 @@ function refresh_trees(output_dir=DATA_DIR)
     rows = [Dict("id"=>get(item, "id_arbres_cms", nothing), "species"=>get(item, "nom_la", nothing), "status"=>first_present(get(item, "statuts_fr", nothing), get(item, "statuts_nl", nothing)), "circumference"=>get(item, "circonference", nothing), "crown_diameter"=>get(item, "diametre_cime", nothing), "latitude"=>get(get(item, "geo_point_2d", Dict()), "lat", nothing), "longitude"=>get(get(item, "geo_point_2d", Dict()), "lon", nothing), "url"=>first_present(get(item, "url_fr", nothing), get(item, "url_nl", nothing))) for item in preserve_sample(all_rows, remarkable_out, "id_arbres_cms")]
     require(all(valid_brussels_coordinates(get(row, "latitude", nothing), get(row, "longitude", nothing)) for row in rows), "remarkable-tree sample contains coordinates outside the Brussels region")
     atomic_write_json(remarkable_out, Dict("source"=>get(metadata, "total_count", 0), "dataset_metadata_url"=>REMARKABLE_TREE_METADATA_URL, "source_licence"=>"CC BY 4.0", "source_credit"=>"heritage.brussels; catalogue attribution: National Geographic Institute (NGI-IGN, ngi.be)", "sampling"=>"first 100 records in initial API response order; refreshes preserve committed IDs; not a probability sample", "records"=>rows))
+end
+
+function generate_managed_tree_crosswalk(output_path=joinpath(DATA_DIR, MANAGED_TREE_CROSSWALK_FILENAME); data_dir=DATA_DIR)
+    sample = JSON3.read(read(joinpath(data_dir, "brussels-trees-sample.json"), String), Dict{String, Any})
+    records = Any[]
+    for tree in get(sample, "records", Any[])
+        legacy = text(get(tree, "id", nothing))
+        latitude = coordinate(get(tree, "latitude", nothing))
+        longitude = coordinate(get(tree, "longitude", nothing))
+        require(!isempty(legacy) && isfinite(latitude) && isfinite(longitude), "committed managed tree $(legacy) lacks usable coordinates")
+        payload = fetch_json(
+            MANAGED_TREE_METADATA_URL * "/records";
+            params=[
+                "limit" => "5",
+                "select" => "id",
+                "where" => "within_distance(geo_point_2d, GEOM'POINT($(longitude) $(latitude))', $(MANAGED_TREE_CROSSWALK_RADIUS_M)m)",
+            ],
+        )
+        matches = [text(get(item, "id", nothing)) for item in get(payload, "results", Any[])]
+        require(length(matches) == 1, "expected exactly one live managed tree within $(MANAGED_TREE_CROSSWALK_RADIUS_M) m of $(legacy) ($(latitude), $(longitude)); found $(length(matches))")
+        push!(records, Dict{String, Any}("legacy_id"=>legacy, "live_id"=>matches[1], "latitude"=>latitude, "longitude"=>longitude))
+    end
+    require(length(records) == 100, "expected 100 committed managed trees, found $(length(records))")
+    require(length(unique(text(get(row, "live_id", nothing)) for row in records)) == length(records), "crosswalk maps multiple committed ids to the same live id")
+    payload = Dict{String, Any}(
+        "source" => "Legacy numeric managed-tree identifiers mapped to current live dataset identifiers",
+        "dataset_metadata_url" => MANAGED_TREE_METADATA_URL,
+        "reason" => "The upstream catalogue re-keyed its primary key from numeric suffixes (for example vbx_56544) to UUIDs; this mapping keeps the committed sample identifiers stable across refreshes.",
+        "method" => "Exact one-to-one match by coordinates within $(MANAGED_TREE_CROSSWALK_RADIUS_M) m of each committed managed-tree location",
+        "match_radius_m" => MANAGED_TREE_CROSSWALK_RADIUS_M,
+        "records" => records,
+    )
+    atomic_write_json(output_path, payload)
+    return payload
 end
 
 function counter_row(feature)

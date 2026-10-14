@@ -9,6 +9,15 @@
     "credit": "City of Brussels/Data Management; catalogue attributions: Bruxelles Mobilité, Bruxelles Environnement, Google Maps, Ville de Bruxelles/Espaces publics et verts",
     "note": "The prototype commits a 100-record feasibility snapshot."
   },
+  "managed_tree_crosswalk": {
+    "name": "Managed-tree identifier crosswalk",
+    "scope": "Project-maintained reference mapping",
+    "type": "identifier crosswalk",
+    "inputs": ["brussels-trees-sample.json"],
+    "source": "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm",
+    "licence": "Derived from CC BY 4.0 source records",
+    "note": "Maps each committed managed-tree sample ID to the current live dataset identifier, matched within 2 m of the committed coordinates. The upstream catalogue re-keyed its primary key from numeric suffixes (for example vbx_56544) to UUIDs, so refreshes resolve the committed ID through this crosswalk. Regenerate with bin/generate_managed_tree_crosswalk.jl after an upstream re-key."
+  },
   "remarkable_trees": {
     "name": "Brussels remarkable-tree register",
     "scope": "Brussels-Capital Region",

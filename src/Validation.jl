@@ -11,6 +11,7 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
     joined = read_snapshot("brussels-tree-bike-nearest.json")
     flow = read_snapshot("brussels-tree-counter-flow.json")
     inventory = read_snapshot("source-inventory.json")
+    crosswalk = read_snapshot("managed-tree-id-crosswalk.json")
 
     managed_records = TreesSurfaces.records(managed)
     heat_records = TreesSurfaces.records(heat)
@@ -44,12 +45,23 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
     measured_flow == 97 || error("expected 97 measured-flow records")
     all(haskey(inventory, key) for key in ("managed_trees", "remarkable_trees", "heat", "mobility")) || error("source inventory is incomplete")
 
+    crosswalk_records = TreesSurfaces.records(crosswalk)
+    crosswalk_legacy = [TreesSurfaces.text(get(row, "legacy_id", "")) for row in crosswalk_records]
+    crosswalk_live = [TreesSurfaces.text(get(row, "live_id", "")) for row in crosswalk_records]
+    length(crosswalk_records) == 100 || error("expected 100 managed-tree crosswalk records")
+    all(!isempty(id) for id in crosswalk_legacy) || error("managed-tree crosswalk contains empty legacy IDs")
+    all(!isempty(id) for id in crosswalk_live) || error("managed-tree crosswalk contains empty live IDs")
+    length(unique(crosswalk_legacy)) == 100 || error("managed-tree crosswalk legacy IDs are not unique")
+    length(unique(crosswalk_live)) == 100 || error("managed-tree crosswalk live IDs are not unique")
+    Set(crosswalk_legacy) == managed_ids || error("managed-tree crosswalk does not cover the committed managed-tree sample IDs")
+
     return Dict{String, Any}(
         "managed_records" => length(managed_records),
         "valid_coordinates" => valid_coordinates,
         "heat_records" => length(heat_records),
         "nearest_counter_records" => length(joined_records),
         "measured_flow_records" => measured_flow,
+        "managed_tree_crosswalk_records" => length(crosswalk_records),
     )
 end
 

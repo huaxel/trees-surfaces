@@ -71,6 +71,31 @@ using .Review
         Refresh.atomic_write_json(path, Dict("records"=>rows))
         @test [row["id"] for row in Refresh.preserve_sample(rows[100:-1:1], path, "id")] == ["id-$i" for i in 1:100]
     end
+    @test Refresh.coordinate(50.85) == 50.85
+    @test Refresh.coordinate("50.85") == 50.85
+    @test isnan(Refresh.coordinate(nothing))
+    @test isnan(Refresh.coordinate("not-a-coordinate"))
+    mktempdir() do directory
+        crosswalk_path = joinpath(directory, Refresh.MANAGED_TREE_CROSSWALK_FILENAME)
+        Refresh.atomic_write_json(crosswalk_path, Dict("records"=>[
+            Dict("legacy_id"=>"vbx_1", "live_id"=>"vbx_uuid-a"),
+            Dict("legacy_id"=>"vbx_2", "live_id"=>"vbx_uuid-b"),
+        ]))
+        crosswalk = Refresh.managed_tree_crosswalk(directory)
+        @test crosswalk == Dict("vbx_1"=>"vbx_uuid-a", "vbx_2"=>"vbx_uuid-b")
+        @test Refresh.managed_tree_live_ids(crosswalk, ["vbx_2", "vbx_1"]) == ["vbx_uuid-b", "vbx_uuid-a"]
+        @test_throws ErrorException Refresh.managed_tree_live_ids(crosswalk, ["vbx_3"])
+        localized = [Dict{String,Any}("id"=>"vbx_uuid-b"), Dict{String,Any}("id"=>"vbx_uuid-a")]
+        Refresh.localize_managed_ids(localized, crosswalk)
+        @test [row["id"] for row in localized] == ["vbx_2", "vbx_1"]
+        @test_throws ErrorException Refresh.localize_managed_ids([Dict{String,Any}("id"=>"vbx_unknown")], crosswalk)
+    end
+    @test isempty(Refresh.managed_tree_crosswalk(mktempdir()))
+    committed_crosswalk = Refresh.managed_tree_crosswalk()
+    committed_managed_ids = Set(row["id"] for row in TreesSurfaces.read_json("brussels-trees-sample.json")["records"])
+    @test length(committed_crosswalk) == 100
+    @test Set(keys(committed_crosswalk)) == committed_managed_ids
+    @test length(unique(values(committed_crosswalk))) == 100
     mktempdir() do directory
         first_path = joinpath(directory, "first.json")
         second_path = joinpath(directory, "second.json")

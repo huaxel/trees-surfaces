@@ -41,6 +41,7 @@ if "--check" in ARGS
         end
         Refresh.refresh_open_data(output_dir=directory)
         Spatial.generate_tree_mobility_join(directory; data_dir=directory)
+        Spatial.generate_accident_context(directory; data_dir=directory)
         Flow.generate_counter_flow_artifact(directory; data_dir=directory)
         if "--with-analysis" in ARGS
             Analysis.generate_signal_artifacts(directory; data_dir=directory)
