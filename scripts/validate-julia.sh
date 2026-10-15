@@ -54,7 +54,7 @@ for actual, expected in zip(join["records"], canonical_join["records"]):
 PY
 
 # The Markdown report and the ranking CSV are fully derived from committed snapshots, so the
-# generator must reproduce the committed artifacts byte for byte (see TODO-f7991283).
+# generator must reproduce the committed artifacts byte for byte.
 for artifact in tree-signal-analysis.md tree-signal-balanced-screen.csv; do
   if ! diff -q "$generated/$artifact" "data/$artifact" >/dev/null; then
     echo "Generated $artifact does not match the committed artifact:" >&2
