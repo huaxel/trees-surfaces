@@ -23,34 +23,34 @@ python3 -c 'import json, sys; p = json.loads(sys.argv[1]); assert p["record_coun
 julia --project=. bin/generate_signal.jl "$generated" >/dev/null
 julia --project=. bin/generate_counter_flow.jl "$generated" >/dev/null
 julia --project=. bin/generate_tree_mobility_join.jl "$generated" >/dev/null
+julia --project=. bin/generate_accident_context.jl "$generated" >/dev/null
 python3 - "$generated" <<'PY'
 import csv
 import json
 import pathlib
 import sys
 
-out = pathlib.Path(sys.argv[1])
-generated = json.loads((out / "tree-signal-sensitivity.json").read_text())
-canonical = json.loads(pathlib.Path("data/tree-signal-sensitivity.json").read_text())
-assert generated["record_count"] == 100
-assert [row["id"] for row in generated["balanced_screening"][:10]] == [row["id"] for row in canonical["balanced_screening"][:10]]
-assert generated["weight_sensitivity"]["heat_only_top_10_overlap"] == 9
-assert generated["weight_sensitivity"]["proximity_only_top_10_overlap"] == 1
-with (out / "tree-signal-balanced-screen.csv").open(newline="") as handle:
+def committed(name):
+    return json.loads((pathlib.Path("data") / name).read_text())
+
+def generated(out, name):
+    return json.loads((pathlib.Path(out) / name).read_text())
+
+out = sys.argv[1]
+# Every derived JSON artifact is a pure function of the committed snapshots, so the generator
+# must reproduce the committed artifacts exactly (semantic equality; committed JSON is pretty
+# printed while the generator emits compact JSON).
+for name in ("tree-signal-sensitivity.json", "brussels-tree-bike-nearest.json", "brussels-tree-counter-flow.json", "brussels-counter-accident-context.json"):
+    assert generated(out, name) == committed(name), f"generated {name} differs from the committed artifact"
+
+sensitivity = committed("tree-signal-sensitivity.json")
+assert sensitivity["record_count"] == 100
+assert sensitivity["weight_sensitivity"]["heat_only_top_10_overlap"] == 9
+assert sensitivity["weight_sensitivity"]["proximity_only_top_10_overlap"] == 1
+with (pathlib.Path(out) / "tree-signal-balanced-screen.csv").open(newline="") as handle:
     assert sum(1 for _ in csv.DictReader(handle)) == 100
-assert (out / "tree-signal-analysis.md").read_text().startswith("# Tree signal descriptive analysis")
-flow = json.loads((out / "brussels-tree-counter-flow.json").read_text())
-canonical_flow = json.loads(pathlib.Path("data/brussels-tree-counter-flow.json").read_text())
-assert flow["record_count"] == canonical_flow["record_count"] == 100
-assert flow["trees_with_measured_flow"] == canonical_flow["trees_with_measured_flow"] == 97
-assert flow["counter_flow"].keys() == canonical_flow["counter_flow"].keys()
-join = json.loads((out / "brussels-tree-bike-nearest.json").read_text())
-canonical_join = json.loads(pathlib.Path("data/brussels-tree-bike-nearest.json").read_text())
-assert len(join["records"]) == len(canonical_join["records"]) == 100
-for actual, expected in zip(join["records"], canonical_join["records"]):
-    assert actual["id"] == expected["id"]
-    assert actual["nearest_counter"] == expected["nearest_counter"]
-    assert actual["nearest_counter_distance_m"] == expected["nearest_counter_distance_m"]
+assert (pathlib.Path(out) / "tree-signal-analysis.md").read_text().startswith("# Tree signal descriptive analysis")
+assert committed("brussels-tree-counter-flow.json")["trees_with_measured_flow"] == 97
 PY
 
 # The Markdown report and the ranking CSV are fully derived from committed snapshots, so the
