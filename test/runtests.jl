@@ -251,6 +251,14 @@ Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
         @test isfile(joinpath(directory, "tree-signal-balanced-screen.csv"))
         @test isfile(joinpath(directory, "tree-signal-analysis.md"))
         @test sort(readdir(directory)) == ["tree-signal-analysis.md", "tree-signal-balanced-screen.csv", "tree-signal-sensitivity.json"]
+        report_text = read(joinpath(directory, "tree-signal-analysis.md"), String)
+        for heading in ("## Heat data and normalization", "## Traceability", "## Sample summary", "## Data completeness", "## District context", "## Weight sensitivity", "## Balanced screen", "## Mobility context", "## Interpretation boundary")
+            @test occursin(heading, report_text)
+        end
+        @test !occursin("join_heat.py", report_text)
+        @test occursin("| STALINGRAD | 9 | 84.0 | 489.9 m | 1 |", report_text)
+        @test report_text == read(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-analysis.md"), String)
+        @test read(joinpath(directory, "tree-signal-balanced-screen.csv"), String) == read(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-balanced-screen.csv"), String)
     end
     mktempdir() do directory
         flow = Flow.generate_counter_flow_artifact(directory)

@@ -53,6 +53,16 @@ for actual, expected in zip(join["records"], canonical_join["records"]):
     assert actual["nearest_counter_distance_m"] == expected["nearest_counter_distance_m"]
 PY
 
+# The Markdown report and the ranking CSV are fully derived from committed snapshots, so the
+# generator must reproduce the committed artifacts byte for byte (see TODO-f7991283).
+for artifact in tree-signal-analysis.md tree-signal-balanced-screen.csv; do
+  if ! diff -q "$generated/$artifact" "data/$artifact" >/dev/null; then
+    echo "Generated $artifact does not match the committed artifact:" >&2
+    diff "$generated/$artifact" "data/$artifact" >&2 || true
+    exit 1
+  fi
+done
+
 cp data/tree-stakeholder-proposal.json "$review_dir/"
 cp "$generated/tree-signal-sensitivity.json" "$review_dir/"
 julia --project=. bin/generate_stakeholder_review.jl "$review_dir" >/dev/null

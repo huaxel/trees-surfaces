@@ -16,7 +16,7 @@ This report answers the working screening question using the committed 100-recor
 
 Every displayed point can be traced to its source record and join method:
 - Source record: the managed-tree register entry, reachable by id, e.g. `https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm/records?where=id%3D%27vbx_56544%27`.
-- Heat join: WBGT raster pixel value extracted after the EPSG seven-parameter WGS84-to-Belgian-1972 datum transform and Belgian Lambert 72 projection (see `join_heat.py`).
+- Heat join: WBGT raster pixel value extracted after the EPSG seven-parameter WGS84-to-Belgian-1972 datum transform and Belgian Lambert 72 projection (see `src/Heat.jl` and `src/Projection.jl`, exposed as `bin/generate_heat_join.jl`).
 - Mobility join: great-circle distance to the nearest bicycle counter (see the committed `brussels-tree-bike-nearest.json`); measured-flow context for the nearest counter is in `brussels-tree-counter-flow.json`.
 - Ranking: signal = heat_score × weight + proximity_score × weight, min-max scores, weights exposed in the interface.
 
@@ -25,8 +25,8 @@ Every displayed point can be traced to its source record and join method:
 - Records analyzed: 100 of 31,643 managed-tree records reported by the source (0.32% of the reported register)
 - Sampling note: the committed records are a feasibility snapshot, not a probability sample or city-wide estimate
 - Source-normalized WBGT indicator pixel (0–100, not °C): min 51, median 68.0, max 88
-- Counter distance: min 8.1 m, median 490.5 m, max 1518.3 m
-- Counter history context: 672 fifteen-minute observations from 2024/01/01 to 2024/01/07; mean count 11.2, maximum 44
+- Counter distance: min 8.1 m, median 490.6 m, max 1518.3 m
+- Counter history context: 3,360 fifteen-minute observations (5 counters × 672) from 2024/01/01 to 2024/01/07; mean count 14.6, maximum 100
 - High-heat/high-proximity quadrant: 1 point at or above the sample's third quartile on both normalized components
 
 ## Data completeness
@@ -51,10 +51,10 @@ District counts describe this 100-record sample only; they are not district prev
 
 | District | Points | Mean WBGT indicator (0–100) | Median counter distance | High-high points |
 |---|---:|---:|---:|---:|
-| STALINGRAD | 9 | 84.0 | 489.9 m | 1 |
 | SQUARES | 35 | 72.8 | 559.3 m | 0 |
 | QUARTIER ROYAL | 33 | 56.1 | 285.5 m | 0 |
 | BEGUINAGE - DIXMUDE | 15 | 68.4 | 564.6 m | 0 |
+| STALINGRAD | 9 | 84.0 | 489.9 m | 1 |
 | QUARTIER EUROPEEN | 5 | 61.2 | 33.8 m | 0 |
 | HEEMBEEK | 2 | 73.5 | 1509.0 m | 0 |
 | HEYSEL | 1 | 59.0 | 1498.2 m | 0 |
@@ -88,7 +88,7 @@ The balanced screen uses heat weight 0.6 and proximity weight 0.4. The table sho
 
 ## Mobility context
 
-A measured-flow context now supplements nearest-counter distance: 97 of 100 sampled trees have their nearest counter covered by the same 2024/01/01 - 2024/01/07 week of 15-minute counts. The three remaining trees are nearest to counters without committed history.
+A measured-flow context supplements nearest-counter distance: 97 of 100 sampled trees have their nearest counter covered by the same 2024/01/01 - 2024/01/07 week of 15-minute counts. The remaining 3 trees are nearest to counters without committed history.
 
 | Counter | Mean 15-min count | Day-mean range |
 |---|---:|---:|
