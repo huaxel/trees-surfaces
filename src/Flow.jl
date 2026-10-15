@@ -1,6 +1,5 @@
 module Flow
 
-using JSON3
 using Statistics
 using ..TreesSurfaces
 
@@ -73,10 +72,7 @@ function generate_counter_flow_artifact(output_dir; data_dir=TreesSurfaces.DATA_
         "caveat" => "Flow is measured at the nearest counter, not at the tree; the period is a single winter week, so it is not a seasonal mobility estimate.",
         "records" => records,
     )
-    open(joinpath(output_dir, "brussels-tree-counter-flow.json"), "w") do io
-        write(io, JSON3.write(payload))
-        write(io, "\n")
-    end
+    TreesSurfaces.atomic_write_json(joinpath(output_dir, "brussels-tree-counter-flow.json"), payload)
     return payload
 end
 

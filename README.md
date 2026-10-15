@@ -88,7 +88,12 @@ Generates:
 - `tree-signal-sensitivity.json`: sensitivity scenarios (heat-only 100/0, balanced 60/40, proximity-only 0/100) and data completeness audit.
 - `tree-signal-balanced-screen.csv`: complete ranking under the balanced screening lens.
 - `tree-signal-analysis.md`: comprehensive markdown analysis report including district summaries and method explanations.
-- `brussels-counter-accident-context.json`: counter-level all-accident and bicycle-involved accident counts within 250 m and 500 m.
+
+The one-command workflow above also regenerates `brussels-counter-accident-context.json` (counter-level all-accident and bicycle-involved accident counts within 250 m and 500 m). Regenerate it on its own with:
+
+```bash
+julia --project=. bin/generate_accident_context.jl data
+```
 
 ### 3. Stakeholder review workflow
 

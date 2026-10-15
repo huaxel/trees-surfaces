@@ -1,11 +1,10 @@
 module Analysis
 
-using JSON3
 using ..TreesSurfaces
 
 export signal_summary, generate_signal_artifacts
 
-const SPREADSHEET_FORMULA_PREFIXES = ('=', '+', '-', '@', '\t', '\r')
+const csv_escape = TreesSurfaces.csv_escape
 
 function signal_summary()
     state = TreesSurfaces.build_state()
@@ -34,16 +33,6 @@ function signal_summary()
     )
 end
 
-function csv_escape(value)
-    value === nothing && return ""
-    string_value = string(value)
-    if !isempty(string_value) && first(string_value) in SPREADSHEET_FORMULA_PREFIXES
-        string_value = "'" * string_value
-    end
-    (occursin(',', string_value) || occursin('"', string_value) || occursin('\n', string_value) || occursin('\r', string_value)) || return string_value
-    return "\"" * replace(string_value, "\"" => "\"\"") * "\""
-end
-
 function analysis_rows(data_dir=TreesSurfaces.DATA_DIR)
     managed_payload = TreesSurfaces.read_json_path(joinpath(data_dir, "brussels-trees-sample.json"))
     heat_payload = TreesSurfaces.read_json_path(joinpath(data_dir, "brussels-tree-heat-sample.json"))
@@ -62,15 +51,8 @@ function analysis_rows(data_dir=TreesSurfaces.DATA_DIR)
             "counter" => TreesSurfaces.text(get(row, "nearest_counter", "")),
         ))
     end
-    heat_values = [point["heatPixel"] for point in points]
-    distances = [point["distanceM"] for point in points]
-    min_heat, max_heat = extrema(heat_values)
-    min_distance, max_distance = extrema(distances)
-    for point in points
-        point["heatScore"] = round(max_heat == min_heat ? 50.0 : (point["heatPixel"] - min_heat) / (max_heat - min_heat) * 100; digits = 3)
-        point["proximityScore"] = round(100 - (max_distance == min_distance ? 50.0 : (point["distanceM"] - min_distance) / (max_distance - min_distance) * 100); digits = 3)
-    end
-    return points, managed_payload, heat_payload, min_heat, max_heat, min_distance, max_distance
+    scored = TreesSurfaces.score_heat_proximity!(points)
+    return points, managed_payload, heat_payload, scored.min_heat, scored.max_heat, scored.min_distance, scored.max_distance
 end
 
 function artifact_row(site)
@@ -140,10 +122,7 @@ function write_analysis_report(report, output_dir)
     push!(lines, "- The heat layer represents one representative hot day in 2016.")
     push!(lines, "- Counter distance is not bicycle flow, pedestrian use, or street occupancy.")
     push!(lines, "- These points are candidates for follow-up analysis, not planting recommendations or causal findings.")
-    open(joinpath(output_dir, "tree-signal-analysis.md"), "w") do io
-        write(io, join(lines, "\n"))
-        write(io, "\n")
-    end
+    TreesSurfaces.atomic_write(joinpath(output_dir, "tree-signal-analysis.md"), join(lines, "\n") * "\n")
 end
 
 function generate_signal_artifacts(output_dir; data_dir=TreesSurfaces.DATA_DIR)
@@ -226,19 +205,15 @@ function generate_signal_artifacts(output_dir; data_dir=TreesSurfaces.DATA_DIR)
         "scenarios" => scenario_rows,
         "caveat" => "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure.",
     )
-    open(joinpath(output_dir, "tree-signal-sensitivity.json"), "w") do io
-        write(io, JSON3.write(report))
-        write(io, "\n")
-    end
+    TreesSurfaces.atomic_write_json(joinpath(output_dir, "tree-signal-sensitivity.json"), report)
     fields = ["rank", "id", "street", "district", "heat_pixel", "nearest_counter", "distance_m", "heat_score", "proximity_score", "signal"]
-    open(joinpath(output_dir, "tree-signal-balanced-screen.csv"), "w") do io
-        println(io, join(fields, ","))
-        for (rank, site) in enumerate(screens["balanced"]["sites"])
-            row = artifact_row(site)
-            values = Any[rank, row["id"], row["street"], row["district"], row["heat_pixel"], row["nearest_counter"], row["distance_m"], row["heat_score"], row["proximity_score"], row["signal"]]
-            println(io, join(csv_escape.(values), ","))
-        end
+    csv_lines = String[join(csv_escape.(fields), ",")]
+    for (rank, site) in enumerate(screens["balanced"]["sites"])
+        row = artifact_row(site)
+        values = Any[rank, row["id"], row["street"], row["district"], row["heat_pixel"], row["nearest_counter"], row["distance_m"], row["heat_score"], row["proximity_score"], row["signal"]]
+        push!(csv_lines, join(csv_escape.(values), ","))
     end
+    TreesSurfaces.atomic_write(joinpath(output_dir, "tree-signal-balanced-screen.csv"), join(csv_lines, "\n") * "\n")
     write_analysis_report(report, output_dir)
     return report
 end

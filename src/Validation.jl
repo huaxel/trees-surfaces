@@ -12,6 +12,7 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
     flow = read_snapshot("brussels-tree-counter-flow.json")
     inventory = read_snapshot("source-inventory.json")
     crosswalk = read_snapshot("managed-tree-id-crosswalk.json")
+    accidents = read_snapshot("brussels-counter-accident-context.json")
 
     managed_records = TreesSurfaces.records(managed)
     heat_records = TreesSurfaces.records(heat)
@@ -55,6 +56,24 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
     length(unique(crosswalk_live)) == 100 || error("managed-tree crosswalk live IDs are not unique")
     Set(crosswalk_legacy) == managed_ids || error("managed-tree crosswalk does not cover the committed managed-tree sample IDs")
 
+    accident_records = get(accidents, "counters", Any[])
+    TreesSurfaces.number(get(accidents, "record_count", 0)) > 0 || error("accident-context record count must be positive")
+    !isempty(accident_records) || error("accident-context snapshot contains no counters")
+    accident_ids = [TreesSurfaces.text(get(row, "id", "")) for row in accident_records]
+    all(!isempty(id) for id in accident_ids) || error("accident-context contains empty counter IDs")
+    length(unique(accident_ids)) == length(accident_ids) || error("accident-context counter IDs are not unique")
+    accident_count_keys = ("accidents_within_250m", "bicycle_accidents_within_250m", "accidents_within_500m", "bicycle_accidents_within_500m")
+    for row in accident_records
+        for key in accident_count_keys
+            value = get(row, key, nothing)
+            value isa Integer && !(value isa Bool) && value >= 0 || error("accident-context $(key) must be a non-negative integer for $(TreesSurfaces.text(get(row, "id", "")))")
+        end
+        row["bicycle_accidents_within_250m"] <= row["accidents_within_250m"] || error("accident-context bicycle accidents exceed all accidents within 250 m for $(row["id"])")
+        row["bicycle_accidents_within_500m"] <= row["accidents_within_500m"] || error("accident-context bicycle accidents exceed all accidents within 500 m for $(row["id"])")
+        row["accidents_within_250m"] <= row["accidents_within_500m"] || error("accident-context 250 m count exceeds 500 m count for $(row["id"])")
+        row["bicycle_accidents_within_250m"] <= row["bicycle_accidents_within_500m"] || error("accident-context bicycle 250 m count exceeds 500 m count for $(row["id"])")
+    end
+
     return Dict{String, Any}(
         "managed_records" => length(managed_records),
         "valid_coordinates" => valid_coordinates,
@@ -62,6 +81,7 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
         "nearest_counter_records" => length(joined_records),
         "measured_flow_records" => measured_flow,
         "managed_tree_crosswalk_records" => length(crosswalk_records),
+        "accident_context_counters" => length(accident_records),
     )
 end
 

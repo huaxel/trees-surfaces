@@ -3,6 +3,9 @@ module Refresh
 using HTTP
 using JSON3
 
+include(joinpath(@__DIR__, "IOUtils.jl"))
+using .IOUtils
+
 export refresh_open_data, validate_history_payload, preserve_sample, fetch_json, generate_managed_tree_crosswalk
 
 const DATA_DIR = joinpath(@__DIR__, "..", "data")
@@ -73,21 +76,8 @@ function fetch_text(url)
     String(get_body(url))
 end
 
-function atomic_write_json(path, payload)
-    mkpath(dirname(path))
-    temporary, io = mktemp(dirname(path))
-    try
-        JSON3.write(io, payload)
-        write(io, UInt8('\n'))
-        close(io)
-        chmod(temporary, 0o644)
-        mv(temporary, path; force=true)
-    catch
-        close(io)
-        rm(temporary; force=true)
-        rethrow()
-    end
-end
+# `atomic_write_json` is provided by `IOUtils` (imported above); `Refresh.atomic_write_json`
+# remains the public name used by the refresh pipeline and its tests.
 
 function committed_sample_ids(path)
     isfile(path) || return nothing

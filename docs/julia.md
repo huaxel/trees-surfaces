@@ -1,6 +1,6 @@
 # Trees & Surfaces — Julia UI
 
-This is a Julia-backed version of the browser prototype. Julia loads the committed snapshots, computes the normalized point fields and provenance summary, injects the initial state into the page, and serves the UI. Slider changes call `/api/screen`, so the exploratory ranking is recalculated by Julia rather than duplicated in browser code.
+This is the supported application: Julia loads the committed snapshots, computes the normalized point fields and provenance summary, injects the initial state into the page, and serves the UI. Slider changes call `/api/screen`, so the exploratory ranking is recalculated by Julia rather than duplicated in browser code.
 
 The browser still uses a small amount of plain JavaScript for slider and point-selection interactions; no frontend framework is required.
 

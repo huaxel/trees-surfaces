@@ -1,6 +1,5 @@
 module Spatial
 
-using JSON3
 using ..TreesSurfaces
 using ..Projection
 
@@ -86,10 +85,7 @@ function generate_accident_context(output_dir; data_dir=TreesSurfaces.DATA_DIR)
         "bicycle_accidents_by_year" => bicycle_years,
         "counters" => rows,
     )
-    open(joinpath(output_dir, "brussels-counter-accident-context.json"), "w") do io
-        write(io, JSON3.write(payload))
-        write(io, "\n")
-    end
+    TreesSurfaces.atomic_write_json(joinpath(output_dir, "brussels-counter-accident-context.json"), payload)
     return payload
 end
 
@@ -128,10 +124,7 @@ function generate_tree_mobility_join(output_dir; data_dir=TreesSurfaces.DATA_DIR
         "method" => "Haversine great-circle nearest-counter distance using Earth radius 6371000 m; no causal interpretation",
         "records" => rows,
     )
-    open(joinpath(output_dir, "brussels-tree-bike-nearest.json"), "w") do io
-        write(io, JSON3.write(payload))
-        write(io, "\n")
-    end
+    TreesSurfaces.atomic_write_json(joinpath(output_dir, "brussels-tree-bike-nearest.json"), payload)
     return payload
 end
 

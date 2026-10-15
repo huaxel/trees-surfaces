@@ -19,7 +19,7 @@ Use the prototype to test whether a Brussels urban-greening or heat-adaptation t
    Move from balanced weights toward heat-only and proximity-only. Ask whether the changing top points is useful for screening or confusing without a stronger mobility measure.
 
 5. **Show sensitivity evidence**
-   Point out that the balanced top ten overlaps 7/10 with heat-only and 3/10 with proximity-only. Open the JSON report or CSV export if the stakeholder wants to inspect individual records.
+   Point out that the balanced top ten overlaps 9/10 with heat-only and 1/10 with proximity-only. Open the JSON report or CSV export if the stakeholder wants to inspect individual records.
 
 6. **Close with the decision**
    Ask what follow-up action a high-signal point should trigger: field survey, extra temperature measurement, mobility analysis, maintenance review or nothing.

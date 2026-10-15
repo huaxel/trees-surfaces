@@ -22,17 +22,15 @@ const COMMON_REQUIRED = ["review_status", "reviewer_name", "reviewer_role", "rev
 const ACCEPTED_DECISION = ["accepted_decision_question", "accepted_spatial_unit", "accepted_mobility_measure", "accepted_heat_period"]
 const ACCEPTED_STATUSES = Set(["accepted", "accepted with changes"])
 const PROVENANCE_FIELDS = [field for field in FIELDS if !(field in REVIEW_FIELDS)]
-const SPREADSHEET_FORMULA_PREFIXES = ('=', '+', '-', '@', '\t', '\r')
 const ESCAPED_FIELDS_COLUMN = "_spreadsheet_escaped_fields"
 
 text(value) = value === nothing ? "" : string(value)
 
-spreadsheet_formula_payload(value) = !isempty(value) && first(value) in SPREADSHEET_FORMULA_PREFIXES
-
-function spreadsheet_safe(value)
-    string_value = text(value)
-    spreadsheet_formula_payload(string_value) ? "'" * string_value : string_value
-end
+# Spreadsheet-safety helpers live in TreesSurfaces so the analytical CSV and the review
+# worksheet neutralize formula-leading values identically.
+const spreadsheet_formula_payload = TreesSurfaces.spreadsheet_formula_payload
+const spreadsheet_safe = TreesSurfaces.spreadsheet_safe
+const csv_escape = TreesSurfaces.csv_escape
 
 function spreadsheet_unescape(value)
     startswith(value, "'") && length(value) > 1 || error("stakeholder worksheet escape metadata does not match its cell value")
@@ -45,33 +43,46 @@ function parse_csv_records(content)
     rows = Vector{Vector{String}}()
     fields = String[]
     buffer = IOBuffer()
-    quoted = false
+    in_quotes = false
+    field_started = false
     index = firstindex(content)
     while index <= lastindex(content)
         character = content[index]
-        if character == '"'
-            if quoted && index < lastindex(content) && content[nextind(content, index)] == '"'
-                print(buffer, '"')
-                index = nextind(content, index)
+        if in_quotes
+            if character == '"'
+                if index < lastindex(content) && content[nextind(content, index)] == '"'
+                    print(buffer, '"')
+                    index = nextind(content, index)
+                else
+                    in_quotes = false
+                end
             else
-                quoted = !quoted
+                print(buffer, character)
             end
-        elseif character == ',' && !quoted
+        elseif character == '"' && !field_started
+            # A quote only opens a quoted field at the start of that field; elsewhere it is
+            # literal text, so a stray hand-edit cannot silently swallow the next delimiter.
+            in_quotes = true
+            field_started = true
+        elseif character == ','
             push!(fields, String(take!(buffer)))
-        elseif (character == '\n' || character == '\r') && !quoted
+            field_started = false
+        elseif character == '\n' || character == '\r'
             push!(fields, String(take!(buffer)))
             push!(rows, fields)
             fields = String[]
+            field_started = false
             if character == '\r' && index < lastindex(content) && content[nextind(content, index)] == '\n'
                 index = nextind(content, index)
             end
         else
             print(buffer, character)
+            field_started = true
         end
         index = nextind(content, index)
     end
-    quoted && error("stakeholder worksheet contains an unterminated quoted field")
-    if !isempty(fields) || position(buffer) > 0
+    in_quotes && error("stakeholder worksheet contains an unterminated quoted field")
+    if !isempty(fields) || field_started
         push!(fields, String(take!(buffer)))
         push!(rows, fields)
     end
@@ -129,34 +140,26 @@ function validate_review(row, allowed_statuses)
     valid_iso8601(review_values["reviewed_at"]) || error("stakeholder reviewed_at must be ISO 8601")
 end
 
-function csv_escape(value)
-    value = spreadsheet_safe(value)
-    (occursin(',', value) || occursin('"', value) || occursin('\n', value) || occursin('\r', value)) || return value
-    "\"" * replace(value, "\"" => "\"\"") * "\""
+function parse_stakeholder_review_args(args; default_dir=TreesSurfaces.DATA_DIR)
+    options = ("--reset-review",)
+    unknown = [arg for arg in args if startswith(arg, "-") && !(arg in options)]
+    isempty(unknown) || error("unknown option(s): $(join(unknown, ", "))")
+    positional = [arg for arg in args if !startswith(arg, "-")]
+    length(positional) <= 1 || error("expected at most one output directory, got: $(join(positional, ", "))")
+    all(!isempty(arg) for arg in positional) || error("output directory must not be empty")
+    return (dir = isempty(positional) ? default_dir : first(positional), reset_review = "--reset-review" in args)
 end
 
 function write_csv(path, row)
-    temporary = path * ".tmp"
-    open(temporary, "w") do io
-        println(io, join(csv_escape.([FIELDS..., ESCAPED_FIELDS_COLUMN]), ","))
-        escaped_fields = [field for field in FIELDS if spreadsheet_formula_payload(text(get(row, field, "")))]
-        values = [csv_escape(get(row, field, "")) for field in FIELDS]
-        escape_map = Dict(field => spreadsheet_safe(get(row, field, "")) for field in escaped_fields)
-        push!(values, csv_escape(JSON3.write(escape_map)))
-        println(io, join(values, ","))
-    end
-    chmod(temporary, 0o644)
-    mv(temporary, path; force = true)
+    values = [csv_escape(get(row, field, "")) for field in FIELDS]
+    escaped_fields = [field for field in FIELDS if spreadsheet_formula_payload(text(get(row, field, "")))]
+    escape_map = Dict(field => spreadsheet_safe(get(row, field, "")) for field in escaped_fields)
+    push!(values, csv_escape(JSON3.write(escape_map)))
+    TreesSurfaces.atomic_write(path, join([join(csv_escape.([FIELDS..., ESCAPED_FIELDS_COLUMN]), ","), join(values, ",")], "\n") * "\n")
 end
 
 function write_json(path, payload)
-    temporary = path * ".tmp"
-    open(temporary, "w") do io
-        write(io, JSON3.write(payload))
-        write(io, "\n")
-    end
-    chmod(temporary, 0o644)
-    mv(temporary, path; force = true)
+    TreesSurfaces.atomic_write_json(path, payload)
 end
 
 function promote_review_artifacts(stage, data_dir, filenames; move_file! = (source, destination) -> mv(source, destination; force=true))

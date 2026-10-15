@@ -20,6 +20,24 @@ using .Refresh
 include(joinpath(@__DIR__, "..", "src", "Review.jl"))
 using .Review
 
+# Lightweight stand-ins for a loaded 10,000 x 9,000 grayscale raster so raster validation
+# and pixel sampling can be tested without a 90 MB TIFF fixture.
+struct StubRaster end
+Base.size(::StubRaster) = (9_000, 10_000)
+Base.getindex(::StubRaster, row::Int, column::Int) = (UInt8(mod(row * 31 + column * 17, 256)),)
+
+struct SmallStubRaster end
+Base.size(::SmallStubRaster) = (4, 4)
+Base.getindex(::SmallStubRaster, ::Int, ::Int) = (UInt8(20),)
+
+struct WideStubRaster end
+Base.size(::WideStubRaster) = (9_000, 10_000)
+Base.getindex(::WideStubRaster, ::Int, ::Int) = (UInt16(20),)
+
+struct TwoBandStubRaster end
+Base.size(::TwoBandStubRaster) = (9_000, 10_000)
+Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
+
 @testset "Trees & Surfaces Julia UI" begin
     state = TreesSurfaces.build_state()
     @test length(state["sites"]) == 100
@@ -32,7 +50,18 @@ using .Review
     @test validation["managed_records"] == 100
     @test validation["valid_coordinates"] == 100
     @test validation["measured_flow_records"] == 97
+    @test validation["accident_context_counters"] == 18
     @test Heat.gray_byte((0.5,)) == 128
+    @test Heat.validate_raster(StubRaster()) == (10_000, 9_000)
+    @test_throws ErrorException Heat.validate_raster(SmallStubRaster())
+    @test_throws ErrorException Heat.validate_raster(WideStubRaster())
+    @test_throws ErrorException Heat.validate_raster(TwoBandStubRaster())
+    stub_join = Heat.heat_join_records(StubRaster(), Dict("records" => [Dict("id" => "stub-tree", "latitude" => 50.85, "longitude" => 4.35)]))
+    @test length(stub_join) == 1
+    expected_column, expected_row = Projection.raster_pixel(50.85, 4.35, 10_000, 9_000)
+    @test stub_join[1]["heat_pixel_column"] == expected_column
+    @test stub_join[1]["heat_pixel_row"] == expected_row
+    @test stub_join[1]["heat_pixel"] == Heat.gray_byte((UInt8(mod((expected_row + 1) * 31 + (expected_column + 1) * 17, 256)),))
     @test Refresh.encode_query("id IN ('a b')") == "id%20IN%20%28%27a%20b%27%29"
     fallback_tree = Refresh.tree_row(
         Dict("id"=>"tree-test", "adress_nl"=>"Nederlandse straat", "district_nl"=>"Centrum", "source_nl"=>"Inventaris", "geo_point_2d"=>Dict("lat"=>50.0, "lon"=>4.0)),
@@ -70,6 +99,15 @@ using .Review
         rows = [Dict("id"=>"id-$i") for i in 1:100]
         Refresh.atomic_write_json(path, Dict("records"=>rows))
         @test [row["id"] for row in Refresh.preserve_sample(rows[100:-1:1], path, "id")] == ["id-$i" for i in 1:100]
+    end
+    mktempdir() do directory
+        nested = joinpath(directory, "nested", "artifact.json")
+        TreesSurfaces.atomic_write_json(nested, Dict("value" => 1))
+        @test TreesSurfaces.read_json_path(nested)["value"] == 1
+        @test readdir(dirname(nested)) == ["artifact.json"]
+        text_path = joinpath(directory, "note.txt")
+        TreesSurfaces.atomic_write(text_path, "hello\n")
+        @test read(text_path, String) == "hello\n"
     end
     @test Refresh.coordinate(50.85) == 50.85
     @test Refresh.coordinate("50.85") == 50.85
@@ -138,10 +176,13 @@ using .Review
         @test column == row["heat_pixel_column"]
         @test pixel_row == row["heat_pixel_row"]
     end
+    @test_throws ErrorException Projection.raster_pixel(0.0, 0.0, 10_000, 9_000)
+    @test_throws ErrorException Projection.raster_pixel(51.5, 4.35, 10_000, 9_000)
     mktempdir() do directory
         join = Spatial.generate_tree_mobility_join(directory)
         @test length(join["records"]) == 100
         @test join["records"][1]["nearest_counter"] == "CB2105"
+        @test readdir(directory) == ["brussels-tree-bike-nearest.json"]
     end
     mktempdir() do directory
         context = Spatial.generate_accident_context(directory)
@@ -166,6 +207,7 @@ using .Review
     @test Review.spreadsheet_unescape("'=1+1") == "=1+1"
     @test_throws ErrorException Review.spreadsheet_unescape("'literal")
     @test_throws ErrorException Review.parse_csv_records("a,b\n1,\"unterminated")
+    @test Review.parse_csv_records("a,b,c\n1,He said \"hi\", ok\n")[2] == ["1", "He said \"hi\"", " ok"]
     mktempdir() do directory
         duplicate_columns = joinpath(directory, "duplicate.csv")
         write(duplicate_columns, "proposal_id,proposal_id\na,a\n")
@@ -190,6 +232,14 @@ using .Review
         @test_throws ErrorException Review.promote_review_artifacts(stage, output, filenames; move_file!)
         @test all(read(joinpath(output, filename), String) == "old-$filename" for filename in filenames)
     end
+    @test Review.parse_stakeholder_review_args(["--reset-review"]).dir == TreesSurfaces.DATA_DIR
+    @test Review.parse_stakeholder_review_args(["--reset-review"]).reset_review
+    @test Review.parse_stakeholder_review_args(["/tmp/review"]).dir == "/tmp/review"
+    @test !Review.parse_stakeholder_review_args(["/tmp/review"]).reset_review
+    @test Review.parse_stakeholder_review_args(["/tmp/review", "--reset-review"]).reset_review
+    @test_throws ErrorException Review.parse_stakeholder_review_args(["--bogus"])
+    @test_throws ErrorException Review.parse_stakeholder_review_args(["/tmp/a", "/tmp/b"])
+    @test_throws ErrorException Review.parse_stakeholder_review_args([""])
     summary = Analysis.signal_summary()
     @test summary["record_count"] == 100
     @test summary["scenarios"]["heat_only"]["top_10_overlap_with_balanced"] == 9
@@ -200,11 +250,13 @@ using .Review
         @test isfile(joinpath(directory, "tree-signal-sensitivity.json"))
         @test isfile(joinpath(directory, "tree-signal-balanced-screen.csv"))
         @test isfile(joinpath(directory, "tree-signal-analysis.md"))
+        @test sort(readdir(directory)) == ["tree-signal-analysis.md", "tree-signal-balanced-screen.csv", "tree-signal-sensitivity.json"]
     end
     mktempdir() do directory
         flow = Flow.generate_counter_flow_artifact(directory)
         @test flow["record_count"] == 100
         @test flow["trees_with_measured_flow"] == 97
+        @test readdir(directory) == ["brussels-tree-counter-flow.json"]
     end
     @test first(state["screen"]["sites"])["id"] == "vbx_56561"
     proximity_screen = TreesSurfaces.ranked_sites(state["sites"], 0.0, 100.0)

@@ -4,7 +4,13 @@ using HTTP
 using JSON3
 using Random
 
+include(joinpath(@__DIR__, "IOUtils.jl"))
+using .IOUtils
+
 export serve_app, read_json_path
+
+const SIGNAL_PRECISION = 3
+const SPREADSHEET_FORMULA_PREFIXES = ('=', '+', '-', '@', '\t', '\r')
 
 const DATA_DIR = joinpath(@__DIR__, "..", "data")
 const PUBLIC_DIR = joinpath(@__DIR__, "..", "public")
@@ -19,6 +25,37 @@ const SECURITY_HEADERS = [
 
 text(value) = value === nothing ? "" : string(value)
 number(value) = value isa Number ? Float64(value) : parse(Float64, text(value))
+
+# Shared spreadsheet-safety helpers: a leading formula character is neutralized so CSV
+# exports cannot be interpreted as formulas by spreadsheet software.
+spreadsheet_formula_payload(value) = !isempty(value) && first(value) in SPREADSHEET_FORMULA_PREFIXES
+
+function spreadsheet_safe(value)
+    string_value = text(value)
+    spreadsheet_formula_payload(string_value) ? "'" * string_value : string_value
+end
+
+function csv_escape(value)
+    string_value = spreadsheet_safe(value)
+    (occursin(',', string_value) || occursin('\"', string_value) || occursin('\n', string_value) || occursin('\r', string_value)) || return string_value
+    return "\"" * replace(string_value, "\"" => "\"\"") * "\""
+end
+
+# Min-max normalize heat and inverse counter distance over the supplied points and attach
+# rounded component scores. `build_state` (UI) and `Analysis.analysis_rows` (artifacts)
+# share this function so displayed and exported rankings cannot drift apart.
+function score_heat_proximity!(points)
+    heat_values = [point["heatPixel"] for point in points]
+    distances = [point["distanceM"] for point in points]
+    min_heat, max_heat = extrema(heat_values)
+    min_distance, max_distance = extrema(distances)
+    scale(value, low, high) = high == low ? 50.0 : (value - low) / (high - low) * 100
+    for point in points
+        point["heatScore"] = round(scale(point["heatPixel"], min_heat, max_heat); digits = SIGNAL_PRECISION)
+        point["proximityScore"] = round(100 - scale(point["distanceM"], min_distance, max_distance); digits = SIGNAL_PRECISION)
+    end
+    return (min_heat = min_heat, max_heat = max_heat, min_distance = min_distance, max_distance = max_distance)
+end
 
 function read_json_path(path)
     JSON3.read(read(path, String), Dict{String, Any})
@@ -124,21 +161,17 @@ function build_state()
         ))
     end
 
-    heat_values = [point["heatPixel"] for point in raw_points]
-    distances = [point["distanceM"] for point in raw_points]
     longitudes = [point["longitude"] for point in raw_points]
     latitudes = [point["latitude"] for point in raw_points]
-    min_heat, max_heat = extrema(heat_values)
-    min_distance, max_distance = extrema(distances)
     min_longitude, max_longitude = extrema(longitudes)
     min_latitude, max_latitude = extrema(latitudes)
+    scored = score_heat_proximity!(raw_points)
+    min_heat, max_heat = scored.min_heat, scored.max_heat
+    min_distance, max_distance = scored.min_distance, scored.max_distance
 
-    scale(value, low, high) = high == low ? 50.0 : (value - low) / (high - low) * 100
     position(value, low, high) = high == low ? 50.0 : 1 + (value - low) / (high - low) * 82
 
     for point in raw_points
-        point["heatScore"] = round(scale(point["heatPixel"], min_heat, max_heat); digits=3)
-        point["proximityScore"] = round(100 - scale(point["distanceM"], min_distance, max_distance); digits=3)
         point["mapX"] = position(point["longitude"], min_longitude, max_longitude)
         point["mapY"] = 1 + 82 - position(point["latitude"], min_latitude, max_latitude)
         delete!(point, "longitude")

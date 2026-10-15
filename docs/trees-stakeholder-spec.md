@@ -33,7 +33,7 @@ The committed feasibility snapshot contains 100 records.
 ### Heat exposure
 
 - **Raw measure:** pixel value from the Brussels WBGT mean raster for 24 August 2016.
-- **Current range:** 50–95 in the committed sample.
+- **Current range:** 51–88 in the committed sample.
 - **Displayed score:** min–max normalization within the sample to 0–100.
 - **Interpretation:** relative heat-stress signal for one representative hot day, not a continuous temperature series.
 

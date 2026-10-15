@@ -4,7 +4,10 @@ using JSON3
 using TiffImages
 using ..Projection
 
-export generate_heat_join
+include(joinpath(@__DIR__, "IOUtils.jl"))
+using .IOUtils
+
+export generate_heat_join, validate_raster, heat_join_records
 
 const EXPECTED_WIDTH = 10_000
 const EXPECTED_HEIGHT = 9_000
@@ -16,14 +19,17 @@ function gray_byte(pixel)
     round(Int, 255 * Float64(getfield(pixel, 1)))
 end
 
-function generate_heat_join(raster_path, trees_path, output_path)
-    image = TiffImages.load(raster_path)
+function validate_raster(image)
     height, width = size(image)
     (width, height) == (EXPECTED_WIDTH, EXPECTED_HEIGHT) || error("unexpected raster size $(width)x$(height); expected $(EXPECTED_WIDTH)x$(EXPECTED_HEIGHT)")
     pixel = image[1, 1]
     fieldcount(typeof(pixel)) == 1 || error("expected a grayscale raster")
     sizeof(getfield(pixel, 1)) == 1 || error("expected an 8-bit grayscale raster")
-    source = JSON3.read(read(trees_path, String), Dict{String, Any})
+    return width, height
+end
+
+function heat_join_records(image, source)
+    width, height = validate_raster(image)
     records = Any[]
     for tree in get(source, "records", Any[])
         latitude = Float64(get(tree, "latitude", NaN))
@@ -35,20 +41,23 @@ function generate_heat_join(raster_path, trees_path, output_path)
         output["heat_pixel_row"] = row
         push!(records, output)
     end
-    mkpath(dirname(output_path))
-    open(output_path, "w") do io
-        write(io, JSON3.write(Dict(
-            "source" => basename(raster_path),
-            "source_metadata_id" => SOURCE_METADATA_ID,
-            "source_licence" => SOURCE_LICENCE,
-            "value_semantics" => VALUE_SEMANTICS,
-            "crs" => "EPSG:31370",
-            "coordinate_transform" => "WGS84 to Belgian 1972 datum using the EPSG seven-parameter transform, then Belgian Lambert 72 projection",
-            "sampling" => "nearest raster pixel at tree point",
-            "records" => records,
-        )))
-        write(io, "\n")
-    end
+    return records
+end
+
+function generate_heat_join(raster_path, trees_path, output_path)
+    image = TiffImages.load(raster_path)
+    source = JSON3.read(read(trees_path, String), Dict{String, Any})
+    records = heat_join_records(image, source)
+    IOUtils.atomic_write_json(output_path, Dict(
+        "source" => basename(raster_path),
+        "source_metadata_id" => SOURCE_METADATA_ID,
+        "source_licence" => SOURCE_LICENCE,
+        "value_semantics" => VALUE_SEMANTICS,
+        "crs" => "EPSG:31370",
+        "coordinate_transform" => "WGS84 to Belgian 1972 datum using the EPSG seven-parameter transform, then Belgian Lambert 72 projection",
+        "sampling" => "nearest raster pixel at tree point",
+        "records" => records,
+    ))
     return records
 end
 
