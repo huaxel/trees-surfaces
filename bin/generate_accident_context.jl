@@ -12,7 +12,7 @@ using .Projection
 include(joinpath(@__DIR__, "..", "src", "Spatial.jl"))
 using .Spatial
 
-output_dir = isempty(ARGS) ? joinpath(pwd(), "julia-generated") : first(ARGS)
+output_dir = isempty(ARGS) ? joinpath(pwd(), "trees-surfaces-generated") : first(ARGS)
 payload = generate_accident_context(output_dir)
 println("wrote Julia counter accident-context artifact to $(output_dir)")
 println(JSON3.write(Dict(
