@@ -5,6 +5,8 @@ using ..TreesSurfaces
 
 include(joinpath(@__DIR__, "HeatSeason.jl"))
 using .HeatSeason
+include(joinpath(@__DIR__, "Wbgt.jl"))
+using .Wbgt
 
 export signal_summary, generate_signal_artifacts
 
@@ -96,11 +98,25 @@ function write_analysis_report(report, context, output_dir)
     quality = report["data_completeness"]
     weights = report["weight_sensitivity"]
     heat_season = context["heat_season"]
+    wbgt = context["heat_wbgt"]
+    wbgt_lines = wbgt["available"] ? [
+        "- VITO publishes daily maximum WBGT at 100 m in EPSG:3035 for $(wbgt["window_phrase"]), sampled as `brussels-heat-wbgt-sample.json` to the same $(report["record_count"]) trees across $(wbgt["distinct_cells"]) cells. It is the same UrbClim model family and spatial resolution as the Brussels Environment raster, but its °C daily maxima are not interchangeable with the raster's 0–100 indicator for a 24-hour mean scenario. The archive page requests citation to De Ridder et al. (2015) and Souverijns et al. (2026).",
+        "- The 24 August 2016 raster date falls at the $(wbgt["reference_percentile_min"])–$(wbgt["reference_percentile_max"])th percentile of the pooled June–August daily WBGT distribution; its sampled point values are $(wbgt["reference_min"])–$(wbgt["reference_max"]) °C. The seasonal-mean WBGT ranges from $(wbgt["seasonal_mean_min"]) to $(wbgt["seasonal_mean_max"]) °C across the sample.",
+        "- In the VITO daily-maximum series, the reference-day and pooled seasonal-mean heat-only top tens share $(wbgt["seasonal_mean_vs_reference_day"])/10. Against the current balanced screen, the VITO reference-day, seasonal-mean and hot-day-count top tens overlap at $(wbgt["reference_day_vs_balanced"])/10, $(wbgt["seasonal_mean_vs_balanced"])/10 and $(wbgt["hot_days_vs_balanced"])/10. The latter comparisons also change WBGT output semantics and scoring; they do not isolate heat-period effects. No alternative is adopted pending stakeholder choice.",
+        "- Licence review for the VITO $(wbgt["window_phrase"]) daily archive is $(wbgt["licence_status"]); the source page requests both citations but does not state reuse terms, so confirm with VITO before external redistribution or relying on derived values beyond exploratory analysis.",
+
+    ] : [
+        "- No multi-date 100 m WBGT snapshot is present; VITO publishes daily UrbClim WBGT for Brussels for 2008–2017. Use `julia --project=. bin/generate_wbgt_context.jl --download` to build it from the upstream archive.",
+    ]
+    hottest_years = heat_season["available"] ? heat_season["hottest_season_years"] : String[]
+    hottest_season_line = length(hottest_years) == 1 ?
+        "- The 2016 seasonal mean apparent maximum was about $(heat_season["reference_season_mean"]) °C across the sample cells; $(first(hottest_years)) was the warmest season across all sampled cells, at about $(heat_season["hottest_season_mean"]) °C on average." :
+        "- The 2016 seasonal mean apparent maximum was about $(heat_season["reference_season_mean"]) °C across the sample cells; cell-specific warmest seasons differ ($(join(hottest_years, ", "))), and their hottest-season means average $(heat_season["hottest_season_mean"]) °C."
     season_lines = heat_season["available"] ? [
         "- A multi-year seasonal context is committed as `brussels-heat-season-sample.json`: pooled June–August seasons for $(heat_season["window_phrase"]) on the ERA5 reanalysis grid, where $(heat_season["cells"]) cells cover the committed sample, retrieved from the Open-Meteo archive API with Copernicus attribution.",
         "- The committed WBGT date, $(heat_season["reference_date"]), was an extreme day inside its own summer: apparent-temperature maxima were $(heat_season["reference_apparent_min"])–$(heat_season["reference_apparent_max"]) °C across those cells, ranking $(heat_season["reference_rank_min"])th–$(heat_season["reference_rank_max"])th warmest of that season's 92 days ($(heat_season["reference_percentile_min"])–$(heat_season["reference_percentile_max"])% of the seasonal days were below it).",
-        "- The 2016 seasonal mean apparent maximum was about $(heat_season["reference_season_mean"]) °C across the sample cells; $(heat_season["hottest_season_year"]) was the warmest season at about $(heat_season["hottest_season_mean"]) °C. The single-day raster therefore describes a genuinely hot day inside a comparatively mild summer, not the region's most severe heat season.",
-        "- Recurrence context: about $(heat_season["hot_days_per_season_min"])–$(heat_season["hot_days_per_season_max"]) days per season reach an apparent maximum of 30 °C or more in these cells, so a one-day snapshot says nothing about how often the condition repeats.",
+        hottest_season_line,
+        "- Recurrence context: about $(heat_season["hot_days_per_season_min"])–$(heat_season["hot_days_per_season_max"]) days per season reach an apparent maximum of $(Int(HeatSeason.HOT_DAY_APPARENT_TMAX_C)) °C or more in these cells, so a one-day snapshot says nothing about how often the condition repeats.",
         "- Boundary: the ERA5 grid step is about 28 km north-south and 18 km east-west at Brussels' latitude; the $(heat_season["cells"]) cells spanning the sample differ by only $(heat_season["seasonal_mean_spread"]) °C in seasonal mean apparent maximum. This source documents temporal representativeness; it cannot reproduce or replace the intra-urban pattern of the 10,000 × 9,000 WBGT raster that drives the ranking.",
     ] : [
         "- No seasonal heat context snapshot is present in this data directory; the committed snapshot is `brussels-heat-season-sample.json`.",
@@ -109,6 +125,7 @@ function write_analysis_report(report, context, output_dir)
     heat_missing_line = heat_missing == 0 ?
         "- Missing data: all $(report["record_count"]) joined points have non-NoData WBGT pixels, so there is no heat missingness to impute in this snapshot." :
         "- Missing data: $(heat_missing) of $(report["record_count"]) joined points have NoData WBGT pixels; they are excluded from the heat component and named in the completeness section."
+    history_line = "- Counter history context: $(format_thousands(context["history_observations"])) fifteen-minute observations ($(context["history_counters"]) counters × 672) from $(context["history_period_phrase"]); $(context["history_statistics"])"
     lines = [
         "# Tree signal descriptive analysis",
         "",
@@ -118,15 +135,19 @@ function write_analysis_report(report, context, output_dir)
         "",
         "## Heat data and normalization",
         "",
-        "- The ranking heat input is the regional urban-heat-island model published by Brussels Environment: mean 24-hour Wet Bulb Globe Temperature for one representative hot day (2016-08-24). The public WMS exposes this single scenario layer.",
+        "- The ranking heat input is the regional urban-heat-island model published by Brussels Environment: mean 24-hour Wet Bulb Globe Temperature for one representative hot day (2016-08-24). The public regional WMS exposes this single scenario layer.",
         "- The source raster stores a normalized 0–100 WBGT indicator, not degrees Celsius. The prototype then min-max normalizes those source values again within the committed $(report["record_count"])-record sample to calculate heat scores; rankings therefore shift with the weights and with a different sample.",
         "- The authoritative ISO metadata identifies the dataset as `$(report["heat_source_metadata_id"])`, published by Brussels Environment / Leefmilieu Brussel under $(report["heat_source_licence"]) with source attribution.",
         heat_missing_line,
-        "- Multi-date or seasonal open layers: the regional WMS publishes only this one scenario, so a multi-year seasonal context is committed separately as `brussels-heat-season-sample.json`; it documents how representative the committed day is and never replaces the raster as the ranking input.",
+        "- A separate multi-date 100 m WBGT context was evaluated; its data-derived comparisons and interpretive limits are summarized below. It remains context only and does not replace the raster as ranking input.",
         "",
         "## Seasonal heat context",
         "",
         season_lines...,
+        "",
+        "## Multi-date 100 m WBGT context",
+        "",
+        wbgt_lines...,
         "",
         "## Traceability",
         "",
@@ -142,7 +163,7 @@ function write_analysis_report(report, context, output_dir)
         "- Sampling note: the committed records are a feasibility snapshot, not a probability sample or city-wide estimate",
         "- Source-normalized WBGT indicator pixel (0–100, not °C): min $(context["heat_min"]), median $(context["heat_median"]), max $(context["heat_max"])",
         "- Counter distance: min $(context["distance_min"]) m, median $(context["distance_median"]) m, max $(context["distance_max"]) m",
-        "- Counter history context: $(format_thousands(context["history_observations"])) fifteen-minute observations ($(context["history_counters"]) counters × 672) from $(context["history_period_phrase"]); mean count $(context["history_mean"]), maximum $(context["history_max"])",
+        history_line,
         "- High-heat/high-proximity quadrant: $(context["quadrant_count"]) $(context["quadrant_label"]) at or above the sample's third quartile on both normalized components",
         "",
         "## Data completeness",
@@ -195,7 +216,7 @@ function write_analysis_report(report, context, output_dir)
     push!(lines, "")
     push!(lines, "## Mobility context")
     push!(lines, "")
-    push!(lines, "A measured-flow context supplements nearest-counter distance: $(quality["measured_flow_context_records"]) of $(quality["managed_records"]) sampled trees have their nearest counter covered by the same $(context["history_period"]) week of 15-minute counts. The remaining $(length(quality["measured_flow_unmatched_ids"])) trees are nearest to counters without committed history.")
+    push!(lines, "A measured-flow context supplements nearest-counter distance: $(quality["measured_flow_context_records"]) of $(quality["managed_records"]) sampled trees have their nearest counter covered by the same $(context["history_period"]) week of 15-minute counts. The remaining $(length(quality["measured_flow_unmatched_ids"])) trees are nearest to counters without usable measured history.")
     push!(lines, "")
     push!(lines, "| Counter | Mean 15-min count | Day-mean range |")
     push!(lines, "|---|---:|---:|")
@@ -294,6 +315,7 @@ function generate_signal_artifacts(output_dir; data_dir=TreesSurfaces.DATA_DIR)
         ),
         "scenarios" => scenario_rows,
         "heat_season_context" => context["heat_season"],
+        "heat_wbgt_context" => context["heat_wbgt"],
         "caveat" => "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure.",
     )
     TreesSurfaces.atomic_write_json(joinpath(output_dir, "tree-signal-sensitivity.json"), report)
@@ -343,11 +365,19 @@ function report_context(points, managed_payload, managed_ids, flow_payload, data
     counter_flow = Dict{String, Any}(string(counter) => values for (counter, values) in pairs(flow_payload["counter_flow"]))
     history_counts = Float64[]
     for counter in sort(collect(keys(counter_flow)))
+        get(counter_flow[counter], "measured", true) == true || continue
         payload = TreesSurfaces.read_json_path(joinpath(data_dir, "brussels-bike-history-$(counter)-2024-01.json"))
         append!(history_counts, [TreesSurfaces.number(get(row, "count", 0)) for row in TreesSurfaces.records(payload)])
     end
     counter_rows = Any[]
+    unmeasured_counters = String[]
     for (counter, values) in counter_flow
+        # An outage window carries no measurement, so it must not enter report statistics or
+        # sorting as if it were an observed mean of zero.
+        if get(values, "measured", true) != true
+            push!(unmeasured_counters, counter)
+            continue
+        end
         push!(counter_rows, Dict{String, Any}(
             "counter" => counter,
             "mean" => values["mean_all"],
@@ -356,12 +386,16 @@ function report_context(points, managed_payload, managed_ids, flow_payload, data
         ))
     end
     sort!(counter_rows, by = row -> (-row["mean"], row["counter"]))
+    sort!(unmeasured_counters)
+    history_mean = isempty(history_counts) ? nothing : round(Statistics.mean(history_counts); digits = 1)
+    history_max = isempty(history_counts) ? nothing : round(Int, maximum(history_counts))
+    history_statistics = history_mean === nothing ? "no measured count statistics are available" : "mean count $(history_mean), maximum $(history_max)"
 
     flow_gap_ids = data_completeness["measured_flow_unmatched_ids"]
     flow_gap_counters = data_completeness["measured_flow_unmatched_counters"]
     flow_gap_sentence = isempty(flow_gap_ids) ?
         "Every sampled tree has measured-flow history for its nearest counter; all core heat and nearest-counter joins are complete." :
-        "Measured-flow context is unavailable for IDs $(join(flow_gap_ids, ", ")); the affected nearest counter set is $(join(flow_gap_counters, ", ")), with no committed history snapshot. All core heat and nearest-counter joins are complete."
+        "Measured-flow context is unavailable for IDs $(join(flow_gap_ids, ", ")); the affected nearest counter set is $(join(flow_gap_counters, ", ")), whose archived windows are absent or did not qualify as measured. All core heat and nearest-counter joins are complete."
 
     managed_source_total = Int(TreesSurfaces.number(get(managed_payload, "source", length(points))))
     return Dict{String, Any}(
@@ -375,11 +409,14 @@ function report_context(points, managed_payload, managed_ids, flow_payload, data
         "distance_median" => round(Statistics.median(distances); digits = 1),
         "distance_max" => round(maximum(distances); digits = 1),
         "history_observations" => length(history_counts),
-        "history_counters" => length(counter_flow),
+        "history_counters" => length(counter_rows),
+        "history_measured_counters" => length(counter_rows),
+        "history_unmeasured_counters" => unmeasured_counters,
         "history_period" => TreesSurfaces.text(get(flow_payload, "period", "")),
         "history_period_phrase" => replace(TreesSurfaces.text(get(flow_payload, "period", "")), " - " => " to "),
-        "history_mean" => round(Statistics.mean(history_counts); digits = 1),
-        "history_max" => round(Int, maximum(history_counts)),
+        "history_mean" => history_mean,
+        "history_max" => history_max,
+        "history_statistics" => history_statistics,
         "quadrant_count" => quadrant_count,
         "quadrant_label" => quadrant_count == 1 ? "point" : "points",
         "example_id" => first(managed_ids),
@@ -395,6 +432,7 @@ function report_context(points, managed_payload, managed_ids, flow_payload, data
             for row in scenario_rows
         ),
         "heat_season" => HeatSeason.season_context(data_dir),
+        "heat_wbgt" => Wbgt.context_summary(data_dir),
     )
 end
 

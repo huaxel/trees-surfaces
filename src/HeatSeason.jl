@@ -163,11 +163,11 @@ function validate_era5_daily_payload(payload, latitude, longitude)
     end
     daily = get(payload, "daily", nothing)
     require(daily isa AbstractDict, "ERA5 response lacks a daily block")
-    times = get(daily, "time", nothing)
-    require(times isa AbstractVector && !isempty(times), "ERA5 response lacks daily timestamps")
-    expected_days = Dates.value(Date(WINDOW_END_DATE) - Date(WINDOW_START_DATE)) + 1
-    require(length(times) == expected_days, "ERA5 window covers $(length(times)) days where $(expected_days) were expected")
-    require(text(first(times)) == WINDOW_START_DATE && text(last(times)) == WINDOW_END_DATE, "ERA5 window is $(first(times)) to $(last(times))")
+    raw_times = get(daily, "time", nothing)
+    require(raw_times isa AbstractVector && !isempty(raw_times), "ERA5 response lacks daily timestamps")
+    times = [text(time) for time in raw_times]
+    expected_times = [Dates.format(date, dateformat"yyyy-mm-dd") for date in Date(WINDOW_START_DATE):Day(1):Date(WINDOW_END_DATE)]
+    require(times == expected_times, "ERA5 window does not contain complete ordered daily coverage from $(WINDOW_START_DATE) to $(WINDOW_END_DATE)")
 
     values = Dict{String, Vector{Float64}}()
     for variable in DAILY_VARIABLES
@@ -199,7 +199,7 @@ function validate_era5_daily_payload(payload, latitude, longitude)
             "ERA5 daily minimum exceeds the daily maximum at $(times[index])",
         )
     end
-    return (times = [text(time) for time in times], values = values, elevation = get(payload, "elevation", nothing))
+    return (times = times, values = values, elevation = get(payload, "elevation", nothing))
 end
 
 function season_indices(times)
@@ -403,7 +403,7 @@ function season_context(data_dir)
         "seasonal_mean_spread" => get(summary, "seasonal_mean_apparent_tmax_spread_c", 0.0),
         "hot_days_per_season_min" => minimum(cell["hot_days_per_season"] for cell in cells),
         "hot_days_per_season_max" => maximum(cell["hot_days_per_season"] for cell in cells),
-        "hottest_season_year" => text(first(cells)["hottest_season_year"]),
+        "hottest_season_years" => sort!(unique(text(cell["hottest_season_year"]) for cell in cells)),
         "hottest_season_mean" => round(Statistics.mean(cell["hottest_season_apparent_tmax_mean_c"] for cell in cells); digits = 2),
         "reference_season_mean" => round(Statistics.mean(cell["reference_date_season_mean_apparent_tmax_c"] for cell in cells); digits = 2),
         "reference_rank_min" => minimum(cell["reference_date_rank_within_season"] for cell in cells),

@@ -6,39 +6,53 @@
   "period": "2024/01/01 - 2024/01/07",
   "record_count": 100,
   "trees_with_measured_flow": 97,
+  "counters_without_measured_flow": [
+    "CB02411",
+    "CJE181"
+  ],
   "counter_flow": {
     "CB1101": {
       "mean_all": 17.872,
       "days": 7,
       "min_day_mean": 10.76,
-      "max_day_mean": 27.875
+      "max_day_mean": 27.875,
+      "measured": true,
+      "observed_total": 12010.0
     },
     "CB1142": {
       "mean_all": 11.226,
       "days": 7,
       "min_day_mean": 6.385,
-      "max_day_mean": 19.417
+      "max_day_mean": 19.417,
+      "measured": true,
+      "observed_total": 7544.0
     },
     "CJM90": {
       "mean_all": 23.906,
       "days": 7,
       "min_day_mean": 16.042,
-      "max_day_mean": 35.021
+      "max_day_mean": 35.021,
+      "measured": true,
+      "observed_total": 16065.0
     },
     "CB1143": {
       "mean_all": 8.769,
       "days": 7,
       "min_day_mean": 5.021,
-      "max_day_mean": 14.875
+      "max_day_mean": 14.875,
+      "measured": true,
+      "observed_total": 5893.0
     },
     "CB2105": {
       "mean_all": 11.19,
       "days": 7,
       "min_day_mean": 8.333,
-      "max_day_mean": 14.844
+      "max_day_mean": 14.844,
+      "measured": true,
+      "observed_total": 7520.0
     }
   },
-  "caveat": "Flow is measured at the nearest counter, not at the tree; the period is a single winter week, so it is not a seasonal mobility estimate.",
+  "caveat": "Flow is measured at the nearest counter, not at the tree; the period is a single winter week, so it is not a seasonal mobility estimate. Counters whose committed window records no movement are reported as unmeasured rather than as zero flow, because the source API returns outages as continuous zero counts.",
   "records": [
     {
       "id": "vbx_56544",

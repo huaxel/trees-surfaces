@@ -2,18 +2,37 @@
 
 ## Decision needed
 
-Should the 2015–2024 ERA5 seasonal heat measure remain **temporal context** beside the current spatial WBGT screen, or should the project hold any ranking change until it has a higher-resolution, multi-date heat surface?
+Should the 2015–2024 ERA5 seasonal heat measure remain **temporal context** beside the current spatial WBGT screen, should the screen move to the **100 m multi-date WBGT archive**, or should the project hold any ranking change until a stakeholder approves a heat period?
 
-The existing ranking uses the Brussels Environment WBGT indicator raster for 24 August 2016. The new ERA5 artifact adds a ten-summer comparison; it does not change the ranking.
+The existing ranking uses the Brussels Environment WBGT indicator raster for 24 August 2016. Two multi-date context artifacts now exist and neither changes the ranking.
 
-## Evidence from the feasibility sample
+## Higher-resolution source: multi-date evidence exists (exploratory comparison)
+
+An earlier version of this brief treated the single-day raster as unavoidable because the regional WMS publishes one scenario. That was incomplete. The committed raster is a VITO **UrbClim** product at 100 m (the 2017 study was commissioned by Brussels Environment and executed by VITO), and VITO publishes a multi-date daily 100 m WBGT archive for **2008–2017** on a matching grid as `WBGT_year_daily_max_YYYY.nc` under `https://provide.marvin.vito.be/ftp/compressed_daily/Brussels/`. The archive reports daily-maximum WBGT in °C; the committed raster is a 0–100 indicator for a 24-hour mean scenario, so values are not interchangeable.
+
+`brussels-heat-wbgt-sample.json` samples that archive at the 100 committed tree points. Because it is the same model family and 100 m resolution as the committed raster, it answers a question that ERA5 cannot: how sensitive the tree-level screen is to the choice of heat period. The archive's daily maximum WBGT °C and the raster's 24-hour 0–100 indicator remain different outputs.
+
+Pooling ten June–August seasons and ranking the same trees by seasonal-mean WBGT produces a top ten that shares **7/10** members with the heat-only top ten from 24 August 2016, using the same VITO daily-maximum series. That is the most direct temporal-sensitivity comparison. Against the current balanced top ten, the VITO reference-day-only ranking overlaps **3/10**, while the ten-year seasonal-mean and hot-day-count rankings each overlap **0/10**. Those cross-screen comparisons also differ in WBGT output semantics and scoring, so they cannot attribute the changes to heat period alone. The two same-series heat-only rankings are substantially, but not completely, different.
+
+Two further measurements matter for interpretation:
+
+- The 100 m archive assigns the 100 trees to **39 distinct cells**, compared with four ERA5 cells. Reference-day WBGT spans **26.13–27.52 °C** (1.39 °C across the sample); the ten-summer seasonal mean spans **19.10–20.51 °C** (1.41 °C). It resolves more intra-urban variation than ERA5, but the values still form a narrow band.
+- The reference day ranks between the **96.7th and 97.6th percentiles of pooled June–August daily WBGT values** across the 2008–2017 window. An earlier 2016-only check placed it near the 94th percentile of that summer; those are different comparison populations, so do not conflate them. The reference day is genuinely extreme, which is evidence for using it — but its hot-day score is not the same decision as a ten-year seasonal mean.
+
+This is why the brief does not simply recommend switching. "Seasonal mean" and "worst day" are different decisions, and the project cannot choose between them without a stakeholder saying what the screen is for.
+
+**Licence caveat.** The [VITO archive page](https://provide.marvin.vito.be/ftp/compressed_daily/) asks users to cite De Ridder et al. (2015) and Souverijns et al. (2026), but states no licence or redistribution terms. The related Souverijns et al. CC BY 4.0 dataset is the decadal 2010–2100 indicator set, not this daily archive. The committed artifact records terms as unresolved. Confirm reuse terms with VITO (`urbclim@vito.be`) before external redistribution or relying on derived values beyond exploratory analysis; do not redistribute the NetCDF files.
+
+## Coarse ERA5 context (independent check)
 
 - The ERA5 archive provides a consistent daily series for June–August (JJA), 2015–2024. For this sample, 100 trees map to four ERA5 grid cells.
 - The 24 August 2016 reference day falls among the 88th–90th warmest JJA days in its own summer across those cells (94.6–96.7% of that summer's days were below it).
 - The 2016 summer's mean daily apparent-temperature maximum was about 21.75 °C across the sample cells; 2018 was the warmest season in the ten-year window at about 23.93 °C.
 - The artifact counts about 7.3–8.5 JJA days per year with apparent-temperature maximum at or above 30 °C. This is a descriptive threshold, **not** a health-warning threshold.
 
-## Higher-resolution source feasibility (exploratory)
+## Higher-resolution source feasibility (superseded)
+
+An earlier version of this section audited Landsat land-surface temperature as the only candidate high-resolution source, and reported that no scene intersects the reference date. That audit remains accurate as far as it goes, but it is no longer the decisive comparison, because a 100 m **WBGT** archive from the same model as the committed raster is available and measures heat stress rather than surface temperature. Read the section above first; the Landsat numbers below are retained as a record of a rejected alternative.
 
 A point-coverage audit sampled the 100 tree coordinates against Planetary Computer `landsat-c2-l2` scenes for JJA 2015–2024. It selected the surface-temperature asset by its STAC `temperature` role, covering sensor-specific keys such as Landsat 7 `lwir` and Landsat 8/9 `lwir11`, and read `qa_pixel`, `qa` (ST_QA), and `cdist` using temporary anonymous SAS tokens. All 361 intersecting scene items were readable. Scene overlaps were deduplicated by tree and acquisition date; eligible pairs are tree-dates covered by at least one scene with a surface-temperature product.
 
@@ -51,7 +70,7 @@ Apparent temperature is not WBGT. The ERA5 metrics and the normalized raster val
 
 ## Questions for the review
 
-1. Is broad, coarse-grid seasonal context useful alongside the current intra-urban WBGT screen, or is neighborhood-scale multi-date heat evidence required before changing the screen?
+1. Is the current single-day WBGT screen preferable to the available ten-year 100 m WBGT seasonal mean, or should the screen use a different heat period (for example a hot-day frequency or high percentile)?
 2. Which heat period should guide the eventual decision: a representative hot day, JJA average, frequency of hot days, or another locally meaningful period?
 3. Should this seasonal measure remain descriptive context, or should a future heat measure enter the ranking? If it should enter, what spatial resolution and validation would make that defensible?
 4. Is the round-number 30 °C apparent-temperature threshold useful for discussion, or should recurrence be reported without a threshold until the stakeholder specifies one?
@@ -60,8 +79,8 @@ Apparent temperature is not WBGT. The ERA5 metrics and the normalized raster val
 
 Use the existing stakeholder worksheet to record one of these outcomes, or an alternative:
 
-- **Keep separate:** retain the single-day WBGT raster for the spatial screen and show ERA5 only as temporal context.
-- **Require better spatial coverage:** do not revise the heat ranking until a validated multi-date neighborhood-scale source (for example, satellite land-surface temperature) is available.
+- **Keep the reference day:** retain the 24 August 2016 raster for the spatial screen; show ERA5 and the multi-date WBGT archive as context.
+- **Use a multi-date WBGT period:** specify whether the operational measure is a seasonal mean, percentile, hot-day frequency, or another aggregation of the VITO 100 m archive, then validate it before changing the ranking.
 - **Change the measure:** specify the operational heat metric, period, spatial unit, and validation needed before implementation.
 
 This brief is a discussion aid, not a proposal to change the current ranking. See [`heat-season-method.md`](heat-season-method.md) and [`brussels-heat-season-sample.json`](../data/brussels-heat-season-sample.json) for the method and full snapshot. Record any accepted heat period in `tree-stakeholder-review.csv`; do not infer approval from this brief.

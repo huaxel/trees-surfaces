@@ -4,7 +4,7 @@ using Dates
 using JSON3
 using ..TreesSurfaces
 
-export generate_stakeholder_review_artifacts
+export generate_stakeholder_review_artifacts, review_summary_fields
 
 const FIELDS = [
     "proposal_id", "proposal_status", "proposed_stakeholder", "decision_question", "spatial_unit",
@@ -127,6 +127,15 @@ function valid_iso8601(value)
     tryparse(DateTime, match_result.captures[1]) !== nothing
 end
 
+# The provenance strings summarize the audit and sensitivity artifact. They are built here so the
+# generator and the snapshot validator share one definition instead of drifting copies.
+function review_summary_fields(audit, weights)
+    return (
+        core_join_summary = "$(audit["analyzed_records"])/$(audit["managed_records"]) records analyzed; $(length(audit["missing_coordinate_ids"])) missing coordinates; $(length(audit["heat_nodata_ids"])) NoData heat pixels; $(length(audit["analysis_unmatched_ids"])) unmatched core joins; $(audit["measured_flow_context_records"])/$(audit["managed_records"]) with measured-flow history",
+        sensitivity_summary = "balanced top ten overlaps $(weights["heat_only_top_10_overlap"])/10 with heat-only and $(weights["proximity_only_top_10_overlap"])/10 with proximity-only; $(weights["interpretation"])",
+    )
+end
+
 function validate_review(row, allowed_statuses)
     review_values = Dict(field => strip(text(get(row, field, ""))) for field in REVIEW_FIELDS)
     any(!isempty(value) for value in values(review_values)) || return
@@ -202,6 +211,7 @@ function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
     audit = sensitivity["data_completeness"]
     weights = sensitivity["weight_sensitivity"]
     allowed_statuses = Set(string(status) for status in proposal["allowed_review_statuses"])
+    summaries = review_summary_fields(audit, weights)
     row = Dict{String, Any}(
         "proposal_id" => proposal["proposal_id"],
         "proposal_status" => proposal["status"],
@@ -212,8 +222,8 @@ function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
         "mobility_measure" => proposal["mobility_measure"],
         "measured_flow_context" => proposal["measured_flow_context"],
         "output_boundary" => proposal["output_boundary"],
-        "core_join_summary" => "$(audit["analyzed_records"])/$(audit["managed_records"]) records analyzed; $(length(audit["missing_coordinate_ids"])) missing coordinates; $(length(audit["heat_nodata_ids"])) NoData heat pixels; $(length(audit["analysis_unmatched_ids"])) unmatched core joins; $(audit["measured_flow_context_records"])/$(audit["managed_records"]) with measured-flow history",
-        "sensitivity_summary" => "balanced top ten overlaps $(weights["heat_only_top_10_overlap"])/10 with heat-only and $(weights["proximity_only_top_10_overlap"])/10 with proximity-only; $(weights["interpretation"])",
+        "core_join_summary" => summaries.core_join_summary,
+        "sensitivity_summary" => summaries.sensitivity_summary,
     )
     for field in REVIEW_FIELDS
         row[field] = ""

@@ -14,7 +14,7 @@ This is a project-level working decision; it should still be validated with the 
 
 The project-owner review is recorded as **needs more evidence**. The following direction is a recommendation for discussion, not stakeholder acceptance or a change to the ranking:
 
-- Keep the existing 24 August 2016 WBGT input as the ranking's heat measure for now; show the ten-summer ERA5 result only as separate temporal context. The exploratory Landsat audit found no scene on the reference date, only 31.4% of eligible tree-date pairs passing basic QA, and 10.8% passing the illustrative ST_QA ≤3 K filter.
+- Keep the existing 24 August 2016 WBGT input as the ranking's heat measure for now; show the ten-summer ERA5 result and the 100 m daily WBGT result only as separate context. In the VITO daily-maximum series, the reference-day and ten-year seasonal-mean heat-only top tens share 7/10 trees. Their cross-screen overlaps with the current balanced ranking are 3/10 and 0/10 respectively, but those comparisons also differ in WBGT output semantics and scoring, so do not attribute them to heat period alone. The exploratory Landsat audit remains rejected (no scene on the reference date, only 31.4% of eligible tree-date pairs passing basic QA, 10.8% passing the illustrative ST_QA ≤3 K filter).
 - Keep nearest-counter distance explicitly labelled as proximity context; show measured flow separately. The flow snapshot covers five counters for one winter week, assigns only five distinct values across 97 trees, and its alternative 60/40 top ten has no overlap with the current balanced top ten.
 - Retain individual tree records as the traceable analysis unit, not as an intervention unit. A stakeholder still needs to decide whether follow-up should target trees, street segments, blocks, or another unit.
 - Leave false-positive preference and evidence threshold undecided. Do not use the current screen to automate site selection or recommend planting.
@@ -69,7 +69,7 @@ The current descriptive report finds 1 of 100 points at or above the sample's th
 - [x] Working stakeholder and decision direction are recorded in writing.
 - [x] Working MVP screening question is recorded in writing.
 - [x] Retention of nearest-counter distance as a clearly labelled context proxy is documented.
-- [x] Heat-date choice and normalization are justified (single regional WBGT scenario documented, min-max sample normalization, no heat missingness; multi-date options noted as future work in the analysis report).
+- [x] Heat-date choice and normalization are justified (single regional WBGT scenario documented, min-max sample normalization, no heat missingness; multi-date options measured rather than deferred — see [`heat-season-stakeholder-brief.md`](heat-season-stakeholder-brief.md)).
 - [x] Every displayed point can be traced to its source records and join method (per-point source-record links in the interface; heat and mobility join methods documented in the analysis report).
 - [x] Weight sensitivity is reported, including material top-ten membership change under proximity-only weighting.
 - [x] Missing coordinates, NoData pixels and unmatched joins are reported; all core joins are complete and the three measured-flow gaps are named.
@@ -91,7 +91,7 @@ We have an exploratory screening prototype that joins a 100-tree feasibility sam
 Would you be available for a short review? The main questions are:
 
 - What decision should this screen support, and should its analysis unit be an individual tree, street segment, block, or another area?
-- Should the single-day WBGT remain the ranking input, with ERA5 shown only as temporal context, or is a validated multi-date heat measure required first?
+- Should the single-day WBGT remain the ranking input, with ERA5 and the 100 m WBGT archive shown only as context, or is a specific multi-date heat period required first — and if so, is it a seasonal mean, a hot-day count, or the hottest day?
 - Is nearest-counter distance useful context, should measured counter activity remain separate, or is another mobility measure needed?
 - What trade-off between missed sites and false alarms is acceptable, and what evidence should trigger manual follow-up?
 

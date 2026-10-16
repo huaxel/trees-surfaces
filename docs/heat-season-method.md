@@ -4,6 +4,8 @@
 
 The committed Brussels Environment WBGT raster describes one modeled hot day, 24 August 2016. The public regional WMS exposes that scenario rather than a multi-date series. This artifact tests how that reference day sits within a repeatable multi-year summer distribution. It **does not** change the heat input used by the ranking.
 
+**This is not the only multi-date option.** The committed raster is a VITO UrbClim product (the study was commissioned by Brussels Environment and executed by VITO at 100 m), and VITO publishes a multi-date daily 100 m WBGT archive for 2008–2017 on a matching grid. The archive reports WBGT in °C as daily maxima; the committed raster is a 0–100 indicator for a 24-hour mean scenario, so their values and temporal summaries are not interchangeable. `brussels-heat-wbgt-sample.json`, produced by [`bin/generate_wbgt_context.jl`](../bin/generate_wbgt_context.jl), samples the archive at the committed tree points. The ERA5 context here is a coarse cross-check on temporal representativeness, not the project's only route to multi-date heat evidence. See [`heat-season-stakeholder-brief.md`](heat-season-stakeholder-brief.md) for the comparison between the two.
+
 ## Source and period
 
 The generator requests `models=era5` explicitly from the Open-Meteo Historical Weather API (`https://archive-api.open-meteo.com/v1/archive`). The window is 1 January 2015–31 December 2024; the season is June–August (JJA), giving 92 days per year and 920 seasonal days per grid cell. JJA contains the committed 24 August reference date and is a conventional meteorological summer window. The ten-season span reduces dependence on a single year's weather while remaining a bounded, reproducible context for the 2016 raster.

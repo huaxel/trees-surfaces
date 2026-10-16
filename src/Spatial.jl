@@ -3,7 +3,7 @@ module Spatial
 using ..TreesSurfaces
 using ..Projection
 
-export generate_tree_mobility_join, generate_accident_context, haversine_distance_m
+export generate_tree_mobility_join, generate_accident_context, build_accident_context, haversine_distance_m
 
 const EARTH_RADIUS_M = 6_371_000.0
 
@@ -22,8 +22,7 @@ function copy_record(row)
     Dict{String, Any}(string(key) => value for (key, value) in pairs(row))
 end
 
-function generate_accident_context(output_dir; data_dir=TreesSurfaces.DATA_DIR)
-    mkpath(output_dir)
+function build_accident_context(; data_dir=TreesSurfaces.DATA_DIR)
     accidents_payload = TreesSurfaces.read_json_path(joinpath(data_dir, "brussels-road-accidents-2017-2024.json"))
     bikes_payload = TreesSurfaces.read_json_path(joinpath(data_dir, "brussels-bike-counters.json"))
     accidents = TreesSurfaces.records(accidents_payload)
@@ -85,6 +84,12 @@ function generate_accident_context(output_dir; data_dir=TreesSurfaces.DATA_DIR)
         "bicycle_accidents_by_year" => bicycle_years,
         "counters" => rows,
     )
+    return payload
+end
+
+function generate_accident_context(output_dir; data_dir=TreesSurfaces.DATA_DIR)
+    mkpath(output_dir)
+    payload = build_accident_context(; data_dir=data_dir)
     TreesSurfaces.atomic_write_json(joinpath(output_dir, "brussels-counter-accident-context.json"), payload)
     return payload
 end

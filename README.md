@@ -4,7 +4,7 @@ An exploratory data-integration prototype investigating where sampled managed tr
 
 The project evaluates open data feasibility for urban greening and climate adaptation, integrating municipal tree inventories, regional heat modeling, and transport monitoring datasets into an interactive screening tool with traceable provenance.
 
-> **Interpretation boundary:** The prototype calculates an exploratory descriptive signal from real spatial joins. Proximity is a spatial context proxy, not cyclist volume; the ranking uses a single-day WBGT raster from 2016, while a coarse ERA5 seasonal artifact adds temporal context only; and rankings are sample-relative. The tool is designed for candidate screening and requirements elicitation with stakeholders, **not** automated planting recommendations or causal findings.
+> **Interpretation boundary:** The prototype calculates an exploratory descriptive signal from real spatial joins. Proximity is a spatial context proxy, not cyclist volume; the ranking uses a single-day WBGT raster from 2016, while two multi-date heat contexts — a coarse ERA5 seasonal series and a 100 m daily WBGT archive from the same UrbClim model — are reported as context only; and rankings are sample-relative. The 100 m comparison shows substantial membership sensitivity across heat summaries; its cross-screen comparisons also differ in WBGT output semantics and scoring, so they do not isolate the heat-period effect. The more direct VITO reference-day versus seasonal-mean heat-only comparison shares 7/10 trees. The ranking has not been switched to a multi-date measure because that choice belongs to stakeholders. The tool is designed for candidate screening and requirements elicitation with stakeholders, **not** automated planting recommendations or causal findings.
 
 ## Repository structure
 
@@ -13,7 +13,8 @@ The project evaluates open data feasibility for urban greening and climate adapt
   - [`docs/prototype-next-iteration.md`](docs/prototype-next-iteration.md) — definition of done for subsequent analytical MVP iterations.
   - [`docs/trees-stakeholder-spec.md`](docs/trees-stakeholder-spec.md) — stakeholder decision question, metric definitions, and interview protocol.
   - [`docs/trees-demo-script.md`](docs/trees-demo-script.md) — 5-minute stakeholder walkthrough script.
-  - [`docs/heat-season-stakeholder-brief.md`](docs/heat-season-stakeholder-brief.md) — decision brief on whether ERA5 seasonality remains context or the ranking needs higher-resolution heat data.
+  - [`docs/heat-season-stakeholder-brief.md`](docs/heat-season-stakeholder-brief.md) — decision brief comparing coarse ERA5 and 100 m multi-date WBGT context, with explicit limits on ranking comparisons.
+  - [`docs/heat-season-method.md`](docs/heat-season-method.md) — method and limits for the committed seasonal and 100 m WBGT context artifacts.
 - [`src/`](src/) and [`bin/`](bin/) — Julia package modules, server entry point, analytical pipeline, refresh workflow, and CLI tools.
 - [`data/`](data/) — canonical committed snapshots and generated review/analysis artifacts.
 - [`docs/julia.md`](docs/julia.md) — Julia runtime, refresh, generation, and validation commands.
@@ -91,6 +92,14 @@ To regenerate only the ERA5 seasonal heat context (this makes two batched live r
 julia --project=. bin/generate_heat_season.jl data
 ```
 
+To regenerate the 100 m multi-date WBGT context, which samples the VITO UrbClim daily archive at the committed tree points:
+
+```bash
+julia --project=. bin/generate_wbgt_context.jl --download
+```
+
+That command caches about 340 MB of NetCDF under `.cache/urbclim/` (git-ignored, never redistributed) and writes `data/brussels-heat-wbgt-sample.json`. Omit `--download` to reuse an existing cache offline. The archive's redistribution terms are unresolved, so the artifact records that and only derived values are committed.
+
 Generates:
 - `tree-signal-sensitivity.json`: sensitivity scenarios (heat-only 100/0, balanced 60/40, proximity-only 0/100) and data completeness audit.
 - `tree-signal-balanced-screen.csv`: complete ranking under the balanced screening lens.
@@ -153,6 +162,7 @@ Implements an exact EPSG 7-parameter datum shift from WGS84 to BD72 and Belgian 
 | RT Counting (Devices & History) | Brussels Mobility | CC0 1.0 | 18 counter locations and 7-day (672 observation) 15-minute count series for 5 counters. |
 | Mean WBGT 24/08/2016 | Brussels Environment | CC BY 4.0 | Regional urban-heat-island model; 0–100 indicator pixels (ISO `BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531`). |
 | ERA5 seasonal heat context | ECMWF / Copernicus via Open-Meteo | CC BY 4.0 | Daily apparent-temperature maxima and temperature minima for June–August, 2015–2024; coarse ~28 km grid used to contextualize the reference date, not rank intra-urban locations. |
+| UrbClim daily 100 m WBGT | VITO (UrbClim; source page requests De Ridder et al. 2015 and Souverijns et al. 2026 citations) | **Unresolved** | Daily-maximum WBGT in °C for 2008–2017 at 100 m in EPSG:3035 from the same UrbClim model family; the committed raster is a 0–100 indicator for a 24-hour mean scenario, so these are not identical outputs. Only derived per-tree values are committed; redistribution terms are not stated by the source and are recorded as unresolved pending VITO. |
 | Canopy Layer (Lead) | Elsa Gallez | CC BY 4.0 | Documented source lead for canopy model integration (Zenodo DOI `10.5281/zenodo.13869065`). |
 | Road accidents 2017–2024 | Statbel / Federal Police | CC BY 4.0 | 30,022 Brussels-region geolocated injury/fatal accident records; bicycle involvement is derived from road-user types. |
 | Counter accident context | Derived | Source licences inherited | Counter-level all/bicycle-involved accident counts within 250 m and 500 m. |
@@ -161,12 +171,13 @@ Full metadata, URLs, and attribution terms are maintained in [`data/source-inven
 
 ## Licence
 
-The source code in this repository is released under the [MIT Licence](LICENSE). The committed snapshots and generated artifacts under [`data/`](data/) are redistributed under their original source licences — CC BY 4.0 for the City of Brussels, heritage.brussels, Brussels Environment and Statbel/Federal Police sources, and CC0 1.0 for Brussels Mobility — with attribution recorded in [`data/source-inventory.json`](data/source-inventory.json). Open-Meteo's ERA5-derived data are also distributed under CC BY 4.0 with Open-Meteo and Copernicus attribution. The MIT licence does not override those terms; reuse of a data file is subject to its own source licence.
+The source code in this repository is released under the [MIT Licence](LICENSE). The committed snapshots and generated artifacts under [`data/`](data/) retain their source-specific terms — including CC BY 4.0 and CC0 1.0 sources, and Open-Meteo's ERA5-derived data under CC BY 4.0 — with attribution recorded in [`data/source-inventory.json`](data/source-inventory.json). **Reuse or redistribution terms for the VITO 2008–2017 daily UrbClim archive and its derived `brussels-heat-wbgt-sample.json` values are unresolved; the MIT licence is not a grant of rights to those data.** Confirm applicable terms with VITO before external reuse. The MIT licence does not override source-specific data terms.
 
 ## Limitations and caveats
 
 - **Exploratory metric:** The signal combines min-max normalized heat indicator pixels with inverse normalized counter distance. Rankings shift when weights change or if evaluated on a different sample.
-- **Heat measures are not interchangeable:** The ranking still uses the Brussels Environment 24 August 2016 WBGT indicator. The new ERA5 artifact pools June–August seasons from 2015–2024 and shows how unusual that day was, but its ~28 km grid cannot resolve intra-urban heat patterns and its apparent temperature is not WBGT. Multi-date high-resolution heat data (for example satellite land-surface temperature) remains future work.
+- **Heat measures are not interchangeable:** The ranking still uses the Brussels Environment 24 August 2016 WBGT indicator. The ERA5 artifact pools June–August seasons from 2015–2024 and shows how unusual that day was, but its ~28 km grid cannot resolve intra-urban heat patterns and its apparent temperature is not WBGT. The 100 m WBGT archive removes that resolution objection because it uses the same UrbClim model family and grid spacing, but its daily-maximum °C values differ from the committed raster's 24-hour 0–100 indicator. Within the archive, the reference-day and seasonal-mean heat-only top tens share 7/10; comparisons to the balanced screen also change the scoring and measure, so they cannot attribute differences to period alone. Multi-date heat evidence therefore exists; choosing a heat period is an open stakeholder decision, not a data gap.
+- **Counter outages look like low traffic:** The source API returns sensor outages as continuous zero counts. The project now refuses to treat an all-zero or incomplete counter window as measured flow, but counter coverage is still uneven over time (CB1101 was offline for nearly four years) and the committed snapshot is a single week.
 - **Contextual mobility:** Counter proximity is a geographic context proxy, not a direct measurement of cyclist or pedestrian volume at the tree location. Measured counter flow covers a single winter week at 5 counters.
 - **No causal claim:** High signal indicates a candidate point for site inspection and further analytical study, not an automated recommendation to plant or fell trees.
 - **Personal review data:** The interactive view and `/stakeholder-review.csv` expose the stakeholder worksheet, including reviewer name, role and notes. The app has no access control of its own, so keep it on a trusted network (or behind an authenticated proxy) once a review is recorded; the shipped container binds to all interfaces.

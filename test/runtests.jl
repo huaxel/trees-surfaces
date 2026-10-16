@@ -1,6 +1,8 @@
 using Test
 using Dates
 using HTTP
+using HDF5
+using JSON3
 
 include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
 using .TreesSurfaces
@@ -20,6 +22,8 @@ include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
 using .Refresh
 include(joinpath(@__DIR__, "..", "src", "HeatSeason.jl"))
 using .HeatSeason
+include(joinpath(@__DIR__, "..", "src", "Wbgt.jl"))
+using .Wbgt
 include(joinpath(@__DIR__, "..", "src", "Review.jl"))
 using .Review
 
@@ -81,6 +85,54 @@ function stub_era5_payload(latitude, longitude; mutate = payload -> payload)
     return mutate(payload)
 end
 
+hash_01(seed) = Float64(mod(seed * 2654435761, 4294967296)) / 4294967296
+
+# Synthetic UrbClim archives. The real files are ~34 MB each and cover a full year, so tests
+# build small NetCDF files with the same layout (EPSG:3035 attribute, 100 m axes, day offsets,
+# Int32 WBGT cube) and an injected signal, which lets the reader, the sampler and the seasonal
+# aggregation all run against the true file format without network access.
+#
+# The injected signal gives the reference day and the rest of the season opposite cell levels, so
+# the two heat periods rank the trees differently.
+function write_stub_wbgt_archive(path, year; grid = 301, scale_factor = 1.0, add_offset = 0.0, time_offsets = nothing)
+    start_date = Date(year, 1, 1)
+    end_date = Date(year, 12, 31)
+    days = time_offsets === nothing ? collect(0:Dates.value(end_date - start_date)) : Int64.(time_offsets)
+    dates = [Dates.format(start_date + Day(offset), dateformat"yyyy-mm-dd") for offset in days]
+    x = collect(range(3.910011e6, step = 100.0, length = grid))
+    y = collect(range(3.081505e6, step = 100.0, length = grid))
+    # The archive stores 0–40 °C. Each cell gets a distinct pseudo-random level; the reference day
+    # and the rest of the season are assigned opposite levels, so the two heat periods genuinely
+    # rank the trees in different order rather than both favouring the same cells.
+    levels = Dict{Tuple{Int, Int}, Float64}()
+    for j in 1:grid, i in 1:grid
+        levels[(i, j)] = hash_01(i * 7919 + j * 104729)
+    end
+    cube = Array{Int32}(undef, grid, grid, length(days))
+    for k in eachindex(days), j in 1:grid, i in 1:grid
+        level = levels[(i, j)]
+        value = dates[k] == Wbgt.REFERENCE_DATE ?
+            28.0 + 8.0 * level :
+            20.0 + 6.0 * (1.0 - level)
+        cube[i, j, k] = Int32(round(clamp(value, -10.0, 40.0) / scale_factor))
+    end
+    h5open(path, "w") do handle
+        attrs(handle)["crs"] = "EPSG:3035"
+        attrs(handle)["title"] = "Daily maximum Wet Bulb Globe Temperature for Brussels for $(year)"
+        attrs(handle)["institution"] = "Flemish Insitute for Technological Research (VITO)"
+        attrs(handle)["source"] = "UrbClim (De Ridder et al., 2015)"
+        handle["x"] = x
+        handle["y"] = y
+        handle["time"] = days
+        attrs(handle["time"])["units"] = "days since $(Dates.format(start_date, dateformat"yyyy-mm-dd")) 00:00:00"
+        handle["WBGT"] = cube
+        attrs(handle["WBGT"])["units"] = "°C"
+        attrs(handle["WBGT"])["scale_factor"] = [scale_factor]
+        add_offset == 0.0 || (attrs(handle["WBGT"])["add_offset"] = [add_offset])
+    end
+    return path
+end
+
 @testset "Trees & Surfaces Julia UI" begin
     state = TreesSurfaces.build_state()
     @test length(state["sites"]) == 100
@@ -94,6 +146,316 @@ end
     @test validation["valid_coordinates"] == 100
     @test validation["measured_flow_records"] == 97
     @test validation["accident_context_counters"] == 18
+    mktempdir() do temporary_root
+        snapshot_dir = joinpath(temporary_root, "data")
+        cp(TreesSurfaces.DATA_DIR, snapshot_dir)
+        managed_path = joinpath(snapshot_dir, "brussels-trees-sample.json")
+        managed_snapshot = TreesSurfaces.read_json_path(managed_path)
+        managed_snapshot["source"] = 1
+        TreesSurfaces.atomic_write_json(managed_path, managed_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"), managed_path; force = true)
+        managed_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"))
+        for field in ("latitude", "longitude", "street", "district", "species")
+            mutated = deepcopy(managed_snapshot)
+            mutated["completeness"][field] += 1
+            TreesSurfaces.atomic_write_json(managed_path, mutated)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"), managed_path; force = true)
+        joined_path = joinpath(snapshot_dir, "brussels-tree-bike-nearest.json")
+        joined_snapshot = TreesSurfaces.read_json_path(joined_path)
+        mutated_join = deepcopy(joined_snapshot)
+        mutated_join["records"][1]["nearest_counter_distance_m"] = "unknown"
+        TreesSurfaces.atomic_write_json(joined_path, mutated_join)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-bike-nearest.json"), joined_path; force = true)
+        inventory_path = joinpath(snapshot_dir, "source-inventory.json")
+        for mutate_inventory in (
+            payload -> (payload["heat"]["metadata_id"] = "changed"; payload),
+            payload -> (payload["heat"]["licence"] = "CC0"; payload),
+            payload -> (payload["heat_season"]["licence"] = "CC0"; payload),
+            payload -> (payload["heat_season"]["model"] = "MERRA-2"; payload),
+            payload -> (payload["heat_wbgt"]["crs"] = "EPSG:4326"; payload),
+            payload -> (payload["heat_wbgt"]["resolution_metres"] = 200; payload),
+            payload -> (payload["heat_wbgt"]["licence"] = "CC BY 4.0"; payload),
+            payload -> (payload["mobility"]["licence"] = "CC BY 4.0"; payload),
+            payload -> (payload["mobility"]["credit"] = "Someone else"; payload),
+            payload -> (payload["mobility"]["metadata"] = "https://example.invalid"; payload),
+            payload -> (payload["managed_trees"]["licence"] = "CC0"; payload),
+            payload -> (payload["managed_trees"]["credit"] = "Someone else"; payload),
+            payload -> (payload["managed_trees"]["metadata"] = "https://example.invalid"; payload),
+            payload -> (payload["remarkable_trees"]["licence"] = "CC0"; payload),
+            payload -> (payload["remarkable_trees"]["credit"] = "Someone else"; payload),
+            payload -> (payload["remarkable_trees"]["metadata"] = "https://example.invalid"; payload),
+            payload -> (payload["managed_tree_crosswalk"]["source"] = "https://example.invalid"; payload),
+            payload -> (payload["road_accidents"]["licence"] = "CC0"; payload),
+            payload -> (payload["road_accidents"]["credit"] = "Someone else"; payload),
+            payload -> (payload["road_accidents"]["coordinate_reference_system"] = "EPSG:4326"; payload),
+            payload -> (payload["accident_context"]["inputs"] = ["other.json"]; payload),
+        )
+            TreesSurfaces.atomic_write_json(inventory_path, mutate_inventory(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "source-inventory.json"))))
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "source-inventory.json"), inventory_path; force = true)
+        sensitivity_path = joinpath(snapshot_dir, "tree-signal-sensitivity.json")
+        for mutate in (
+            payload -> (payload["data_completeness"]["measured_flow_context_records"] = 96; payload),
+            payload -> (payload["data_completeness"]["heat_nodata_ids"] = ["vbx_56544"]; payload),
+            payload -> (payload["data_completeness"]["measured_flow_unmatched_counters"] = ["CB9999"]; payload),
+            payload -> (payload["data_completeness"]["flow_context_joined_records"] = 99; payload),
+        )
+            TreesSurfaces.atomic_write_json(sensitivity_path, mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-sensitivity.json"))))
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-sensitivity.json"), sensitivity_path; force = true)
+        remarkable_path = joinpath(snapshot_dir, "brussels-remarkable-trees-sample.json")
+        for mutate in (
+            payload -> (payload["records"][1]["latitude"] = 50.0; payload),
+            payload -> (payload["source"] = 1; payload),
+            payload -> (payload["records"][1]["id"] = payload["records"][2]["id"]; payload),
+            payload -> (payload["records"][1]["id"] = ""; payload),
+            payload -> (push!(payload["records"], deepcopy(payload["records"][1])); payload),
+        )
+            TreesSurfaces.atomic_write_json(remarkable_path, mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-remarkable-trees-sample.json"))))
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-remarkable-trees-sample.json"), remarkable_path; force = true)
+        review_path = joinpath(snapshot_dir, "tree-stakeholder-reviews.json")
+        for mutate in (
+            payload -> (payload["record_count"] = 0; payload),
+            payload -> (payload["records"][1]["sensitivity_summary"] *= " drift"; payload),
+            payload -> (payload["records"][1]["core_join_summary"] *= " drift"; payload),
+            payload -> (payload["records"][1]["proposal_id"] = "other"; payload),
+            payload -> (payload["records"][1]["proposal_status"] = "accepted"; payload),
+            payload -> (payload["records"][1]["review_status"] = "not-a-status"; payload),
+            payload -> (payload["records"][1]["review_status"] = "accepted"; payload),
+            payload -> (payload["records"][1]["decision_question"] = "different question"; payload),
+            payload -> (payload["records"][1]["spatial_unit"] = "district"; payload),
+            payload -> (payload["records"][1]["heat_measure"] = "other"; payload),
+            payload -> (payload["records"][1]["mobility_measure"] = "other"; payload),
+            payload -> (payload["records"][1]["measured_flow_context"] = "other"; payload),
+            payload -> (payload["records"][1]["output_boundary"] = "other"; payload),
+            payload -> (payload["records"][1]["proposed_stakeholder"] = "other"; payload),
+            payload -> begin
+                for field in ("review_status", "reviewer_name", "reviewer_role", "reviewed_at", "false_positive_preference", "evidence_threshold", "review_notes", "accepted_decision_question", "accepted_spatial_unit", "accepted_mobility_measure", "accepted_heat_period")
+                    payload["records"][1][field] = ""
+                end
+                payload
+            end,
+        )
+            TreesSurfaces.atomic_write_json(review_path, mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "tree-stakeholder-reviews.json"))))
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "tree-stakeholder-reviews.json"), review_path; force = true)
+        flow_path = joinpath(snapshot_dir, "brussels-tree-counter-flow.json")
+        flow_snapshot = TreesSurfaces.read_json_path(flow_path)
+        original_unmeasured = flow_snapshot["counters_without_measured_flow"]
+        flow_snapshot["counters_without_measured_flow"] = String[]
+        TreesSurfaces.atomic_write_json(flow_path, flow_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        flow_snapshot["counters_without_measured_flow"] = original_unmeasured
+        flow_snapshot["records"][1]["id"] = flow_snapshot["records"][2]["id"]
+        TreesSurfaces.atomic_write_json(flow_path, flow_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        flow_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-counter-flow.json"))
+        flow_snapshot["records"][1]["counter_flow_mean"] = nothing
+        TreesSurfaces.atomic_write_json(flow_path, flow_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        flow_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-counter-flow.json"))
+        measured_counter = first(counter for (counter, summary) in pairs(flow_snapshot["counter_flow"]) if summary["measured"])
+        flow_snapshot["counter_flow"][measured_counter]["min_day_mean"] = nothing
+        TreesSurfaces.atomic_write_json(flow_path, flow_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        for mutate in (
+            payload -> (payload["counter_flow"][measured_counter]["observed_total"] += 100; payload),
+            payload -> begin
+                summary = payload["counter_flow"][measured_counter]
+                summary["observed_total"] += 672
+                for key in ("mean_all", "min_day_mean", "max_day_mean")
+                    summary[key] += 1
+                end
+                for row in payload["records"]
+                    row["nearest_counter"] == measured_counter && (row["counter_flow_mean"] += 1)
+                end
+                payload
+            end,
+            payload -> (payload["counter_flow"][measured_counter]["days"] = 6; payload),
+            payload -> (payload["record_count"] = 99; payload),
+            payload -> (payload["trees_with_measured_flow"] = 96; payload),
+            payload -> (payload["period"] = "2024/01/02 - 2024/01/08"; payload),
+            payload -> (payload["records"][1]["nearest_counter"] = "wrong-counter"; payload),
+            payload -> (payload["records"][1]["distance_m"] += 1; payload),
+        )
+            flow_snapshot = mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-counter-flow.json")))
+            TreesSurfaces.atomic_write_json(flow_path, flow_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        # Restore the flow artifact so later mutations are tested independently.
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-counter-flow.json"), flow_path; force = true)
+        for (filename, field) in (("brussels-tree-heat-sample.json", "latitude"), ("brussels-tree-bike-nearest.json", "longitude"))
+            path = joinpath(snapshot_dir, filename)
+            snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, filename))
+            snapshot["records"][1][field] = 50.0
+            TreesSurfaces.atomic_write_json(path, snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+            # Restore immediately so the next mutation is tested against otherwise-valid artifacts.
+            cp(joinpath(TreesSurfaces.DATA_DIR, filename), path; force = true)
+        end
+        heat_path = joinpath(snapshot_dir, "brussels-tree-heat-sample.json")
+        for invalid_pixel in (101, 50.5)
+            heat_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-heat-sample.json"))
+            heat_snapshot["records"][1]["heat_pixel"] = invalid_pixel
+            TreesSurfaces.atomic_write_json(heat_path, heat_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        for invalid_field in ("heat_pixel_column", "heat_pixel_row")
+            heat_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-heat-sample.json"))
+            heat_snapshot["records"][1][invalid_field] += 1
+            TreesSurfaces.atomic_write_json(heat_path, heat_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-heat-sample.json"), heat_path; force = true)
+        joined_path = joinpath(snapshot_dir, "brussels-tree-bike-nearest.json")
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-bike-nearest.json"), joined_path; force = true)
+        joined_snapshot = TreesSurfaces.read_json_path(joined_path)
+        flow_snapshot = TreesSurfaces.read_json_path(flow_path)
+        target_flow = first(row for row in flow_snapshot["records"] if row["has_measured_flow"])
+        target_counter = first(counter for (counter, summary) in pairs(flow_snapshot["counter_flow"]) if summary["measured"] && counter != target_flow["nearest_counter"])
+        target_join = first(row for row in joined_snapshot["records"] if row["id"] == target_flow["id"])
+        target_join["nearest_counter"] = target_counter
+        target_flow["nearest_counter"] = target_counter
+        target_flow["counter_flow_mean"] = flow_snapshot["counter_flow"][target_counter]["mean_all"]
+        TreesSurfaces.atomic_write_json(joined_path, joined_snapshot)
+        TreesSurfaces.atomic_write_json(flow_path, flow_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-bike-nearest.json"), joined_path; force = true)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-counter-flow.json"), flow_path; force = true)
+        bike_path = joinpath(snapshot_dir, "brussels-bike-counters.json")
+        bike_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-counters.json"))
+        bike_snapshot["records"][1]["id"] = bike_snapshot["records"][2]["id"]
+        TreesSurfaces.atomic_write_json(bike_path, bike_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-counters.json"), bike_path; force = true)
+        for mutate in (
+            payload -> (payload["records"][1]["id"] = payload["records"][2]["id"]; payload),
+            payload -> (payload["source"] += 1; payload),
+            payload -> (payload["records"][1]["latitude"] = 51.5; payload),
+        )
+            TreesSurfaces.atomic_write_json(bike_path, mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-counters.json"))))
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-counters.json"), bike_path; force = true)
+        accident_source_path = joinpath(snapshot_dir, "brussels-road-accidents-2017-2024.json")
+        for mutate in (
+            payload -> (payload["summary"]["record_count"] += 1; payload),
+            payload -> (payload["summary"]["bicycle_involved_count"] += 1; payload),
+            payload -> (payload["summary"]["years"] = payload["summary"]["years"][1:2]; payload),
+        )
+            accident_source_snapshot = mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-road-accidents-2017-2024.json")))
+            TreesSurfaces.atomic_write_json(accident_source_path, accident_source_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-road-accidents-2017-2024.json"), accident_source_path; force = true)
+        accident_path = joinpath(snapshot_dir, "brussels-counter-accident-context.json")
+        for mutate in (
+            payload -> (payload["record_count"] += 1; payload),
+            payload -> (payload["accidents_by_year"]["2017"] += 1; payload),
+            payload -> (payload["counters"][1]["accidents_within_500m"] += 1; payload),
+            payload -> (payload["counters"][1]["id"] = "CB9999"; payload),
+        )
+            accident_snapshot = mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-counter-accident-context.json")))
+            TreesSurfaces.atomic_write_json(accident_path, accident_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-counter-accident-context.json"), accident_path; force = true)
+        crosswalk_path = joinpath(snapshot_dir, "managed-tree-id-crosswalk.json")
+        crosswalk_snapshot = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "managed-tree-id-crosswalk.json"))
+        crosswalk_snapshot["records"][1]["latitude"] += 0.001
+        TreesSurfaces.atomic_write_json(crosswalk_path, crosswalk_snapshot)
+        @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "managed-tree-id-crosswalk.json"), crosswalk_path; force = true)
+        wbgt_path = joinpath(snapshot_dir, Wbgt.WBGT_FILENAME)
+        for mutate in (
+            payload -> (payload["reference_date"] = "2016-08-23"; payload),
+            payload -> (payload["window"]["seasons"] = 9; payload),
+            payload -> (payload["window"]["years"][1] = Float64(payload["window"]["years"][1]) + 0.5; payload),
+            payload -> (payload["window"]["months"] = ["05", "06", "07"]; payload),
+            payload -> (payload["method"] = replace(payload["method"], "26.0 °C" => "30.0 °C"); payload),
+            payload -> (payload["interpretation_boundary"] = replace(payload["interpretation_boundary"], "2008–2017" => "2000–2020"); payload),
+            payload -> (payload["region_summary"]["distinct_cells"] = 1; payload),
+            payload -> (payload["region_summary"]["seasonal_mean_wbgt_max_c"] = 99.0; payload),
+            payload -> (payload["region_summary"]["reference_percentile_min"] = 0.0; payload),
+            payload -> (payload["region_summary"]["reference_percentile_mean"] = 0.0; payload),
+            payload -> (payload["region_summary"]["hot_days_per_season_max"] = 99.0; payload),
+            payload -> (payload["period_sensitivity"]["top_ten_overlap"]["seasonal_mean_vs_reference_day"] = 0; payload),
+            payload -> (reverse!(payload["period_sensitivity"]["balanced_top_ten_ids"]); payload),
+            payload -> (payload["records"][1]["reference_date_wbgt_c"] = 99.0; payload),
+            payload -> (payload["records"][1]["seasonal_p90_wbgt_c"] = 99.0; payload),
+            payload -> (payload["records"][1]["hottest_season_mean_wbgt_c"] = 99.0; payload),
+            payload -> (payload["records"][1]["reference_rank_in_season"] = 1; payload),
+            payload -> (payload["records"][1]["hottest_season_year"] = "2030"; payload),
+            payload -> (payload["records"][1]["cell_x"] += 100; payload),
+            payload -> (payload["records"][1]["row"] = 900; payload),
+            payload -> (reverse!(payload["archive_urls"]); payload),
+            payload -> (payload["archive_base_url"] = "https://example.invalid"; payload),
+        )
+            wbgt_snapshot = mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, Wbgt.WBGT_FILENAME)))
+            TreesSurfaces.atomic_write_json(wbgt_path, wbgt_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+        # Restore the WBGT artifact so the seasonal-heat mutations below fail only on their own defect.
+        cp(joinpath(TreesSurfaces.DATA_DIR, Wbgt.WBGT_FILENAME), wbgt_path; force = true)
+        season_path = joinpath(snapshot_dir, HeatSeason.HEAT_SEASON_FILENAME)
+        for mutate in (
+            payload -> (payload["region_summary"]["seasonal_mean_apparent_tmax_min_c"] = 99.0; payload),
+            payload -> (payload["region_summary"]["reference_date_apparent_tmax_max_c"] = 0.0; payload),
+            payload -> (payload["region_summary"]["hot_days_per_season_min"] = 0.0; payload),
+            payload -> (payload["cells"][1]["hottest_season_year"] = "2030"; payload),
+            payload -> (payload["cells"][1]["reference_date_window_percentile"] = 100.1; payload),
+            payload -> (payload["season"]["season_days_per_year"] = 91; payload),
+            payload -> (payload["grid"]["requested_step_degrees"] = 0.5; payload),
+            payload -> (payload["request_url"] = replace(payload["request_url"], "temperature_2m_min" => "temperature_2m_mean"); payload),
+            payload -> (payload["request_url"] = replace(payload["request_url"], "start_date=2015-01-01" => "start_date=2016-01-01"); payload),
+            payload -> (payload["reference_date"] = "2016-08-23"; payload),
+            payload -> (payload["method"] = replace(payload["method"], "30.0 °C" => "35.0 °C"); payload),
+            payload -> (payload["records"][1]["grid_latitude"] += 0.25; payload),
+            payload -> (payload["cells"][1]["seasonal_mean_apparent_tmax_spread_across_years_c"] = -0.1; payload),
+            payload -> (payload["cells"][1]["hottest_season_apparent_tmax_mean_c"] = 0.0; payload),
+            payload -> begin
+                orphan = deepcopy(payload["cells"][1])
+                orphan["grid_key"] = "50.75/4.75"
+                orphan["grid_latitude"] = 50.75
+                orphan["grid_longitude"] = 4.75
+                push!(payload["cells"], orphan)
+                payload["region_summary"]["cells"] += 1
+                payload
+            end,
+            payload -> begin
+                row = payload["records"][1]
+                cell = first(candidate for candidate in payload["cells"] if candidate["grid_key"] != row["grid_key"])
+                row["grid_key"] = cell["grid_key"]
+                row["grid_latitude"] = cell["grid_latitude"]
+                row["grid_longitude"] = cell["grid_longitude"]
+                for key in ("seasonal_mean_apparent_tmax_c", "reference_date_apparent_tmax_c", "reference_date_season_percentile")
+                    row[key] = cell[key]
+                end
+                payload
+            end,
+            payload -> begin
+                key = payload["cells"][1]["grid_key"]
+                payload["cells"][1]["reference_date_season_percentile"] = 0.0
+                for row in payload["records"]
+                    row["grid_key"] == key && (row["reference_date_season_percentile"] = 0.0)
+                end
+                payload
+            end,
+        )
+            season_snapshot = mutate(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, HeatSeason.HEAT_SEASON_FILENAME)))
+            TreesSurfaces.atomic_write_json(season_path, season_snapshot)
+            @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
+        end
+    end
     @test Heat.gray_byte((0.5,)) == 128
     @test Heat.validate_raster(StubRaster()) == (10_000, 9_000)
     @test_throws ErrorException Heat.validate_raster(SmallStubRaster())
@@ -381,6 +743,81 @@ end
         @test report_text == read(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-analysis.md"), String)
         @test read(joinpath(directory, "tree-signal-balanced-screen.csv"), String) == read(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-balanced-screen.csv"), String)
     end
+    mktempdir() do temporary_root
+        data_dir = joinpath(temporary_root, "data")
+        cp(TreesSurfaces.DATA_DIR, data_dir)
+        counter = "CB2105"
+        flow_path = joinpath(data_dir, "brussels-tree-counter-flow.json")
+        flow = TreesSurfaces.read_json_path(flow_path)
+        flow["counter_flow"][counter]["measured"] = false
+        flow["counter_flow"][counter]["mean_all"] = nothing
+        flow["counters_without_measured_flow"] = sort(vcat(flow["counters_without_measured_flow"], [counter]))
+        wbgt_path = joinpath(data_dir, Wbgt.WBGT_FILENAME)
+        wbgt = TreesSurfaces.read_json_path(wbgt_path)
+        wbgt["period_sensitivity"]["top_ten_overlap"]["seasonal_mean_vs_reference_day"] = 4
+        wbgt["window"]["start_year"] = 2015
+        wbgt["window"]["end_year"] = 2017
+        wbgt["window"]["seasons"] = 3
+        TreesSurfaces.atomic_write_json(wbgt_path, wbgt)
+        season_path = joinpath(data_dir, HeatSeason.HEAT_SEASON_FILENAME)
+        season = TreesSurfaces.read_json_path(season_path)
+        season["cells"][1]["hottest_season_year"] = "2019"
+        TreesSurfaces.atomic_write_json(season_path, season)
+        for row in TreesSurfaces.records(flow)
+            if row["nearest_counter"] == counter
+                row["has_measured_flow"] = false
+                row["counter_flow_mean"] = nothing
+            end
+        end
+        TreesSurfaces.atomic_write_json(flow_path, flow)
+        history_path = joinpath(data_dir, "brussels-bike-history-$(counter)-2024-01.json")
+        history = TreesSurfaces.read_json_path(history_path)
+        for row in TreesSurfaces.records(history)
+            row["count"] = 1000
+        end
+        TreesSurfaces.atomic_write_json(history_path, history)
+
+        output_dir = joinpath(temporary_root, "generated")
+        report = Analysis.generate_signal_artifacts(output_dir; data_dir = data_dir)
+        @test report["data_completeness"]["measured_flow_context_records"] == 88
+        report_text = read(joinpath(output_dir, "tree-signal-analysis.md"), String)
+        @test occursin("without usable measured history", report_text)
+        @test occursin("absent or did not qualify as measured", report_text)
+        @test occursin("share 4/10", report_text)
+        @test !occursin("share 7/10", report_text)
+        @test occursin("2015–2017 (3 summers) daily archive", report_text)
+        @test !occursin("2008–2017 (10 summers) daily archive", report_text)
+        @test occursin("cell-specific warmest seasons differ (2018, 2019)", report_text)
+        @test !occursin("2018 was the warmest season across all sampled cells", report_text)
+        measured_counts = Float64[]
+        for feature in Flow.COUNTERS
+            feature == counter && continue
+            payload = TreesSurfaces.read_json_path(joinpath(data_dir, "brussels-bike-history-$(feature)-2024-01.json"))
+            append!(measured_counts, [TreesSurfaces.number(row["count"]) for row in TreesSurfaces.records(payload)])
+        end
+        expected_mean = round(sum(measured_counts) / length(measured_counts); digits = 1)
+        expected_max = round(Int, maximum(measured_counts))
+        @test occursin("2,688 fifteen-minute observations (4 counters × 672)", report_text)
+        @test occursin("mean count $(expected_mean), maximum $(expected_max)", report_text)
+        @test !occursin("mean count 1000.0", report_text)
+
+        for feature in Flow.COUNTERS
+            flow["counter_flow"][feature]["measured"] = false
+            flow["counter_flow"][feature]["mean_all"] = nothing
+        end
+        for row in TreesSurfaces.records(flow)
+            row["has_measured_flow"] = false
+            row["counter_flow_mean"] = nothing
+        end
+        flow["counters_without_measured_flow"] = sort(unique(row["nearest_counter"] for row in TreesSurfaces.records(flow)))
+        TreesSurfaces.atomic_write_json(flow_path, flow)
+        all_unmeasured_dir = joinpath(temporary_root, "all-unmeasured")
+        all_unmeasured_report = Analysis.generate_signal_artifacts(all_unmeasured_dir; data_dir = data_dir)
+        @test all_unmeasured_report["data_completeness"]["measured_flow_context_records"] == 0
+        all_unmeasured_text = read(joinpath(all_unmeasured_dir, "tree-signal-analysis.md"), String)
+        @test occursin("0 fifteen-minute observations (0 counters × 672)", all_unmeasured_text)
+        @test occursin("no measured count statistics are available", all_unmeasured_text)
+    end
     # ERA5 seasonal heat context: grid snapping, source validation, aggregation, and the
     # committed snapshot must all describe the same measurements.
     @test HeatSeason.era5_grid_point(50.85, 4.36) == (50.75, 4.25)
@@ -437,6 +874,11 @@ end
     )
     @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
         stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["time"][end] = "2025-12-31"; payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["time"][100] = payload["daily"]["time"][99]; payload)),
         50.75,
         4.25,
     )
@@ -504,10 +946,260 @@ end
     @test season_context["reference_percentile_min"] > 90.0
     @test validation["heat_season_records"] == 100
     @test validation["heat_season_cells"] == 4
+    @test validation["heat_wbgt_records"] == 100
+
+    # EPSG:3035 must match PROJ's oblique LAEA exactly. These reference values come from an
+    # independent pyproj transform; two earlier hand-rolled variants were wrong by ~164 km
+    # (dropped semi-major axis) and ~169 m (shared x/y scale in the oblique case), so the
+    # tolerance here is deliberately far tighter than one 100 m grid cell.
+    laea_reference = [
+        (50.839932, 4.342365, 3922928.318690623, 3096334.801671328),
+        (50.843006, 4.345726, 3923190.4912545034, 3096657.6237570494),
+        (50.843069, 4.345959, 3923207.3841136266, 3096663.347477221),
+        (50.843061, 4.345439, 3923170.815044571, 3096665.287637465),
+        (50.842939, 4.346216, 3923224.314498953, 3096647.524489761),
+    ]
+    for (latitude, longitude, expected_x, expected_y) in laea_reference
+        x, y = Wbgt.wgs84_to_laea_europe(latitude, longitude)
+        @test isapprox(x, expected_x; atol = 1e-6)
+        @test isapprox(y, expected_y; atol = 1e-6)
+    end
+    origin_x, origin_y = Wbgt.wgs84_to_laea_europe(52.0, 10.0)
+    @test isapprox(origin_x, 4321000.0; atol = 1e-6)
+    @test isapprox(origin_y, 3210000.0; atol = 1e-6)
+    @test Wbgt.archive_filename(2016) == "WBGT_year_daily_max_2016.nc"
+    @test occursin("compressed_daily/Brussels", Wbgt.archive_url(2016))
+    mktempdir() do directory
+        # A truncated or runaway transfer must be caught before it is treated as an archive.
+        small = joinpath(directory, "small.nc")
+        write(small, zeros(UInt8, 1024))
+        @test_throws ErrorException Wbgt.validate_archive_download(small, "fixture")
+        minimum_size = joinpath(directory, "minimum.nc")
+        open(minimum_size, "w") do io
+            truncate(io, Wbgt.MIN_ARCHIVE_BYTES)
+        end
+        @test Wbgt.validate_archive_download(minimum_size, "fixture") == Wbgt.MIN_ARCHIVE_BYTES
+        oversized = joinpath(directory, "oversized.nc")
+        open(oversized, "w") do io
+            truncate(io, Wbgt.MAX_RESPONSE_BYTES + 1)
+        end
+        @test_throws ErrorException Wbgt.validate_archive_download(oversized, "fixture")
+    end
+    balanced_ids = Set(row["id"] for row in TreesSurfaces.records(TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"))))
+    balanced_path = joinpath(TreesSurfaces.DATA_DIR, "tree-signal-balanced-screen.csv")
+    @test length(Wbgt.balanced_screen_top_ids(balanced_path, balanced_ids)) == 10
+    mktempdir() do directory
+        short_screen = joinpath(directory, "short.csv")
+        write(short_screen, "rank,id,street\n1,vbx_56544,Some street\n")
+        @test_throws ErrorException Wbgt.balanced_screen_top_ids(short_screen, balanced_ids)
+        unknown_screen = joinpath(directory, "unknown.csv")
+        write(unknown_screen, "rank,id,street\n" * join(["$(rank),unknown_$(rank),Street" for rank in 1:10], "\n"))
+        @test_throws ErrorException Wbgt.balanced_screen_top_ids(unknown_screen, balanced_ids)
+    end
+
+    mktempdir() do directory
+        archive_path = joinpath(directory, Wbgt.archive_filename(2016))
+        write_stub_wbgt_archive(archive_path, 2016; scale_factor = 0.01, add_offset = 1.25)
+        archive = Wbgt.read_wbgt_year(archive_path)
+        @test length(archive.dates) == 366
+        @test first(archive.dates) == "2016-01-01"
+        @test last(archive.dates) == "2016-12-31"
+        @test archive.dates[Wbgt.reference_index(archive.dates)] == Wbgt.REFERENCE_DATE
+        @test size(archive.wbgt) == (301, 301, 366)
+        @test archive.scale_factor == 0.01
+        @test isapprox(archive.wbgt[1, 1, 1], 20.0 + 6.0 * (1.0 - hash_01(7919 + 104729)) + 1.25; atol = 0.01)
+        @test 20.0 <= minimum(archive.wbgt) <= maximum(archive.wbgt) <= 40.0
+        @test Wbgt.season_indices(archive.dates, 2016) |> length == 92
+        @test Wbgt.validate_daily_time_offsets(0:365, "fixture") == collect(Int64, 0:365)
+        for malformed_time in (Int64[], [0, 1, 3], [0, 1, 1, 2], [0, 2, 1], [0.0, 1.5], [0.0, Inf])
+            @test_throws ErrorException Wbgt.validate_daily_time_offsets(malformed_time, "fixture")
+        end
+        full_year_dates = [Dates.format(date, dateformat"yyyy-mm-dd") for date in Date(2016, 1, 1):Day(1):Date(2016, 12, 31)]
+        @test Wbgt.validate_calendar_year_coverage(full_year_dates, 2016, "fixture") === nothing
+        @test_throws ErrorException Wbgt.validate_calendar_year_coverage(full_year_dates[1:end-1], 2016, "fixture")
+        incomplete_dates = copy(full_year_dates)
+        deleteat!(incomplete_dates, 100)
+        @test_throws ErrorException Wbgt.validate_calendar_year_coverage(incomplete_dates, 2016, "fixture")
+        @test Wbgt.validate_grid_axis([0.0, 100.0, 200.0], "x", "fixture") === nothing
+        for malformed_axis in ([0.0], [0.0, 100.0, 190.0], [0.0, -100.0, -200.0], [0.0, 100.0, Inf])
+            @test_throws ErrorException Wbgt.validate_grid_axis(malformed_axis, "y", "fixture")
+        end
+
+        source = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"))
+        trees = TreesSurfaces.records(source)
+        @test_throws ErrorException Wbgt.load_wbgt_years(directory, trees; years = [2015, 2017])
+        @test_throws ErrorException Wbgt.load_wbgt_years(directory, trees; years = [2016, 2015])
+        @test_throws ErrorException Wbgt.load_wbgt_years(directory, trees; years = [2015, true])
+        sampled = Wbgt.sample_tree_points(archive, trees)
+        @test length(sampled) == 100
+        @test Set(row["id"] for row in sampled) == Set(row["id"] for row in trees)
+        # Every tree must land within half a grid step of its assigned 100 m cell centre.
+        @test all(abs(row["offset_east_m"]) <= 50.0 for row in sampled)
+        @test all(abs(row["offset_north_m"]) <= 50.0 for row in sampled)
+        @test all(1 <= row["column"] <= 301 && 1 <= row["row"] <= 301 for row in sampled)
+        @test_throws ErrorException Wbgt.sample_tree_points(archive, [Dict{String, Any}("id" => "x", "latitude" => 48.0, "longitude" => 4.3)])
+        @test_throws ErrorException Wbgt.sample_tree_points(archive, [Dict{String, Any}("id" => "x", "latitude" => 50.85, "longitude" => NaN)])
+        @test_throws ErrorException Wbgt.sample_tree_points(
+            archive,
+            [Dict{String, Any}("id" => "outside-grid", "latitude" => 0.0, "longitude" => 0.0)];
+            envelope = (-90.0, 90.0, -180.0, 180.0),
+        )
+
+        # A full multi-year artifact through the real reader, with the archive path injected
+        # instead of downloaded.
+        for year in 2015:2016
+            write_stub_wbgt_archive(joinpath(directory, Wbgt.archive_filename(year)), year)
+        end
+        output = joinpath(directory, Wbgt.WBGT_FILENAME)
+        payload = Wbgt.generate_wbgt_context(
+            joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"),
+            output;
+            cache_dir = directory,
+            years = 2015:2016,
+            extra = Dict{String, Any}("balanced_top_ids" => ["vbx_56544"]),
+        )
+        @test isfile(output)
+        @test payload["crs"] == "EPSG:3035"
+        @test length(payload["records"]) == 100
+        @test payload["window"]["seasons"] == 2
+        @test occursin("2015–2016 window", payload["interpretation_boundary"])
+        @test payload["region_summary"]["trees"] == 100
+        @test payload["region_summary"]["distinct_cells"] > 1
+        # The reference day must be the seasonal extreme in this fixture.
+        @test all(Float64(row["reference_date_wbgt_c"]) >= Float64(row["seasonal_mean_wbgt_c"]) for row in payload["records"])
+        @test all(Float64(row["reference_percentile_in_season"]) > 90.0 for row in payload["records"])
+        # The two periods use opposite cell levels, so their rankings must disagree substantially.
+        # This is weaker than "disjoint" because the fixture carries trees in only ~17 grid columns
+        # with a narrow annual spread; the real archive is not that coarse.
+        overlap = payload["period_sensitivity"]["top_ten_overlap"]
+        @test overlap["seasonal_mean_vs_reference_day"] <= 4
+        @test payload["period_sensitivity"]["balanced_top_ten_ids"] == ["vbx_56544"]
+        @test payload["licence_review"]["status"] == "unresolved"
+        @test read(output, String) == string(JSON3.write(payload), "\n")
+
+        # A missing cache without a fetch callback must fail loudly instead of silently
+        # producing an empty context.
+        empty_dir = joinpath(directory, "empty")
+        mkpath(empty_dir)
+        @test_throws ErrorException Wbgt.generate_wbgt_context(
+            joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"),
+            joinpath(empty_dir, Wbgt.WBGT_FILENAME);
+            cache_dir = empty_dir,
+            years = 2015:2015,
+        )
+
+        # A file whose declared CRS is not EPSG:3035 must be refused rather than sampled with the
+        # wrong transform.
+        wrong_crs = joinpath(directory, "wrong-crs.nc")
+        write_stub_wbgt_archive(wrong_crs, 2016)
+        h5open(wrong_crs, "r+") do handle
+            attrs(handle)["crs"] = "EPSG:4326"
+        end
+        @test_throws ErrorException Wbgt.read_wbgt_year(wrong_crs)
+    end
+
+    # Outage-shaped and incomplete counter windows must be reported as unmeasured rather than as
+    # zero flow. CB1101 was offline for nearly four years and CB1143 stopped reporting in 2025;
+    # both are committed snapshot targets.
+    mktempdir() do directory
+        for feature in Flow.COUNTERS
+            payload = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-$(feature)-2024-01.json"))
+            rows = TreesSurfaces.records(payload)
+            counts = [TreesSurfaces.number(get(row, "count", 0)) for row in rows]
+            if feature == "CB1143"
+                # An outage: the slot series stays complete but records no movement.
+                for row in rows
+                    row["count"] = 0
+                end
+            elseif feature == "CJM90"
+                # A degraded device: only a fraction of the expected slots are present.
+                payload["records"] = rows[1:length(rows) ÷ 2]
+            end
+            TreesSurfaces.atomic_write_json(joinpath(directory, "brussels-bike-history-$(feature)-2024-01.json"), payload)
+        end
+        cp(
+            joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-bike-nearest.json"),
+            joinpath(directory, "brussels-tree-bike-nearest.json"),
+        )
+        flow = Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        @test flow["counter_flow"]["CB1143"]["measured"] == false
+        @test flow["counter_flow"]["CB1143"]["mean_all"] === nothing
+        @test occursin("treated as unmeasured", flow["counter_flow"]["CB1143"]["reason"])
+        @test flow["counter_flow"]["CJM90"]["measured"] == false
+        @test occursin("slots where", flow["counter_flow"]["CJM90"]["reason"])
+        @test flow["counter_flow"]["CB1101"]["measured"] == true
+        @test flow["counter_flow"]["CB1101"]["mean_all"] == 17.872
+        @test Set(flow["counters_without_measured_flow"]) == Set(["CB02411", "CB1143", "CJE181", "CJM90"])
+        # Trees attached to counters outside the committed five have no history in this dataset,
+        # so they are unmeasured for a different reason than an outage week.
+        unmeasured_ids = Set(
+            row["id"] for row in flow["records"]
+            if row["nearest_counter"] in ("CB1143", "CJM90") || !(row["nearest_counter"] in Flow.COUNTERS)
+        )
+        @test length(unmeasured_ids) == 9 + 15 + 3
+        @test flow["trees_with_measured_flow"] == 100 - length(unmeasured_ids)
+        @test all(row["counter_flow_mean"] === nothing for row in flow["records"] if row["id"] in unmeasured_ids)
+        @test all(row["has_measured_flow"] == false for row in flow["records"] if row["id"] in unmeasured_ids)
+        # Every tree that survives the outage screen still carries real flow.
+        @test all(row["has_measured_flow"] == true for row in flow["records"] if !(row["id"] in unmeasured_ids))
+    end
+    mktempdir() do directory
+        for feature in Flow.COUNTERS
+            cp(
+                joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-$(feature)-2024-01.json"),
+                joinpath(directory, "brussels-bike-history-$(feature)-2024-01.json"),
+            )
+        end
+        duplicate_payload = TreesSurfaces.read_json_path(joinpath(directory, "brussels-bike-history-CJM90-2024-01.json"))
+        duplicate_rows = TreesSurfaces.records(duplicate_payload)
+        duplicate_rows[end] = deepcopy(duplicate_rows[end - 1])
+        duplicate_payload["records"] = duplicate_rows
+        TreesSurfaces.atomic_write_json(joinpath(directory, "brussels-bike-history-CJM90-2024-01.json"), duplicate_payload)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-tree-bike-nearest.json"), joinpath(directory, "brussels-tree-bike-nearest.json"))
+        duplicate_flow = Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        @test duplicate_flow["counter_flow"]["CJM90"]["measured"] == false
+        @test occursin("missing or duplicate", duplicate_flow["counter_flow"]["CJM90"]["reason"])
+        # Appending a duplicate row keeps every expected slot present, so only the row count
+        # reveals the double count. It must still be rejected rather than inflating the mean.
+        appended_payload = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-CJM90-2024-01.json"))
+        push!(TreesSurfaces.records(appended_payload), deepcopy(TreesSurfaces.records(appended_payload)[end]))
+        TreesSurfaces.atomic_write_json(joinpath(directory, "brussels-bike-history-CJM90-2024-01.json"), appended_payload)
+        appended_flow = Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        @test appended_flow["counter_flow"]["CJM90"]["measured"] == false
+        @test occursin("slots where", appended_flow["counter_flow"]["CJM90"]["reason"])
+        incomplete_days = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-CB1101-2024-01.json"))
+        original_rows = TreesSurfaces.records(incomplete_days)
+        day_two = [deepcopy(row) for row in original_rows if startswith(TreesSurfaces.text(row["count_date"]), "2024/01/02")]
+        incomplete_days["records"] = [row for row in original_rows if !startswith(TreesSurfaces.text(row["count_date"]), "2024/01/01")]
+        append!(incomplete_days["records"], day_two)
+        TreesSurfaces.atomic_write_json(joinpath(directory, "brussels-bike-history-CB1101-2024-01.json"), incomplete_days)
+        incomplete_flow = Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        @test incomplete_flow["counter_flow"]["CB1101"]["measured"] == false
+        @test incomplete_flow["counter_flow"]["CB1101"]["days"] == 6
+        @test occursin("missing or duplicate", incomplete_flow["counter_flow"]["CB1101"]["reason"])
+        shifted_payload = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-CB1101-2024-01.json"))
+        shifted_payload["records"][1]["count_date"] = "2023/12/31"
+        shifted_path = joinpath(directory, "brussels-bike-history-CB1101-2024-01.json")
+        TreesSurfaces.atomic_write_json(shifted_path, shifted_payload)
+        @test_throws ErrorException Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        valid_payload = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-CB1101-2024-01.json"))
+        delete!(valid_payload["records"][1], "count")
+        TreesSurfaces.atomic_write_json(shifted_path, valid_payload)
+        @test_throws ErrorException Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        valid_payload = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-CB1101-2024-01.json"))
+        valid_payload["records"][1]["time_gap"] = true
+        TreesSurfaces.atomic_write_json(shifted_path, valid_payload)
+        @test_throws ErrorException Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+        valid_payload = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-bike-history-CB1101-2024-01.json"))
+        valid_payload["feature"] = "CB1142"
+        TreesSurfaces.atomic_write_json(shifted_path, valid_payload)
+        @test_throws ErrorException Flow.generate_counter_flow_artifact(directory; data_dir = directory)
+    end
     mktempdir() do directory
         flow = Flow.generate_counter_flow_artifact(directory)
         @test flow["record_count"] == 100
         @test flow["trees_with_measured_flow"] == 97
+        @test Set(flow["counters_without_measured_flow"]) == Set(["CB02411", "CJE181"])
         @test readdir(directory) == ["brussels-tree-counter-flow.json"]
     end
     @test first(state["screen"]["sites"])["id"] == "vbx_56561"
