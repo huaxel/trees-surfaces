@@ -1,6 +1,7 @@
 name = "TreesSurfaces"
 uuid = "7f6f4042-fb34-4d2a-a7b2-2a38b41e6f1d"
 version = "0.1.0"
+license = "MIT"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"

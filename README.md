@@ -151,6 +151,10 @@ Implements an exact EPSG 7-parameter datum shift from WGS84 to BD72 and Belgian 
 
 Full metadata, URLs, and attribution terms are maintained in [`data/source-inventory.json`](data/source-inventory.json).
 
+## Licence
+
+The source code in this repository is released under the [MIT Licence](LICENSE). The committed snapshots and generated artifacts under [`data/`](data/) are redistributed under their original source licences — CC BY 4.0 for the City of Brussels, heritage.brussels, Brussels Environment and Statbel/Federal Police sources, and CC0 1.0 for Brussels Mobility — with attribution recorded in [`data/source-inventory.json`](data/source-inventory.json). The MIT licence does not override those terms; reuse of a data file is subject to its own source licence.
+
 ## Limitations and caveats
 
 - **Exploratory metric:** The signal combines min-max normalized heat indicator pixels with inverse normalized counter distance. Rankings shift when weights change or if evaluated on a different sample.
