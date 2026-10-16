@@ -277,6 +277,12 @@ Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
     @test_throws ErrorException Review.spreadsheet_unescape("'literal")
     @test_throws ErrorException Review.parse_csv_records("a,b\n1,\"unterminated")
     @test Review.parse_csv_records("a,b,c\n1,He said \"hi\", ok\n")[2] == ["1", "He said \"hi\"", " ok"]
+    @test Review.parse_csv_records("\ufeffa,b\n1,2\n")[1] == ["a", "b"]
+    mktempdir() do directory
+        path = joinpath(directory, "bom.csv")
+        write(path, "\ufeff" * read(joinpath(TreesSurfaces.DATA_DIR, "tree-stakeholder-review.csv"), String))
+        @test Review.read_existing(path)["proposal_id"] == "trees-screening-v1"
+    end
     mktempdir() do directory
         duplicate_columns = joinpath(directory, "duplicate.csv")
         write(duplicate_columns, "proposal_id,proposal_id\na,a\n")

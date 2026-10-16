@@ -46,6 +46,8 @@ function parse_csv_records(content)
     in_quotes = false
     field_started = false
     index = firstindex(content)
+    # Spreadsheet editors commonly save "CSV UTF-8" with a byte-order mark; it is not data.
+    startswith(content, "\ufeff") && (index = nextind(content, index))
     while index <= lastindex(content)
         character = content[index]
         if in_quotes
