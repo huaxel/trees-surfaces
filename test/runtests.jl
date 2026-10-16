@@ -357,6 +357,12 @@ end
             @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
         end
         cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-road-accidents-2017-2024.json"), accident_source_path; force = true)
+        skippable_source = TreesSurfaces.read_json_path(joinpath(TreesSurfaces.DATA_DIR, "brussels-road-accidents-2017-2024.json"))
+        push!(skippable_source["records"], Dict{String, Any}("year" => "2024", "bicycle_involved" => false, "x_lambert72" => "", "y_lambert72" => ""))
+        skippable_source["summary"]["record_count"] += 1
+        TreesSurfaces.atomic_write_json(accident_source_path, skippable_source)
+        @test Validation.validate_snapshots(snapshot_dir)["accident_context_counters"] == 18
+        cp(joinpath(TreesSurfaces.DATA_DIR, "brussels-road-accidents-2017-2024.json"), accident_source_path; force = true)
         accident_path = joinpath(snapshot_dir, "brussels-counter-accident-context.json")
         for mutate in (
             payload -> (payload["record_count"] += 1; payload),

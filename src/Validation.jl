@@ -20,6 +20,15 @@ export validate_snapshots
 
 finite_snapshot_number(value) = value isa Number && !(value isa Bool) && isfinite(Float64(value))
 
+# Lambert coordinates arrive as numbers or numeric strings; unparseable values are
+# treated as missing rather than raising a parse error, so the validator names the
+# failing invariant instead of throwing.
+function finite_lambert_coordinate(value)
+    value isa Number && return isfinite(Float64(value))
+    parsed = tryparse(Float64, TreesSurfaces.text(value))
+    parsed !== nothing && isfinite(parsed)
+end
+
 function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
     read_snapshot(filename) = TreesSurfaces.read_json_path(joinpath(data_dir, filename))
     managed = read_snapshot("brussels-trees-sample.json")
@@ -438,6 +447,16 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
     source_years = sort!(collect(Set(TreesSurfaces.text(get(row, "year", "")) for row in accident_rows)))
     get(accident_summary, "years", nothing) == source_years || error("accident source summary years disagree with its records")
     expected_accidents = build_accident_context(; data_dir=data_dir)
+    # The builder skips source rows with missing or non-finite Lambert coordinates
+    # before counting; recount those skips here so a builder defect that dropped
+    # valid rows could not hide behind its own record count.
+    skipped_accidents = count(accident_rows) do row
+        raw_x = get(row, "x_lambert72", nothing)
+        raw_y = get(row, "y_lambert72", nothing)
+        raw_x === nothing || raw_y === nothing || isempty(TreesSurfaces.text(raw_x)) || isempty(TreesSurfaces.text(raw_y)) || !finite_lambert_coordinate(raw_x) || !finite_lambert_coordinate(raw_y)
+    end
+    committed_accident_count = get(accidents, "record_count", nothing)
+    committed_accident_count isa Integer && !(committed_accident_count isa Bool) && committed_accident_count + skipped_accidents == length(accident_rows) || error("accident-context record count and skipped rows do not cover the source snapshot")
     get(accidents, "record_count", nothing) == expected_accidents["record_count"] || error("accident-context record count disagrees with source coordinates")
     for key in ("accidents_by_year", "bicycle_accidents_by_year")
         get(accidents, key, nothing) == expected_accidents[key] || error("accident-context $(key) disagrees with source records")
