@@ -34,6 +34,8 @@ docker build -f Dockerfile -t trees-surfaces-julia .
 docker run --rm -p 8080:8080 trees-surfaces-julia
 ```
 
+**Deployment constraint:** the UI serves the stakeholder worksheet at `/stakeholder-review.csv` and embeds the compiled review (reviewer name, role and notes) in the page's initial state. That is personal data and the application has no access control of its own, so do not expose it beyond a trusted network once a review is recorded — bind to `127.0.0.1` (the default for `bin/run.jl`) or place it behind an authenticated proxy. The container image sets `JULIA_UI_HOST=0.0.0.0`, which only suits a trusted network.
+
 The server reads the canonical snapshots under `data/`, caches the derived state for the process, and recalculates only the requested weights.
 
 Run the Julia tests with:
