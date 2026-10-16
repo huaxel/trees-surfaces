@@ -1518,5 +1518,27 @@
       ]
     }
   ],
-  "caveat": "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure."
+  "caveat": "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure.",
+  "heat_season_context": {
+    "hot_days_per_season_min": 7.3,
+    "hottest_season_mean": 23.93,
+    "cells": 4,
+    "season_days": 920,
+    "seasonal_mean_min": 22.23,
+    "reference_season_mean": 21.75,
+    "reference_percentile_max": 96.7,
+    "hottest_season_year": "2018",
+    "available": true,
+    "window_phrase": "2015–2024",
+    "reference_rank_min": 88,
+    "reference_percentile_min": 94.6,
+    "seasonal_mean_max": 22.86,
+    "reference_apparent_min": 32.4,
+    "reference_apparent_max": 33.2,
+    "reference_rank_max": 90,
+    "hot_days_per_season_max": 8.5,
+    "seasonal_mean_spread": 0.63,
+    "reference_date": "2016-08-24",
+    "season_year_count": 10
+  }
 }

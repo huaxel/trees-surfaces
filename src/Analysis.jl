@@ -3,6 +3,9 @@ module Analysis
 using Statistics
 using ..TreesSurfaces
 
+include(joinpath(@__DIR__, "HeatSeason.jl"))
+using .HeatSeason
+
 export signal_summary, generate_signal_artifacts
 
 const csv_escape = TreesSurfaces.csv_escape
@@ -92,6 +95,16 @@ function write_analysis_report(report, context, output_dir)
     balanced = report["balanced_screening"]
     quality = report["data_completeness"]
     weights = report["weight_sensitivity"]
+    heat_season = context["heat_season"]
+    season_lines = heat_season["available"] ? [
+        "- A multi-year seasonal context is committed as `brussels-heat-season-sample.json`: pooled June–August seasons for $(heat_season["window_phrase"]) on the ERA5 reanalysis grid, where $(heat_season["cells"]) cells cover the committed sample, retrieved from the Open-Meteo archive API with Copernicus attribution.",
+        "- The committed WBGT date, $(heat_season["reference_date"]), was an extreme day inside its own summer: apparent-temperature maxima were $(heat_season["reference_apparent_min"])–$(heat_season["reference_apparent_max"]) °C across those cells, ranking $(heat_season["reference_rank_min"])th–$(heat_season["reference_rank_max"])th warmest of that season's 92 days ($(heat_season["reference_percentile_min"])–$(heat_season["reference_percentile_max"])% of the seasonal days were below it).",
+        "- The 2016 seasonal mean apparent maximum was about $(heat_season["reference_season_mean"]) °C across the sample cells; $(heat_season["hottest_season_year"]) was the warmest season at about $(heat_season["hottest_season_mean"]) °C. The single-day raster therefore describes a genuinely hot day inside a comparatively mild summer, not the region's most severe heat season.",
+        "- Recurrence context: about $(heat_season["hot_days_per_season_min"])–$(heat_season["hot_days_per_season_max"]) days per season reach an apparent maximum of 30 °C or more in these cells, so a one-day snapshot says nothing about how often the condition repeats.",
+        "- Boundary: the ERA5 grid step is about 28 km north-south and 18 km east-west at Brussels' latitude; the $(heat_season["cells"]) cells spanning the sample differ by only $(heat_season["seasonal_mean_spread"]) °C in seasonal mean apparent maximum. This source documents temporal representativeness; it cannot reproduce or replace the intra-urban pattern of the 10,000 × 9,000 WBGT raster that drives the ranking.",
+    ] : [
+        "- No seasonal heat context snapshot is present in this data directory; the committed snapshot is `brussels-heat-season-sample.json`.",
+    ]
     heat_missing = length(quality["heat_nodata_ids"])
     heat_missing_line = heat_missing == 0 ?
         "- Missing data: all $(report["record_count"]) joined points have non-NoData WBGT pixels, so there is no heat missingness to impute in this snapshot." :
@@ -105,11 +118,15 @@ function write_analysis_report(report, context, output_dir)
         "",
         "## Heat data and normalization",
         "",
-        "- The heat input is the regional urban-heat-island model published by Brussels Environment: mean 24-hour Wet Bulb Globe Temperature for one representative hot day (2016-08-24). The public WMS exposes this single scenario layer; no multi-date or seasonal open layer exists for the region.",
+        "- The ranking heat input is the regional urban-heat-island model published by Brussels Environment: mean 24-hour Wet Bulb Globe Temperature for one representative hot day (2016-08-24). The public WMS exposes this single scenario layer.",
         "- The source raster stores a normalized 0–100 WBGT indicator, not degrees Celsius. The prototype then min-max normalizes those source values again within the committed $(report["record_count"])-record sample to calculate heat scores; rankings therefore shift with the weights and with a different sample.",
         "- The authoritative ISO metadata identifies the dataset as `$(report["heat_source_metadata_id"])`, published by Brussels Environment / Leefmilieu Brussel under $(report["heat_source_licence"]) with source attribution.",
         heat_missing_line,
-        "- Multi-date alternatives (ERA5 2 m temperature, satellite land-surface temperature) are documented as future options and are out of scope for this feasibility sample.",
+        "- Multi-date or seasonal open layers: the regional WMS publishes only this one scenario, so a multi-year seasonal context is committed separately as `brussels-heat-season-sample.json`; it documents how representative the committed day is and never replaces the raster as the ranking input.",
+        "",
+        "## Seasonal heat context",
+        "",
+        season_lines...,
         "",
         "## Traceability",
         "",
@@ -190,7 +207,7 @@ function write_analysis_report(report, context, output_dir)
     push!(lines, "")
     push!(lines, "## Interpretation boundary")
     push!(lines, "")
-    push!(lines, "- The WBGT layer represents one representative hot day in 2016.")
+    push!(lines, "- The WBGT layer represents one representative hot day in 2016; the seasonal context shows that day was an extreme day inside a comparatively mild summer, so exposure frequency is not represented.")
     push!(lines, "- Counter distance is a spatial context proxy, not bicycle flow, pedestrian use or street occupancy.")
     push!(lines, "- Min–max normalization is sample-relative; rankings change with the weights and sample.")
     push!(lines, "- These points are candidates for follow-up analysis, not planting recommendations or causal findings.")
@@ -276,6 +293,7 @@ function generate_signal_artifacts(output_dir; data_dir=TreesSurfaces.DATA_DIR)
             "interpretation" => "The 60/40 top ten is strongly heat-led; emphasizing proximity materially changes its membership.",
         ),
         "scenarios" => scenario_rows,
+        "heat_season_context" => context["heat_season"],
         "caveat" => "Rankings are exploratory and depend on sample-relative normalization; proximity is not a mobility measure.",
     )
     TreesSurfaces.atomic_write_json(joinpath(output_dir, "tree-signal-sensitivity.json"), report)
@@ -376,6 +394,7 @@ function report_context(points, managed_payload, managed_ids, flow_payload, data
             )
             for row in scenario_rows
         ),
+        "heat_season" => HeatSeason.season_context(data_dir),
     )
 end
 

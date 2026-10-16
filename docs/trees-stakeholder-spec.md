@@ -10,6 +10,17 @@ This is a working specification for the next conversation with a Brussels urban-
 
 This is a project-level working decision; it should still be validated with the eventual coach or stakeholder.
 
+## Conservative interim recommendation (not accepted)
+
+The project-owner review is recorded as **needs more evidence**. The following direction is a recommendation for discussion, not stakeholder acceptance or a change to the ranking:
+
+- Keep the existing 24 August 2016 WBGT input as the ranking's heat measure for now; show the ten-summer ERA5 result only as separate temporal context. The exploratory Landsat audit found no scene on the reference date, only 31.4% of eligible tree-date pairs passing basic QA, and 10.8% passing the illustrative ST_QA ≤3 K filter.
+- Keep nearest-counter distance explicitly labelled as proximity context; show measured flow separately. The flow snapshot covers five counters for one winter week, assigns only five distinct values across 97 trees, and its alternative 60/40 top ten has no overlap with the current balanced top ten.
+- Retain individual tree records as the traceable analysis unit, not as an intervention unit. A stakeholder still needs to decide whether follow-up should target trees, street segments, blocks, or another unit.
+- Leave false-positive preference and evidence threshold undecided. Do not use the current screen to automate site selection or recommend planting.
+
+The recommendation is deliberately conservative because both candidate replacements have substantial temporal or spatial limitations. External stakeholder review is still required before accepting any measure or changing the model.
+
 ## Working MVP decision question
 
 > Which observed tree areas combine relatively high heat-stress values with proximity to bicycle counters, and therefore merit more detailed field or mobility analysis?
@@ -69,6 +80,28 @@ The current descriptive report finds 1 of 100 points at or above the sample's th
 
 The exact working proposal is versioned in `tree-stakeholder-proposal.json`. `tree-stakeholder-review.csv` binds one stakeholder response to that proposal, the current completeness audit and the 9/10 versus 1/10 sensitivity result. A completed review must identify the reviewer and role, use an allowed status (`accepted`, `accepted with changes`, `needs more evidence`, or `rejected`), and record false-positive preference, evidence threshold and notes. Accepted statuses must also state the agreed decision question, unit, mobility measure and heat period; negative statuses may leave those accepted-value fields blank and explain the outcome in notes. Regeneration refuses to carry the response onto changed proposal evidence; completed responses compile to `tree-stakeholder-reviews.json` for the Julia application.
 
+## Draft outreach invitation (not sent)
+
+**Subject:** Review request: Brussels tree heat and mobility screening prototype
+
+Hello [name],
+
+We have an exploratory screening prototype that joins a 100-tree feasibility sample to one Brussels WBGT raster day and nearby bicycle counters. It is intended to identify candidates for follow-up analysis, not to recommend planting or rank intervention sites. The project-owner review is recorded as **needs more evidence**; the current ranking is unchanged, and we are seeking your guidance before deciding what the screen should represent.
+
+Would you be available for a short review? The main questions are:
+
+- What decision should this screen support, and should its analysis unit be an individual tree, street segment, block, or another area?
+- Should the single-day WBGT remain the ranking input, with ERA5 shown only as temporal context, or is a validated multi-date heat measure required first?
+- Is nearest-counter distance useful context, should measured counter activity remain separate, or is another mobility measure needed?
+- What trade-off between missed sites and false alarms is acceptable, and what evidence should trigger manual follow-up?
+
+For context, see [`heat-season-stakeholder-brief.md`](heat-season-stakeholder-brief.md), [`mobility-measure-stakeholder-brief.md`](mobility-measure-stakeholder-brief.md), and the [`conservative interim recommendation`](#conservative-interim-recommendation-not-accepted). The briefs describe the limitations and do not ask you to approve an automated intervention.
+
+If you are willing to review, please suggest a time and identify the appropriate reviewer role. We will record your response in the stakeholder worksheet; no ranking change will be made without an agreed decision.
+
+Thank you,
+[project owner]
+
 ## Stakeholder interview questions
 
 1. What decision would this screening view change?
@@ -82,4 +115,4 @@ The exact working proposal is versioned in `tree-stakeholder-proposal.json`. `tr
 
 ## Immediate next action
 
-Conduct one stakeholder or coach review using the questions above and record it in `tree-stakeholder-review.csv`. Regenerate with `julia --project=. bin/generate_stakeholder_review.jl` and verify the decision appears in the Julia application. Do not expand the model or add canopy/optimization features until the decision question and mobility measure are accepted.
+Use [`heat-season-stakeholder-brief.md`](heat-season-stakeholder-brief.md) to discuss whether ERA5 remains separate context or a higher-resolution multi-date heat source is required, and [`mobility-measure-stakeholder-brief.md`](mobility-measure-stakeholder-brief.md) to compare nearest-counter distance with measured counter activity. Conduct one stakeholder or coach review using the questions above and record it in `tree-stakeholder-review.csv`. Regenerate with `julia --project=. bin/generate_stakeholder_review.jl` and verify the decision appears in the Julia application. Do not expand the model or add canopy/optimization features until the decision question and mobility measure are accepted.

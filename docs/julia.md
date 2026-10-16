@@ -4,7 +4,7 @@ This is the supported application: Julia loads the committed snapshots, computes
 
 The browser still uses a small amount of plain JavaScript for slider and point-selection interactions; no frontend framework is required.
 
-The Julia layer owns the UI server, weighted screening, sensitivity artifacts, measured-flow join, stakeholder review workflow, snapshot validation, and public API refresh. `bin/refresh_open_data.jl` preserves committed sample IDs and validates source metadata/history shape before atomic writes. Add `--with-derived` to regenerate the native nearest-counter and measured-flow artifacts; add `--with-analysis` to also regenerate sensitivity JSON/CSV/Markdown artifacts. Derived artifacts are generated in a temporary directory and published atomically. Existing stakeholder review data is left untouched. Combine these with `--check` to validate the complete live refresh pipeline in temporary storage without modifying committed snapshots.
+The Julia layer owns the UI server, weighted screening, sensitivity artifacts, measured-flow join, stakeholder review workflow, snapshot validation, and public API refresh. `bin/refresh_open_data.jl` preserves committed sample IDs and validates source metadata/history shape before atomic writes. Add `--with-derived` to regenerate the native nearest-counter and measured-flow artifacts; add `--with-analysis` to also regenerate sensitivity JSON/CSV/Markdown artifacts; add `--with-heat-season` to refresh the ERA5 seasonal heat context. Derived artifacts are generated in a temporary directory and published atomically. Existing stakeholder review data is left untouched. `--check` also validates the live ERA5 archive response in temporary storage without modifying committed snapshots.
 
 ## Requirements
 
@@ -69,6 +69,14 @@ Print the current Julia-computed sensitivity summary:
 ```bash
 julia --project=. bin/analyze.jl
 ```
+
+Generate the multi-year ERA5 seasonal heat context (batched grid-snapping probe plus seasonal-series requests to Open-Meteo):
+
+```bash
+julia --project=. bin/generate_heat_season.jl data
+```
+
+The committed artifact covers June–August seasons from 2015 through 2024, and compares the 2016-08-24 raster reference day with that summer's distribution. It is a temporal-context measure on ERA5's coarse grid, not a replacement for the intra-urban WBGT raster.
 
 Generate Julia-owned sensitivity JSON and CSV artifacts into a separate directory:
 

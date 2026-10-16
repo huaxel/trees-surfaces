@@ -20,8 +20,8 @@ Where do sampled managed trees combine higher WBGT pixels with closer bicycle co
 ## Definition of done for an analytical MVP
 
 - choose one stakeholder and one intervention or descriptive decision;
-- replace the single heat date with a justified multi-date or seasonal measure (progress: the 2016 regional WBGT choice, normalization and missingness are documented; the WMS exposes no multi-date layer, so ERA5 or satellite LST remains future work);
-- use a validated mobility measure rather than nearest-counter distance alone (progress: a measured-flow context — nearest-counter mean flow for one week, five counters, 97/100 trees — is committed as `brussels-tree-counter-flow.json` and reported in the analysis; distance still drives the ranking until the stakeholder question accepts a flow-based alternative);
+- replace the single heat date with a justified multi-date or seasonal measure (progress: the committed 2015–2024 June–August ERA5 context compares the 2016-08-24 WBGT day with its summer; a sensor-complete exploratory Landsat audit found no scene on that reference date and only 31.4% of eligible tree-date pairs passing basic QA, falling to 10.8% with ST_QA ≤3 K. Neither source is yet a validated replacement. See [`heat-season-stakeholder-brief.md`](heat-season-stakeholder-brief.md));
+- use a validated mobility measure rather than nearest-counter distance alone (progress: a one-week winter flow context for five counters covers 97/100 trees; only five distinct flow values are assigned across them. An exploratory 60/40 flow alternative shares 0/10 points with the current balanced top ten, while daily top tens within that week share 7–10/10 with the weekly mean. This shows metric sensitivity, not which measure is valid. See [`mobility-measure-stakeholder-brief.md`](mobility-measure-stakeholder-brief.md); distance still drives the ranking pending stakeholder agreement);
 - document normalization, missing data and sensitivity to the weights (complete for the feasibility snapshot in the JSON artifact, Markdown report and interface);
 - keep the output descriptive unless a causal design is established.
 

@@ -17,17 +17,20 @@ include(joinpath(@__DIR__, "..", "src", "Flow.jl"))
 using .Flow
 include(joinpath(@__DIR__, "..", "src", "Analysis.jl"))
 using .Analysis
+include(joinpath(@__DIR__, "..", "src", "HeatSeason.jl"))
+using .HeatSeason
 include(joinpath(@__DIR__, "..", "src", "Validation.jl"))
 using .Validation
 
 if "--help" in ARGS || "-h" in ARGS
-    println("Usage: julia --project=. bin/refresh_open_data.jl [--check] [--with-derived] [--with-analysis]")
-    println("  --check          validate live APIs and derived snapshots in a temporary directory")
-    println("  --with-derived   regenerate derived artifacts (also enables analysis with --with-analysis)")
-    println("  --with-analysis  regenerate sensitivity artifacts (requires --with-derived)")
+    println("Usage: julia --project=. bin/refresh_open_data.jl [--check] [--with-derived] [--with-analysis] [--with-heat-season]")
+    println("  --check             validate live APIs and derived snapshots in a temporary directory")
+    println("  --with-derived      regenerate derived artifacts (also enables analysis with --with-analysis)")
+    println("  --with-analysis     regenerate sensitivity artifacts (requires --with-derived)")
+    println("  --with-heat-season  regenerate the ERA5 seasonal heat context snapshot")
     exit()
 end
-allowed = Set(["--check", "--with-derived", "--with-analysis"])
+allowed = Set(["--check", "--with-derived", "--with-analysis", "--with-heat-season"])
 unknown = [arg for arg in ARGS if !(arg in allowed)]
 isempty(unknown) || error("unknown option(s): $(join(unknown, ", "))")
 ("--with-analysis" in ARGS && !("--with-derived" in ARGS)) && error("--with-analysis requires --with-derived")
@@ -40,6 +43,7 @@ if "--check" in ARGS
             cp(joinpath(Refresh.DATA_DIR, filename), joinpath(directory, filename))
         end
         Refresh.refresh_open_data(output_dir=directory)
+        HeatSeason.generate_heat_season(joinpath(directory, "brussels-trees-sample.json"), joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME))
         Spatial.generate_tree_mobility_join(directory; data_dir=directory)
         Spatial.generate_accident_context(directory; data_dir=directory)
         Flow.generate_counter_flow_artifact(directory; data_dir=directory)
@@ -59,6 +63,11 @@ else
         end
         Refresh.refresh_open_data(output_dir=directory)
         generated = String[Refresh.REFRESH_FILENAMES...]
+        if "--with-heat-season" in ARGS
+            HeatSeason.generate_heat_season(joinpath(directory, "brussels-trees-sample.json"), joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME))
+            push!(generated, HeatSeason.HEAT_SEASON_FILENAME)
+            println("Julia regenerated the ERA5 seasonal heat context.")
+        end
         if "--with-derived" in ARGS
             Spatial.generate_tree_mobility_join(directory; data_dir=directory)
             Spatial.generate_accident_context(directory; data_dir=directory)

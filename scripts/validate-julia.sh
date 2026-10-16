@@ -51,6 +51,15 @@ with (pathlib.Path(out) / "tree-signal-balanced-screen.csv").open(newline="") as
     assert sum(1 for _ in csv.DictReader(handle)) == 100
 assert (pathlib.Path(out) / "tree-signal-analysis.md").read_text().startswith("# Tree signal descriptive analysis")
 assert committed("brussels-tree-counter-flow.json")["trees_with_measured_flow"] == 97
+season = committed("brussels-heat-season-sample.json")
+assert season["model"] == "era5"
+assert "models=era5" in season["grid_probe_url"]
+assert season["season"]["window_start_year"] == 2015
+assert season["season"]["window_end_year"] == 2024
+assert season["season"]["season_days"] == 920
+assert len(season["cells"]) == 4
+assert len(season["records"]) == 100
+assert season["region_summary"]["reference_date_season_percentile_min"] > 90
 PY
 
 # The Markdown report and the ranking CSV are fully derived from committed snapshots, so the

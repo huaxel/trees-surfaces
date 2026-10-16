@@ -4,7 +4,7 @@ An exploratory data-integration prototype investigating where sampled managed tr
 
 The project evaluates open data feasibility for urban greening and climate adaptation, integrating municipal tree inventories, regional heat modeling, and transport monitoring datasets into an interactive screening tool with traceable provenance.
 
-> **Interpretation boundary:** The prototype calculates an exploratory descriptive signal from real spatial joins. Proximity is a spatial context proxy, not cyclist volume; the heat layer models a single representative hot day in 2016; and rankings are sample-relative. The tool is designed for candidate screening and requirements elicitation with stakeholders, **not** automated planting recommendations or causal findings.
+> **Interpretation boundary:** The prototype calculates an exploratory descriptive signal from real spatial joins. Proximity is a spatial context proxy, not cyclist volume; the ranking uses a single-day WBGT raster from 2016, while a coarse ERA5 seasonal artifact adds temporal context only; and rankings are sample-relative. The tool is designed for candidate screening and requirements elicitation with stakeholders, **not** automated planting recommendations or causal findings.
 
 ## Repository structure
 
@@ -13,6 +13,7 @@ The project evaluates open data feasibility for urban greening and climate adapt
   - [`docs/prototype-next-iteration.md`](docs/prototype-next-iteration.md) — definition of done for subsequent analytical MVP iterations.
   - [`docs/trees-stakeholder-spec.md`](docs/trees-stakeholder-spec.md) — stakeholder decision question, metric definitions, and interview protocol.
   - [`docs/trees-demo-script.md`](docs/trees-demo-script.md) — 5-minute stakeholder walkthrough script.
+  - [`docs/heat-season-stakeholder-brief.md`](docs/heat-season-stakeholder-brief.md) — decision brief on whether ERA5 seasonality remains context or the ranking needs higher-resolution heat data.
 - [`src/`](src/) and [`bin/`](bin/) — Julia package modules, server entry point, analytical pipeline, refresh workflow, and CLI tools.
 - [`data/`](data/) — canonical committed snapshots and generated review/analysis artifacts.
 - [`docs/julia.md`](docs/julia.md) — Julia runtime, refresh, generation, and validation commands.
@@ -78,10 +79,16 @@ Generate canonical Julia artifacts directly into `data/`:
 julia --project=. bin/generate_signal.jl data
 ```
 
-Or include source refresh, derived joins, and analysis in one atomic workflow:
+Or include source refresh, derived joins, analysis, and seasonal heat context in one atomic workflow:
 
 ```bash
-julia --project=. bin/refresh_open_data.jl --with-derived --with-analysis
+julia --project=. bin/refresh_open_data.jl --with-derived --with-analysis --with-heat-season
+```
+
+To regenerate only the ERA5 seasonal heat context (this makes two batched live requests to Open-Meteo: a grid-snapping probe and the seasonal series):
+
+```bash
+julia --project=. bin/generate_heat_season.jl data
 ```
 
 Generates:
@@ -145,6 +152,7 @@ Implements an exact EPSG 7-parameter datum shift from WGS84 to BD72 and Belgian 
 | Arbres remarquables | heritage.brussels | CC BY 4.0 | Sample of 100 heritage trees with species, circumference, and protection status. |
 | RT Counting (Devices & History) | Brussels Mobility | CC0 1.0 | 18 counter locations and 7-day (672 observation) 15-minute count series for 5 counters. |
 | Mean WBGT 24/08/2016 | Brussels Environment | CC BY 4.0 | Regional urban-heat-island model; 0–100 indicator pixels (ISO `BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531`). |
+| ERA5 seasonal heat context | ECMWF / Copernicus via Open-Meteo | CC BY 4.0 | Daily apparent-temperature maxima and temperature minima for June–August, 2015–2024; coarse ~28 km grid used to contextualize the reference date, not rank intra-urban locations. |
 | Canopy Layer (Lead) | Elsa Gallez | CC BY 4.0 | Documented source lead for canopy model integration (Zenodo DOI `10.5281/zenodo.13869065`). |
 | Road accidents 2017–2024 | Statbel / Federal Police | CC BY 4.0 | 30,022 Brussels-region geolocated injury/fatal accident records; bicycle involvement is derived from road-user types. |
 | Counter accident context | Derived | Source licences inherited | Counter-level all/bicycle-involved accident counts within 250 m and 500 m. |
@@ -153,12 +161,12 @@ Full metadata, URLs, and attribution terms are maintained in [`data/source-inven
 
 ## Licence
 
-The source code in this repository is released under the [MIT Licence](LICENSE). The committed snapshots and generated artifacts under [`data/`](data/) are redistributed under their original source licences — CC BY 4.0 for the City of Brussels, heritage.brussels, Brussels Environment and Statbel/Federal Police sources, and CC0 1.0 for Brussels Mobility — with attribution recorded in [`data/source-inventory.json`](data/source-inventory.json). The MIT licence does not override those terms; reuse of a data file is subject to its own source licence.
+The source code in this repository is released under the [MIT Licence](LICENSE). The committed snapshots and generated artifacts under [`data/`](data/) are redistributed under their original source licences — CC BY 4.0 for the City of Brussels, heritage.brussels, Brussels Environment and Statbel/Federal Police sources, and CC0 1.0 for Brussels Mobility — with attribution recorded in [`data/source-inventory.json`](data/source-inventory.json). Open-Meteo's ERA5-derived data are also distributed under CC BY 4.0 with Open-Meteo and Copernicus attribution. The MIT licence does not override those terms; reuse of a data file is subject to its own source licence.
 
 ## Limitations and caveats
 
 - **Exploratory metric:** The signal combines min-max normalized heat indicator pixels with inverse normalized counter distance. Rankings shift when weights change or if evaluated on a different sample.
-- **Single-day heat model:** The available open regional heat raster models a single representative hot day (24 August 2016). Multi-date or seasonal satellite land-surface temperature (LST) remains future work.
+- **Heat measures are not interchangeable:** The ranking still uses the Brussels Environment 24 August 2016 WBGT indicator. The new ERA5 artifact pools June–August seasons from 2015–2024 and shows how unusual that day was, but its ~28 km grid cannot resolve intra-urban heat patterns and its apparent temperature is not WBGT. Multi-date high-resolution heat data (for example satellite land-surface temperature) remains future work.
 - **Contextual mobility:** Counter proximity is a geographic context proxy, not a direct measurement of cyclist or pedestrian volume at the tree location. Measured counter flow covers a single winter week at 5 counters.
 - **No causal claim:** High signal indicates a candidate point for site inspection and further analytical study, not an automated recommendation to plant or fell trees.
 - **Personal review data:** The interactive view and `/stakeholder-review.csv` expose the stakeholder worksheet, including reviewer name, role and notes. The app has no access control of its own, so keep it on a trusted network (or behind an authenticated proxy) once a review is recorded; the shipped container binds to all interfaces.

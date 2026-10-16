@@ -1,4 +1,5 @@
 using Test
+using Dates
 using HTTP
 
 include(joinpath(@__DIR__, "..", "src", "TreesSurfaces.jl"))
@@ -17,6 +18,8 @@ include(joinpath(@__DIR__, "..", "src", "Heat.jl"))
 using .Heat
 include(joinpath(@__DIR__, "..", "src", "Refresh.jl"))
 using .Refresh
+include(joinpath(@__DIR__, "..", "src", "HeatSeason.jl"))
+using .HeatSeason
 include(joinpath(@__DIR__, "..", "src", "Review.jl"))
 using .Review
 
@@ -37,6 +40,46 @@ Base.getindex(::WideStubRaster, ::Int, ::Int) = (UInt16(20),)
 struct TwoBandStubRaster end
 Base.size(::TwoBandStubRaster) = (9_000, 10_000)
 Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
+
+# Synthetic ERA5 archive payloads so seasonal aggregation and its rejection rules can be
+# exercised without network access. The series is built so that 2016-08-24 is the warmest day
+# of its own summer while 2019 is the warmest season in the window.
+function stub_season_apparent(time)
+    time == HeatSeason.REFERENCE_DATE && return 33.0
+    startswith(time, "2019-06") && return 31.5
+    time[6:7] in ("06", "07", "08") && return 25.0
+    return 5.0
+end
+
+function stub_era5_payload(latitude, longitude; mutate = payload -> payload)
+    dates = collect(Date(HeatSeason.WINDOW_START_DATE):Day(1):Date(HeatSeason.WINDOW_END_DATE))
+    times = [Dates.format(date, dateformat"yyyy-mm-dd") for date in dates]
+    apparent = [stub_season_apparent(time) for time in times]
+    payload = Dict{String, Any}(
+        "latitude" => latitude,
+        "longitude" => longitude,
+        "elevation" => 42.0,
+        "daily_units" => Dict{String, Any}(
+            "time" => "iso8601",
+            "temperature_2m_max" => "°C",
+            "temperature_2m_min" => "°C",
+            "apparent_temperature_max" => "°C",
+            "relative_humidity_2m_mean" => "%",
+            "shortwave_radiation_sum" => "MJ/m²",
+            "wind_speed_10m_mean" => "km/h",
+        ),
+        "daily" => Dict{String, Any}(
+            "time" => times,
+            "temperature_2m_max" => [value + 1.0 for value in apparent],
+            "temperature_2m_min" => [time == "2019-07-01" ? 21.0 : min(12.0, value - 2.0) for (time, value) in zip(times, apparent)],
+            "apparent_temperature_max" => apparent,
+            "relative_humidity_2m_mean" => fill(70.0, length(times)),
+            "shortwave_radiation_sum" => fill(15.0, length(times)),
+            "wind_speed_10m_mean" => fill(9.0, length(times)),
+        ),
+    )
+    return mutate(payload)
+end
 
 @testset "Trees & Surfaces Julia UI" begin
     state = TreesSurfaces.build_state()
@@ -327,14 +370,140 @@ Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
         @test isfile(joinpath(directory, "tree-signal-analysis.md"))
         @test sort(readdir(directory)) == ["tree-signal-analysis.md", "tree-signal-balanced-screen.csv", "tree-signal-sensitivity.json"]
         report_text = read(joinpath(directory, "tree-signal-analysis.md"), String)
-        for heading in ("## Heat data and normalization", "## Traceability", "## Sample summary", "## Data completeness", "## District context", "## Weight sensitivity", "## Balanced screen", "## Mobility context", "## Interpretation boundary")
+        for heading in ("## Heat data and normalization", "## Seasonal heat context", "## Traceability", "## Sample summary", "## Data completeness", "## District context", "## Weight sensitivity", "## Balanced screen", "## Mobility context", "## Interpretation boundary")
             @test occursin(heading, report_text)
         end
+        @test report["heat_season_context"]["cells"] == 4
+        @test occursin("brussels-heat-season-sample.json", report_text)
+        @test occursin("ERA5", report_text)
         @test !occursin("join_heat.py", report_text)
         @test occursin("| STALINGRAD | 9 | 84.0 | 489.9 m | 1 |", report_text)
         @test report_text == read(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-analysis.md"), String)
         @test read(joinpath(directory, "tree-signal-balanced-screen.csv"), String) == read(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-balanced-screen.csv"), String)
     end
+    # ERA5 seasonal heat context: grid snapping, source validation, aggregation, and the
+    # committed snapshot must all describe the same measurements.
+    @test HeatSeason.era5_grid_point(50.85, 4.36) == (50.75, 4.25)
+    @test HeatSeason.era5_grid_point(50.90, 4.45) == (51.0, 4.5)
+    @test HeatSeason.era5_grid_point(50.79, 4.30) == (50.75, 4.25)
+    @test HeatSeason.era5_grid_key(50.75, 4.25) == "50.75/4.25"
+    @test_throws ErrorException HeatSeason.era5_grid_point(NaN, 4.25)
+    @test occursin("models=era5", HeatSeason.archive_request_url([(50.75, 4.25)]))
+    @test occursin("start_date=2016-08-24", HeatSeason.grid_probe_request_url([(50.84, 4.34)]))
+    probe_point = HeatSeason.era5_grid_point(50.84, 4.34)
+    probe_payload = Dict("latitude" => probe_point[1], "longitude" => probe_point[2], "daily_units" => Dict("temperature_2m_max" => "°C"), "daily" => Dict("time" => [HeatSeason.REFERENCE_DATE], "temperature_2m_max" => [31.0]))
+    @test HeatSeason.validate_grid_probe_payload(probe_payload, 50.84, 4.34) == probe_point
+    @test_throws ErrorException HeatSeason.validate_grid_probe_payload(merge(probe_payload, Dict("latitude" => probe_point[1] + 0.25)), 50.84, 4.34)
+    stub_validated = HeatSeason.validate_era5_daily_payload(stub_era5_payload(50.75, 4.25), 50.75, 4.25)
+    stub_metrics = HeatSeason.season_metrics(stub_validated)
+    @test stub_metrics["season_days"] == 920
+    @test stub_metrics["season_year_count"] == 10
+    @test stub_metrics["hot_days_per_season"] == 3.1
+    @test stub_metrics["tropical_nights_per_season"] == 0.1
+    @test stub_metrics["hottest_season_year"] == "2019"
+    @test stub_metrics["warmest_season_apparent_tmax_c"] == 33.0
+    @test stub_metrics["reference_date_season_percentile"] == 98.9
+    @test stub_metrics["reference_date_window_percentile"] == 99.9
+    @test stub_metrics["reference_date_rank_within_season"] == 92
+    @test stub_metrics["seasonal_mean_apparent_tmax_c"] == 25.22
+    tied_validated = HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (fill!(payload["daily"]["apparent_temperature_max"], 25.0); fill!(payload["daily"]["temperature_2m_max"], 26.0); payload)),
+        50.75,
+        4.25,
+    )
+    tied_metrics = HeatSeason.season_metrics(tied_validated)
+    @test tied_metrics["reference_date_rank_within_season"] == 1
+    @test tied_metrics["reference_date_season_percentile"] == 0.0
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(stub_era5_payload(51.0, 4.5), 50.75, 4.25)
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["apparent_temperature_max"] = Any[payload["daily"]["apparent_temperature_max"]...]; payload["daily"]["apparent_temperature_max"][1] = nothing; payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["temperature_2m_max"][1] = NaN; payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily_units"]["apparent_temperature_max"] = "°F"; payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (pop!(payload["daily"], "temperature_2m_min"); payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["time"][end] = "2025-12-31"; payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["apparent_temperature_max"][1] = 100.0; payload)),
+        50.75,
+        4.25,
+    )
+    @test_throws ErrorException HeatSeason.validate_era5_daily_payload(
+        stub_era5_payload(50.75, 4.25; mutate = payload -> (payload["daily"]["temperature_2m_min"][1] = 44.0; payload)),
+        50.75,
+        4.25,
+    )
+    stub_cells = cells -> [stub_era5_payload(cell[1], cell[2]) for cell in cells]
+    stub_probes = points -> [
+        Dict(
+            "latitude" => HeatSeason.era5_grid_point(point[1], point[2])[1],
+            "longitude" => HeatSeason.era5_grid_point(point[1], point[2])[2],
+            "daily_units" => Dict("temperature_2m_max" => "°C"),
+            "daily" => Dict("time" => [HeatSeason.REFERENCE_DATE], "temperature_2m_max" => [31.0]),
+        )
+        for point in points
+    ]
+    season_source = joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json")
+    mktempdir() do directory
+        output = joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME)
+        season = HeatSeason.generate_heat_season(season_source, output; fetch_cells = stub_cells, fetch_grid_probes = stub_probes)
+        @test length(season["records"]) == 100
+        @test season["model"] == "era5"
+        @test occursin("models=era5", season["grid_probe_url"])
+        @test season["region_summary"]["cells"] == 4
+        @test season["season"]["season_days"] == 920
+        @test length(season["cells"]) == 4
+        @test Set(record["grid_key"] for record in season["records"]) == Set(["50.75/4.25", "50.75/4.5", "51.0/4.25", "51.0/4.5"])
+        cells_by_key = Dict(cell["grid_key"] => cell for cell in season["cells"])
+        for record in season["records"]
+            @test record["seasonal_mean_apparent_tmax_c"] == cells_by_key[record["grid_key"]]["seasonal_mean_apparent_tmax_c"]
+            @test record["reference_date_season_percentile"] == cells_by_key[record["grid_key"]]["reference_date_season_percentile"]
+        end
+        @test read(output, String) == string(TreesSurfaces.JSON3.write(season), "\n")
+    end
+    # A response returned for the wrong grid point must be refused, not attached to a tree.
+    mktempdir() do directory
+        @test_throws ErrorException HeatSeason.generate_heat_season(
+            season_source,
+            joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME);
+            fetch_cells = cells -> reverse([stub_era5_payload(cell[1], cell[2]) for cell in cells]),
+            fetch_grid_probes = stub_probes,
+        )
+        @test !isfile(joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME))
+        @test_throws ErrorException HeatSeason.generate_heat_season(
+            season_source,
+            joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME);
+            fetch_cells = stub_cells,
+            fetch_grid_probes = points -> [merge(first(stub_probes([point])), Dict("latitude" => HeatSeason.era5_grid_point(point[1], point[2])[1] + 0.25)) for point in points],
+        )
+        @test !isfile(joinpath(directory, HeatSeason.HEAT_SEASON_FILENAME))
+    end
+    @test_throws ErrorException HeatSeason.build_heat_season_payload(Dict("records" => Any[]), Any[], "https://example.test")
+    @test_throws ErrorException HeatSeason.build_heat_season_payload(Dict("records" => Any[]), [Dict("grid_key" => "duplicate"), Dict("grid_key" => "duplicate")], "https://example.test")
+    season_context = HeatSeason.season_context(TreesSurfaces.DATA_DIR)
+    @test season_context["available"]
+    @test season_context["cells"] == 4
+    @test season_context["season_days"] == 920
+    @test season_context["reference_percentile_min"] > 90.0
+    @test validation["heat_season_records"] == 100
+    @test validation["heat_season_cells"] == 4
     mktempdir() do directory
         flow = Flow.generate_counter_flow_artifact(directory)
         @test flow["record_count"] == 100

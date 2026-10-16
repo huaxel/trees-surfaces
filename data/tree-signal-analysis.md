@@ -6,11 +6,19 @@ This report answers the working screening question using the committed 100-recor
 
 ## Heat data and normalization
 
-- The heat input is the regional urban-heat-island model published by Brussels Environment: mean 24-hour Wet Bulb Globe Temperature for one representative hot day (2016-08-24). The public WMS exposes this single scenario layer; no multi-date or seasonal open layer exists for the region.
+- The ranking heat input is the regional urban-heat-island model published by Brussels Environment: mean 24-hour Wet Bulb Globe Temperature for one representative hot day (2016-08-24). The public WMS exposes this single scenario layer.
 - The source raster stores a normalized 0–100 WBGT indicator, not degrees Celsius. The prototype then min-max normalizes those source values again within the committed 100-record sample to calculate heat scores; rankings therefore shift with the weights and with a different sample.
 - The authoritative ISO metadata identifies the dataset as `BRU_ENVI_73b4f29a-cff0-4d6a-a239-cb99d3140531`, published by Brussels Environment / Leefmilieu Brussel under CC BY 4.0 with source attribution.
 - Missing data: all 100 joined points have non-NoData WBGT pixels, so there is no heat missingness to impute in this snapshot.
-- Multi-date alternatives (ERA5 2 m temperature, satellite land-surface temperature) are documented as future options and are out of scope for this feasibility sample.
+- Multi-date or seasonal open layers: the regional WMS publishes only this one scenario, so a multi-year seasonal context is committed separately as `brussels-heat-season-sample.json`; it documents how representative the committed day is and never replaces the raster as the ranking input.
+
+## Seasonal heat context
+
+- A multi-year seasonal context is committed as `brussels-heat-season-sample.json`: pooled June–August seasons for 2015–2024 on the ERA5 reanalysis grid, where 4 cells cover the committed sample, retrieved from the Open-Meteo archive API with Copernicus attribution.
+- The committed WBGT date, 2016-08-24, was an extreme day inside its own summer: apparent-temperature maxima were 32.4–33.2 °C across those cells, ranking 88th–90th warmest of that season's 92 days (94.6–96.7% of the seasonal days were below it).
+- The 2016 seasonal mean apparent maximum was about 21.75 °C across the sample cells; 2018 was the warmest season at about 23.93 °C. The single-day raster therefore describes a genuinely hot day inside a comparatively mild summer, not the region's most severe heat season.
+- Recurrence context: about 7.3–8.5 days per season reach an apparent maximum of 30 °C or more in these cells, so a one-day snapshot says nothing about how often the condition repeats.
+- Boundary: the ERA5 grid step is about 28 km north-south and 18 km east-west at Brussels' latitude; the 4 cells spanning the sample differ by only 0.63 °C in seasonal mean apparent maximum. This source documents temporal representativeness; it cannot reproduce or replace the intra-urban pattern of the 10,000 × 9,000 WBGT raster that drives the ranking.
 
 ## Traceability
 
@@ -102,7 +110,7 @@ Flow is measured at the nearest counter, not at the tree, and covers a single wi
 
 ## Interpretation boundary
 
-- The WBGT layer represents one representative hot day in 2016.
+- The WBGT layer represents one representative hot day in 2016; the seasonal context shows that day was an extreme day inside a comparatively mild summer, so exposure frequency is not represented.
 - Counter distance is a spatial context proxy, not bicycle flow, pedestrian use or street occupancy.
 - Min–max normalization is sample-relative; rankings change with the weights and sample.
 - These points are candidates for follow-up analysis, not planting recommendations or causal findings.
