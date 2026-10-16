@@ -294,7 +294,7 @@ function refresh_bikes(output_dir=DATA_DIR)
 end
 
 function promote_files(stage, output_dir, filenames; move_file! = (source, destination) -> mv(source, destination; force=true))
-    mktempdir(dirname(output_dir)) do backup
+    with_work_directory(output_dir) do backup
         existing = Set{String}()
         for filename in filenames
             destination = joinpath(output_dir, filename)
@@ -326,7 +326,7 @@ end
 
 function staged_refresh(update!; output_dir=DATA_DIR, filenames=REFRESH_FILENAMES)
     mkpath(output_dir)
-    mktempdir(dirname(output_dir)) do temporary
+    with_work_directory(output_dir) do temporary
         stage = joinpath(temporary, "data")
         mkpath(stage)
         for filename in readdir(output_dir)

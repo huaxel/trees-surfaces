@@ -163,7 +163,7 @@ function write_json(path, payload)
 end
 
 function promote_review_artifacts(stage, data_dir, filenames; move_file! = (source, destination) -> mv(source, destination; force=true))
-    mktempdir(dirname(data_dir)) do backup
+    TreesSurfaces.with_work_directory(data_dir) do backup
         existing = Set{String}()
         for filename in filenames
             destination = joinpath(data_dir, filename)
@@ -237,7 +237,7 @@ function generate_stakeholder_review_artifacts(data_dir; reset_review = false)
         "records" => completed ? [Dict(field => text(get(row, field, "")) for field in FIELDS)] : Any[],
     )
     artifact_names = (basename(output), "tree-stakeholder-reviews.json")
-    mktempdir(dirname(data_dir)) do stage
+    TreesSurfaces.with_work_directory(data_dir) do stage
         write_csv(joinpath(stage, artifact_names[1]), row)
         write_json(joinpath(stage, artifact_names[2]), compiled)
         promote_review_artifacts(stage, data_dir, artifact_names)

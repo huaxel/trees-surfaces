@@ -165,6 +165,75 @@ Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
         @test_throws ErrorException Refresh.promote_files(stage, output, filenames; move_file!)
         @test all(read(joinpath(output, filename), String) == "old-$filename" for filename in filenames)
     end
+    # A data directory under a non-writable parent (for example a mounted volume root) must still
+    # promote and roll back; the backup falls back to the system temporary directory.
+    mktempdir() do directory
+        parent = joinpath(directory, "readonly")
+        output = joinpath(parent, "data")
+        stage = joinpath(directory, "stage")
+        mkpath(output)
+        mkpath(stage)
+        filenames = ("first.json", "second.json")
+        for filename in filenames
+            write(joinpath(stage, filename), "new-$filename")
+            write(joinpath(output, filename), "old-$filename")
+        end
+        chmod(parent, 0o555)
+        try
+            Refresh.promote_files(stage, output, filenames)
+        finally
+            chmod(parent, 0o755)
+        end
+        @test all(read(joinpath(output, filename), String) == "new-$filename" for filename in filenames)
+
+        write(joinpath(stage, "first.json"), "newer-first.json")
+        write(joinpath(stage, "second.json"), "newer-second.json")
+        calls = Ref(0)
+        failing_move! = function (source, destination)
+            calls[] += 1
+            calls[] == 2 && error("simulated promotion failure")
+            mv(source, destination; force = true)
+        end
+        chmod(parent, 0o555)
+        try
+            @test_throws ErrorException Refresh.promote_files(stage, output, filenames; move_file! = failing_move!)
+        finally
+            chmod(parent, 0o755)
+        end
+        @test read(joinpath(output, "first.json"), String) == "new-first.json"
+        @test read(joinpath(output, "second.json"), String) == "new-second.json"
+    end
+    # Staging and review artifacts must also work under a non-writable parent.
+    mktempdir() do directory
+        parent = joinpath(directory, "readonly")
+        output = joinpath(parent, "data")
+        mkpath(output)
+        write(joinpath(output, "first.json"), "old-first")
+        chmod(parent, 0o555)
+        try
+            Refresh.staged_refresh(output_dir = output, filenames = ("first.json",)) do stage
+                write(joinpath(stage, "first.json"), "new-first")
+            end
+        finally
+            chmod(parent, 0o755)
+        end
+        @test read(joinpath(output, "first.json"), String) == "new-first"
+    end
+    mktempdir() do directory
+        parent = joinpath(directory, "readonly")
+        data_dir = joinpath(parent, "data")
+        mkpath(data_dir)
+        cp(joinpath(TreesSurfaces.DATA_DIR, "tree-stakeholder-proposal.json"), joinpath(data_dir, "tree-stakeholder-proposal.json"))
+        cp(joinpath(TreesSurfaces.DATA_DIR, "tree-signal-sensitivity.json"), joinpath(data_dir, "tree-signal-sensitivity.json"))
+        chmod(parent, 0o555)
+        try
+            Review.generate_stakeholder_review_artifacts(data_dir)
+        finally
+            chmod(parent, 0o755)
+        end
+        @test isfile(joinpath(data_dir, "tree-stakeholder-review.csv"))
+        @test isfile(joinpath(data_dir, "tree-stakeholder-reviews.json"))
+    end
     @test round(Spatial.haversine_distance_m(50.0, 4.0, 50.0, 4.0); digits = 1) == 0.0
     lambert_x, lambert_y = Projection.wgs84_to_lambert72(50.85, 4.35)
     recovered_latitude, recovered_longitude = Projection.lambert72_to_wgs84(lambert_x, lambert_y)
