@@ -115,6 +115,25 @@ accuracy claim needs one of:
 - a genuinely different source — a later or earlier orthophoto with its acquisition metadata
   verified, or a structural dataset not derived from the same classification.
 
+Of the structural options, one is now named and one is closed, both on evidence recorded in
+[`open-data-candidates.md`](open-data-candidates.md):
+
+- **Usable candidate:** the open **UrbIS airborne LiDAR point cloud and 50 cm DTM/DSM from the
+  2021 campaign** (CC BY 4.0, flight dated 2021-10-09). It is a different instrument from the
+  orthophoto camera, so a height mask built from it does not share the imagery's failure modes —
+  but it sits inside the same acquisition window as both orthophotos (2021-09-17 to 2021-10-09),
+  so it is an independent-**modality** check, not a temporally independent one, and it says
+  nothing about any year but 2021.
+- **Closed door:** **Copernicus Urban Atlas Street Tree Layer 2018** was queried against these
+  five segments and does not reach four of them (nearest polygon 22.9 m, 44.6 m and 101.6 m from
+  the centreline). Its 500 m² minimum mapping unit excludes street trees, so it cannot be the
+  street reference.
+
+Two things the plan must not accept as validation: the **VUB/Zenodo canopy height model already
+in use** is derived from the UrbIS north–south 2021 orthophotos, so agreement with it is an
+inter-analyst reproducibility check; and the national 1 m DSM is **internal use only**, so it is
+not available for this purpose at all.
+
 Protocol requirements taken from the audit, to be fixed before any labelling:
 
 1. Interpreters work **blinded** to the mapped class and to the pipeline's scores.

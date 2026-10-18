@@ -67,6 +67,7 @@ VITO reuse terms and daily aggregation conventions still require confirmation.
 - [`docs/canopy-accuracy-sampling-plan.md`](docs/canopy-accuracy-sampling-plan.md) — planning arithmetic for validating the mapped canopy class: frame, strata, sample sizes, label protocol and limits. A plan, not a result.
 - [`docs/trees-measurement-audit.md`](docs/trees-measurement-audit.md) — data quality, spatial/temporal alignment, indicator validity, and directional registration stress tests.
 - [`docs/imagery-registration-check.md`](docs/imagery-registration-check.md) — pixel-level comparison of the two 2021 flight products, why co-registering them cannot bound lane-level alignment, and the per-window controls behind that negative result.
+- [`docs/open-data-candidates.md`](docs/open-data-candidates.md) — what a deliberate search for other open data found: LiDAR candidates that can support a structural check, the Street Tree Layer measured as not covering these streets, and the licences that forbid reuse.
 - [`scripts/validate-canopy.sh`](scripts/validate-canopy.sh) — canopy geometry/provenance regressions using synthetic data and small versioned snapshots (requires uv).
 - [`scripts/validate-imagery.sh`](scripts/validate-imagery.sh) — registration-estimator and imagery-manifest regressions on synthetic fixtures, with no downloads (requires uv).
 - [`.github/workflows/validate.yml`](.github/workflows/validate.yml) — Julia unit, refresh, and container validation.
