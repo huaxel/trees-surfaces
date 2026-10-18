@@ -1,0 +1,219 @@
+{
+  "scope": "one convenience-selected corridor, descriptive segment breakdown only",
+  "source": "https://zenodo.org/records/13869065",
+  "route_gids": [
+    5642,
+    5644,
+    5643
+  ],
+  "route_length_m": 493.2048835772721,
+  "checks": "18 segment/condition totals match direct geometry intersections; segment totals reconcile to route totals",
+  "source_report_sha256": "780800954447f14b57b464c6dff08ed9615d0a34ba6ba9a3852d9b1a6a1278cb",
+  "limitations": [
+    "Current cycling geometry combined with 2021 vegetation; historical alignment unverified",
+    "No independent imagery validation or source-coverage mask",
+    "Nonoverlap means absence from selected mapped polygons, not confirmed absence of trees",
+    "Buffers measure proximity sensitivity, not physical canopy expansion or shade",
+    "Tree class is height-based; 25 cm resampling is not positional accuracy"
+  ],
+  "segments": [
+    {
+      "gid": 5642,
+      "start_m": 0.0,
+      "end_m": 268.4966665673524,
+      "length_m": 268.4966665673524,
+      "vegetation": "trees",
+      "buffer_m": 0,
+      "overlap_m": 4.162018279164633,
+      "overlap_percent": 1.5501191625113122,
+      "longest_nonoverlap_m": 262.0060204467274
+    },
+    {
+      "gid": 5644,
+      "start_m": 268.4966665673524,
+      "end_m": 341.5329249619621,
+      "length_m": 73.03625839460967,
+      "vegetation": "trees",
+      "buffer_m": 0,
+      "overlap_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 73.03625839460972
+    },
+    {
+      "gid": 5643,
+      "start_m": 341.5329249619621,
+      "end_m": 493.2048835772721,
+      "length_m": 151.67195861531005,
+      "vegetation": "trees",
+      "buffer_m": 0,
+      "overlap_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861530996
+    },
+    {
+      "gid": 5642,
+      "start_m": 0.0,
+      "end_m": 268.4966665673524,
+      "length_m": 268.4966665673524,
+      "vegetation": "trees",
+      "buffer_m": 2,
+      "overlap_m": 29.135858350028506,
+      "overlap_percent": 10.851478613318193,
+      "longest_nonoverlap_m": 156.20544482771305
+    },
+    {
+      "gid": 5644,
+      "start_m": 268.4966665673524,
+      "end_m": 341.5329249619621,
+      "length_m": 73.03625839460967,
+      "vegetation": "trees",
+      "buffer_m": 2,
+      "overlap_m": 14.025129447851384,
+      "overlap_percent": 19.202968164215935,
+      "longest_nonoverlap_m": 53.34493370662568
+    },
+    {
+      "gid": 5643,
+      "start_m": 341.5329249619621,
+      "end_m": 493.2048835772721,
+      "length_m": 151.67195861531005,
+      "vegetation": "trees",
+      "buffer_m": 2,
+      "overlap_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861530996
+    },
+    {
+      "gid": 5642,
+      "start_m": 0.0,
+      "end_m": 268.4966665673524,
+      "length_m": 268.4966665673524,
+      "vegetation": "trees",
+      "buffer_m": 5,
+      "overlap_m": 71.95922224135904,
+      "overlap_percent": 26.800787943230596,
+      "longest_nonoverlap_m": 70.76372841005681
+    },
+    {
+      "gid": 5644,
+      "start_m": 268.4966665673524,
+      "end_m": 341.5329249619621,
+      "length_m": 73.03625839460967,
+      "vegetation": "trees",
+      "buffer_m": 5,
+      "overlap_m": 28.35676439656703,
+      "overlap_percent": 38.82559843544759,
+      "longest_nonoverlap_m": 44.46398043084565
+    },
+    {
+      "gid": 5643,
+      "start_m": 341.5329249619621,
+      "end_m": 493.2048835772721,
+      "length_m": 151.67195861531005,
+      "vegetation": "trees",
+      "buffer_m": 5,
+      "overlap_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861530996
+    },
+    {
+      "gid": 5642,
+      "start_m": 0.0,
+      "end_m": 268.4966665673524,
+      "length_m": 268.4966665673524,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 0,
+      "overlap_m": 8.617116651114696,
+      "overlap_percent": 3.2093942771364317,
+      "longest_nonoverlap_m": 164.01755593382717
+    },
+    {
+      "gid": 5644,
+      "start_m": 268.4966665673524,
+      "end_m": 341.5329249619621,
+      "length_m": 73.03625839460967,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 0,
+      "overlap_m": 2.571962099286395,
+      "overlap_percent": 3.521486664048791,
+      "longest_nonoverlap_m": 64.02023604399454
+    },
+    {
+      "gid": 5643,
+      "start_m": 341.5329249619621,
+      "end_m": 493.2048835772721,
+      "length_m": 151.67195861531005,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 0,
+      "overlap_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861530996
+    },
+    {
+      "gid": 5642,
+      "start_m": 0.0,
+      "end_m": 268.4966665673524,
+      "length_m": 268.4966665673524,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 2,
+      "overlap_m": 54.280409616624084,
+      "overlap_percent": 20.21641844220358,
+      "longest_nonoverlap_m": 68.89493133951403
+    },
+    {
+      "gid": 5644,
+      "start_m": 268.4966665673524,
+      "end_m": 341.5329249619621,
+      "length_m": 73.03625839460967,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 2,
+      "overlap_m": 20.019578118812944,
+      "overlap_percent": 27.410465101660325,
+      "longest_nonoverlap_m": 50.007105110754935
+    },
+    {
+      "gid": 5643,
+      "start_m": 341.5329249619621,
+      "end_m": 493.2048835772721,
+      "length_m": 151.67195861531005,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 2,
+      "overlap_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861530996
+    },
+    {
+      "gid": 5642,
+      "start_m": 0.0,
+      "end_m": 268.4966665673524,
+      "length_m": 268.4966665673524,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 5,
+      "overlap_m": 103.21021368823187,
+      "overlap_percent": 38.440035404440145,
+      "longest_nonoverlap_m": 60.00130674607025
+    },
+    {
+      "gid": 5644,
+      "start_m": 268.4966665673524,
+      "end_m": 341.5329249619621,
+      "length_m": 73.03625839460967,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 5,
+      "overlap_m": 30.17275559823787,
+      "overlap_percent": 41.31202263294573,
+      "longest_nonoverlap_m": 42.86350279637185
+    },
+    {
+      "gid": 5643,
+      "start_m": 341.5329249619621,
+      "end_m": 493.2048835772721,
+      "length_m": 151.67195861531005,
+      "vegetation": "trees_and_high_shrubs",
+      "buffer_m": 5,
+      "overlap_m": 8.886278364019631,
+      "overlap_percent": 5.858880207750303,
+      "longest_nonoverlap_m": 138.99652087977756
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="470" viewBox="0 0 1100 470">
+<rect width="1100" height="470" fill="white"/>
+<g font-family="sans-serif" fill="#222">
+<text x="20" y="28" font-size="20">Cycling-street pilot: mapped vegetation along 493 m</text>
+<text x="20" y="52" font-size="13">2021 VUB vegetation × current cycling geometry; southeast start → northwest end</text>
+<text x="20" y="117" font-size="14">Trees / direct</text>
+<rect x="250" y="100" width="800" height="23" fill="#e7e7e7"/>
+<rect x="251.976" y="100" width="6.678" height="23" fill="#23764b"/>
+<rect x="260.455" y="100" width="0.073" height="23" fill="#23764b"/>
+<text x="20" y="162" font-size="14">Trees / within 2 m</text>
+<rect x="250" y="145" width="800" height="23" fill="#e7e7e7"/>
+<rect x="250.000" y="145" width="20.955" height="23" fill="#23764b"/>
+<rect x="385.841" y="145" width="7.443" height="23" fill="#23764b"/>
+<rect x="413.280" y="145" width="10.469" height="23" fill="#23764b"/>
+<rect x="677.120" y="145" width="10.792" height="23" fill="#23764b"/>
+<rect x="691.084" y="145" width="6.347" height="23" fill="#23764b"/>
+<rect x="783.959" y="145" width="14.003" height="23" fill="#23764b"/>
+<text x="20" y="207" font-size="14">Trees / within 5 m</text>
+<rect x="250" y="190" width="800" height="23" fill="#e7e7e7"/>
+<rect x="250.000" y="190" width="29.326" height="23" fill="#23764b"/>
+<rect x="378.970" y="190" width="21.494" height="23" fill="#23764b"/>
+<rect x="406.983" y="190" width="23.972" height="23" fill="#23764b"/>
+<rect x="455.120" y="190" width="3.099" height="23" fill="#23764b"/>
+<rect x="531.901" y="190" width="21.836" height="23" fill="#23764b"/>
+<rect x="668.519" y="190" width="36.900" height="23" fill="#23764b"/>
+<rect x="777.541" y="190" width="26.090" height="23" fill="#23764b"/>
+<text x="20" y="252" font-size="14">Trees + high shrubs / direct</text>
+<rect x="250" y="235" width="800" height="23" fill="#e7e7e7"/>
+<rect x="251.199" y="235" width="12.076" height="23" fill="#23764b"/>
+<rect x="417.569" y="235" width="1.901" height="23" fill="#23764b"/>
+<rect x="789.357" y="235" width="4.172" height="23" fill="#23764b"/>
+<text x="20" y="297" font-size="14">Trees + high shrubs / within 2 m</text>
+<rect x="250" y="280" width="800" height="23" fill="#e7e7e7"/>
+<rect x="250.000" y="280" width="21.757" height="23" fill="#23764b"/>
+<rect x="383.508" y="280" width="13.716" height="23" fill="#23764b"/>
+<rect x="411.631" y="280" width="15.249" height="23" fill="#23764b"/>
+<rect x="534.081" y="280" width="15.583" height="23" fill="#23764b"/>
+<rect x="568.826" y="280" width="10.481" height="23" fill="#23764b"/>
+<rect x="674.255" y="280" width="26.298" height="23" fill="#23764b"/>
+<rect x="781.667" y="280" width="17.433" height="23" fill="#23764b"/>
+<text x="20" y="342" font-size="14">Trees + high shrubs / within 5 m</text>
+<rect x="250" y="325" width="800" height="23" fill="#e7e7e7"/>
+<rect x="250.000" y="325" width="29.326" height="23" fill="#23764b"/>
+<rect x="376.651" y="325" width="26.314" height="23" fill="#23764b"/>
+<rect x="405.251" y="325" width="27.331" height="23" fill="#23764b"/>
+<rect x="450.912" y="325" width="14.310" height="23" fill="#23764b"/>
+<rect x="528.563" y="325" width="28.429" height="23" fill="#23764b"/>
+<rect x="562.570" y="325" width="23.621" height="23" fill="#23764b"/>
+<rect x="667.433" y="325" width="39.330" height="23" fill="#23764b"/>
+<rect x="776.289" y="325" width="28.285" height="23" fill="#23764b"/>
+<rect x="1030.033" y="325" width="13.821" height="23" fill="#23764b"/>
+<path d="M250.000,83 V350" stroke="#666" stroke-dasharray="3 4"/>
+<text x="467.757" y="80" font-size="12" text-anchor="middle">gid 5642</text>
+<path d="M685.513,83 V350" stroke="#666" stroke-dasharray="3 4"/>
+<text x="744.747" y="80" font-size="12" text-anchor="middle">gid 5644</text>
+<path d="M803.981,83 V350" stroke="#666" stroke-dasharray="3 4"/>
+<text x="926.991" y="80" font-size="12" text-anchor="middle">gid 5643</text>
+<text x="250.000" y="373" font-size="12" text-anchor="middle">0 m</text>
+<text x="412.204" y="373" font-size="12" text-anchor="middle">100 m</text>
+<text x="574.409" y="373" font-size="12" text-anchor="middle">200 m</text>
+<text x="736.613" y="373" font-size="12" text-anchor="middle">300 m</text>
+<text x="898.818" y="373" font-size="12" text-anchor="middle">400 m</text>
+<text x="1049.668" y="373" font-size="12" text-anchor="middle">493 m</text>
+<text x="20" y="405" font-size="13">Green: mapped overlap/proximity. Grey: no selected mapped polygon at that distance—not confirmed absence.</text>
+<text x="20" y="427" font-size="13">Source completeness and positional accuracy remain uncertain; this is not a shade or heat-exposure map.</text>
+<text x="20" y="449" font-size="12">Sources: VUB / Gallez et al., Zenodo 13869065 (CC BY 4.0); Brussels Mobility cycling infrastructure.</text>
+</g></svg>

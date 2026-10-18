@@ -1,0 +1,12 @@
+{
+  "url": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&outputFormat=application%2Fjson&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&count=1000",
+  "bbox": [
+    151980,
+    169155,
+    152980,
+    170155
+  ],
+  "selection": "status_code=1,type_code=12,length>=100m,whole geometry inside square",
+  "response_count": 82,
+  "response_cap": 1000
+}

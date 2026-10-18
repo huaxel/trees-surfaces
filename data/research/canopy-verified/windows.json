@@ -1,0 +1,730 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "manifest_sha256": "c8e3bed851f5b8fffbd20f0abad202c18d0e8a498db8de02244e82b0f0045582",
+    "inputs": [
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+        "published_checksum": "md5:ae3b3df9970b49b6523e608759bc957d",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.cpg?download=1"
+      },
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.dbf",
+        "bytes": 121605281,
+        "sha256": "3cbe29588e00a2e0d90e1791bcec8f0eab7cee4b764be1d4d0cdc2a4ea792aaa",
+        "published_checksum": "md5:79d53f6043b845585b85ed4fd68b4811",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.dbf?download=1"
+      },
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.prj",
+        "bytes": 494,
+        "sha256": "a99c2586f5abfc04b891b4a3d3d8b7ba3f4a342d3a5a4001963dc4437a638ac6",
+        "published_checksum": "md5:6672c5d9b5d7c33d5ddfcc6fd741fb5e",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.prj?download=1"
+      },
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.sbn",
+        "bytes": 47378548,
+        "sha256": "060bc2f7bb9b030a5a93405e4eb39cea689236bee72b75d0e05f2f64aad5a8f2",
+        "published_checksum": "md5:ee61560c9c92aafa0f1e0f40454db52f",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.sbn?download=1"
+      },
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.sbx",
+        "bytes": 546148,
+        "sha256": "6cdfa9fa4a93648b5956199c15ccd7e8adac0abd2f61729faeab5c83033c63d1",
+        "published_checksum": "md5:c68307cbc3071f1dc613aaff2772d065",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.sbx?download=1"
+      },
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.shp",
+        "bytes": 1742067876,
+        "sha256": "f21f830d5030ed37840a78141889841751dc4acaf281dabfcc82397369d91be2",
+        "published_checksum": "md5:3bab8d47b95ecb16d62f82618cf099a1",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.shp?download=1"
+      },
+      {
+        "location": "cache",
+        "name": "CHM_BCR_EG_2022_complete.shx",
+        "bytes": 46325884,
+        "sha256": "06c024d2cbdd3d54780f53f1817d427d84504fa1b28342bd95af8a0d160b7808",
+        "published_checksum": "md5:e3e81977fb4c9988cd053dae7170f954",
+        "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.shx?download=1"
+      },
+      {
+        "location": "snapshot",
+        "name": "zenodo-record.json",
+        "bytes": 8266,
+        "sha256": "fa40c463db9930c904b3421ab4842459e1bb4f752aaef57d27714d654eda2b43"
+      },
+      {
+        "location": "snapshot",
+        "name": "cycling-frame.geojson",
+        "bytes": 50670,
+        "sha256": "5def9b3641e4e5d550d78100c5fc7bb34c41ea40075ad5c39dc59fd3b5a1bad6"
+      },
+      {
+        "location": "snapshot",
+        "name": "frame-request.json",
+        "bytes": 452,
+        "sha256": "2b22a47236d1b45a64f6845662ddf81b70e3c90618ac63f06e0eb830650b3169"
+      },
+      {
+        "location": "snapshot",
+        "name": "frame-hits.xml",
+        "bytes": 808,
+        "sha256": "8f719ec70fe2c8981cfc7d6b57aa61af57fdfe403fa3d402d72e0b274fff3e70"
+      }
+    ],
+    "source_provenance": {
+      "zenodo_record": "https://zenodo.org/records/13869065",
+      "zenodo_download_date_utc": "2026-10-17",
+      "zenodo_exact_download_timestamp": null,
+      "zenodo_timestamp_note": "Date recovered from session; exact HTTP retrieval timestamps were not retained and are not fabricated",
+      "cycling_request": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&outputFormat=application%2Fjson&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&count=1000",
+      "cycling_response_timestamp": "2026-10-17T18:44:52.135Z",
+      "cycling_hits_request": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&resultType=hits",
+      "cycling_hits_response_timestamp": "2026-10-17T18:45:57.371Z",
+      "note": "Response timestamps are server-provided, not exact local receipt timestamps",
+      "vegetation_license": "CC BY 4.0; credit VUB / Gallez et al. (2024)",
+      "cycling_source": "Brussels Mobility bm_bike:ac; public source snapshot, not a new survey"
+    },
+    "code_sha256": {
+      "metrics.py": "e29744ef511b3953c9dfefe15265c2bfe8f9519a1eae5f3e28930afc10573d3f",
+      "inputs.py": "87605f3633f89804868fcb4d6143854c75e3072994c8d9289d8d7c1fd3b36676",
+      "pipeline.py": "8d1c7fc303f758e679a12a00a25e3856b1899aad87fe5a0fcab02f06ac94f02f",
+      "run.py": "f7d80566513e4dce64fb228f7e86e7a47b54a524e0b0c0a8b080dc6d8e5d6cd1",
+      "pyproject.toml": "cd7311c3cf5e0f26defc0c6744cfbf4a312599f4df016a613a7b399493edfe59",
+      "uv.lock": "cf1cfddbd266609751c2b22199f106076f6b9eddd4fb081355ebc9fbf1cbe58b",
+      ".python-version": "f01d748a75eb195e6fd73201279bfb23f09036ddd360eb3e9ff40ef042acbc8a"
+    },
+    "environment": {
+      "python": "3.12.12",
+      "fiona": "1.10.1",
+      "gdal": "3.9.2",
+      "shapely": "2.2.0",
+      "geos": "3.14.1",
+      "platform": "Linux-7.2.9-2-cachyos-x86_64-with-glibc2.44"
+    },
+    "parameters": {
+      "crs": "EPSG:31370",
+      "margin_m": 10,
+      "buffers_m": [
+        0,
+        2,
+        5
+      ],
+      "window_m": 100,
+      "min_segment_m": 100,
+      "type_code": 12,
+      "status_code": 1
+    }
+  },
+  "comparison_sha256": "94a602aa15aeda8031a9a4cc0924bb35dc44cb9751afdc19057a8bad6de16ede",
+  "window_length_m": 100,
+  "method": "Nonoverlapping full windows from each endpoint separately; incomplete remainders excluded; anchor schemes overlap and are not independent samples",
+  "windows_per_anchor": 10,
+  "total_segment_length_m": 1295.4512299511957,
+  "analysed_length_per_anchor_m": 1000,
+  "summaries": [
+    {
+      "gid": 266,
+      "buffer_m": 0,
+      "windows_per_anchor": 5,
+      "excluded_remainder_m": 63.584579340425876,
+      "overlap_percent_range": [
+        0.0,
+        60.79539361230214
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 44.51792285878409,
+        "source_end": 44.3974141376218
+      },
+      "longest_nonoverlap_range_m": [
+        12.262894146133135,
+        100.00000000001064
+      ]
+    },
+    {
+      "gid": 266,
+      "buffer_m": 5,
+      "windows_per_anchor": 5,
+      "excluded_remainder_m": 63.584579340425876,
+      "overlap_percent_range": [
+        68.15770993339594,
+        100.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 100.0,
+        "source_end": 97.41194424007043
+      },
+      "longest_nonoverlap_range_m": [
+        0.0,
+        19.641983302969564
+      ]
+    },
+    {
+      "gid": 5630,
+      "buffer_m": 0,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 21.94098310146012,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        99.99999999999783,
+        100.0000000000122
+      ]
+    },
+    {
+      "gid": 5630,
+      "buffer_m": 5,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 21.94098310146012,
+      "overlap_percent_range": [
+        8.40002035641622,
+        20.620009920521245
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 20.620009920521245,
+        "source_end": 8.40002035641622
+      },
+      "longest_nonoverlap_range_m": [
+        60.83984879714976,
+        82.78083189861205
+      ]
+    },
+    {
+      "gid": 5634,
+      "buffer_m": 0,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 89.75704232664728,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        100.00000000000009,
+        100.00000000000192
+      ]
+    },
+    {
+      "gid": 5634,
+      "buffer_m": 5,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 89.75704232664728,
+      "overlap_percent_range": [
+        0.0,
+        2.959221451987695
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 2.959221451987695
+      },
+      "longest_nonoverlap_range_m": [
+        79.98554390052335,
+        100.00000000000009
+      ]
+    },
+    {
+      "gid": 5642,
+      "buffer_m": 0,
+      "windows_per_anchor": 2,
+      "excluded_remainder_m": 68.4966665673524,
+      "overlap_percent_range": [
+        0.0,
+        4.162018279164477
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 2.0810091395822385,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        93.50935387937876,
+        100.00000000001121
+      ]
+    },
+    {
+      "gid": 5642,
+      "buffer_m": 5,
+      "windows_per_anchor": 2,
+      "excluded_remainder_m": 68.4966665673524,
+      "overlap_percent_range": [
+        23.939125261837397,
+        34.54973434093111
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 30.74101248922451,
+        "source_end": 26.93982221385437
+      },
+      "longest_nonoverlap_range_m": [
+        40.12839335284571,
+        70.7637284100568
+      ]
+    },
+    {
+      "gid": 5643,
+      "buffer_m": 0,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 51.67195861531005,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        100.00000000000495,
+        100.00000000000767
+      ]
+    },
+    {
+      "gid": 5643,
+      "buffer_m": 5,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 51.67195861531005,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        100.00000000000495,
+        100.00000000000767
+      ]
+    }
+  ],
+  "windows": [
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000001064
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 68.15770993339594,
+      "longest_nonoverlap_m": 14.077477086126116
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 2.6482628446069056,
+      "longest_nonoverlap_m": 58.09123032960258
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 75.97030952317708,
+      "longest_nonoverlap_m": 19.641983302969564
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 0,
+      "overlap_percent": 60.79539361230214,
+      "longest_nonoverlap_m": 15.927260084979324
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0.0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 0,
+      "overlap_percent": 49.885989981567334,
+      "longest_nonoverlap_m": 12.262894146133135
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0.0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 0,
+      "overlap_percent": 44.51792285878409,
+      "longest_nonoverlap_m": 25.906341795312755
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0.0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 24.089893688406573,
+      "longest_nonoverlap_m": 28.752468078316504
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 97.41194424007043,
+      "longest_nonoverlap_m": 2.5880557599292175
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 55.055821867341095,
+      "longest_nonoverlap_m": 13.786502368790886
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0.0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 0,
+      "overlap_percent": 50.665249659486946,
+      "longest_nonoverlap_m": 15.927260085014282
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0.0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 0,
+      "overlap_percent": 44.3974141376218,
+      "longest_nonoverlap_m": 38.60273566383144
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 5,
+      "overlap_percent": 80.358016697028,
+      "longest_nonoverlap_m": 19.641983302969564
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 0,
+      "overlap_percent": 2.6482628446059,
+      "longest_nonoverlap_m": 94.50665098919477
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 5,
+      "overlap_percent": 95.6122928261536,
+      "longest_nonoverlap_m": 2.561060073067601
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 99.99999999999783
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 20.620009920521245,
+      "longest_nonoverlap_m": 60.83984879714976
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.0000000000122
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 8.40002035641622,
+      "longest_nonoverlap_m": 82.78083189861205
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000009
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000009
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000192
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 2.959221451987695,
+      "longest_nonoverlap_m": 79.98554390052335
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 4.162018279164477,
+      "longest_nonoverlap_m": 93.50935387937876
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 34.54973434093111,
+      "longest_nonoverlap_m": 61.43141229168912
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 99.99999999999737
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 26.932290637517912,
+      "longest_nonoverlap_m": 45.425539680974474
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 99.99999999999383
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 23.939125261837397,
+      "longest_nonoverlap_m": 70.7637284100568
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000001121
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 29.94051916587134,
+      "longest_nonoverlap_m": 40.12839335284571
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000767
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000767
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000495
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000495
+    }
+  ],
+  "limits": [
+    "Local convenience-centred frame; adjacent segments are not independent observations",
+    "Current reference-line geometry over 2021 vegetation, not historical cyclist exposure",
+    "Mapped polygon overlap/proximity is not shade, cooling, or validated vegetation absence",
+    "Source coverage, classification and positional uncertainty remain unresolved",
+    "The record scan checks the spatial index; feature reads still share the SHX/Fiona path",
+    "The sample includes a recorded 2022 start; start dates are approximate",
+    "Remainders excluded; not every possible window placement tested"
+  ]
+}

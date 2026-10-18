@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.cpg",
+      "bytes": 5,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "published_checksum": "md5:ae3b3df9970b49b6523e608759bc957d",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.cpg?download=1"
+    },
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.dbf",
+      "bytes": 121605281,
+      "sha256": "3cbe29588e00a2e0d90e1791bcec8f0eab7cee4b764be1d4d0cdc2a4ea792aaa",
+      "published_checksum": "md5:79d53f6043b845585b85ed4fd68b4811",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.dbf?download=1"
+    },
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.prj",
+      "bytes": 494,
+      "sha256": "a99c2586f5abfc04b891b4a3d3d8b7ba3f4a342d3a5a4001963dc4437a638ac6",
+      "published_checksum": "md5:6672c5d9b5d7c33d5ddfcc6fd741fb5e",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.prj?download=1"
+    },
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.sbn",
+      "bytes": 47378548,
+      "sha256": "060bc2f7bb9b030a5a93405e4eb39cea689236bee72b75d0e05f2f64aad5a8f2",
+      "published_checksum": "md5:ee61560c9c92aafa0f1e0f40454db52f",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.sbn?download=1"
+    },
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.sbx",
+      "bytes": 546148,
+      "sha256": "6cdfa9fa4a93648b5956199c15ccd7e8adac0abd2f61729faeab5c83033c63d1",
+      "published_checksum": "md5:c68307cbc3071f1dc613aaff2772d065",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.sbx?download=1"
+    },
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.shp",
+      "bytes": 1742067876,
+      "sha256": "f21f830d5030ed37840a78141889841751dc4acaf281dabfcc82397369d91be2",
+      "published_checksum": "md5:3bab8d47b95ecb16d62f82618cf099a1",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.shp?download=1"
+    },
+    {
+      "location": "cache",
+      "name": "CHM_BCR_EG_2022_complete.shx",
+      "bytes": 46325884,
+      "sha256": "06c024d2cbdd3d54780f53f1817d427d84504fa1b28342bd95af8a0d160b7808",
+      "published_checksum": "md5:e3e81977fb4c9988cd053dae7170f954",
+      "url": "https://zenodo.org/records/13869065/files/CHM_BCR_EG_2022_complete.shx?download=1"
+    },
+    {
+      "location": "snapshot",
+      "name": "zenodo-record.json",
+      "bytes": 8266,
+      "sha256": "fa40c463db9930c904b3421ab4842459e1bb4f752aaef57d27714d654eda2b43"
+    },
+    {
+      "location": "snapshot",
+      "name": "cycling-frame.geojson",
+      "bytes": 50670,
+      "sha256": "5def9b3641e4e5d550d78100c5fc7bb34c41ea40075ad5c39dc59fd3b5a1bad6"
+    },
+    {
+      "location": "snapshot",
+      "name": "frame-request.json",
+      "bytes": 452,
+      "sha256": "2b22a47236d1b45a64f6845662ddf81b70e3c90618ac63f06e0eb830650b3169"
+    },
+    {
+      "location": "snapshot",
+      "name": "frame-hits.xml",
+      "bytes": 808,
+      "sha256": "8f719ec70fe2c8981cfc7d6b57aa61af57fdfe403fa3d402d72e0b274fff3e70"
+    }
+  ],
+  "provenance": {
+    "zenodo_record": "https://zenodo.org/records/13869065",
+    "zenodo_download_date_utc": "2026-10-17",
+    "zenodo_exact_download_timestamp": null,
+    "zenodo_timestamp_note": "Date recovered from session; exact HTTP retrieval timestamps were not retained and are not fabricated",
+    "cycling_request": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&outputFormat=application%2Fjson&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&count=1000",
+    "cycling_response_timestamp": "2026-10-17T18:44:52.135Z",
+    "cycling_hits_request": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&resultType=hits",
+    "cycling_hits_response_timestamp": "2026-10-17T18:45:57.371Z",
+    "note": "Response timestamps are server-provided, not exact local receipt timestamps",
+    "vegetation_license": "CC BY 4.0; credit VUB / Gallez et al. (2024)",
+    "cycling_source": "Brussels Mobility bm_bike:ac; public source snapshot, not a new survey"
+  }
+}

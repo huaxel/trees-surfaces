@@ -1,0 +1,658 @@
+{
+  "schema_version": 1,
+  "manifest_sha256": "c8e3bed851f5b8fffbd20f0abad202c18d0e8a498db8de02244e82b0f0045582",
+  "code_sha256": {
+    "metrics.py": "e29744ef511b3953c9dfefe15265c2bfe8f9519a1eae5f3e28930afc10573d3f",
+    "inputs.py": "87605f3633f89804868fcb4d6143854c75e3072994c8d9289d8d7c1fd3b36676",
+    "pipeline.py": "8d1c7fc303f758e679a12a00a25e3856b1899aad87fe5a0fcab02f06ac94f02f",
+    "run.py": "f7d80566513e4dce64fb228f7e86e7a47b54a524e0b0c0a8b080dc6d8e5d6cd1",
+    "pyproject.toml": "cd7311c3cf5e0f26defc0c6744cfbf4a312599f4df016a613a7b399493edfe59",
+    "uv.lock": "cf1cfddbd266609751c2b22199f106076f6b9eddd4fb081355ebc9fbf1cbe58b",
+    ".python-version": "f01d748a75eb195e6fd73201279bfb23f09036ddd360eb3e9ff40ef042acbc8a"
+  },
+  "audit_code_sha256": "db1f2a03223bdcfa653b112a51ca1d1b1066df9ece4330a979c081f6b6a2d52c",
+  "selection": {
+    "url": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&outputFormat=application%2Fjson&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&count=1000",
+    "bbox": [
+      151980,
+      169155,
+      152980,
+      170155
+    ],
+    "selection": "status_code=1,type_code=12,length>=100m,whole geometry inside square",
+    "response_count": 82,
+    "response_cap": 1000,
+    "count_only_number_matched": 82
+  },
+  "environment": {
+    "fiona": "1.10.1",
+    "shapely": "2.2.0",
+    "geos": "3.14.1"
+  },
+  "source_records_scanned": 5790723,
+  "index_matches_full_scan": true,
+  "scenarios": [
+    [
+      "original",
+      0,
+      0
+    ],
+    [
+      "east_2m",
+      2,
+      0
+    ],
+    [
+      "west_2m",
+      -2,
+      0
+    ],
+    [
+      "north_2m",
+      0,
+      2
+    ],
+    [
+      "south_2m",
+      0,
+      -2
+    ],
+    [
+      "east_5m",
+      5,
+      0
+    ],
+    [
+      "west_5m",
+      -5,
+      0
+    ],
+    [
+      "north_5m",
+      0,
+      5
+    ],
+    [
+      "south_5m",
+      0,
+      -5
+    ]
+  ],
+  "results": [
+    {
+      "scenario": "original",
+      "dx_m": 0,
+      "dy_m": 0,
+      "overlap_percent": 31.38067446852021,
+      "longest_nonoverlap_m": 158.0912303296132,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_2m",
+      "dx_m": 2,
+      "dy_m": 0,
+      "overlap_percent": 6.1789874594181935,
+      "longest_nonoverlap_m": 238.26039978871148,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_2m",
+      "dx_m": -2,
+      "dy_m": 0,
+      "overlap_percent": 54.05632919884013,
+      "longest_nonoverlap_m": 43.49357682776043,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_2m",
+      "dx_m": 0,
+      "dy_m": 2,
+      "overlap_percent": 25.650793007581143,
+      "longest_nonoverlap_m": 160.6856651826506,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_2m",
+      "dx_m": 0,
+      "dy_m": -2,
+      "overlap_percent": 36.691177279313315,
+      "longest_nonoverlap_m": 155.4967954765758,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_5m",
+      "dx_m": 5,
+      "dy_m": 0,
+      "overlap_percent": 1.7361874279033358,
+      "longest_nonoverlap_m": 292.87832922015906,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_5m",
+      "dx_m": -5,
+      "dy_m": 0,
+      "overlap_percent": 63.59620781551748,
+      "longest_nonoverlap_m": 39.87711450474163,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_5m",
+      "dx_m": 0,
+      "dy_m": 5,
+      "overlap_percent": 14.407959434761347,
+      "longest_nonoverlap_m": 214.19899574287643,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_5m",
+      "dx_m": 0,
+      "dy_m": -5,
+      "overlap_percent": 45.7322570070607,
+      "longest_nonoverlap_m": 75.78695768152674,
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "original",
+      "dx_m": 0,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_2m",
+      "dx_m": 2,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_2m",
+      "dx_m": -2,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_2m",
+      "dx_m": 0,
+      "dy_m": 2,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_2m",
+      "dx_m": 0,
+      "dy_m": -2,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_5m",
+      "dx_m": 5,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_5m",
+      "dx_m": -5,
+      "dy_m": 0,
+      "overlap_percent": 3.2784058778306555,
+      "longest_nonoverlap_m": 110.31380524466189,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_5m",
+      "dx_m": 0,
+      "dy_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 121.94098310146012,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_5m",
+      "dx_m": 0,
+      "dy_m": -5,
+      "overlap_percent": 4.093265414684494,
+      "longest_nonoverlap_m": 116.72552566085575,
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "original",
+      "dx_m": 0,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_2m",
+      "dx_m": 2,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_2m",
+      "dx_m": -2,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_2m",
+      "dx_m": 0,
+      "dy_m": 2,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_2m",
+      "dx_m": 0,
+      "dy_m": -2,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_5m",
+      "dx_m": 5,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_5m",
+      "dx_m": -5,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_5m",
+      "dx_m": 0,
+      "dy_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_5m",
+      "dx_m": 0,
+      "dy_m": -5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 189.75704232664728,
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "original",
+      "dx_m": 0,
+      "dy_m": 0,
+      "overlap_percent": 1.5501191625113122,
+      "longest_nonoverlap_m": 262.0060204467274,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_2m",
+      "dx_m": 2,
+      "dy_m": 0,
+      "overlap_percent": 1.8007136494396339,
+      "longest_nonoverlap_m": 260.0035219097468,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_2m",
+      "dx_m": -2,
+      "dy_m": 0,
+      "overlap_percent": 2.259423370778189,
+      "longest_nonoverlap_m": 166.41074829588143,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_2m",
+      "dx_m": 0,
+      "dy_m": 2,
+      "overlap_percent": 1.9907296410490665,
+      "longest_nonoverlap_m": 177.18139381235596,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_2m",
+      "dx_m": 0,
+      "dy_m": -2,
+      "overlap_percent": 7.27117330007154,
+      "longest_nonoverlap_m": 161.44057016776483,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_5m",
+      "dx_m": 5,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 268.4966665673524,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_5m",
+      "dx_m": -5,
+      "dy_m": 0,
+      "overlap_percent": 6.282727383258063,
+      "longest_nonoverlap_m": 157.05088763980478,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_5m",
+      "dx_m": 0,
+      "dy_m": 5,
+      "overlap_percent": 4.846396504835583,
+      "longest_nonoverlap_m": 97.41397520906055,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_5m",
+      "dx_m": 0,
+      "dy_m": -5,
+      "overlap_percent": 10.426022240352992,
+      "longest_nonoverlap_m": 155.97511848181955,
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "original",
+      "dx_m": 0,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_2m",
+      "dx_m": 2,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_2m",
+      "dx_m": -2,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_2m",
+      "dx_m": 0,
+      "dy_m": 2,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_2m",
+      "dx_m": 0,
+      "dy_m": -2,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "east_5m",
+      "dx_m": 5,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "west_5m",
+      "dx_m": -5,
+      "dy_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "north_5m",
+      "dx_m": 0,
+      "dy_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    },
+    {
+      "scenario": "south_5m",
+      "dx_m": 0,
+      "dy_m": -5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 151.67195861531005,
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "alternative_repair_overlap_delta_pp": 0.0,
+      "alternative_repair_longest_nonoverlap_delta_m": 0.0
+    }
+  ],
+  "summary": [
+    {
+      "gid": 266,
+      "original_overlap_percent": 31.38067446852021,
+      "ranges": {
+        "2": [
+          6.1789874594181935,
+          54.05632919884013
+        ],
+        "5": [
+          1.7361874279033358,
+          63.59620781551748
+        ]
+      }
+    },
+    {
+      "gid": 5630,
+      "original_overlap_percent": 0.0,
+      "ranges": {
+        "2": [
+          0.0,
+          0.0
+        ],
+        "5": [
+          0.0,
+          4.093265414684494
+        ]
+      }
+    },
+    {
+      "gid": 5634,
+      "original_overlap_percent": 0.0,
+      "ranges": {
+        "2": [
+          0.0,
+          0.0
+        ],
+        "5": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "gid": 5642,
+      "original_overlap_percent": 1.5501191625113122,
+      "ranges": {
+        "2": [
+          1.8007136494396339,
+          7.27117330007154
+        ],
+        "5": [
+          0.0,
+          10.426022240352992
+        ]
+      }
+    },
+    {
+      "gid": 5643,
+      "original_overlap_percent": 0.0,
+      "ranges": {
+        "2": [
+          0.0,
+          0.0
+        ],
+        "5": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Fixed cardinal translations of each complete reference line; not observed bicycle positions",
+    "2 m and 5 m are uncalibrated stress magnitudes, not confidence bounds or measured error",
+    "Range excludes the original position and is not exhaustive over directions or offsets",
+    "Translated lines can leave the carriageway; do not interpret these as exposure estimates",
+    "No correction selected from these scenarios; original results and operational ranking unchanged",
+    "Other canopy sample, classification, temporal, and shade limitations remain"
+  ]
+}

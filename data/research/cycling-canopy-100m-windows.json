@@ -1,0 +1,598 @@
+{
+  "window_length_m": 100,
+  "method": "Nonoverlapping full windows from each source endpoint separately; exclude incomplete remainders. Reverse-anchor results overlap forward-anchor results and are sensitivity checks, not extra observations.",
+  "source_comparison": "cycling-canopy-local-comparison.json",
+  "windows_per_anchor": 10,
+  "total_segment_length_m": 1295.4512299511957,
+  "analysed_length_per_anchor_m": 1000,
+  "summaries": [
+    {
+      "gid": 266,
+      "buffer_m": 0,
+      "windows_per_anchor": 5,
+      "excluded_remainder_m": 63.584579340425876,
+      "overlap_percent_range": [
+        0.0,
+        60.79539361230214
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 44.51792285878409,
+        "source_end": 44.3974141376218
+      },
+      "longest_nonoverlap_range_m": [
+        12.262894146133135,
+        100.00000000001064
+      ]
+    },
+    {
+      "gid": 266,
+      "buffer_m": 5,
+      "windows_per_anchor": 5,
+      "excluded_remainder_m": 63.584579340425876,
+      "overlap_percent_range": [
+        68.15770993339594,
+        100.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 100.0,
+        "source_end": 97.41194424007043
+      },
+      "longest_nonoverlap_range_m": [
+        0,
+        19.641983302969564
+      ]
+    },
+    {
+      "gid": 5630,
+      "buffer_m": 0,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 21.94098310146012,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        99.99999999999783,
+        100.0000000000122
+      ]
+    },
+    {
+      "gid": 5630,
+      "buffer_m": 5,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 21.94098310146012,
+      "overlap_percent_range": [
+        8.40002035641622,
+        20.620009920521245
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 20.620009920521245,
+        "source_end": 8.40002035641622
+      },
+      "longest_nonoverlap_range_m": [
+        60.83984879714976,
+        82.78083189861205
+      ]
+    },
+    {
+      "gid": 5634,
+      "buffer_m": 0,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 89.75704232664728,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        100.00000000000009,
+        100.00000000000192
+      ]
+    },
+    {
+      "gid": 5634,
+      "buffer_m": 5,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 89.75704232664728,
+      "overlap_percent_range": [
+        0.0,
+        2.959221451987695
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 2.959221451987695
+      },
+      "longest_nonoverlap_range_m": [
+        79.98554390052335,
+        100.00000000000009
+      ]
+    },
+    {
+      "gid": 5642,
+      "buffer_m": 0,
+      "windows_per_anchor": 2,
+      "excluded_remainder_m": 68.4966665673524,
+      "overlap_percent_range": [
+        0.0,
+        4.162018279164477
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 2.0810091395822385,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        93.50935387937876,
+        100.00000000001121
+      ]
+    },
+    {
+      "gid": 5642,
+      "buffer_m": 5,
+      "windows_per_anchor": 2,
+      "excluded_remainder_m": 68.4966665673524,
+      "overlap_percent_range": [
+        23.939125261837397,
+        34.54973434093111
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 30.74101248922451,
+        "source_end": 26.93982221385437
+      },
+      "longest_nonoverlap_range_m": [
+        40.12839335284571,
+        70.7637284100568
+      ]
+    },
+    {
+      "gid": 5643,
+      "buffer_m": 0,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 51.67195861531005,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        100.00000000000495,
+        100.00000000000767
+      ]
+    },
+    {
+      "gid": 5643,
+      "buffer_m": 5,
+      "windows_per_anchor": 1,
+      "excluded_remainder_m": 51.67195861531005,
+      "overlap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "median_overlap_by_anchor": {
+        "source_start": 0.0,
+        "source_end": 0.0
+      },
+      "longest_nonoverlap_range_m": [
+        100.00000000000495,
+        100.00000000000767
+      ]
+    }
+  ],
+  "windows": [
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000001064
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 68.15770993339594,
+      "longest_nonoverlap_m": 14.077477086126116
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 2.6482628446069056,
+      "longest_nonoverlap_m": 58.09123032960258
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 75.97030952317708,
+      "longest_nonoverlap_m": 19.641983302969564
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 0,
+      "overlap_percent": 60.79539361230214,
+      "longest_nonoverlap_m": 15.927260084979324
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 0,
+      "overlap_percent": 49.885989981567334,
+      "longest_nonoverlap_m": 12.262894146133135
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 0,
+      "overlap_percent": 44.51792285878409,
+      "longest_nonoverlap_m": 25.906341795312755
+    },
+    {
+      "gid": 266,
+      "anchor": "source_start",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 24.089893688406573,
+      "longest_nonoverlap_m": 28.752468078316504
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 97.41194424007043,
+      "longest_nonoverlap_m": 2.5880557599292175
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 55.055821867341095,
+      "longest_nonoverlap_m": 13.786502368790886
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 0,
+      "overlap_percent": 50.665249659486946,
+      "longest_nonoverlap_m": 15.927260085014282
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 2,
+      "start_m": 200,
+      "end_m": 300,
+      "buffer_m": 5,
+      "overlap_percent": 100.0,
+      "longest_nonoverlap_m": 0
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 0,
+      "overlap_percent": 44.3974141376218,
+      "longest_nonoverlap_m": 38.60273566383144
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 3,
+      "start_m": 300,
+      "end_m": 400,
+      "buffer_m": 5,
+      "overlap_percent": 80.358016697028,
+      "longest_nonoverlap_m": 19.641983302969564
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 0,
+      "overlap_percent": 2.6482628446059,
+      "longest_nonoverlap_m": 94.50665098919477
+    },
+    {
+      "gid": 266,
+      "anchor": "source_end",
+      "window_index": 4,
+      "start_m": 400,
+      "end_m": 500,
+      "buffer_m": 5,
+      "overlap_percent": 95.6122928261536,
+      "longest_nonoverlap_m": 2.561060073067601
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 99.99999999999783
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 20.620009920521245,
+      "longest_nonoverlap_m": 60.83984879714976
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.0000000000122
+    },
+    {
+      "gid": 5630,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 8.40002035641622,
+      "longest_nonoverlap_m": 82.78083189861205
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000009
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000009
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000192
+    },
+    {
+      "gid": 5634,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 2.959221451987695,
+      "longest_nonoverlap_m": 79.98554390052335
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 4.162018279164477,
+      "longest_nonoverlap_m": 93.50935387937876
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 34.54973434093111,
+      "longest_nonoverlap_m": 61.43141229168912
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 99.99999999999737
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_start",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 26.932290637517912,
+      "longest_nonoverlap_m": 45.425539680974474
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 99.99999999999383
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 23.939125261837397,
+      "longest_nonoverlap_m": 70.7637284100568
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000001121
+    },
+    {
+      "gid": 5642,
+      "anchor": "source_end",
+      "window_index": 1,
+      "start_m": 100,
+      "end_m": 200,
+      "buffer_m": 5,
+      "overlap_percent": 29.94051916587134,
+      "longest_nonoverlap_m": 40.12839335284571
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000767
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_start",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000767
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 0,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000495
+    },
+    {
+      "gid": 5643,
+      "anchor": "source_end",
+      "window_index": 0,
+      "start_m": 0,
+      "end_m": 100,
+      "buffer_m": 5,
+      "overlap_percent": 0.0,
+      "longest_nonoverlap_m": 100.00000000000495
+    }
+  ],
+  "limits": [
+    "Local frame, five road segments, no independent sampling or inferential tests",
+    "Remainders excluded; endpoint sensitivity does not test every possible window placement",
+    "2021 vegetation with current geometry, including one recorded 2022 start",
+    "Mapped canopy/proximity, not shade or exposure; classification omissions remain unvalidated"
+  ]
+}
