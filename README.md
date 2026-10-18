@@ -43,9 +43,12 @@ The [comparison protocol](docs/wbgt-mean-max-method.md) and
 now checks the declared statistic explicitly; a daily-mean file cannot silently
 enter the maximum-only workflow. The separate output compares equal-weight cells
 on the reference day and over JJA, with paired-value and missingness checks.
-**Only synthetic tests have run for this comparison; no real mean dataset or
-mean/maximum findings are included.** The command has no download capability, and
-VITO reuse terms and daily aggregation conventions still require confirmation.
+**A real paired run has since been made on the cached 2016 files, and its outputs stay in
+the git-ignored cache rather than this repository:** publishing a mean/maximum comparison
+is a stakeholder decision and VITO's reuse terms are unresolved, so the method document
+records that the run happened and what it validated, not the measured values. The command
+has no download capability, and VITO reuse terms and daily aggregation conventions still
+require confirmation.
 
 ## Repository structure
 

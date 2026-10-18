@@ -2,10 +2,18 @@
 
 ## Status
 
-The offline comparison command and synthetic tests are implemented. **No real
-mean/maximum result has been generated.** The local cache currently contains
-2008–2017 daily-maximum files only; daily-mean data have not been acquired.
-Nothing here changes the operational heat/proximity ranking or grants reuse rights.
+The offline comparison command and synthetic tests are implemented, and a **real
+paired run has been performed** on the cached 2016 files. The daily-mean file is
+now present in the git-ignored cache: `WBGT_year_daily_mean_2016.nc`,
+34,658,563 bytes — exactly the size the earlier remote probe recorded — with
+SHA-256 `621b0fc7…7257ca`. The run validated all 14,274 sampled cell-days
+(*Validations and measurements*) and wrote its outputs to `.cache/wbgt-mean-max/`,
+where they are **deliberately not committed**: whether to publish a mean/maximum
+comparison at all is still a stakeholder decision, separate from whether the
+arithmetic is right, and VITO's reuse terms remain unresolved. The measured rank
+and value comparisons are therefore available to that decision without being
+reproduced in this repository. Nothing here changes the operational heat/proximity
+ranking or grants reuse rights.
 
 The [VITO archive page](https://provide.marvin.vito.be/ftp/compressed_daily/)
 lists daily mean and maximum WBGT at 100 m for 2008–2017. On 17 October 2026,
@@ -96,10 +104,13 @@ the same sense as the archive diagnostics.
 ```bash
 julia --project=. bin/compare_wbgt_mean_max.jl --help
 julia --project=. bin/compare_wbgt_mean_max.jl \
-  /path/to/WBGT_year_daily_mean_2016.nc \
+  .cache/urbclim/WBGT_year_daily_mean_2016.nc \
   .cache/urbclim/WBGT_year_daily_max_2016.nc \
-  /tmp/wbgt-mean-max
+  .cache/wbgt-mean-max
 ```
+
+The paths above are the real cached pair, so this reproduces the held-local result
+exactly; the command refuses an output directory that already exists.
 
 The command performs no network calls or package installation. Both files must
 already exist. It samples `data/brussels-trees-sample.json` and writes only:
@@ -172,6 +183,14 @@ dates with another NetCDF/GIS implementation. Check axis order, scale factor and
 missing sentinels before interpreting ranks. Agreement of metadata alone does not
 replace that check. A negative paired difference, incompatible day convention or
 unexplained independent-extraction mismatch blocks interpretation.
+
+On the real pair, none of those three blockers fired. Every listed validation
+passed across all 14,274 sampled cell-days, including that each sampled daily
+maximum is greater than its paired daily mean, and a second run into a fresh
+directory reproduced both output files byte for byte — so the determinism claimed
+for synthetic inputs holds on the real ones. The smallest paired difference and
+every rank statistic sit in the local output rather than here, for the reason given
+under *Status*.
 
 A useful follow-up graphic would pair mean/max ranks per cell, showing cutoff
 rank ties explicitly and keeping reference-day and JJA panels separate. Do not
