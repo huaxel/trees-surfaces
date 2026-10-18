@@ -13,7 +13,9 @@
     "name": "Managed-tree identifier crosswalk",
     "scope": "Project-maintained reference mapping",
     "type": "identifier crosswalk",
-    "inputs": ["brussels-trees-sample.json"],
+    "inputs": [
+      "brussels-trees-sample.json"
+    ],
     "source": "https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/arbres-bomen-vbx-be-bm",
     "licence": "Derived from CC BY 4.0 source records",
     "note": "Maps each committed managed-tree sample ID to the current live dataset identifier, matched within 2 m of the committed coordinates. The upstream catalogue re-keyed its primary key from numeric suffixes (for example vbx_56544) to UUIDs, so refreshes resolve the committed ID through this crosswalk. Regenerate with bin/generate_managed_tree_crosswalk.jl after an upstream re-key."
@@ -54,9 +56,9 @@
     "period": "2008-2017; June-August seasonal summaries; reference-day comparison 2016-08-24",
     "crs": "EPSG:3035",
     "resolution_metres": 100,
-    "licence": "Unresolved; source archive page states no licence",
+    "licence": "Unresolved; neither the archive page nor the NetCDF file attributes state terms",
     "credit": "VITO UrbClim; the archive page asks users to cite De Ridder et al. (2015), doi 10.1016/j.uclim.2015.01.001, and Souverijns et al. (2026), Data in Brief 65, 112497, doi 10.1016/j.dib.2026.112497",
-    "note": "The archive publishes daily-maximum WBGT in °C, not the 0-100 indicator scale of the Brussels Environment 24-hour mean raster. Its page requests both citations but states no licence; derived values are exploratory and reuse terms must be confirmed with urbclim@vito.be before external reuse. NetCDF source files are cached locally and not committed."
+    "note": "The archive publishes daily-maximum WBGT in °C, not the 0-100 indicator scale of the Brussels Environment 24-hour mean raster. Its page requests both citations but states no licence, and the annual NetCDF files carry no licence attribute (only crs, title, institution, creator, source). Two related records do not transfer their terms: the Souverijns et al. (2026) decadal indicator set is CC BY 4.0, and the Copernicus Climate Data Store record sis-urban-climate-cities (deprecated 2024-05-10) is CC-BY-4.0 with Brussels among its 100 cities, but it covers hourly air temperature, humidity and wind and contains no WBGT, while this archive adds WBGT, daily aggregation and further cities. Derived values are exploratory and reuse terms must be confirmed with urbclim@vito.be before external reuse. NetCDF source files are cached locally and not committed."
   },
   "heat_season": {
     "name": "Seasonal heat context from ERA5 reanalysis",
@@ -98,7 +100,10 @@
     "name": "Counter-level accident context",
     "scope": "Derived Brussels-Capital Region summary",
     "type": "spatial aggregation",
-    "inputs": ["brussels-road-accidents-2017-2024.json", "brussels-bike-counters.json"],
+    "inputs": [
+      "brussels-road-accidents-2017-2024.json",
+      "brussels-bike-counters.json"
+    ],
     "licence": "Derived from CC BY 4.0 and CC0 1.0 sources",
     "note": "Counts all and bicycle-involved reported injury/fatal accidents within 250 m and 500 m of each bicycle counter; 26,335 of 30,022 records had usable coordinates. This is not exposure-adjusted risk."
   },
@@ -112,5 +117,16 @@
     "licence": "CC0 1.0",
     "credit": "Brussels Mobility",
     "note": "A mobility proxy. Counters are sparse and are not equivalent to general pedestrian street use."
+  },
+  "canopy_orthophotos": {
+    "name": "UrbIS orthophotos 2021 (East-West and North-South flight products)",
+    "scope": "Brussels-Capital Region",
+    "year": 2021,
+    "type": "aerial orthophoto imagery (RGB+NI, 5 cm and 40 cm)",
+    "source": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows",
+    "metadata": "https://geobru.irisnet.be/geonetwork/srv/api/records/fed5671a-e61a-4972-9eb9-fc5e8cdc6dbd/formatters/xml",
+    "licence": "CC BY 4.0 (CC-BY) - citation of the data source required",
+    "credit": "Paradigm / CIRB (BE.CIRB), UrbIS Geoservices; records titled 'Orthophoto - 2021 (axe Est-Ouest)' and 'Orthophoto - 2021 (axe Nord-Sud)'",
+    "note": "Used only for the cross-product registration check in docs/imagery-registration-check.md: 30 WMS responses (15 windows x 2 products) at 0.1 m over EPSG:31370, plus both metadata records, are pinned by SHA-256 under data/research/imagery-inputs/ and verify offline. The records state 'No limitations to public access' and 'Creative Commons Attribution (CC-BY) - required citation of data source' with the CC BY 4.0 licence text, and their titles name the flight axis, so the axis attribution is documented rather than inferred; the flight dates (22 and 25 September for the east-west axis, 9 October for north-south) come from the shared dataset statement."
   }
 }

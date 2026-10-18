@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 560" role="img" aria-labelledby="title desc">
+<title id="title">Equal-cell heat ranks</title><desc id="desc">Fine-layer sampled tree mean versus seasonal-mean archive WBGT; rank one hottest, ties use average ranks. Descriptive, no uncertainty estimate.</desc>
+<rect width="560" height="560" fill="white"/>
+<path d="M60 60V480H480 M60 60L480 480" fill="none" stroke="#999"/>
+<g font-family="sans-serif" font-size="13" fill="#222"><text x="65" y="35">Rank 1 = hottest; each circle = one cell</text><text x="130" y="530">Fine indicator sampled-mean rank →</text><text transform="translate(20 440) rotate(-90)">Seasonal-mean WBGT rank →</text><text x="55" y="500">1</text><text x="470" y="500">39</text><text x="40" y="65">1</text><text x="35" y="480">39</text></g>
+<circle cx="369.4736842105263" cy="480.0" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 118:210; 1 trees; ranks 29.0, 39.0</title></circle>
+<circle cx="82.10526315789474" cy="137.36842105263156" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 130:149; 1 trees; ranks 3.0, 8.0</title></circle>
+<circle cx="71.05263157894737" cy="115.26315789473685" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 133:152; 4 trees; ranks 2.0, 6.0</title></circle>
+<circle cx="60.0" cy="126.3157894736842" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 133:153; 4 trees; ranks 1.0, 7.0</title></circle>
+<circle cx="308.6842105263158" cy="104.21052631578948" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 133:168; 1 trees; ranks 23.5, 5.0</title></circle>
+<circle cx="270.0" cy="82.10526315789474" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 134:168; 5 trees; ranks 20.0, 3.0</title></circle>
+<circle cx="258.9473684210526" cy="71.05263157894737" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 135:168; 6 trees; ranks 19.0, 2.0</title></circle>
+<circle cx="281.0526315789474" cy="60.0" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 136:168; 1 trees; ranks 21.0, 1.0</title></circle>
+<circle cx="292.10526315789474" cy="93.15789473684211" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 136:169; 2 trees; ranks 22.0, 4.0</title></circle>
+<circle cx="457.89473684210526" cy="225.78947368421052" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 144:153; 2 trees; ranks 37.0, 16.0</title></circle>
+<circle cx="446.8421052631579" cy="352.89473684210526" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 144:154; 2 trees; ranks 36.0, 27.5</title></circle>
+<circle cx="480.0" cy="258.9473684210526" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 145:153; 1 trees; ranks 39.0, 19.0</title></circle>
+<circle cx="380.5263157894737" cy="435.7894736842105" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 145:154; 3 trees; ranks 30.0, 35.0</title></circle>
+<circle cx="424.7368421052632" cy="457.89473684210526" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 145:155; 3 trees; ranks 34.0, 37.0</title></circle>
+<circle cx="468.94736842105266" cy="419.2105263157895" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 146:152; 2 trees; ranks 38.0, 33.5</title></circle>
+<circle cx="435.7894736842105" cy="336.3157894736842" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 146:153; 4 trees; ranks 35.0, 26.0</title></circle>
+<circle cx="408.1578947368421" cy="446.8421052631579" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 146:154; 3 trees; ranks 32.5, 36.0</title></circle>
+<circle cx="391.57894736842104" cy="319.7368421052632" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 146:155; 3 trees; ranks 31.0, 24.5</title></circle>
+<circle cx="408.1578947368421" cy="386.05263157894734" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 147:153; 2 trees; ranks 32.5, 30.5</title></circle>
+<circle cx="358.42105263157896" cy="419.2105263157895" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 147:154; 6 trees; ranks 28.0, 33.5</title></circle>
+<circle cx="347.36842105263156" cy="270.0" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 147:155; 2 trees; ranks 27.0, 20.0</title></circle>
+<circle cx="325.2631578947368" cy="148.42105263157896" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 156:151; 3 trees; ranks 25.0, 9.0</title></circle>
+<circle cx="336.3157894736842" cy="198.1578947368421" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 156:152; 2 trees; ranks 26.0, 13.5</title></circle>
+<circle cx="170.5263157894737" cy="236.8421052631579" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 160:152; 1 trees; ranks 11.0, 17.0</title></circle>
+<circle cx="203.68421052631578" cy="198.1578947368421" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 160:153; 1 trees; ranks 14.0, 13.5</title></circle>
+<circle cx="181.57894736842104" cy="214.73684210526315" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 160:154; 2 trees; ranks 12.0, 15.0</title></circle>
+<circle cx="247.89473684210526" cy="319.7368421052632" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 161:152; 7 trees; ranks 18.0, 24.5</title></circle>
+<circle cx="214.73684210526315" cy="386.05263157894734" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 161:153; 3 trees; ranks 15.0, 30.5</title></circle>
+<circle cx="231.31578947368422" cy="292.10526315789474" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 161:154; 1 trees; ranks 16.5, 22.0</title></circle>
+<circle cx="115.26315789473685" cy="181.57894736842104" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 161:158; 1 trees; ranks 6.0, 12.0</title></circle>
+<circle cx="148.42105263157896" cy="170.5263157894737" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 161:159; 5 trees; ranks 9.0, 11.0</title></circle>
+<circle cx="231.31578947368422" cy="292.10526315789474" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 162:151; 1 trees; ranks 16.5, 22.0</title></circle>
+<circle cx="192.6315789473684" cy="386.05263157894734" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 162:152; 4 trees; ranks 13.0, 30.5</title></circle>
+<circle cx="93.15789473684211" cy="292.10526315789474" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 162:153; 1 trees; ranks 4.0, 22.0</title></circle>
+<circle cx="131.8421052631579" cy="386.05263157894734" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 162:154; 3 trees; ranks 7.5, 30.5</title></circle>
+<circle cx="308.6842105263158" cy="159.4736842105263" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 162:159; 1 trees; ranks 23.5, 10.0</title></circle>
+<circle cx="104.21052631578948" cy="247.89473684210526" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 164:154; 3 trees; ranks 5.0, 18.0</title></circle>
+<circle cx="131.8421052631579" cy="352.89473684210526" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 165:154; 1 trees; ranks 7.5, 27.5</title></circle>
+<circle cx="159.4736842105263" cy="468.94736842105266" r="5" fill="#176b87" fill-opacity="0.65"><title>Cell 167:205; 2 trees; ranks 10.0, 38.0</title></circle>
+</svg>

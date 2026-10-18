@@ -352,7 +352,25 @@ function build_wbgt_payload(metrics, years; archive_urls = String[], extra = Dic
         ),
         "licence_review" => Dict{String, Any}(
             "status" => "unresolved",
-            "detail" => "The archive page asks users to cite both De Ridder et al. (2015) and Souverijns et al. (2026), but states no licence or redistribution terms. The related Souverijns et al. (2026) decadal 2010–2100 indicator set is CC BY 4.0; that does not establish terms for this daily archive. Confirm the daily-file and derived-value terms with VITO (urbclim@vito.be) before external reuse.",
+            "detail" => "The archive page asks users to cite both De Ridder et al. (2015) and Souverijns et al. (2026), but states no licence or redistribution terms, and the annual NetCDF files carry no licence attribute: their global attributes are only crs, title, institution (VITO), creator and source (UrbClim). Two related records do not transfer their terms to this archive. The Souverijns et al. (2026) decadal 2010–2100 indicator set is CC BY 4.0, and the Copernicus Climate Data Store record 'Climate variables for cities in Europe from 2008 to 2017' (sis-urban-climate-cities, deprecated 2024-05-10) is CC-BY-4.0 with Brussels among its 100 cities and 2008–2017 coverage — but that record contains hourly air temperature, specific humidity, relative humidity and wind speed, and no WBGT, while this archive adds WBGT, daily aggregation and further cities. Confirm the daily-file and derived-value terms with VITO (urbclim@vito.be) before external reuse.",
+            "related_records" => Any[
+                Dict{String, Any}(
+                    "name" => "Copernicus Climate Data Store: Climate variables for cities in Europe from 2008 to 2017",
+                    "catalogue_record" => "https://cds.climate.copernicus.eu/api/catalogue/v1/collections/sis-urban-climate-cities",
+                    "licence" => "CC-BY-4.0",
+                    "covers" => "Hourly air temperature, specific humidity, relative humidity and wind speed for 100 European cities including Brussels, 2008–2017; contains no WBGT",
+                    "status" => "Deprecated on the CDS on 2024-05-10; VITO now serves the historical 2008–2017 archive itself",
+                    "applies_to_this_archive" => false,
+                ),
+                Dict{String, Any}(
+                    "name" => "Souverijns et al. (2026) decadal climate and heat-stress indicator set",
+                    "doi" => "10.5281/zenodo.13361538",
+                    "licence" => "CC BY 4.0",
+                    "covers" => "Decadal 2010–2100 indicators (GeoTIFF and NetCDF) for 142 cities, not the daily 2008–2017 files",
+                    "status" => "Separate record",
+                    "applies_to_this_archive" => false,
+                ),
+            ],
         ),
         "records" => metrics,
     )

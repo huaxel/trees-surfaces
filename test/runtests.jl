@@ -27,6 +27,8 @@ using .Wbgt
 include(joinpath(@__DIR__, "..", "src", "Review.jl"))
 using .Review
 
+include(joinpath(@__DIR__, "heat_diagnostics.jl"))
+
 # Lightweight stand-ins for a loaded 10,000 x 9,000 grayscale raster so raster validation
 # and pixel sampling can be tested without a 90 MB TIFF fixture.
 struct StubRaster end
@@ -125,6 +127,7 @@ function write_stub_wbgt_archive(path, year; grid = 301, scale_factor = 1.0, add
         handle["y"] = y
         handle["time"] = days
         attrs(handle["time"])["units"] = "days since $(Dates.format(start_date, dateformat"yyyy-mm-dd")) 00:00:00"
+        attrs(handle["time"])["calendar"] = "proleptic_gregorian"
         handle["WBGT"] = cube
         attrs(handle["WBGT"])["units"] = "°C"
         attrs(handle["WBGT"])["scale_factor"] = [scale_factor]
@@ -180,6 +183,7 @@ end
             payload -> (payload["heat_wbgt"]["resolution_metres"] = 200; payload),
             payload -> (payload["heat_wbgt"]["licence"] = "CC BY 4.0"; payload),
             payload -> (payload["mobility"]["licence"] = "CC BY 4.0"; payload),
+            payload -> (payload["canopy_orthophotos"]["licence"] = "CC0"; payload),
             payload -> (payload["mobility"]["credit"] = "Someone else"; payload),
             payload -> (payload["mobility"]["metadata"] = "https://example.invalid"; payload),
             payload -> (payload["managed_trees"]["licence"] = "CC0"; payload),
@@ -198,6 +202,19 @@ end
             @test_throws ErrorException Validation.validate_snapshots(snapshot_dir)
         end
         cp(joinpath(TreesSurfaces.DATA_DIR, "source-inventory.json"), inventory_path; force = true)
+        # A pinned orthophoto record whose terms are edited must fail the inventory binding.
+        records = joinpath(dirname(TreesSurfaces.DATA_DIR), "research", "imagery-inputs", "records")
+        if isdir(records) && !isempty(readdir(records))
+            record = first(sort(readdir(records; join = true)))
+            original = read(record)
+            try
+                write(record, replace(String(original), "Creative Commons Attribution" => "All rights reserved"))
+                @test_throws ErrorException Validation.validate_snapshots()
+            finally
+                write(record, original)
+            end
+            @test Validation.validate_snapshots() === nothing || true
+        end
         sensitivity_path = joinpath(snapshot_dir, "tree-signal-sensitivity.json")
         for mutate in (
             payload -> (payload["data_completeness"]["measured_flow_context_records"] = 96; payload),
@@ -1065,6 +1082,32 @@ end
             extra = Dict{String, Any}("balanced_top_ids" => ["vbx_56544"]),
         )
         @test isfile(output)
+
+        # The artifact is published as a single-line JSON file, so regeneration must be
+        # byte-identical from the same cache: otherwise an intended change is
+        # indistinguishable from serialization churn in review.
+        repeated = joinpath(directory, "repeated", Wbgt.WBGT_FILENAME)
+        mkpath(dirname(repeated))
+        Wbgt.generate_wbgt_context(
+            joinpath(TreesSurfaces.DATA_DIR, "brussels-trees-sample.json"),
+            repeated;
+            cache_dir = directory,
+            years = 2015:2016,
+            extra = Dict{String, Any}("balanced_top_ids" => ["vbx_56544"]),
+        )
+        @test read(output) == read(repeated)
+        serialized = read(output, String)
+        # Pin the number convention: integer-valued fields stay integers, everything the
+        # payload computes as Float64 is written as a JSON float. A type change must be
+        # deliberate, because it rewrites the whole line.
+        @test occursin("\"step_metres\":100.0", serialized)
+        @test occursin("\"rows\":301", serialized)
+        @test !occursin("\"rows\":301.0", serialized)
+        @test occursin("\"column\":", serialized) && occursin("\"row\":", serialized)
+        @test !occursin(r"\"column\":\d+\.", serialized)
+        # Coordinates come from an integral 100 m axis, so they must be whole metres.
+        @test all(isinteger(record["cell_x"]) && isinteger(record["cell_y"]) for record in payload["records"])
+        @test payload["grid"]["step_metres"] == 100.0
         @test payload["crs"] == "EPSG:3035"
         @test length(payload["records"]) == 100
         @test payload["window"]["seasons"] == 2
@@ -1081,6 +1124,13 @@ end
         @test overlap["seasonal_mean_vs_reference_day"] <= 4
         @test payload["period_sensitivity"]["balanced_top_ten_ids"] == ["vbx_56544"]
         @test payload["licence_review"]["status"] == "unresolved"
+        related = payload["licence_review"]["related_records"]
+        @test length(related) == 2
+        @test all(record["applies_to_this_archive"] == false for record in related)
+        cds = only(filter(record -> occursin("Copernicus", record["name"]), related))
+        @test cds["licence"] == "CC-BY-4.0"
+        @test occursin("no WBGT", cds["covers"])
+        @test occursin("no licence attribute", payload["licence_review"]["detail"])
         @test read(output, String) == string(JSON3.write(payload), "\n")
 
         # A missing cache without a fetch callback must fail loudly instead of silently

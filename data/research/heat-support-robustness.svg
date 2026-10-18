@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 390" role="img" aria-labelledby="title desc">
+<title id="title">Selection-threshold sensitivity</title><desc id="desc">Separate tree and cell panels plot inclusive Jaccard versus nominal selection percentage. Teal solid: reference versus seasonal archive. Orange dashed: fine indicator versus seasonal archive. Deterministic stress tests, no confidence bands.</desc>
+<rect width="840" height="390" fill="white"/>
+<g font-family="sans-serif" font-size="13" fill="#222"><text x="55" y="24">Tie-inclusive Jaccard (0–1); larger selections can inflate overlap</text>
+<text x="55" y="365" fill="#176b87">Solid teal: reference / seasonal</text><text x="410" y="365" fill="#a64b00">Dashed orange: fine / seasonal</text></g>
+<path d="M65 70V290H365" fill="none" stroke="#888"/>
+<g font-family="sans-serif" font-size="13" fill="#222"><text x="65" y="52">tree units</text><text x="43" y="75">1</text><text x="43" y="295">0</text><text x="95" y="338">Nominal selected percentage</text></g>
+<text x="65.0" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">10</text>
+<text x="140.0" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">20</text>
+<text x="177.5" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">25</text>
+<text x="237.5" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">33</text>
+<text x="365.0" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">50</text>
+<polyline points="65.0,193.75 140.0,98.69565217398 177.5,70.0 237.5,70.0 365.0,127.70491803274001" fill="none" stroke="#176b87" stroke-width="2" stroke-dasharray=""/>
+<circle cx="65.0" cy="193.75" r="4" fill="#176b87"><title>tree reference_vs_seasonal: 10%; k=10/100; inclusive sizes 11/12; Jaccard 0.438</title></circle>
+<circle cx="140.0" cy="98.69565217398" r="4" fill="#176b87"><title>tree reference_vs_seasonal: 20%; k=20/100; inclusive sizes 20/23; Jaccard 0.87</title></circle>
+<circle cx="177.5" cy="70.0" r="4" fill="#176b87"><title>tree reference_vs_seasonal: 25%; k=25/100; inclusive sizes 27/27; Jaccard 1.0</title></circle>
+<circle cx="237.5" cy="70.0" r="4" fill="#176b87"><title>tree reference_vs_seasonal: 33%; k=33/100; inclusive sizes 33/33; Jaccard 1.0</title></circle>
+<circle cx="365.0" cy="127.70491803274001" r="4" fill="#176b87"><title>tree reference_vs_seasonal: 50%; k=50/100; inclusive sizes 55/51; Jaccard 0.738</title></circle>
+<polyline points="65.0,290.0 140.0,242.43243243248 177.5,245.0000000001 237.5,235.0 365.0,172.25352112668" fill="none" stroke="#a64b00" stroke-width="2" stroke-dasharray="6 4"/>
+<circle cx="65.0" cy="290.0" r="4" fill="#a64b00"><title>tree fine_vs_seasonal: 10%; k=10/100; inclusive sizes 10/12; Jaccard 0.0</title></circle>
+<circle cx="140.0" cy="242.43243243248" r="4" fill="#a64b00"><title>tree fine_vs_seasonal: 20%; k=20/100; inclusive sizes 22/23; Jaccard 0.216</title></circle>
+<circle cx="177.5" cy="245.0000000001" r="4" fill="#a64b00"><title>tree fine_vs_seasonal: 25%; k=25/100; inclusive sizes 26/27; Jaccard 0.205</title></circle>
+<circle cx="237.5" cy="235.0" r="4" fill="#a64b00"><title>tree fine_vs_seasonal: 33%; k=33/100; inclusive sizes 37/33; Jaccard 0.25</title></circle>
+<circle cx="365.0" cy="172.25352112668" r="4" fill="#a64b00"><title>tree fine_vs_seasonal: 50%; k=50/100; inclusive sizes 58/51; Jaccard 0.535</title></circle>
+<path d="M475 70V290H775" fill="none" stroke="#888"/>
+<g font-family="sans-serif" font-size="13" fill="#222"><text x="475" y="52">cell units</text><text x="453" y="75">1</text><text x="453" y="295">0</text><text x="505" y="338">Nominal selected percentage</text></g>
+<text x="475.0" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">10</text>
+<text x="550.0" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">20</text>
+<text x="587.5" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">25</text>
+<text x="647.5" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">33</text>
+<text x="775.0" y="310" text-anchor="middle" font-family="sans-serif" font-size="12">50</text>
+<polyline points="475.0,216.66666666674 550.0,70.0 587.5,109.99999999996001 647.5,85.71428571438003 775.0,109.99999999996001" fill="none" stroke="#176b87" stroke-width="2" stroke-dasharray=""/>
+<circle cx="475.0" cy="216.66666666674" r="4" fill="#176b87"><title>cell reference_vs_seasonal: 10%; k=4/39; inclusive sizes 4/4; Jaccard 0.333</title></circle>
+<circle cx="550.0" cy="70.0" r="4" fill="#176b87"><title>cell reference_vs_seasonal: 20%; k=8/39; inclusive sizes 8/8; Jaccard 1.0</title></circle>
+<circle cx="587.5" cy="109.99999999996001" r="4" fill="#176b87"><title>cell reference_vs_seasonal: 25%; k=10/39; inclusive sizes 10/10; Jaccard 0.818</title></circle>
+<circle cx="647.5" cy="85.71428571438003" r="4" fill="#176b87"><title>cell reference_vs_seasonal: 33%; k=13/39; inclusive sizes 13/14; Jaccard 0.929</title></circle>
+<circle cx="775.0" cy="109.99999999996001" r="4" fill="#176b87"><title>cell reference_vs_seasonal: 50%; k=20/39; inclusive sizes 20/20; Jaccard 0.818</title></circle>
+<polyline points="475.0,290.0 550.0,239.23076923082 587.5,251.1764705883 647.5,239.99999999994 775.0,206.55172413783998" fill="none" stroke="#a64b00" stroke-width="2" stroke-dasharray="6 4"/>
+<circle cx="475.0" cy="290.0" r="4" fill="#a64b00"><title>cell fine_vs_seasonal: 10%; k=4/39; inclusive sizes 4/4; Jaccard 0.0</title></circle>
+<circle cx="550.0" cy="239.23076923082" r="4" fill="#a64b00"><title>cell fine_vs_seasonal: 20%; k=8/39; inclusive sizes 8/8; Jaccard 0.231</title></circle>
+<circle cx="587.5" cy="251.1764705883" r="4" fill="#a64b00"><title>cell fine_vs_seasonal: 25%; k=10/39; inclusive sizes 10/10; Jaccard 0.176</title></circle>
+<circle cx="647.5" cy="239.99999999994" r="4" fill="#a64b00"><title>cell fine_vs_seasonal: 33%; k=13/39; inclusive sizes 13/14; Jaccard 0.227</title></circle>
+<circle cx="775.0" cy="206.55172413783998" r="4" fill="#a64b00"><title>cell fine_vs_seasonal: 50%; k=20/39; inclusive sizes 20/20; Jaccard 0.379</title></circle>
+</svg>

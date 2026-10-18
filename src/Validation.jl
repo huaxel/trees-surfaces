@@ -201,7 +201,7 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
         if get(row, "has_measured_flow", false) != true && !isempty(TreesSurfaces.text(get(row, "nearest_counter", "")))
     )))
     get(flow, "counters_without_measured_flow", Any[]) == unmeasured_counters || error("counter-flow summary does not match its unmeasured tree records")
-    all(haskey(inventory, key) for key in ("managed_trees", "remarkable_trees", "heat", "heat_season", "heat_wbgt", "mobility")) || error("source inventory is incomplete")
+    all(haskey(inventory, key) for key in ("managed_trees", "remarkable_trees", "heat", "heat_season", "heat_wbgt", "mobility", "canopy_orthophotos")) || error("source inventory is incomplete")
     heat_inventory = get(inventory, "heat", Dict{String, Any}())
     heat_inventory isa AbstractDict && get(heat_inventory, "metadata_id", nothing) == get(heat, "source_metadata_id", nothing) || error("source inventory heat metadata ID disagrees with the heat snapshot")
     get(heat_inventory, "licence", nothing) == get(heat, "source_licence", nothing) || error("source inventory heat licence disagrees with the heat snapshot")
@@ -307,6 +307,16 @@ function validate_snapshots(data_dir=TreesSurfaces.DATA_DIR)
         end
         TreesSurfaces.text(get(row, "core_join_summary", "")) == expected_core || error("stakeholder review core-join summary disagrees with the current audit")
         TreesSurfaces.text(get(row, "sensitivity_summary", "")) == expected_sensitivity || error("stakeholder review sensitivity summary disagrees with the current sensitivity artifact")
+    end
+    # The orthophotos are CC BY 4.0 with required citation; the pinned records are the evidence.
+    ortho_inventory = get(inventory, "canopy_orthophotos", Dict{String, Any}())
+    ortho_inventory isa AbstractDict && startswith(TreesSurfaces.text(get(ortho_inventory, "licence", "")), "CC BY 4.0") || error("source inventory orthophoto licence is not the documented CC BY 4.0")
+    ortho_records = joinpath(dirname(data_dir), "research", "imagery-inputs", "records")
+    if isdir(ortho_records)
+        for record in readdir(ortho_records; join = true)
+            endswith(record, ".xml") || continue
+            occursin("Creative Commons Attribution", read(record, String)) || error("pinned orthophoto record does not state the CC-BY terms recorded in the inventory: $(basename(record))")
+        end
     end
     wbgt_inventory = get(inventory, "heat_wbgt", Dict{String, Any}())
     if isfile(joinpath(data_dir, Wbgt.WBGT_FILENAME))
