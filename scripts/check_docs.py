@@ -119,6 +119,12 @@ PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
 WBGT = 'docs/wbgt-mean-max-method.md'
 BRIEF = 'docs/heat-season-stakeholder-brief.md'
+ORTHO = 'data/research/cycling-canopy-ortho-consistency.json'
+IMAGERY = 'docs/imagery-registration-check.md'
+
+
+def _ortho_band(data, key, field):
+    return data['summary']['band_set_sensitivity'][key][field]
 
 
 def _stratum(name):
@@ -442,6 +448,66 @@ LEDGER = (
     claim(WBGT, r'(\d+) distinct 100 m cells', HEAT,
           lambda d: min(d['region_summary']['distinct_cells'], len(d['records'])),
           rationale='the effective sample the method doc relies on'),
+    # The ortho-consistency check is the only alignment evidence that survived review, so
+    # its verdict numbers are pinned like the heat and canopy ones.
+    claim(IMAGERY, r'Within each of (\d+) fixed windows', ORTHO,
+          lambda d: d['summary']['windows']),
+    claim(IMAGERY, r'stable to a median of\s+\*\*([\d.]+) m\*\*', ORTHO,
+          lambda d: d['summary']['median_resolving_band_spread_m'], tolerance=0.005,
+          rationale='resolving-band spread, not a standard error'),
+    claim(IMAGERY, r'ranges from \*\*([\d.]+) m to 5\.43 m', ORTHO,
+          lambda d: d['summary']['full_band_offset_m_range'][0], tolerance=0.005),
+    claim(IMAGERY, r'ranges from \*\*0\.55 m to ([\d.]+) m', ORTHO,
+          lambda d: d['summary']['full_band_offset_m_range'][1], tolerance=0.005),
+    claim(IMAGERY, r'ranges from \*\*0\.55 m to 5\.43 m \(median ([\d.]+) m\)\*\*', ORTHO,
+          lambda d: d['summary']['median_full_band_offset_m'], tolerance=0.005),
+    claim(IMAGERY, r'\| 2 \(full, above 1 m\) \| \*\*(\d+) of 15\*\*', ORTHO,
+          lambda d, k='2_bands_through_1m': _ortho_band(d, k, 'consistent_windows')),
+    claim(IMAGERY, r'\| 3 \(\+ above 2 m\) \| (\d+) of 15', ORTHO,
+          lambda d, k='3_bands_through_2m': _ortho_band(d, k, 'consistent_windows')),
+    claim(IMAGERY, r'\| 4 \(\+ above 5 m\) \| (\d+) of 15', ORTHO,
+          lambda d, k='4_bands_through_5m': _ortho_band(d, k, 'consistent_windows')),
+    claim(IMAGERY, r'\| 5 \(\+ above 20 m\) \| (\d+) of 15', ORTHO,
+          lambda d, k='5_bands_through_20m': _ortho_band(d, k, 'consistent_windows')),
+    claim(IMAGERY, r'\| 2 \(full, above 1 m\) \| \*\*15 of 15\*\* \| ([\d.]+) m \|', ORTHO,
+          lambda d, k='2_bands_through_1m': _ortho_band(d, k, 'median_spread_m'),
+          tolerance=0.005),
+    claim(IMAGERY, r'\| 3 \(\+ above 2 m\) \| 13 of 15 \| ([\d.]+) m \|', ORTHO,
+          lambda d, k='3_bands_through_2m': _ortho_band(d, k, 'median_spread_m'),
+          tolerance=0.005),
+    claim(IMAGERY, r'\| 4 \(\+ above 5 m\) \| 5 of 15 \| ([\d.]+) m \|', ORTHO,
+          lambda d, k='4_bands_through_5m': _ortho_band(d, k, 'median_spread_m'),
+          tolerance=0.005),
+    claim(IMAGERY, r'\| 5 \(\+ above 20 m\) \| 0 of 15 \| ([\d.]+) m \|', ORTHO,
+          lambda d, k='5_bands_through_20m': _ortho_band(d, k, 'median_spread_m'),
+          tolerance=0.01),
+    claim(IMAGERY, r'\| 2 \(full, above 1 m\) \| \*\*15 of 15\*\* \| [\d.]+ m \| ([\d.]+) m \|',
+          ORTHO, lambda d, k='2_bands_through_1m': _ortho_band(d, k, 'max_spread_m'),
+          tolerance=0.005),
+    claim(IMAGERY, r'\| 3 \(\+ above 2 m\) \| 13 of 15 \| [\d.]+ m \| ([\d.]+) m \|',
+          ORTHO, lambda d, k='3_bands_through_2m': _ortho_band(d, k, 'max_spread_m'),
+          tolerance=0.005),
+    claim(IMAGERY, r'\| 4 \(\+ above 5 m\) \| 5 of 15 \| [\d.]+ m \| ([\d.]+) m \|',
+          ORTHO, lambda d, k='4_bands_through_5m': _ortho_band(d, k, 'max_spread_m'),
+          tolerance=0.005),
+    claim(IMAGERY, r'\| 5 \(\+ above 20 m\) \| 0 of 15 \| [\d.]+ m \| ([\d.]+) m \|',
+          ORTHO, lambda d, k='5_bands_through_20m': _ortho_band(d, k, 'max_spread_m'),
+          tolerance=0.01),
+    claim(IMAGERY, r'resolving bands \| \*\*([\d.]+) m\*\*', ORTHO,
+          lambda d: d['degraded_max_error_resolving_band_m'], tolerance=0.0005,
+          rationale='degraded control through the band path, not only the estimator'),
+    claim(IMAGERY, r'wide bands \(5 m, 20 m\) \| \*\*([\d.]+) m\*\*', ORTHO,
+          lambda d: d['degraded_max_error_wide_band_m'], tolerance=0.001),
+    claim(IMAGERY, r'normalised correlation ([\d.]+)[\u2013-]', ORTHO,
+          lambda d: d['summary']['full_band_ncc_range'][0], tolerance=0.005),
+    claim(IMAGERY, r'normalised correlation [\d.]+[\u2013-]([\d.]+)', ORTHO,
+          lambda d: d['summary']['full_band_ncc_range'][1], tolerance=0.005),
+    claim(IMAGERY, r'peak ratios ([\d.]+)[\u2013-]', ORTHO,
+          lambda d: d['summary']['phase_peak_ratio_range'][0], tolerance=0.005),
+    claim(IMAGERY, r'peak ratios [\d.]+[\u2013-]([\d.]+) with', ORTHO,
+          lambda d: d['summary']['phase_peak_ratio_range'][1], tolerance=0.005),
+    claim(IMAGERY, r'with (\d+) of 15\nwindows at', ORTHO,
+          lambda d: d['summary']['phase_at_search_bound']),
 )
 
 
