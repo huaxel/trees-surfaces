@@ -7,4 +7,5 @@ cd "$ROOT"
 scripts/validate-canopy.sh
 scripts/validate-imagery.sh
 scripts/validate-julia.sh
-printf 'Trees & Surfaces canopy, imagery and Julia validation passed\n'
+scripts/validate-docs.sh
+printf 'Trees & Surfaces canopy, imagery, Julia and documentation validation passed\n'

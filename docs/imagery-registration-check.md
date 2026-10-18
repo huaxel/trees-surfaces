@@ -46,7 +46,7 @@ and their fields re-extracted on verification, so all of this is re-checkable of
 
 Windows are the same five routes and three chainage fractions (10%, 50%, 90%) used by the
 alignment audit, re-derived from the frozen cycling frame and cross-checked against the
-published `canopy-verified/comparison.json` selection: same gids, same count-only probe,
+published `data/research/canopy-verified/comparison.json` selection: same gids, same count-only probe,
 same segment lengths. The window plan is a versioned file; verification checks its digest
 **and** that the copy embedded in the manifest, which the analysis actually reads, is equal
 to it. The WMS grid is north-up, so image rows run north to south and east/north are computed

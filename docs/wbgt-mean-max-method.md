@@ -115,9 +115,10 @@ exactly; the command refuses an output directory that already exists.
 The command performs no network calls or package installation. Both files must
 already exist. It samples `data/brussels-trees-sample.json` and writes only:
 
-- `wbgt-mean-max-comparison.json`: provenance, validation results, paired cell
-  measurements and rank comparisons;
-- `wbgt-mean-max-comparison.md`: readable method, comparisons and cell table.
+- `.cache/wbgt-mean-max/wbgt-mean-max-comparison.json`: provenance, validation results,
+  paired cell measurements and rank comparisons;
+- `.cache/wbgt-mean-max/wbgt-mean-max-comparison.md`: readable method, comparisons and
+  cell table.
 
 There is no implicit fallback, imputation, licence confirmation or incorporation
 into existing artifacts. Missing or invalid inputs fail before results are written.

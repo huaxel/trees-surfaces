@@ -44,6 +44,23 @@ jobs:
       - name: Validate imagery registration on synthetic fixtures without downloads
         run: scripts/validate-imagery.sh
 
+  validate-docs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install pinned uv in an isolated tooling environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/docs-tools"
+          "$RUNNER_TEMP/docs-tools/bin/pip" install uv==0.13.0
+          echo "$RUNNER_TEMP/docs-tools/bin" >> "$GITHUB_PATH"
+      # Documentation defects are the ones this project kept hitting: a claim that a
+      # comparison had never run after it had, and a candidate described as an
+      # independent check of a class derived from that very product.
+      - name: Validate documentation references and pinned claims
+        run: scripts/validate-docs.sh
+
   validate-julia:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
