@@ -39,6 +39,8 @@ Existing diagnostics already support these boundaries: the 100 points occupy 39 
 
 Let `C(b)` be the fraction of a fixed line inside the canopy polygons buffered by distance `b`. For nonnegative buffers, `C(0) ≤ C(2) ≤ C(5)` **by construction**. Thus, increasing overlap under larger buffers is not evidence that the larger-buffer value is more accurate. The informative quantity is the magnitude and spatial arrangement of the difference, conditional on the chosen geometry—not the existence of the increase.
 
+An independent recomputation of these proportions through a different geometry path — point-in-polygon classification at 2 m and 0.5 m chainage instead of exact line-interval intersection — reproduces them within discretisation: 13.87-13.98% overlap against the published 13.97%, and at most 0.35 pp difference on a single segment. That supports the arithmetic, not its validity as a canopy measurement.
+
 The existing 0/2/5 m results therefore do not calibrate route registration error. To examine a different failure mode, the audit translates each complete reference line east, west, north and south by exactly 2 m, then by 5 m, leaving the polygons unchanged. These scenarios were fixed before computing the audit. Directions refer to the projected EPSG:31370 coordinate axes. They preserve line length and can increase or decrease overlap.
 
 ### New deterministic stress test

@@ -58,6 +58,18 @@ Consequence: these products are **not interchangeable at sub-metre level**, and 
 4. **Validate source omission and alignment separately.** Use a preselected set of covered/non-covered locations, an independent source where possible, and an explicit unknown category where coverage is unresolved. Checking only striking gaps is not an accuracy assessment.
 5. **Keep shade a separate research question.** Actual shade requires solar/time geometry and buildings, vegetation structure, or observations. It cannot be inferred from the canopy complement alone.
 
+## Verification completed: independent geometry path (2026-10-17)
+
+The published proportions come from exact line-interval intersection. An independent recomputation classified points at 2 m and 0.5 m chainage by point-in-polygon against the same tree cover (`cover.covers`, then the 5 m buffer), which is a different geometric path and a discretised one:
+
+| Quantity | Published (interval) | 2 m points | 0.5 m points |
+|---|---:|---:|---:|
+| Direct overlap | 13.97% | 13.98% | 13.87% |
+| Proximity-only (0-5 m, not overlapping) | 32.39% | 32.45% | 32.46% |
+| Mapped non-overlap | 53.64% | 53.57% | 53.67% |
+
+Per segment at 0.5 m: gid 266 31.06% vs 31.38%; gid 5642 1.68% vs 1.55%; gid 5630, 5634 and 5643 0.00% both ways. Agreement is therefore at the level of discretisation (about 0.1 pp in aggregate, at most 0.35 pp on one segment, where a grazed boundary contributes a few sample points). The exact interval value stands; the point check confirms the geometry rather than replacing it. `alignment_audit.py` was also re-executed and reproduces `data/research/cycling-canopy-alignment-audit.json` byte for byte, and both the pipeline outputs and this audit match their recorded code identities.
+
 ## Independent review
 
 An independent read-only reviewer found **no important calculation errors in static review**. The reviewer did not execute scripts, verify source bytes, or independently inspect imagery. The review accepted the mapped-overlap/proximity interpretation and identified two reproducibility blockers before expansion:
