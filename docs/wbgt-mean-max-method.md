@@ -73,7 +73,7 @@ CC BY 4.0, and the Copernicus CDS record `sis-urban-climate-cities` is CC-BY-4.0
 but covers hourly temperature, humidity and wind without WBGT. Confirm daily-file
 use and redistribution of derived results with VITO before external reuse; see
 [`heat-season-method.md`](heat-season-method.md), *Licence and lineage*.
-The open licence follow-up remains unresolved. No contact has been sent.
+The open licence follow-up remains unresolved. No contact has been sent; a ready-to-send draft of the enquiry, covering both the licence and the day-boundary convention, is in [`vito-licence-enquiry.md`](vito-licence-enquiry.md).
 
 ## Research question
 
