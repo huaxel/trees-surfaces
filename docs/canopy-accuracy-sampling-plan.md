@@ -64,8 +64,9 @@ denominator repeats the same few samples, which makes that variance **unreliable
 systematically low** — forty synthetic i.i.d. frames with an integral step spanned 0.14 to 3.2
 around a true 1.0. On the committed frame, segments 5630 and 5643 have a step of exactly 5/3
 and only five distinct realisations, but neither contains any mapped canopy, so they
-contribute no variance and the reported spread is driven by segment 266 with 215 distinct
-realisations. The artifact records each segment's count. The spread is not a design-effect
+contribute no variance and the reported spread is driven by segment 266, whose 215 observed
+realisations out of a possible 281 dominate. The artifact records each segment's count, which
+is the number seen in 400 seeded draws and therefore a lower bound. The spread is not a design-effect
 estimate and must not be quoted as one.
 
 ## Frame and strata
@@ -106,7 +107,8 @@ length). The artifact records that reconciliation, its bound and the generating 
 hash; `validation_frame.py` fails rather than publishing if it drifts.
 
 Selection is executed by `research/canopy/selection.py`. Allocation is a single
-proportional largest-remainder pass over the fifteen **(stratum, segment)** cells, weighted by
+proportional largest-remainder pass over the **eleven non-empty (stratum, segment) cells**
+(fifteen combinations exist, four of them empty), weighted by
 each cell's candidate count, with **at least one point per non-empty cell** so that no sampled
 street is left unvisited. Strata therefore receive points in proportion to their frame
 candidate counts (90 overlap, 209 proximity-only, 345 non-overlap) to within 1%, not exactly.
@@ -116,7 +118,8 @@ the same inclusion probability, `allocated / candidates`.
 **Inclusion probability is not constant within a stratum**, because the minimum-one rule gives
 small cells a larger share: inverse probabilities range from 1.0 to 1.69 at the 385-point
 target. Proportions must therefore be weighted by each point's **inverse inclusion
-probability**, which is recorded per point and sums to the frame size (644) over the sample.
+probability**, which is recorded per point and sums to the frame size (644) over the sample,
+to within rounding.
 The stratum-level `design_weight` (frame share ÷ sample share) does come out within 1% of 1,
 but it is a diagnostic, not an estimator weight: the artifact records
 `design_weight_valid: false` for every stratum, with the range it averages over. Using it at

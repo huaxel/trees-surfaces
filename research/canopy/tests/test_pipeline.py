@@ -464,6 +464,15 @@ class SelectionTests(unittest.TestCase):
             self.assertLess(abs(count/385 - frame_counts[name]/frame['candidate_count']), 0.01)
         report = build(frame_path, 385, 20261017)
         self.assertEqual(report['selected'], 385)
+        # Inverse inclusion probability is the estimator weight, and it expands to the frame.
+        self.assertAlmostEqual(sum(row['inverse_inclusion_probability'] for row in report['points']),
+                               frame['candidate_count'], delta=0.001)
+        for row in report['points']:
+            self.assertAlmostEqual(row['inverse_inclusion_probability'],
+                                   1/row['inclusion_probability'], places=6)
+        # The stratum ratio is a diagnostic only, because cell probabilities differ.
+        self.assertTrue(all(not entry['design_weight_valid'] for entry in report['strata'].values()))
+        self.assertTrue(all('design_weight_note' in entry for entry in report['strata'].values()))
         self.assertEqual(sum(report['points_by_segment'].values()), 385)
         self.assertTrue(all(abs(entry['design_weight'] - 1) < 0.02 for entry in report['strata'].values()))
 

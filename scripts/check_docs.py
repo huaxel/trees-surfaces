@@ -147,6 +147,9 @@ LEDGER = (
     claim(PLAN, r'inflation near ([\d.]+)\*\*', EFFECT,
           lambda d: d['inflation_for_random_placement'], tolerance=0.05),
     # Stakeholder-facing numbers: the ones a reader acts on, so they are pinned too.
+    claim('README.md', r'comparison shares (\d+)/10 trees', HEAT,
+          lambda d: d['period_sensitivity']['top_ten_overlap']['seasonal_mean_vs_reference_day'],
+          rationale='the second README statement of the same overlap'),
     claim('README.md', r'top tens share (\d+)/10', HEAT,
           lambda d: d['period_sensitivity']['top_ten_overlap']['seasonal_mean_vs_reference_day'],
           rationale='the README quotes the same overlap as the brief'),
@@ -218,14 +221,13 @@ def unresolved(root, text, name, paths, basenames):
         if any(marker in token for marker in PLACEHOLDER_MARKERS):
             continue
         if '/' in token:
-            if token.startswith(('.', '../')):
-                # Written from the document's own directory, so normalise against it and
-                # require the result to be a tracked path: an untracked file present in the
-                # working tree would otherwise pass here and fail in a clean checkout.
-                normalised = os.path.normpath(os.path.join(os.path.dirname(name), token))
-                found = normalised in paths
-            else:
-                found = token in paths or (root/token).is_dir()
+            # Written from the document's own directory when it starts with ./ or ../.
+            normalised = (os.path.normpath(os.path.join(os.path.dirname(name), token))
+                          if token.startswith(('.', '../')) else token)
+            # Tracked files only, so an untracked working-tree file cannot pass here and then
+            # fail in a clean checkout. A directory counts when something tracked lives in it.
+            found = (normalised in paths
+                     or any(path.startswith(normalised.rstrip('/') + '/') for path in paths))
         else:
             found = token in basenames
         if not found:

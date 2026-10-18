@@ -99,10 +99,12 @@ def lag_autocorrelation(series, max_lag):
 
 
 def distinct_realisations(series, total, seed, trials=400):
-    """How many distinct systematic samples each segment can actually produce.
+    """How many distinct systematic samples each segment produced in `trials` seeded draws.
 
-    A segment whose step is a fraction with a small denominator, such as 5/3, repeats the
-    same handful of samples, so a variance across random starts says little about it.
+    This is a lower bound on what the segment can produce, not the exhaustive count: segment
+    266 allows 281 samples and shows 215 at 400 trials. It is enough for its purpose, which is
+    to spot a step whose small denominator, such as 5/3, repeats five samples forever and so
+    makes a variance across random starts say little about that segment.
     """
     allocation = allocate(series, total)
     rng = random.Random(seed)
