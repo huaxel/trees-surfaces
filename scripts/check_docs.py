@@ -123,6 +123,7 @@ ORTHO = 'data/research/cycling-canopy-ortho-consistency.json'
 IMAGERY = 'docs/imagery-registration-check.md'
 AUDIT_JSON = 'data/research/cycling-canopy-alignment-audit.json'
 AUDIT = 'docs/trees-measurement-audit.md'
+CHECKPOINT = 'data/research/cycling-canopy-checkpoint.md'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
@@ -139,6 +140,18 @@ def _audit_scenarios(data, gid, scenarios):
 def _audit_original(data, gid):
     return next(r['overlap_percent'] for r in data['results']
                 if r['gid'] == gid and r['scenario'] == 'original')
+
+
+def _pooled_overlap(data, vegetation, buffer_m):
+    """Length-weighted overlap share across the five published segments."""
+    sel = [r for r in data['results']
+           if r['vegetation'] == vegetation and r['buffer_m'] == buffer_m]
+    return sum(r['overlap_m'] for r in sel)/sum(r['length_m'] for r in sel)*100
+
+
+def _comparison_gid(data, gid):
+    return next(r['overlap_percent'] for r in data['results']
+                if r['gid'] == gid and r['vegetation'] == 'trees' and r['buffer_m'] == 0)
 
 
 def _stratum(name):
@@ -593,6 +606,24 @@ LEDGER = (
           lambda d, g=266, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
     claim(AUDIT, r'source line to \*\*[\d.]+[\u2013-]([\d.]+)%\*\*', AUDIT_JSON,
           lambda d, g=266, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
+    # The recomputation sentence: only the published interval values have JSON backing.
+    # The point-method columns (13.98/13.87, 0.35 pp) live only in checkpoint prose.
+    claim(CHECKPOINT, r'\| Direct overlap \| ([\d.]+)%', COMPARISON,
+          lambda d: _pooled_overlap(d, 'trees', 0), tolerance=0.005,
+          rationale='length-weighted trees-only buffer-0 share over 1,295.5 m'),
+    claim(CHECKPOINT, r'Proximity-only \(0-5 m, not overlapping\) \| ([\d.]+)%', COMPARISON,
+          lambda d: _pooled_overlap(d, 'trees', 5) - _pooled_overlap(d, 'trees', 0),
+          tolerance=0.005, rationale='within-5m-but-not-overlapping is buffer 5 minus buffer 0'),
+    claim(CHECKPOINT, r'\| Mapped non-overlap \| ([\d.]+)%', COMPARISON,
+          lambda d: 100 - _pooled_overlap(d, 'trees', 5), tolerance=0.01,
+          rationale='exact value 53.6329 rounds to 53.63; the record says 53.64'),
+    claim(CHECKPOINT, r'gid 266 [\d.]+% vs ([\d.]+)%', COMPARISON,
+          lambda d, g=266: _comparison_gid(d, g), tolerance=0.005),
+    claim(CHECKPOINT, r'gid 5642 [\d.]+% vs ([\d.]+)%', COMPARISON,
+          lambda d, g=5642: _comparison_gid(d, g), tolerance=0.005),
+    claim(AUDIT, r'against the published ([\d.]+)%', COMPARISON,
+          lambda d: _pooled_overlap(d, 'trees', 0), tolerance=0.005,
+          rationale='the published figure is the trees-only buffer-0 pool, not all classes'),
 )
 
 
