@@ -18,6 +18,7 @@ from inputs import (EXTENSIONS, SNAPSHOTS, STEM, digest, full_scan_candidates,
 from metrics import merge_intervals, profile, route_line
 from pipeline import encoded, execute, publish, rename_no_replace
 from alignment_audit import shifted_profiles
+from validation_frame import STEP_M, classify_points
 from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
                            stratum_totals, wilson_interval)
 
@@ -301,7 +302,9 @@ class SamplingPlanTests(unittest.TestCase):
                       half_width=0.075, prevalence=0.25, design_effect=3, step_m=2.0)
         self.assertEqual(result['segments'], 5)
         self.assertAlmostEqual(result['frame_m'], 1295.5, delta=0.05)
-        self.assertEqual(result['candidates'], 648)
+        self.assertEqual(result['candidates'], 644)
+        self.assertEqual(result['assessed_m'], 1288.0)
+        self.assertAlmostEqual(result['excluded_remainder_m'], 7.45, delta=0.05)
         self.assertEqual(result['precision']['clustered_points'], 385)
         self.assertEqual(sum(values['points'] for values in result['strata'].values()), 385)
         for name, values in result['strata'].items():
@@ -319,6 +322,71 @@ class SamplingPlanTests(unittest.TestCase):
             bad.write_text(json.dumps(broken))
             with self.assertRaisesRegex(ValueError, 'monotone'):
                 strata_from_published(bad)
+
+
+class ValidationFrameTests(unittest.TestCase):
+    """The candidate frame is geometry only: synthetic routes, no upstream download."""
+
+    def setUp(self):
+        # A 30 m straight route along y = 0 with a tree square covering x in [2, 5]. A point at
+        # chainage c has distance 0 inside, 2 - c on the near side, c - 5 on the far side.
+        self.route = LineString([(0, 0), (30, 0)])
+        self.cover = box(2, -1, 5, 1)
+        self.near = self.cover.buffer(5)
+
+    @staticmethod
+    def expected_stratum(x):
+        if 2 <= x <= 5:
+            return 'mapped_overlap'
+        if abs(x - 3.5) <= 6.5:                 # within 5 m of the box, either side
+            return 'proximity_only'
+        return 'mapped_non_overlap'
+
+    def test_strata_follow_the_mapped_cover(self):
+        step = 1.0
+        points, counts = classify_points(self.route, self.cover, self.near, step, 7)
+        self.assertEqual([p['chainage_m'] for p in points], [i + 0.5 for i in range(30)])
+        expected = [self.expected_stratum(point['chainage_m']) for point in points]
+        self.assertEqual([p['stratum'] for p in points], expected)
+        self.assertEqual(counts['candidates'], 30)
+        for name in ('mapped_overlap', 'proximity_only', 'mapped_non_overlap'):
+            self.assertEqual(counts[name], expected.count(name))
+        # 3 m of overlap, a 5 m proximity band on each side (7 whole-metre candidates), rest absent.
+        self.assertEqual((counts['mapped_overlap'], counts['proximity_only'], counts['mapped_non_overlap']),
+                         (3, 7, 20))
+        self.assertTrue(all(point['gid'] == 7 for point in points))
+        self.assertEqual(points[2]['distance_to_cover_m'], 0.0)
+        self.assertAlmostEqual(points[0]['distance_to_cover_m'], 1.5, places=6)
+        self.assertAlmostEqual(points[-1]['distance_to_cover_m'], 24.5, places=6)
+
+    def test_grid_represents_the_step_and_excludes_the_remainder(self):
+        points, counts = classify_points(self.route, self.cover, self.near, 2.0, 7)
+        self.assertEqual([p['chainage_m'] for p in points], [1.0, 3.0, 5.0, 7.0, 9.0,
+                                                             11.0, 13.0, 15.0, 17.0, 19.0,
+                                                             21.0, 23.0, 25.0, 27.0, 29.0])
+        self.assertEqual(counts['candidates'], 15)
+        self.assertAlmostEqual(self.route.length - counts['candidates']*2.0, 0.0)
+        short = LineString([(0, 0), (3.5, 0)])
+        _, short_counts = classify_points(short, self.cover, self.near, 2.0, 7)
+        self.assertEqual(short_counts['candidates'], 1)          # 3.5 m route, 2 m step
+        with self.assertRaises(ValueError):
+            classify_points(LineString([(0, 0), (1.0, 0)]), self.cover, self.near, 2.0, 7)
+
+    def test_boundary_is_inclusive_and_output_is_deterministic(self):
+        # A point exactly 5 m from the cover edge sits on the polygonal buffer boundary the
+        # published proximity numbers use, and must count as proximity rather than absence.
+        route = LineString([(9.0, 0), (11.0, 0)])
+        points, _ = classify_points(route, self.cover, self.near, 2.0, 11)
+        self.assertEqual([p['chainage_m'] for p in points], [1.0])
+        self.assertAlmostEqual(points[0]['distance_to_cover_m'], 5.0, places=6)
+        self.assertEqual(points[0]['stratum'], 'proximity_only')
+        first = classify_points(self.route, self.cover, self.near, 1.0, 7)
+        again = classify_points(LineString([(0, 0), (30, 0)]), box(2, -1, 5, 1),
+                                box(2, -1, 5, 1).buffer(5), 1.0, 7)
+        self.assertEqual(first, again)
+        with self.assertRaises(ValueError):
+            classify_points(self.route, self.cover, self.near, 0.0, 7)
+
 
 if __name__ == '__main__':
     unittest.main()

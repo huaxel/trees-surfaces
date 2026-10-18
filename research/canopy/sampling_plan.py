@@ -127,9 +127,15 @@ def plan(artifact, half_width, prevalence, design_effect, step_m):
         step = length / count if count else None
         per_stratum[name] = dict(length_m=length, share=length / frame_m, points=count,
                                  systematic_step_m=step)
+    # Candidates are counted per segment, because each segment's incomplete remainder shorter
+    # than one step is excluded by the frame rule. A single floor(frame / step) + 1 over the
+    # pooled length would overcount by the number of segments' remainders.
+    candidates = sum(math.floor(row['length_m'] / step_m) for row in rows)
+    assessed_m = candidates * step_m
     return dict(
         frame_m=frame_m, segments=len(rows), step_m=step_m,
-        candidates=math.floor(frame_m / step_m) + 1,
+        candidates=candidates, assessed_m=assessed_m,
+        excluded_remainder_m=frame_m - assessed_m,
         precision=dict(half_width=half_width, prevalence=prevalence, design_effect=design_effect,
                        independent_points=independent, clustered_points=clustered),
         strata=per_stratum, segments_detail=rows,
@@ -152,7 +158,8 @@ def main():
     print('\nFrame and strata (measured mapped lengths in the published artifact)')
     result = plan(artifact, half_width=0.075, prevalence=0.25, design_effect=3, step_m=2.0)
     print(f"  frame {result['frame_m']:.1f} m over {result['segments']} segments; "
-          f"{result['candidates']} candidate {result['step_m']:.0f} m chainage points")
+          f"{result['candidates']} candidate {result['step_m']:.0f} m chainage points covering "
+          f"{result['assessed_m']:.1f} m ({result['excluded_remainder_m']:.2f} m of remainders excluded)")
     for name, values in sorted(result['strata'].items(), key=lambda item: -item[1]['length_m']):
         step = values['systematic_step_m']
         print(f"  {name:>20}: {values['length_m']:7.1f} m ({100 * values['share']:5.1f}%), "

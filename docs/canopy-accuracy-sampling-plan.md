@@ -44,9 +44,16 @@ planning placeholder, not a measured value.
 ## Frame and strata
 
 The frame is the 1,295.5 m of reference line in the frozen comparison frame (five segments),
-discretised at **2 m chainage**: 648 candidate points. Stratum lengths are measured from the
-published artifact (`data/research/canopy-verified/comparison.json`, tree class at buffer 0
-and 5 m):
+discretised at **2 m chainage**, and it is now materialised rather than described:
+`data/research/canopy-validation-frame.json` holds **644 candidate points** covering
+**1,288.0 m**, built by `research/canopy/validation_frame.py`. Candidates sit at the midpoint
+of each 2 m interval (`chainage = (i + 0.5) × 2`), so a point represents the 2 m of line it
+sits in the middle of; each segment's incomplete remainder, **7.451 m in total**, is excluded
+and reported, matching the remainder rule used for the window analysis.
+
+Stratum lengths below are measured from the published artifact
+(`data/research/canopy-verified/comparison.json`, tree class at buffer 0 and 5 m) and are the
+weights the allocation uses:
 
 | Stratum | Length | Share | Points at n = 385 | Systematic step |
 |---|---:|---:|---:|---:|
@@ -62,6 +69,14 @@ the reference imagery is shadowed or the line is occluded by buildings), cannot 
 from existing artifacts: it must be identified by a declared rule during sampling, kept as
 its own stratum with its own reported results, and **never reweighted into the primary
 estimate**, because its location rule is a judgement rather than a mapped length.
+
+The frame reproduces the same geometry through a different method, which is why it can be
+trusted as the population for a sample: point lengths at 2 m spacing against an interval
+measurement of exactly the same range agree to within boundary discretisation —
+overlap 180.0 vs 181.0 m, proximity-only 418.0 vs 419.1 m, non-overlap 690.0 vs 687.8 m
+(worst difference 2.2 m, 51% of the check's tolerance of one step or 1% of the stratum
+length). The artifact records that reconciliation, its bound and the generating script's
+hash; `validation_frame.py` fails rather than publishing if it drifts.
 
 Selection within each stratum is systematic with a random start at the stated step, keeping
 the segment ID and chainage for every point, so inclusion probabilities are equal within a
@@ -121,10 +136,16 @@ Protocol requirements taken from the audit, to be fixed before any labelling:
 ## Reproduction
 
 ```sh
+# materialise the candidate frame (reads the frozen inputs, writes a new file)
+uv run --locked --python 3.12.12 --project research/canopy python research/canopy/validation_frame.py \
+  --output .cache/canopy-validation-frame.json
+
+# precision table, Wilson check, and the strata and allocation
 uv run --locked --python 3.12.12 --project research/canopy python research/canopy/sampling_plan.py
 ```
 
-Prints the precision table, the Wilson check, and the frame, strata and allocation above.
+The committed frame is `data/research/canopy-validation-frame.json`; the command above writes a
+new file rather than replacing it, as every generator in this project does.
 `research/canopy/tests/test_pipeline.py` asserts the arithmetic, the deterministic
 allocation, and that strata reconcile to the published artifact's lengths; the canopy gate
 runs them.

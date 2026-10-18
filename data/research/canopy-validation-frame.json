@@ -1,0 +1,5310 @@
+{
+  "schema_version": 1,
+  "manifest_sha256": "c8e3bed851f5b8fffbd20f0abad202c18d0e8a498db8de02244e82b0f0045582",
+  "code_sha256": {
+    "metrics.py": "e29744ef511b3953c9dfefe15265c2bfe8f9519a1eae5f3e28930afc10573d3f",
+    "inputs.py": "87605f3633f89804868fcb4d6143854c75e3072994c8d9289d8d7c1fd3b36676",
+    "pipeline.py": "8d1c7fc303f758e679a12a00a25e3856b1899aad87fe5a0fcab02f06ac94f02f",
+    "run.py": "f7d80566513e4dce64fb228f7e86e7a47b54a524e0b0c0a8b080dc6d8e5d6cd1",
+    "pyproject.toml": "cd7311c3cf5e0f26defc0c6744cfbf4a312599f4df016a613a7b399493edfe59",
+    "uv.lock": "cf1cfddbd266609751c2b22199f106076f6b9eddd4fb081355ebc9fbf1cbe58b",
+    ".python-version": "f01d748a75eb195e6fd73201279bfb23f09036ddd360eb3e9ff40ef042acbc8a"
+  },
+  "frame_code_sha256": "a7116b49d9c5c6dbb7759c9a576103f0335e486cf6692724d965fae511e8e57c",
+  "step_m": 2.0,
+  "proximity_m": 5.0,
+  "position_rule": "chainage = (i + 0.5) * step for i in 0 .. floor(length / step) - 1",
+  "selection": {
+    "url": "https://data.mobility.brussels/geoserver/bm_bike/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=bm_bike%3Aac&outputFormat=application%2Fjson&srsName=EPSG%3A31370&bbox=151980%2C169155%2C152980%2C170155%2CEPSG%3A31370&count=1000",
+    "bbox": [
+      151980,
+      169155,
+      152980,
+      170155
+    ],
+    "selection": "status_code=1,type_code=12,length>=100m,whole geometry inside square",
+    "response_count": 82,
+    "response_cap": 1000,
+    "count_only_number_matched": 82
+  },
+  "candidate_count": 644,
+  "assessed_length_m": 1288.0,
+  "excluded_remainder_m": 7.451,
+  "strata": [
+    "mapped_overlap",
+    "proximity_only",
+    "mapped_non_overlap"
+  ],
+  "segments": [
+    {
+      "gid": 266,
+      "length_m": 563.5845793404259,
+      "assessed_length_m": 562.0,
+      "candidates": 281,
+      "excluded_remainder_m": 1.5845793404258757,
+      "mapped_overlap": 88,
+      "proximity_only": 163,
+      "mapped_non_overlap": 30
+    },
+    {
+      "gid": 5630,
+      "length_m": 121.94098310146012,
+      "assessed_length_m": 120.0,
+      "candidates": 60,
+      "excluded_remainder_m": 1.9409831014601195,
+      "mapped_overlap": 0,
+      "proximity_only": 11,
+      "mapped_non_overlap": 49
+    },
+    {
+      "gid": 5634,
+      "length_m": 189.75704232664728,
+      "assessed_length_m": 188.0,
+      "candidates": 94,
+      "excluded_remainder_m": 1.75704232664728,
+      "mapped_overlap": 0,
+      "proximity_only": 1,
+      "mapped_non_overlap": 93
+    },
+    {
+      "gid": 5642,
+      "length_m": 268.4966665673524,
+      "assessed_length_m": 268.0,
+      "candidates": 134,
+      "excluded_remainder_m": 0.4966665673524062,
+      "mapped_overlap": 2,
+      "proximity_only": 34,
+      "mapped_non_overlap": 98
+    },
+    {
+      "gid": 5643,
+      "length_m": 151.67195861531005,
+      "assessed_length_m": 150.0,
+      "candidates": 75,
+      "excluded_remainder_m": 1.6719586153100465,
+      "mapped_overlap": 0,
+      "proximity_only": 0,
+      "mapped_non_overlap": 75
+    }
+  ],
+  "stratum_lengths_m": {
+    "mapped_overlap": 180.0,
+    "proximity_only": 418.0,
+    "mapped_non_overlap": 690.0
+  },
+  "reconciliation": {
+    "mapped_overlap": {
+      "frame_m": 180.0,
+      "interval_m": 181.019,
+      "difference_m": -1.019
+    },
+    "proximity_only": {
+      "frame_m": 418.0,
+      "interval_m": 419.148,
+      "difference_m": -1.148
+    },
+    "mapped_non_overlap": {
+      "frame_m": 690.0,
+      "interval_m": 687.834,
+      "difference_m": 2.166
+    }
+  },
+  "boundary_crossings": 67,
+  "reconciliation_rule": "each stratum within max(one step, 1% of its interval length)",
+  "worst_reconciliation_fraction": 0.5095,
+  "assessed": {
+    "266": {
+      "length_m": 561.9999999999902,
+      "mapped_overlap": 176.85664219759803,
+      "proximity_only": 328.2679008394401,
+      "mapped_non_overlap": 56.875456962952114
+    },
+    "5630": {
+      "length_m": 119.99999999998707,
+      "mapped_overlap": 0,
+      "proximity_only": 20.620009920520797,
+      "mapped_non_overlap": 99.37999007946627
+    },
+    "5634": {
+      "length_m": 187.99999999999616,
+      "mapped_overlap": 0,
+      "proximity_only": 2.9592214519877302,
+      "mapped_non_overlap": 185.04077854800843
+    },
+    "5642": {
+      "length_m": 267.9999999999837,
+      "mapped_overlap": 4.162018279164633,
+      "proximity_only": 67.3005373948257,
+      "mapped_non_overlap": 196.53744432599336
+    },
+    "5643": {
+      "length_m": 150.00000000000878,
+      "mapped_overlap": 0,
+      "proximity_only": 0,
+      "mapped_non_overlap": 150.00000000000878
+    }
+  },
+  "source_records_scanned": 5790723,
+  "index_matches_full_scan": true,
+  "points": [
+    {
+      "gid": 266,
+      "chainage_m": 1.0,
+      "x": 152247.666274,
+      "y": 169803.358774,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.632447
+    },
+    {
+      "gid": 266,
+      "chainage_m": 3.0,
+      "x": 152246.857221,
+      "y": 169801.529721,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.918295
+    },
+    {
+      "gid": 266,
+      "chainage_m": 5.0,
+      "x": 152246.128675,
+      "y": 169799.670966,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.107128
+    },
+    {
+      "gid": 266,
+      "chainage_m": 7.0,
+      "x": 152245.555934,
+      "y": 169797.754728,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.570109
+    },
+    {
+      "gid": 266,
+      "chainage_m": 9.0,
+      "x": 152245.179794,
+      "y": 169795.795119,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.592026
+    },
+    {
+      "gid": 266,
+      "chainage_m": 11.0,
+      "x": 152245.167779,
+      "y": 169793.801285,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.680197
+    },
+    {
+      "gid": 266,
+      "chainage_m": 13.0,
+      "x": 152245.393814,
+      "y": 169791.814421,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.82819
+    },
+    {
+      "gid": 266,
+      "chainage_m": 15.0,
+      "x": 152245.726534,
+      "y": 169789.842291,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.492883
+    },
+    {
+      "gid": 266,
+      "chainage_m": 17.0,
+      "x": 152246.123695,
+      "y": 169787.882353,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.464186
+    },
+    {
+      "gid": 266,
+      "chainage_m": 19.0,
+      "x": 152246.534423,
+      "y": 169785.924982,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.832241
+    },
+    {
+      "gid": 266,
+      "chainage_m": 21.0,
+      "x": 152246.945152,
+      "y": 169783.967611,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.965432
+    },
+    {
+      "gid": 266,
+      "chainage_m": 23.0,
+      "x": 152247.35588,
+      "y": 169782.010239,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.030688
+    },
+    {
+      "gid": 266,
+      "chainage_m": 25.0,
+      "x": 152247.766609,
+      "y": 169780.052868,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.311416
+    },
+    {
+      "gid": 266,
+      "chainage_m": 27.0,
+      "x": 152248.177337,
+      "y": 169778.095497,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.557565
+    },
+    {
+      "gid": 266,
+      "chainage_m": 29.0,
+      "x": 152248.588065,
+      "y": 169776.138126,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.051251
+    },
+    {
+      "gid": 266,
+      "chainage_m": 31.0,
+      "x": 152248.998794,
+      "y": 169774.180754,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.577874
+    },
+    {
+      "gid": 266,
+      "chainage_m": 33.0,
+      "x": 152249.409522,
+      "y": 169772.223383,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.966771
+    },
+    {
+      "gid": 266,
+      "chainage_m": 35.0,
+      "x": 152249.820251,
+      "y": 169770.266012,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.107937
+    },
+    {
+      "gid": 266,
+      "chainage_m": 37.0,
+      "x": 152250.230979,
+      "y": 169768.308641,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.393195
+    },
+    {
+      "gid": 266,
+      "chainage_m": 39.0,
+      "x": 152250.641708,
+      "y": 169766.351269,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.862094
+    },
+    {
+      "gid": 266,
+      "chainage_m": 41.0,
+      "x": 152251.066629,
+      "y": 169764.396997,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.547493
+    },
+    {
+      "gid": 266,
+      "chainage_m": 43.0,
+      "x": 152251.509224,
+      "y": 169762.446585,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.709011
+    },
+    {
+      "gid": 266,
+      "chainage_m": 45.0,
+      "x": 152251.951818,
+      "y": 169760.496172,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.598904
+    },
+    {
+      "gid": 266,
+      "chainage_m": 47.0,
+      "x": 152252.394413,
+      "y": 169758.545759,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.488592
+    },
+    {
+      "gid": 266,
+      "chainage_m": 49.0,
+      "x": 152252.837007,
+      "y": 169756.595346,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.944982
+    },
+    {
+      "gid": 266,
+      "chainage_m": 51.0,
+      "x": 152253.279602,
+      "y": 169754.644933,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.651023
+    },
+    {
+      "gid": 266,
+      "chainage_m": 53.0,
+      "x": 152253.722196,
+      "y": 169752.694521,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.472777
+    },
+    {
+      "gid": 266,
+      "chainage_m": 55.0,
+      "x": 152254.164791,
+      "y": 169750.744108,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.798875
+    },
+    {
+      "gid": 266,
+      "chainage_m": 57.0,
+      "x": 152254.607385,
+      "y": 169748.793695,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.905577
+    },
+    {
+      "gid": 266,
+      "chainage_m": 59.0,
+      "x": 152255.04998,
+      "y": 169746.843282,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.094486
+    },
+    {
+      "gid": 266,
+      "chainage_m": 61.0,
+      "x": 152255.492574,
+      "y": 169744.892869,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.495794
+    },
+    {
+      "gid": 266,
+      "chainage_m": 63.0,
+      "x": 152255.935169,
+      "y": 169742.942457,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.260646
+    },
+    {
+      "gid": 266,
+      "chainage_m": 65.0,
+      "x": 152256.377763,
+      "y": 169740.992044,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.202817
+    },
+    {
+      "gid": 266,
+      "chainage_m": 67.0,
+      "x": 152256.820358,
+      "y": 169739.041631,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.603063
+    },
+    {
+      "gid": 266,
+      "chainage_m": 69.0,
+      "x": 152257.262952,
+      "y": 169737.091218,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.575157
+    },
+    {
+      "gid": 266,
+      "chainage_m": 71.0,
+      "x": 152257.705547,
+      "y": 169735.140805,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.605086
+    },
+    {
+      "gid": 266,
+      "chainage_m": 73.0,
+      "x": 152258.148141,
+      "y": 169733.190393,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.388798
+    },
+    {
+      "gid": 266,
+      "chainage_m": 75.0,
+      "x": 152258.590736,
+      "y": 169731.23998,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.686484
+    },
+    {
+      "gid": 266,
+      "chainage_m": 77.0,
+      "x": 152259.03333,
+      "y": 169729.289567,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.12713
+    },
+    {
+      "gid": 266,
+      "chainage_m": 79.0,
+      "x": 152259.475925,
+      "y": 169727.339154,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.97486
+    },
+    {
+      "gid": 266,
+      "chainage_m": 81.0,
+      "x": 152259.918519,
+      "y": 169725.388741,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.145425
+    },
+    {
+      "gid": 266,
+      "chainage_m": 83.0,
+      "x": 152260.361114,
+      "y": 169723.438329,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.228303
+    },
+    {
+      "gid": 266,
+      "chainage_m": 85.0,
+      "x": 152260.803708,
+      "y": 169721.487916,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.299307
+    },
+    {
+      "gid": 266,
+      "chainage_m": 87.0,
+      "x": 152261.246303,
+      "y": 169719.537503,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.158651
+    },
+    {
+      "gid": 266,
+      "chainage_m": 89.0,
+      "x": 152261.688897,
+      "y": 169717.58709,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.421477
+    },
+    {
+      "gid": 266,
+      "chainage_m": 91.0,
+      "x": 152262.131492,
+      "y": 169715.636677,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.067075
+    },
+    {
+      "gid": 266,
+      "chainage_m": 93.0,
+      "x": 152262.574086,
+      "y": 169713.686265,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.411172
+    },
+    {
+      "gid": 266,
+      "chainage_m": 95.0,
+      "x": 152263.016681,
+      "y": 169711.735852,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.388149
+    },
+    {
+      "gid": 266,
+      "chainage_m": 97.0,
+      "x": 152263.459275,
+      "y": 169709.785439,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.233971
+    },
+    {
+      "gid": 266,
+      "chainage_m": 99.0,
+      "x": 152263.90187,
+      "y": 169707.835026,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.62442
+    },
+    {
+      "gid": 266,
+      "chainage_m": 101.0,
+      "x": 152264.344464,
+      "y": 169705.884613,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.196047
+    },
+    {
+      "gid": 266,
+      "chainage_m": 103.0,
+      "x": 152264.787059,
+      "y": 169703.934201,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.712792
+    },
+    {
+      "gid": 266,
+      "chainage_m": 105.0,
+      "x": 152265.229653,
+      "y": 169701.983788,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.472588
+    },
+    {
+      "gid": 266,
+      "chainage_m": 107.0,
+      "x": 152265.672248,
+      "y": 169700.033375,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.410304
+    },
+    {
+      "gid": 266,
+      "chainage_m": 109.0,
+      "x": 152266.114842,
+      "y": 169698.082962,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.92794
+    },
+    {
+      "gid": 266,
+      "chainage_m": 111.0,
+      "x": 152266.557437,
+      "y": 169696.132549,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.329227
+    },
+    {
+      "gid": 266,
+      "chainage_m": 113.0,
+      "x": 152267.000032,
+      "y": 169694.182137,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.55381
+    },
+    {
+      "gid": 266,
+      "chainage_m": 115.0,
+      "x": 152267.442626,
+      "y": 169692.231724,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.001739
+    },
+    {
+      "gid": 266,
+      "chainage_m": 117.0,
+      "x": 152267.885221,
+      "y": 169690.281311,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.675186
+    },
+    {
+      "gid": 266,
+      "chainage_m": 119.0,
+      "x": 152268.327815,
+      "y": 169688.330898,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.452957
+    },
+    {
+      "gid": 266,
+      "chainage_m": 121.0,
+      "x": 152268.77041,
+      "y": 169686.380485,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.568439
+    },
+    {
+      "gid": 266,
+      "chainage_m": 123.0,
+      "x": 152269.213004,
+      "y": 169684.430073,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.234195
+    },
+    {
+      "gid": 266,
+      "chainage_m": 125.0,
+      "x": 152269.655599,
+      "y": 169682.47966,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.473402
+    },
+    {
+      "gid": 266,
+      "chainage_m": 127.0,
+      "x": 152270.098193,
+      "y": 169680.529247,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.274822
+    },
+    {
+      "gid": 266,
+      "chainage_m": 129.0,
+      "x": 152270.540788,
+      "y": 169678.578834,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.952406
+    },
+    {
+      "gid": 266,
+      "chainage_m": 131.0,
+      "x": 152271.008144,
+      "y": 169676.634207,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.170893
+    },
+    {
+      "gid": 266,
+      "chainage_m": 133.0,
+      "x": 152271.475665,
+      "y": 169674.689619,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.377994
+    },
+    {
+      "gid": 266,
+      "chainage_m": 135.0,
+      "x": 152271.943186,
+      "y": 169672.74503,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.651925
+    },
+    {
+      "gid": 266,
+      "chainage_m": 137.0,
+      "x": 152272.410706,
+      "y": 169670.800442,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.775303
+    },
+    {
+      "gid": 266,
+      "chainage_m": 139.0,
+      "x": 152272.878227,
+      "y": 169668.855853,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.428916
+    },
+    {
+      "gid": 266,
+      "chainage_m": 141.0,
+      "x": 152273.345748,
+      "y": 169666.911265,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.051076
+    },
+    {
+      "gid": 266,
+      "chainage_m": 143.0,
+      "x": 152273.813269,
+      "y": 169664.966676,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.453322
+    },
+    {
+      "gid": 266,
+      "chainage_m": 145.0,
+      "x": 152274.280789,
+      "y": 169663.022088,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.065723
+    },
+    {
+      "gid": 266,
+      "chainage_m": 147.0,
+      "x": 152274.74831,
+      "y": 169661.077499,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.968224
+    },
+    {
+      "gid": 266,
+      "chainage_m": 149.0,
+      "x": 152275.215831,
+      "y": 169659.132911,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.951596
+    },
+    {
+      "gid": 266,
+      "chainage_m": 151.0,
+      "x": 152275.683352,
+      "y": 169657.188323,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.154428
+    },
+    {
+      "gid": 266,
+      "chainage_m": 153.0,
+      "x": 152276.150872,
+      "y": 169655.243734,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.176869
+    },
+    {
+      "gid": 266,
+      "chainage_m": 155.0,
+      "x": 152276.618393,
+      "y": 169653.299146,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.880631
+    },
+    {
+      "gid": 266,
+      "chainage_m": 157.0,
+      "x": 152277.085914,
+      "y": 169651.354557,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.63728
+    },
+    {
+      "gid": 266,
+      "chainage_m": 159.0,
+      "x": 152277.553434,
+      "y": 169649.409969,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 161.0,
+      "x": 152278.020955,
+      "y": 169647.46538,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.040471
+    },
+    {
+      "gid": 266,
+      "chainage_m": 163.0,
+      "x": 152278.488476,
+      "y": 169645.520792,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.562464
+    },
+    {
+      "gid": 266,
+      "chainage_m": 165.0,
+      "x": 152278.955997,
+      "y": 169643.576203,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.236211
+    },
+    {
+      "gid": 266,
+      "chainage_m": 167.0,
+      "x": 152279.423517,
+      "y": 169641.631615,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.831306
+    },
+    {
+      "gid": 266,
+      "chainage_m": 169.0,
+      "x": 152279.891038,
+      "y": 169639.687026,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.666923
+    },
+    {
+      "gid": 266,
+      "chainage_m": 171.0,
+      "x": 152280.358559,
+      "y": 169637.742438,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.290223
+    },
+    {
+      "gid": 266,
+      "chainage_m": 173.0,
+      "x": 152280.811857,
+      "y": 169635.794521,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.454701
+    },
+    {
+      "gid": 266,
+      "chainage_m": 175.0,
+      "x": 152281.255847,
+      "y": 169633.844425,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.407651
+    },
+    {
+      "gid": 266,
+      "chainage_m": 177.0,
+      "x": 152281.699836,
+      "y": 169631.894329,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.387484
+    },
+    {
+      "gid": 266,
+      "chainage_m": 179.0,
+      "x": 152282.143826,
+      "y": 169629.944234,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.378203
+    },
+    {
+      "gid": 266,
+      "chainage_m": 181.0,
+      "x": 152282.587816,
+      "y": 169627.994138,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.388269
+    },
+    {
+      "gid": 266,
+      "chainage_m": 183.0,
+      "x": 152283.031805,
+      "y": 169626.044042,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.647225
+    },
+    {
+      "gid": 266,
+      "chainage_m": 185.0,
+      "x": 152283.475795,
+      "y": 169624.093947,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.193551
+    },
+    {
+      "gid": 266,
+      "chainage_m": 187.0,
+      "x": 152283.919785,
+      "y": 169622.143851,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.359859
+    },
+    {
+      "gid": 266,
+      "chainage_m": 189.0,
+      "x": 152284.363775,
+      "y": 169620.193755,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.108835
+    },
+    {
+      "gid": 266,
+      "chainage_m": 191.0,
+      "x": 152284.807764,
+      "y": 169618.243659,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.173648
+    },
+    {
+      "gid": 266,
+      "chainage_m": 193.0,
+      "x": 152285.251754,
+      "y": 169616.293564,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.054802
+    },
+    {
+      "gid": 266,
+      "chainage_m": 195.0,
+      "x": 152285.695744,
+      "y": 169614.343468,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.152825
+    },
+    {
+      "gid": 266,
+      "chainage_m": 197.0,
+      "x": 152286.139733,
+      "y": 169612.393372,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.317444
+    },
+    {
+      "gid": 266,
+      "chainage_m": 199.0,
+      "x": 152286.583723,
+      "y": 169610.443277,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.630738
+    },
+    {
+      "gid": 266,
+      "chainage_m": 201.0,
+      "x": 152287.027713,
+      "y": 169608.493181,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.083212
+    },
+    {
+      "gid": 266,
+      "chainage_m": 203.0,
+      "x": 152287.4753,
+      "y": 169606.54393,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 205.0,
+      "x": 152287.945384,
+      "y": 169604.59996,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 207.0,
+      "x": 152288.415469,
+      "y": 169602.655989,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 209.0,
+      "x": 152288.885554,
+      "y": 169600.712019,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 211.0,
+      "x": 152289.355639,
+      "y": 169598.768049,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 213.0,
+      "x": 152289.825723,
+      "y": 169596.824079,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 215.0,
+      "x": 152290.295808,
+      "y": 169594.880108,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 217.0,
+      "x": 152290.765893,
+      "y": 169592.936138,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 219.0,
+      "x": 152291.235977,
+      "y": 169590.992168,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 221.0,
+      "x": 152291.706062,
+      "y": 169589.048198,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 223.0,
+      "x": 152292.176147,
+      "y": 169587.104227,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 225.0,
+      "x": 152292.646232,
+      "y": 169585.160257,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 227.0,
+      "x": 152293.116316,
+      "y": 169583.216287,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 229.0,
+      "x": 152293.586401,
+      "y": 169581.272316,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.566095
+    },
+    {
+      "gid": 266,
+      "chainage_m": 231.0,
+      "x": 152294.056486,
+      "y": 169579.328346,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.891954
+    },
+    {
+      "gid": 266,
+      "chainage_m": 233.0,
+      "x": 152294.52657,
+      "y": 169577.384376,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.488322
+    },
+    {
+      "gid": 266,
+      "chainage_m": 235.0,
+      "x": 152294.996655,
+      "y": 169575.440406,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 237.0,
+      "x": 152295.46674,
+      "y": 169573.496435,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 239.0,
+      "x": 152295.936825,
+      "y": 169571.552465,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 241.0,
+      "x": 152296.406909,
+      "y": 169569.608495,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 243.0,
+      "x": 152296.876994,
+      "y": 169567.664525,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 245.0,
+      "x": 152297.347079,
+      "y": 169565.720554,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 247.0,
+      "x": 152297.817164,
+      "y": 169563.776584,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 249.0,
+      "x": 152298.287248,
+      "y": 169561.832614,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 251.0,
+      "x": 152298.752301,
+      "y": 169559.887444,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 253.0,
+      "x": 152299.209539,
+      "y": 169557.940413,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 255.0,
+      "x": 152299.666778,
+      "y": 169555.993381,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 257.0,
+      "x": 152300.124016,
+      "y": 169554.046349,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.633008
+    },
+    {
+      "gid": 266,
+      "chainage_m": 259.0,
+      "x": 152300.581254,
+      "y": 169552.099317,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.149326
+    },
+    {
+      "gid": 266,
+      "chainage_m": 261.0,
+      "x": 152301.038492,
+      "y": 169550.152285,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.010764
+    },
+    {
+      "gid": 266,
+      "chainage_m": 263.0,
+      "x": 152301.495731,
+      "y": 169548.205253,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.74498
+    },
+    {
+      "gid": 266,
+      "chainage_m": 265.0,
+      "x": 152301.952969,
+      "y": 169546.258221,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.508621
+    },
+    {
+      "gid": 266,
+      "chainage_m": 267.0,
+      "x": 152302.410207,
+      "y": 169544.311189,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.071862
+    },
+    {
+      "gid": 266,
+      "chainage_m": 269.0,
+      "x": 152302.867445,
+      "y": 169542.364157,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 271.0,
+      "x": 152303.324684,
+      "y": 169540.417126,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 273.0,
+      "x": 152303.781922,
+      "y": 169538.470094,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 275.0,
+      "x": 152304.23916,
+      "y": 169536.523062,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 277.0,
+      "x": 152304.696399,
+      "y": 169534.57603,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 279.0,
+      "x": 152305.153637,
+      "y": 169532.628998,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.363442
+    },
+    {
+      "gid": 266,
+      "chainage_m": 281.0,
+      "x": 152305.610875,
+      "y": 169530.681966,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.247506
+    },
+    {
+      "gid": 266,
+      "chainage_m": 283.0,
+      "x": 152306.068113,
+      "y": 169528.734934,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.547511
+    },
+    {
+      "gid": 266,
+      "chainage_m": 285.0,
+      "x": 152306.525352,
+      "y": 169526.787902,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.610548
+    },
+    {
+      "gid": 266,
+      "chainage_m": 287.0,
+      "x": 152306.98259,
+      "y": 169524.840871,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.749476
+    },
+    {
+      "gid": 266,
+      "chainage_m": 289.0,
+      "x": 152307.439828,
+      "y": 169522.893839,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.766174
+    },
+    {
+      "gid": 266,
+      "chainage_m": 291.0,
+      "x": 152307.887986,
+      "y": 169520.944706,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.025389
+    },
+    {
+      "gid": 266,
+      "chainage_m": 293.0,
+      "x": 152308.332479,
+      "y": 169518.994725,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.511302
+    },
+    {
+      "gid": 266,
+      "chainage_m": 295.0,
+      "x": 152308.776972,
+      "y": 169517.044744,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 297.0,
+      "x": 152309.221465,
+      "y": 169515.094763,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 299.0,
+      "x": 152309.665959,
+      "y": 169513.144782,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 301.0,
+      "x": 152310.110452,
+      "y": 169511.194801,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.270621
+    },
+    {
+      "gid": 266,
+      "chainage_m": 303.0,
+      "x": 152310.554945,
+      "y": 169509.24482,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 305.0,
+      "x": 152310.999438,
+      "y": 169507.294839,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 307.0,
+      "x": 152311.443931,
+      "y": 169505.344858,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.231407
+    },
+    {
+      "gid": 266,
+      "chainage_m": 309.0,
+      "x": 152311.888424,
+      "y": 169503.394877,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.094272
+    },
+    {
+      "gid": 266,
+      "chainage_m": 311.0,
+      "x": 152312.332917,
+      "y": 169501.444896,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.571496
+    },
+    {
+      "gid": 266,
+      "chainage_m": 313.0,
+      "x": 152312.777411,
+      "y": 169499.494915,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 315.0,
+      "x": 152313.221904,
+      "y": 169497.544934,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 317.0,
+      "x": 152313.666397,
+      "y": 169495.594953,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 319.0,
+      "x": 152314.11089,
+      "y": 169493.644972,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 321.0,
+      "x": 152314.555383,
+      "y": 169491.694991,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 323.0,
+      "x": 152314.999876,
+      "y": 169489.74501,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 325.0,
+      "x": 152315.444369,
+      "y": 169487.795029,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 327.0,
+      "x": 152315.888863,
+      "y": 169485.845048,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.421224
+    },
+    {
+      "gid": 266,
+      "chainage_m": 329.0,
+      "x": 152316.333356,
+      "y": 169483.895067,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.033142
+    },
+    {
+      "gid": 266,
+      "chainage_m": 331.0,
+      "x": 152316.777849,
+      "y": 169481.945086,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.453345
+    },
+    {
+      "gid": 266,
+      "chainage_m": 333.0,
+      "x": 152317.222342,
+      "y": 169479.995105,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 335.0,
+      "x": 152317.666835,
+      "y": 169478.045124,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 337.0,
+      "x": 152318.111328,
+      "y": 169476.095143,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 339.0,
+      "x": 152318.555821,
+      "y": 169474.145162,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 341.0,
+      "x": 152319.000314,
+      "y": 169472.195181,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 343.0,
+      "x": 152319.444808,
+      "y": 169470.2452,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.324009
+    },
+    {
+      "gid": 266,
+      "chainage_m": 345.0,
+      "x": 152319.889301,
+      "y": 169468.295219,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.808924
+    },
+    {
+      "gid": 266,
+      "chainage_m": 347.0,
+      "x": 152320.325518,
+      "y": 169466.343384,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.043062
+    },
+    {
+      "gid": 266,
+      "chainage_m": 349.0,
+      "x": 152320.755454,
+      "y": 169464.390142,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 351.0,
+      "x": 152321.185389,
+      "y": 169462.436899,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.611835
+    },
+    {
+      "gid": 266,
+      "chainage_m": 353.0,
+      "x": 152321.615325,
+      "y": 169460.483657,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.387726
+    },
+    {
+      "gid": 266,
+      "chainage_m": 355.0,
+      "x": 152322.045261,
+      "y": 169458.530415,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.342647
+    },
+    {
+      "gid": 266,
+      "chainage_m": 357.0,
+      "x": 152322.475197,
+      "y": 169456.577173,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.297291
+    },
+    {
+      "gid": 266,
+      "chainage_m": 359.0,
+      "x": 152322.905132,
+      "y": 169454.62393,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 361.0,
+      "x": 152323.335068,
+      "y": 169452.670688,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 363.0,
+      "x": 152323.765004,
+      "y": 169450.717446,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.045162
+    },
+    {
+      "gid": 266,
+      "chainage_m": 365.0,
+      "x": 152324.194939,
+      "y": 169448.764204,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.310417
+    },
+    {
+      "gid": 266,
+      "chainage_m": 367.0,
+      "x": 152324.624875,
+      "y": 169446.810961,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.191205
+    },
+    {
+      "gid": 266,
+      "chainage_m": 369.0,
+      "x": 152325.054811,
+      "y": 169444.857719,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.89055
+    },
+    {
+      "gid": 266,
+      "chainage_m": 371.0,
+      "x": 152325.484746,
+      "y": 169442.904477,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.055715
+    },
+    {
+      "gid": 266,
+      "chainage_m": 373.0,
+      "x": 152325.914682,
+      "y": 169440.951235,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 375.0,
+      "x": 152326.344618,
+      "y": 169438.997992,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 377.0,
+      "x": 152326.774554,
+      "y": 169437.04475,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.295484
+    },
+    {
+      "gid": 266,
+      "chainage_m": 379.0,
+      "x": 152327.204489,
+      "y": 169435.091508,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.374531
+    },
+    {
+      "gid": 266,
+      "chainage_m": 381.0,
+      "x": 152327.634425,
+      "y": 169433.138266,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.73522
+    },
+    {
+      "gid": 266,
+      "chainage_m": 383.0,
+      "x": 152328.064361,
+      "y": 169431.185023,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.812566
+    },
+    {
+      "gid": 266,
+      "chainage_m": 385.0,
+      "x": 152328.514209,
+      "y": 169429.236286,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.306447
+    },
+    {
+      "gid": 266,
+      "chainage_m": 387.0,
+      "x": 152328.966943,
+      "y": 169427.288202,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.90931
+    },
+    {
+      "gid": 266,
+      "chainage_m": 389.0,
+      "x": 152329.419678,
+      "y": 169425.340118,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 391.0,
+      "x": 152329.872413,
+      "y": 169423.392034,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 393.0,
+      "x": 152330.325148,
+      "y": 169421.44395,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 395.0,
+      "x": 152330.777883,
+      "y": 169419.495866,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 397.0,
+      "x": 152331.230618,
+      "y": 169417.547782,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 399.0,
+      "x": 152331.683352,
+      "y": 169415.599698,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.004251
+    },
+    {
+      "gid": 266,
+      "chainage_m": 401.0,
+      "x": 152332.136087,
+      "y": 169413.651615,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.817005
+    },
+    {
+      "gid": 266,
+      "chainage_m": 403.0,
+      "x": 152332.588822,
+      "y": 169411.703531,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.365138
+    },
+    {
+      "gid": 266,
+      "chainage_m": 405.0,
+      "x": 152333.041557,
+      "y": 169409.755447,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 407.0,
+      "x": 152333.494292,
+      "y": 169407.807363,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 409.0,
+      "x": 152333.947027,
+      "y": 169405.859279,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 411.0,
+      "x": 152334.399761,
+      "y": 169403.911195,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 413.0,
+      "x": 152334.852496,
+      "y": 169401.963111,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 415.0,
+      "x": 152335.305231,
+      "y": 169400.015027,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 417.0,
+      "x": 152335.757966,
+      "y": 169398.066943,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 419.0,
+      "x": 152336.210701,
+      "y": 169396.118859,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 421.0,
+      "x": 152336.663436,
+      "y": 169394.170775,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 423.0,
+      "x": 152337.11617,
+      "y": 169392.222691,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.515765
+    },
+    {
+      "gid": 266,
+      "chainage_m": 425.0,
+      "x": 152337.568905,
+      "y": 169390.274607,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 427.0,
+      "x": 152338.02164,
+      "y": 169388.326523,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 429.0,
+      "x": 152338.474375,
+      "y": 169386.378439,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 431.0,
+      "x": 152338.92711,
+      "y": 169384.430355,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 433.0,
+      "x": 152339.379845,
+      "y": 169382.482271,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 435.0,
+      "x": 152339.832579,
+      "y": 169380.534187,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 437.0,
+      "x": 152340.285314,
+      "y": 169378.586103,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 439.0,
+      "x": 152340.738049,
+      "y": 169376.638019,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 441.0,
+      "x": 152341.190784,
+      "y": 169374.689935,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.259434
+    },
+    {
+      "gid": 266,
+      "chainage_m": 443.0,
+      "x": 152341.643519,
+      "y": 169372.741851,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.614533
+    },
+    {
+      "gid": 266,
+      "chainage_m": 445.0,
+      "x": 152342.115074,
+      "y": 169370.798247,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.86811
+    },
+    {
+      "gid": 266,
+      "chainage_m": 447.0,
+      "x": 152342.588538,
+      "y": 169368.855097,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.672111
+    },
+    {
+      "gid": 266,
+      "chainage_m": 449.0,
+      "x": 152343.062001,
+      "y": 169366.911947,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.952838
+    },
+    {
+      "gid": 266,
+      "chainage_m": 451.0,
+      "x": 152343.535465,
+      "y": 169364.968796,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.462935
+    },
+    {
+      "gid": 266,
+      "chainage_m": 453.0,
+      "x": 152344.008928,
+      "y": 169363.025646,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.06075
+    },
+    {
+      "gid": 266,
+      "chainage_m": 455.0,
+      "x": 152344.482392,
+      "y": 169361.082496,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 457.0,
+      "x": 152344.955855,
+      "y": 169359.139346,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 459.0,
+      "x": 152345.429319,
+      "y": 169357.196196,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.23352
+    },
+    {
+      "gid": 266,
+      "chainage_m": 461.0,
+      "x": 152345.902782,
+      "y": 169355.253046,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.422185
+    },
+    {
+      "gid": 266,
+      "chainage_m": 463.0,
+      "x": 152346.376246,
+      "y": 169353.309896,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.000109
+    },
+    {
+      "gid": 266,
+      "chainage_m": 465.0,
+      "x": 152346.849709,
+      "y": 169351.366746,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.845271
+    },
+    {
+      "gid": 266,
+      "chainage_m": 467.0,
+      "x": 152347.323173,
+      "y": 169349.423596,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.591536
+    },
+    {
+      "gid": 266,
+      "chainage_m": 469.0,
+      "x": 152347.796636,
+      "y": 169347.480446,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.010313
+    },
+    {
+      "gid": 266,
+      "chainage_m": 471.0,
+      "x": 152348.2701,
+      "y": 169345.537296,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 473.0,
+      "x": 152348.743564,
+      "y": 169343.594145,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 475.0,
+      "x": 152349.217027,
+      "y": 169341.650995,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.682239
+    },
+    {
+      "gid": 266,
+      "chainage_m": 477.0,
+      "x": 152349.690491,
+      "y": 169339.707845,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.766556
+    },
+    {
+      "gid": 266,
+      "chainage_m": 479.0,
+      "x": 152350.163954,
+      "y": 169337.764695,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.40939
+    },
+    {
+      "gid": 266,
+      "chainage_m": 481.0,
+      "x": 152350.637418,
+      "y": 169335.821545,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.795769
+    },
+    {
+      "gid": 266,
+      "chainage_m": 483.0,
+      "x": 152351.110881,
+      "y": 169333.878395,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.57504
+    },
+    {
+      "gid": 266,
+      "chainage_m": 485.0,
+      "x": 152351.584345,
+      "y": 169331.935245,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.315924
+    },
+    {
+      "gid": 266,
+      "chainage_m": 487.0,
+      "x": 152352.057808,
+      "y": 169329.992095,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.043113
+    },
+    {
+      "gid": 266,
+      "chainage_m": 489.0,
+      "x": 152352.531272,
+      "y": 169328.048945,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.905186
+    },
+    {
+      "gid": 266,
+      "chainage_m": 491.0,
+      "x": 152353.004735,
+      "y": 169326.105795,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.270085
+    },
+    {
+      "gid": 266,
+      "chainage_m": 493.0,
+      "x": 152353.478199,
+      "y": 169324.162645,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.913441
+    },
+    {
+      "gid": 266,
+      "chainage_m": 495.0,
+      "x": 152353.951663,
+      "y": 169322.219494,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.014658
+    },
+    {
+      "gid": 266,
+      "chainage_m": 497.0,
+      "x": 152354.425126,
+      "y": 169320.276344,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.469846
+    },
+    {
+      "gid": 266,
+      "chainage_m": 499.0,
+      "x": 152354.89859,
+      "y": 169318.333194,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.365481
+    },
+    {
+      "gid": 266,
+      "chainage_m": 501.0,
+      "x": 152355.372053,
+      "y": 169316.390044,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.985136
+    },
+    {
+      "gid": 266,
+      "chainage_m": 503.0,
+      "x": 152355.845517,
+      "y": 169314.446894,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 505.0,
+      "x": 152356.31898,
+      "y": 169312.503744,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 507.0,
+      "x": 152356.792444,
+      "y": 169310.560594,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 509.0,
+      "x": 152357.265907,
+      "y": 169308.617444,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.686532
+    },
+    {
+      "gid": 266,
+      "chainage_m": 511.0,
+      "x": 152357.739371,
+      "y": 169306.674294,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.721649
+    },
+    {
+      "gid": 266,
+      "chainage_m": 513.0,
+      "x": 152358.212834,
+      "y": 169304.731144,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.983134
+    },
+    {
+      "gid": 266,
+      "chainage_m": 515.0,
+      "x": 152358.686298,
+      "y": 169302.787994,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.201791
+    },
+    {
+      "gid": 266,
+      "chainage_m": 517.0,
+      "x": 152359.159762,
+      "y": 169300.844843,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.294617
+    },
+    {
+      "gid": 266,
+      "chainage_m": 519.0,
+      "x": 152359.626568,
+      "y": 169298.900129,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 521.0,
+      "x": 152360.067876,
+      "y": 169296.949425,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.152281
+    },
+    {
+      "gid": 266,
+      "chainage_m": 523.0,
+      "x": 152360.509184,
+      "y": 169294.998721,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.283278
+    },
+    {
+      "gid": 266,
+      "chainage_m": 525.0,
+      "x": 152360.950492,
+      "y": 169293.048016,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.056921
+    },
+    {
+      "gid": 266,
+      "chainage_m": 527.0,
+      "x": 152361.391799,
+      "y": 169291.097312,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.370654
+    },
+    {
+      "gid": 266,
+      "chainage_m": 529.0,
+      "x": 152361.833107,
+      "y": 169289.146608,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.145899
+    },
+    {
+      "gid": 266,
+      "chainage_m": 531.0,
+      "x": 152362.274415,
+      "y": 169287.195904,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.27243
+    },
+    {
+      "gid": 266,
+      "chainage_m": 533.0,
+      "x": 152362.715723,
+      "y": 169285.245199,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.65701
+    },
+    {
+      "gid": 266,
+      "chainage_m": 535.0,
+      "x": 152363.166472,
+      "y": 169283.296712,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.394003
+    },
+    {
+      "gid": 266,
+      "chainage_m": 537.0,
+      "x": 152363.639454,
+      "y": 169281.353444,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.341084
+    },
+    {
+      "gid": 266,
+      "chainage_m": 539.0,
+      "x": 152364.112437,
+      "y": 169279.410177,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 541.0,
+      "x": 152364.585419,
+      "y": 169277.46691,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 543.0,
+      "x": 152365.058402,
+      "y": 169275.523643,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 545.0,
+      "x": 152365.531384,
+      "y": 169273.580375,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 547.0,
+      "x": 152366.004367,
+      "y": 169271.637108,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 549.0,
+      "x": 152366.477349,
+      "y": 169269.693841,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 266,
+      "chainage_m": 551.0,
+      "x": 152366.950332,
+      "y": 169267.750574,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.262205
+    },
+    {
+      "gid": 266,
+      "chainage_m": 553.0,
+      "x": 152367.384699,
+      "y": 169265.798322,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.855504
+    },
+    {
+      "gid": 266,
+      "chainage_m": 555.0,
+      "x": 152367.818141,
+      "y": 169263.845855,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.339683
+    },
+    {
+      "gid": 266,
+      "chainage_m": 557.0,
+      "x": 152368.251583,
+      "y": 169261.893387,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.816065
+    },
+    {
+      "gid": 266,
+      "chainage_m": 559.0,
+      "x": 152368.685025,
+      "y": 169259.94092,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.449623
+    },
+    {
+      "gid": 266,
+      "chainage_m": 561.0,
+      "x": 152369.118467,
+      "y": 169257.988453,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 4.998693
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 1.0,
+      "x": 152156.8299,
+      "y": 170070.134865,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.888769
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 3.0,
+      "x": 152158.326899,
+      "y": 170068.808594,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.835748
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 5.0,
+      "x": 152159.823898,
+      "y": 170067.482323,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.342861
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 7.0,
+      "x": 152161.320897,
+      "y": 170066.156053,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.007614
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 9.0,
+      "x": 152162.817896,
+      "y": 170064.829782,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.966091
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 11.0,
+      "x": 152164.369316,
+      "y": 170063.577582,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.430624
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 13.0,
+      "x": 152166.082357,
+      "y": 170062.545355,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.408003
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 15.0,
+      "x": 152167.795398,
+      "y": 170061.513129,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.756405
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 17.0,
+      "x": 152169.508438,
+      "y": 170060.480903,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.958362
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 19.0,
+      "x": 152171.221479,
+      "y": 170059.448676,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.153984
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 21.0,
+      "x": 152172.944485,
+      "y": 170058.433375,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.607544
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 23.0,
+      "x": 152174.678235,
+      "y": 170057.436325,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.03861
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 25.0,
+      "x": 152176.411986,
+      "y": 170056.439275,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.128579
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 27.0,
+      "x": 152178.145736,
+      "y": 170055.442225,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.261242
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 29.0,
+      "x": 152179.879487,
+      "y": 170054.445175,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.473428
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 31.0,
+      "x": 152181.613238,
+      "y": 170053.448125,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.806804
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 33.0,
+      "x": 152183.346988,
+      "y": 170052.451075,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.502405
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 35.0,
+      "x": 152185.086874,
+      "y": 170051.465662,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.057424
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 37.0,
+      "x": 152186.889142,
+      "y": 170050.59858,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.650242
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 39.0,
+      "x": 152188.69141,
+      "y": 170049.731499,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.876951
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 41.0,
+      "x": 152190.493677,
+      "y": 170048.864417,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.499618
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 43.0,
+      "x": 152192.295945,
+      "y": 170047.997335,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.288874
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 45.0,
+      "x": 152194.098213,
+      "y": 170047.130253,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.157057
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 47.0,
+      "x": 152195.900481,
+      "y": 170046.263172,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.067568
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 49.0,
+      "x": 152197.702749,
+      "y": 170045.39609,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.003092
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 51.0,
+      "x": 152199.505016,
+      "y": 170044.529008,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.954528
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 53.0,
+      "x": 152201.322596,
+      "y": 170043.698836,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.907264
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 55.0,
+      "x": 152203.209391,
+      "y": 170043.035506,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.831004
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 57.0,
+      "x": 152205.096185,
+      "y": 170042.372176,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.768495
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 59.0,
+      "x": 152206.98298,
+      "y": 170041.708846,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.24175
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 61.0,
+      "x": 152208.869774,
+      "y": 170041.045516,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.325045
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 63.0,
+      "x": 152210.760801,
+      "y": 170040.394586,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.558151
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 65.0,
+      "x": 152212.65944,
+      "y": 170039.765961,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.717784
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 67.0,
+      "x": 152214.558079,
+      "y": 170039.137335,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.018986
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 69.0,
+      "x": 152216.456718,
+      "y": 170038.50871,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.521766
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 71.0,
+      "x": 152218.355357,
+      "y": 170037.880084,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.243569
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 73.0,
+      "x": 152220.253996,
+      "y": 170037.251458,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.195031
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 75.0,
+      "x": 152222.14744,
+      "y": 170036.607451,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.394116
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 77.0,
+      "x": 152224.038489,
+      "y": 170035.956348,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.824106
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 79.0,
+      "x": 152225.929537,
+      "y": 170035.305245,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.45241
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 81.0,
+      "x": 152227.820586,
+      "y": 170034.654141,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.253295
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 83.0,
+      "x": 152229.711634,
+      "y": 170034.003038,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.220963
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 85.0,
+      "x": 152231.602683,
+      "y": 170033.351934,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.332728
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 87.0,
+      "x": 152233.493731,
+      "y": 170032.700831,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.181416
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 89.0,
+      "x": 152235.38478,
+      "y": 170032.049728,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.122706
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 91.0,
+      "x": 152237.275828,
+      "y": 170031.398624,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.15855
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 93.0,
+      "x": 152239.166877,
+      "y": 170030.747521,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.239361
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 95.0,
+      "x": 152241.057925,
+      "y": 170030.096417,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.490722
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 97.0,
+      "x": 152242.948974,
+      "y": 170029.445314,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.914536
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 99.0,
+      "x": 152244.840022,
+      "y": 170028.794211,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 23.501476
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 101.0,
+      "x": 152246.731071,
+      "y": 170028.143107,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 24.239693
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 103.0,
+      "x": 152248.622119,
+      "y": 170027.492004,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 24.087251
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 105.0,
+      "x": 152250.513168,
+      "y": 170026.840901,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.179592
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 107.0,
+      "x": 152252.404216,
+      "y": 170026.189797,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.289725
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 109.0,
+      "x": 152254.295265,
+      "y": 170025.538694,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.423126
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 111.0,
+      "x": 152256.186313,
+      "y": 170024.88759,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 16.587653
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 113.0,
+      "x": 152258.077362,
+      "y": 170024.236487,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.786838
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 115.0,
+      "x": 152259.982508,
+      "y": 170023.63559,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.970455
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 117.0,
+      "x": 152261.936077,
+      "y": 170023.207142,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.084728
+    },
+    {
+      "gid": 5630,
+      "chainage_m": 119.0,
+      "x": 152263.895781,
+      "y": 170022.809458,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.198876
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 1.0,
+      "x": 152318.573903,
+      "y": 169831.964833,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.76148
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 3.0,
+      "x": 152320.472108,
+      "y": 169831.334899,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.721029
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 5.0,
+      "x": 152322.370313,
+      "y": 169830.704965,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.017515
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 7.0,
+      "x": 152324.268518,
+      "y": 169830.075031,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.506481
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 9.0,
+      "x": 152326.166723,
+      "y": 169829.445097,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.61629
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 11.0,
+      "x": 152328.064929,
+      "y": 169828.815163,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.064432
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 13.0,
+      "x": 152329.963134,
+      "y": 169828.185228,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.754009
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 15.0,
+      "x": 152331.861339,
+      "y": 169827.555294,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.909032
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 17.0,
+      "x": 152333.759544,
+      "y": 169826.92536,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.23903
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 19.0,
+      "x": 152335.65775,
+      "y": 169826.295426,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.704393
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 21.0,
+      "x": 152337.555955,
+      "y": 169825.665492,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.91685
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 23.0,
+      "x": 152339.45416,
+      "y": 169825.035558,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.456862
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 25.0,
+      "x": 152341.352365,
+      "y": 169824.405624,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.678592
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 27.0,
+      "x": 152343.25057,
+      "y": 169823.77569,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.535707
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 29.0,
+      "x": 152345.148776,
+      "y": 169823.145756,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.214449
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 31.0,
+      "x": 152347.046981,
+      "y": 169822.515822,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.924705
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 33.0,
+      "x": 152348.945186,
+      "y": 169821.885888,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.186345
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 35.0,
+      "x": 152350.843391,
+      "y": 169821.255954,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.031329
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 37.0,
+      "x": 152352.741597,
+      "y": 169820.626019,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.283014
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 39.0,
+      "x": 152354.639802,
+      "y": 169819.996085,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.110552
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 41.0,
+      "x": 152356.538007,
+      "y": 169819.366151,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.625699
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 43.0,
+      "x": 152358.436212,
+      "y": 169818.736217,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.396435
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 45.0,
+      "x": 152360.334417,
+      "y": 169818.106283,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.607641
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 47.0,
+      "x": 152362.232623,
+      "y": 169817.476349,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.320795
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 49.0,
+      "x": 152364.130828,
+      "y": 169816.846415,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.75984
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 51.0,
+      "x": 152366.029033,
+      "y": 169816.216481,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.5819
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 53.0,
+      "x": 152367.927238,
+      "y": 169815.586547,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.038272
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 55.0,
+      "x": 152369.825443,
+      "y": 169814.956613,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.997778
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 57.0,
+      "x": 152371.723649,
+      "y": 169814.326679,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.136214
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 59.0,
+      "x": 152373.621854,
+      "y": 169813.696745,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.484871
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 61.0,
+      "x": 152375.520059,
+      "y": 169813.06681,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.313906
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 63.0,
+      "x": 152377.418264,
+      "y": 169812.436876,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.968533
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 65.0,
+      "x": 152379.31647,
+      "y": 169811.806942,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.135261
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 67.0,
+      "x": 152381.214675,
+      "y": 169811.177008,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.702088
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 69.0,
+      "x": 152383.11288,
+      "y": 169810.547074,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.5526
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 71.0,
+      "x": 152385.011085,
+      "y": 169809.91714,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.98356
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 73.0,
+      "x": 152386.90929,
+      "y": 169809.287206,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.614749
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 75.0,
+      "x": 152388.807496,
+      "y": 169808.657272,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.834037
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 77.0,
+      "x": 152390.705701,
+      "y": 169808.027338,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.176821
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 79.0,
+      "x": 152392.604286,
+      "y": 169807.398551,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.127884
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 81.0,
+      "x": 152394.503061,
+      "y": 169806.770334,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.355852
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 83.0,
+      "x": 152396.401835,
+      "y": 169806.142117,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.021118
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 85.0,
+      "x": 152398.30292,
+      "y": 169805.520961,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.782381
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 87.0,
+      "x": 152400.205718,
+      "y": 169804.905041,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.586109
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 89.0,
+      "x": 152402.108517,
+      "y": 169804.289121,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.837798
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 91.0,
+      "x": 152404.011316,
+      "y": 169803.673201,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.925267
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 93.0,
+      "x": 152405.914114,
+      "y": 169803.057282,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.492297
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 95.0,
+      "x": 152407.816913,
+      "y": 169802.441362,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.358949
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 97.0,
+      "x": 152409.719712,
+      "y": 169801.825442,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.927248
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 99.0,
+      "x": 152411.62251,
+      "y": 169801.209522,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.666768
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 101.0,
+      "x": 152413.525309,
+      "y": 169800.593603,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.417044
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 103.0,
+      "x": 152415.428108,
+      "y": 169799.977683,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.248875
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 105.0,
+      "x": 152417.330906,
+      "y": 169799.361763,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.378443
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 107.0,
+      "x": 152419.233705,
+      "y": 169798.745843,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.093388
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 109.0,
+      "x": 152421.136504,
+      "y": 169798.129924,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.186668
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 111.0,
+      "x": 152423.039303,
+      "y": 169797.514004,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.460818
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 113.0,
+      "x": 152424.942101,
+      "y": 169796.898084,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.370841
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 115.0,
+      "x": 152426.8449,
+      "y": 169796.282164,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.447312
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 117.0,
+      "x": 152428.747699,
+      "y": 169795.666245,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.957601
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 119.0,
+      "x": 152430.650497,
+      "y": 169795.050325,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.578622
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 121.0,
+      "x": 152432.553296,
+      "y": 169794.434405,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.510546
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 123.0,
+      "x": 152434.456095,
+      "y": 169793.818485,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.736091
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 125.0,
+      "x": 152436.358893,
+      "y": 169793.202566,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.577165
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 127.0,
+      "x": 152438.261692,
+      "y": 169792.586646,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.027297
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 129.0,
+      "x": 152440.164491,
+      "y": 169791.970726,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.039308
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 131.0,
+      "x": 152442.067289,
+      "y": 169791.354806,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.923338
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 133.0,
+      "x": 152443.970088,
+      "y": 169790.738887,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.414665
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 135.0,
+      "x": 152445.872887,
+      "y": 169790.122967,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.210578
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 137.0,
+      "x": 152447.775685,
+      "y": 169789.507047,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.539418
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 139.0,
+      "x": 152449.678484,
+      "y": 169788.891127,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.130308
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 141.0,
+      "x": 152451.581283,
+      "y": 169788.275207,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.00705
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 143.0,
+      "x": 152453.484082,
+      "y": 169787.659288,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.818941
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 145.0,
+      "x": 152455.38688,
+      "y": 169787.043368,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.150855
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 147.0,
+      "x": 152457.289679,
+      "y": 169786.427448,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.706531
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 149.0,
+      "x": 152459.192478,
+      "y": 169785.811528,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.668273
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 151.0,
+      "x": 152461.095276,
+      "y": 169785.195609,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.944209
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 153.0,
+      "x": 152462.998075,
+      "y": 169784.579689,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.83589
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 155.0,
+      "x": 152464.900874,
+      "y": 169783.963769,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.879723
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 157.0,
+      "x": 152466.803672,
+      "y": 169783.347849,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.138858
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 159.0,
+      "x": 152468.706471,
+      "y": 169782.73193,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.829793
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 161.0,
+      "x": 152470.60927,
+      "y": 169782.11601,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.8456
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 163.0,
+      "x": 152472.512068,
+      "y": 169781.50009,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.351519
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 165.0,
+      "x": 152474.414867,
+      "y": 169780.88417,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.424644
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 167.0,
+      "x": 152476.317666,
+      "y": 169780.268251,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.263129
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 169.0,
+      "x": 152478.220465,
+      "y": 169779.652331,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.234742
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 171.0,
+      "x": 152480.123263,
+      "y": 169779.036411,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.834372
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 173.0,
+      "x": 152482.026062,
+      "y": 169778.420491,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.078733
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 175.0,
+      "x": 152483.928861,
+      "y": 169777.804572,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.979676
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 177.0,
+      "x": 152485.831659,
+      "y": 169777.188652,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.32936
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 179.0,
+      "x": 152487.733462,
+      "y": 169776.569867,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.668519
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 181.0,
+      "x": 152489.60822,
+      "y": 169775.873243,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.887346
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 183.0,
+      "x": 152491.482977,
+      "y": 169775.176618,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.568174
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 185.0,
+      "x": 152493.357734,
+      "y": 169774.479994,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.768158
+    },
+    {
+      "gid": 5634,
+      "chainage_m": 187.0,
+      "x": 152495.23272,
+      "y": 169773.783987,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.865521
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 1.0,
+      "x": 152671.975308,
+      "y": 169520.309394,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.214373
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 3.0,
+      "x": 152670.059323,
+      "y": 169520.882982,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 5.0,
+      "x": 152668.143339,
+      "y": 169521.45657,
+      "stratum": "mapped_overlap",
+      "distance_to_cover_m": 0.0
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 7.0,
+      "x": 152666.230606,
+      "y": 169522.040654,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.257168
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 9.0,
+      "x": 152664.325986,
+      "y": 169522.650917,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.16481
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 11.0,
+      "x": 152662.421365,
+      "y": 169523.261179,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.014848
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 13.0,
+      "x": 152660.516744,
+      "y": 169523.871441,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.050989
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 15.0,
+      "x": 152658.612124,
+      "y": 169524.481704,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.776779
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 17.0,
+      "x": 152656.707503,
+      "y": 169525.091966,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.112475
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 19.0,
+      "x": 152654.802882,
+      "y": 169525.702228,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.804825
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 21.0,
+      "x": 152652.898262,
+      "y": 169526.312491,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.842771
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 23.0,
+      "x": 152650.993641,
+      "y": 169526.922753,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.969064
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 25.0,
+      "x": 152649.08902,
+      "y": 169527.533015,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.39087
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 27.0,
+      "x": 152647.1844,
+      "y": 169528.143278,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.989732
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 29.0,
+      "x": 152645.279779,
+      "y": 169528.75354,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.660559
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 31.0,
+      "x": 152643.375159,
+      "y": 169529.363803,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.413823
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 33.0,
+      "x": 152641.470538,
+      "y": 169529.974065,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.962509
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 35.0,
+      "x": 152639.565917,
+      "y": 169530.584327,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.633634
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 37.0,
+      "x": 152637.661297,
+      "y": 169531.19459,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.549917
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 39.0,
+      "x": 152635.756676,
+      "y": 169531.804852,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.648217
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 41.0,
+      "x": 152633.852055,
+      "y": 169532.415114,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.014672
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 43.0,
+      "x": 152631.947435,
+      "y": 169533.025377,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.630435
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 45.0,
+      "x": 152630.042814,
+      "y": 169533.635639,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 16.467563
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 47.0,
+      "x": 152628.138193,
+      "y": 169534.245901,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.494306
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 49.0,
+      "x": 152626.233573,
+      "y": 169534.856164,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.679424
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 51.0,
+      "x": 152624.328952,
+      "y": 169535.466426,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.015073
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 53.0,
+      "x": 152622.424331,
+      "y": 169536.076688,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.169013
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 55.0,
+      "x": 152620.519711,
+      "y": 169536.686951,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.361502
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 57.0,
+      "x": 152618.61509,
+      "y": 169537.297213,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.578693
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 59.0,
+      "x": 152616.710469,
+      "y": 169537.907476,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.84914
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 61.0,
+      "x": 152614.805849,
+      "y": 169538.517738,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.218772
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 63.0,
+      "x": 152612.901228,
+      "y": 169539.128,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.743254
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 65.0,
+      "x": 152610.996607,
+      "y": 169539.738263,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.514365
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 67.0,
+      "x": 152609.091987,
+      "y": 169540.348525,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.669848
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 69.0,
+      "x": 152607.187366,
+      "y": 169540.958787,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.364595
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 71.0,
+      "x": 152605.282745,
+      "y": 169541.56905,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.276547
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 73.0,
+      "x": 152603.378125,
+      "y": 169542.179312,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.186678
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 75.0,
+      "x": 152601.473504,
+      "y": 169542.789574,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.719742
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 77.0,
+      "x": 152599.568883,
+      "y": 169543.399837,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.121622
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 79.0,
+      "x": 152597.664263,
+      "y": 169544.010099,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.401447
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 81.0,
+      "x": 152595.759642,
+      "y": 169544.620361,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.927563
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 83.0,
+      "x": 152593.855021,
+      "y": 169545.230624,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.490133
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 85.0,
+      "x": 152591.950401,
+      "y": 169545.840886,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.652669
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 87.0,
+      "x": 152590.04578,
+      "y": 169546.451149,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.594554
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 89.0,
+      "x": 152588.141159,
+      "y": 169547.061411,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.397969
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 91.0,
+      "x": 152586.239496,
+      "y": 169547.680735,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.812072
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 93.0,
+      "x": 152584.341502,
+      "y": 169548.311307,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.183639
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 95.0,
+      "x": 152582.443509,
+      "y": 169548.941879,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.537545
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 97.0,
+      "x": 152580.545884,
+      "y": 169549.57356,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.819076
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 99.0,
+      "x": 152578.648495,
+      "y": 169550.205948,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.275797
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 101.0,
+      "x": 152576.751106,
+      "y": 169550.838336,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.741398
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 103.0,
+      "x": 152574.851381,
+      "y": 169551.463669,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.762882
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 105.0,
+      "x": 152572.951508,
+      "y": 169552.088555,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.969109
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 107.0,
+      "x": 152571.051635,
+      "y": 169552.713441,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.945318
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 109.0,
+      "x": 152569.151762,
+      "y": 169553.338328,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.948133
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 111.0,
+      "x": 152567.251889,
+      "y": 169553.963214,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.505323
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 113.0,
+      "x": 152565.352017,
+      "y": 169554.5881,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.316991
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 115.0,
+      "x": 152563.452144,
+      "y": 169555.212986,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.216497
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 117.0,
+      "x": 152561.552271,
+      "y": 169555.837873,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.108061
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 119.0,
+      "x": 152559.652398,
+      "y": 169556.462759,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.646009
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 121.0,
+      "x": 152557.752525,
+      "y": 169557.087645,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.422788
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 123.0,
+      "x": 152555.852652,
+      "y": 169557.712531,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.565397
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 125.0,
+      "x": 152553.952779,
+      "y": 169558.337418,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.463897
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 127.0,
+      "x": 152552.052906,
+      "y": 169558.962304,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.919255
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 129.0,
+      "x": 152550.153033,
+      "y": 169559.58719,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.13632
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 131.0,
+      "x": 152548.25316,
+      "y": 169560.212077,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.408584
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 133.0,
+      "x": 152546.353287,
+      "y": 169560.836963,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.101606
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 135.0,
+      "x": 152544.453414,
+      "y": 169561.461849,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.155653
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 137.0,
+      "x": 152542.553541,
+      "y": 169562.086735,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.377184
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 139.0,
+      "x": 152540.653668,
+      "y": 169562.711622,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.856334
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 141.0,
+      "x": 152538.753796,
+      "y": 169563.336508,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.494234
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 143.0,
+      "x": 152536.853923,
+      "y": 169563.961394,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.232064
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 145.0,
+      "x": 152534.95405,
+      "y": 169564.58628,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.035213
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 147.0,
+      "x": 152533.054177,
+      "y": 169565.211167,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.846381
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 149.0,
+      "x": 152531.154304,
+      "y": 169565.836053,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.443822
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 151.0,
+      "x": 152529.254431,
+      "y": 169566.460939,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.804024
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 153.0,
+      "x": 152527.354558,
+      "y": 169567.085825,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.384072
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 155.0,
+      "x": 152525.454685,
+      "y": 169567.710712,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.25578
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 157.0,
+      "x": 152523.554812,
+      "y": 169568.335598,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.427509
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 159.0,
+      "x": 152521.654939,
+      "y": 169568.960484,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.888136
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 161.0,
+      "x": 152519.755066,
+      "y": 169569.585371,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.61036
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 163.0,
+      "x": 152517.855193,
+      "y": 169570.210257,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.37074
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 165.0,
+      "x": 152515.95532,
+      "y": 169570.835143,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.461861
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 167.0,
+      "x": 152514.055447,
+      "y": 169571.460029,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.58668
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 169.0,
+      "x": 152512.155574,
+      "y": 169572.084916,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.766847
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 171.0,
+      "x": 152510.255702,
+      "y": 169572.709802,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.045382
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 173.0,
+      "x": 152508.355829,
+      "y": 169573.334688,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.515181
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 175.0,
+      "x": 152506.455956,
+      "y": 169573.959574,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.258392
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 177.0,
+      "x": 152504.556083,
+      "y": 169574.584461,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.083382
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 179.0,
+      "x": 152502.65621,
+      "y": 169575.209347,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.807492
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 181.0,
+      "x": 152500.756337,
+      "y": 169575.834233,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.446751
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 183.0,
+      "x": 152498.856464,
+      "y": 169576.459119,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.765907
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 185.0,
+      "x": 152496.951861,
+      "y": 169577.069139,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.366565
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 187.0,
+      "x": 152495.040171,
+      "y": 169577.656881,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.784086
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 189.0,
+      "x": 152493.128481,
+      "y": 169578.244623,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.327515
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 191.0,
+      "x": 152491.216791,
+      "y": 169578.832365,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.133446
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 193.0,
+      "x": 152489.304737,
+      "y": 169579.418922,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.824877
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 195.0,
+      "x": 152487.392682,
+      "y": 169580.005478,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.757631
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 197.0,
+      "x": 152485.494006,
+      "y": 169580.630459,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.149957
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 199.0,
+      "x": 152483.63111,
+      "y": 169581.358208,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.50398
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 201.0,
+      "x": 152481.768214,
+      "y": 169582.085956,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.832818
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 203.0,
+      "x": 152479.905318,
+      "y": 169582.813705,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.625332
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 205.0,
+      "x": 152478.042421,
+      "y": 169583.541453,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.769323
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 207.0,
+      "x": 152476.179525,
+      "y": 169584.269202,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.157195
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 209.0,
+      "x": 152474.316629,
+      "y": 169584.99695,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.7093
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 211.0,
+      "x": 152472.453733,
+      "y": 169585.724698,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.372531
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 213.0,
+      "x": 152470.590837,
+      "y": 169586.452447,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 16.112509
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 215.0,
+      "x": 152468.727941,
+      "y": 169587.180195,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.906878
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 217.0,
+      "x": 152466.865044,
+      "y": 169587.907944,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.740811
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 219.0,
+      "x": 152465.002148,
+      "y": 169588.635692,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.604234
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 221.0,
+      "x": 152463.139252,
+      "y": 169589.363441,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.722887
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 223.0,
+      "x": 152461.276356,
+      "y": 169590.091189,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.022778
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 225.0,
+      "x": 152459.41346,
+      "y": 169590.818938,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.127938
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 227.0,
+      "x": 152457.550563,
+      "y": 169591.546686,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.349082
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 229.0,
+      "x": 152455.789202,
+      "y": 169592.490136,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.975499
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 231.0,
+      "x": 152454.041253,
+      "y": 169593.46208,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.828861
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 233.0,
+      "x": 152452.293304,
+      "y": 169594.434023,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.883331
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 235.0,
+      "x": 152450.545354,
+      "y": 169595.405966,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.137279
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 237.0,
+      "x": 152448.797405,
+      "y": 169596.377909,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.583322
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 239.0,
+      "x": 152447.049456,
+      "y": 169597.349852,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.209345
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 241.0,
+      "x": 152445.301507,
+      "y": 169598.321795,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.353321
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 243.0,
+      "x": 152443.553557,
+      "y": 169599.293738,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.387808
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 245.0,
+      "x": 152441.805608,
+      "y": 169600.265681,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.430143
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 247.0,
+      "x": 152440.057659,
+      "y": 169601.237624,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.483302
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 249.0,
+      "x": 152438.30971,
+      "y": 169602.209568,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.551952
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 251.0,
+      "x": 152436.56176,
+      "y": 169603.181511,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.592279
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 253.0,
+      "x": 152434.813811,
+      "y": 169604.153454,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.621507
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 255.0,
+      "x": 152433.125057,
+      "y": 169605.217342,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.693599
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 257.0,
+      "x": 152431.516755,
+      "y": 169606.406192,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 5.871666
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 259.0,
+      "x": 152429.908453,
+      "y": 169607.595042,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 4.214434
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 261.0,
+      "x": 152428.300151,
+      "y": 169608.783893,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 3.004727
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 263.0,
+      "x": 152426.69185,
+      "y": 169609.972743,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 2.139469
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 265.0,
+      "x": 152425.083548,
+      "y": 169611.161593,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 1.2362
+    },
+    {
+      "gid": 5642,
+      "chainage_m": 267.0,
+      "x": 152423.475246,
+      "y": 169612.350444,
+      "stratum": "proximity_only",
+      "distance_to_cover_m": 0.881003
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 1.0,
+      "x": 152372.25571,
+      "y": 169667.413605,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.148819
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 3.0,
+      "x": 152371.058929,
+      "y": 169669.016014,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.031808
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 5.0,
+      "x": 152369.862148,
+      "y": 169670.618423,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.914402
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 7.0,
+      "x": 152368.665834,
+      "y": 169672.221181,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.835721
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 9.0,
+      "x": 152367.469806,
+      "y": 169673.824152,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.779527
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 11.0,
+      "x": 152366.273778,
+      "y": 169675.427124,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.737422
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 13.0,
+      "x": 152365.07775,
+      "y": 169677.030095,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 17.704732
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 15.0,
+      "x": 152363.881722,
+      "y": 169678.633067,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.678633
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 17.0,
+      "x": 152362.685695,
+      "y": 169680.236038,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.657324
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 19.0,
+      "x": 152361.489667,
+      "y": 169681.83901,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 23.639601
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 21.0,
+      "x": 152360.293639,
+      "y": 169683.441981,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 23.333515
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 23.0,
+      "x": 152359.097611,
+      "y": 169685.044952,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 22.188262
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 25.0,
+      "x": 152357.901583,
+      "y": 169686.647924,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 21.17038
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 27.0,
+      "x": 152356.705555,
+      "y": 169688.250895,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 20.29904
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 29.0,
+      "x": 152355.509528,
+      "y": 169689.853867,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.593801
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 31.0,
+      "x": 152354.3135,
+      "y": 169691.456838,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 19.073099
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 33.0,
+      "x": 152353.117472,
+      "y": 169693.05981,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.75231
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 35.0,
+      "x": 152351.921444,
+      "y": 169694.662781,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.641758
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 37.0,
+      "x": 152350.725416,
+      "y": 169696.265752,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.745164
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 39.0,
+      "x": 152349.529388,
+      "y": 169697.868724,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 18.419695
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 41.0,
+      "x": 152348.33336,
+      "y": 169699.471695,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 16.59442
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 43.0,
+      "x": 152347.137333,
+      "y": 169701.074667,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.814332
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 45.0,
+      "x": 152345.941305,
+      "y": 169702.677638,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.097864
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 47.0,
+      "x": 152344.745277,
+      "y": 169704.28061,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.473608
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 49.0,
+      "x": 152343.549249,
+      "y": 169705.883581,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.986657
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 51.0,
+      "x": 152342.353221,
+      "y": 169707.486552,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.707637
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 53.0,
+      "x": 152341.157193,
+      "y": 169709.089524,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.740322
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 55.0,
+      "x": 152339.961166,
+      "y": 169710.692495,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.211256
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 57.0,
+      "x": 152338.765138,
+      "y": 169712.295467,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.050336
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 59.0,
+      "x": 152337.56911,
+      "y": 169713.898438,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.416055
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 61.0,
+      "x": 152336.373082,
+      "y": 169715.50141,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.990691
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 63.0,
+      "x": 152335.177054,
+      "y": 169717.104381,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.630568
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 65.0,
+      "x": 152333.981026,
+      "y": 169718.707352,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.859965
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 67.0,
+      "x": 152332.784998,
+      "y": 169720.310324,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.625864
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 69.0,
+      "x": 152331.588971,
+      "y": 169721.913295,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.789111
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 71.0,
+      "x": 152330.392943,
+      "y": 169723.516267,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.21485
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 73.0,
+      "x": 152329.196915,
+      "y": 169725.119238,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.803776
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 75.0,
+      "x": 152328.000887,
+      "y": 169726.72221,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.454021
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 77.0,
+      "x": 152326.804859,
+      "y": 169728.325181,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.389589
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 79.0,
+      "x": 152325.608831,
+      "y": 169729.928152,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.712585
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 81.0,
+      "x": 152324.412804,
+      "y": 169731.531124,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.142682
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 83.0,
+      "x": 152323.216776,
+      "y": 169733.134095,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.73185
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 85.0,
+      "x": 152322.020748,
+      "y": 169734.737067,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.552334
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 87.0,
+      "x": 152320.82472,
+      "y": 169736.340038,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.518161
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 89.0,
+      "x": 152319.628692,
+      "y": 169737.94301,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.876154
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 91.0,
+      "x": 152318.432664,
+      "y": 169739.545981,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.785296
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 93.0,
+      "x": 152317.236636,
+      "y": 169741.148952,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.77439
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 95.0,
+      "x": 152316.040609,
+      "y": 169742.751924,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 6.876851
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 97.0,
+      "x": 152314.844581,
+      "y": 169744.354895,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.442131
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 99.0,
+      "x": 152313.648553,
+      "y": 169745.957867,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.45446
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 101.0,
+      "x": 152312.452525,
+      "y": 169747.560838,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.739193
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 103.0,
+      "x": 152311.256497,
+      "y": 169749.16381,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.231339
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 105.0,
+      "x": 152310.060469,
+      "y": 169750.766781,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.862117
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 107.0,
+      "x": 152308.864442,
+      "y": 169752.369752,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.585101
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 109.0,
+      "x": 152307.668414,
+      "y": 169753.972724,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 16.371202
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 111.0,
+      "x": 152306.472386,
+      "y": 169755.575695,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.869285
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 113.0,
+      "x": 152305.276358,
+      "y": 169757.178667,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.175867
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 115.0,
+      "x": 152304.08033,
+      "y": 169758.781638,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.50577
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 117.0,
+      "x": 152302.884302,
+      "y": 169760.38461,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.923516
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 119.0,
+      "x": 152301.688275,
+      "y": 169761.987581,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.500112
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 121.0,
+      "x": 152300.492247,
+      "y": 169763.590552,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.317515
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 123.0,
+      "x": 152299.296219,
+      "y": 169765.193524,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.49066
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 125.0,
+      "x": 152298.100191,
+      "y": 169766.796495,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.144153
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 127.0,
+      "x": 152296.904163,
+      "y": 169768.399467,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 7.346281
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 129.0,
+      "x": 152295.708135,
+      "y": 169770.002438,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 8.055853
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 131.0,
+      "x": 152294.512107,
+      "y": 169771.605409,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.150996
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 133.0,
+      "x": 152293.31608,
+      "y": 169773.208381,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 10.368408
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 135.0,
+      "x": 152292.120052,
+      "y": 169774.811352,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.755985
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 137.0,
+      "x": 152290.924024,
+      "y": 169776.414324,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 13.30047
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 139.0,
+      "x": 152289.925827,
+      "y": 169778.108928,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 15.029892
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 141.0,
+      "x": 152289.476669,
+      "y": 169780.05784,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 16.45848
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 143.0,
+      "x": 152289.027512,
+      "y": 169782.006752,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 14.83527
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 145.0,
+      "x": 152289.186299,
+      "y": 169783.983329,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 12.99473
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 147.0,
+      "x": 152289.456587,
+      "y": 169785.964981,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 11.034632
+    },
+    {
+      "gid": 5643,
+      "chainage_m": 149.0,
+      "x": 152289.769192,
+      "y": 169787.938461,
+      "stratum": "mapped_non_overlap",
+      "distance_to_cover_m": 9.060181
+    }
+  ],
+  "limits": [
+    "Candidates are interior points of a discretised line, not an area sample: a point represents the 2 m of line it sits in the middle of",
+    "Stratum labels come from the mapped tree class, so they describe the mapped frame, not validated canopy",
+    "The frame is the 1 km2 convenience frame with five segments, not a probability sample of Brussels streets",
+    "Stratum boundaries are inclusive: a point exactly on a polygon edge counts as overlap, matching the pipeline intersection convention",
+    "The incomplete remainder of each segment (shorter than one step) is excluded from the frame"
+  ]
+}
