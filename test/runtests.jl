@@ -784,6 +784,10 @@ end
         wbgt["window"]["seasons"] = 3
         TreesSurfaces.atomic_write_json(wbgt_path, wbgt)
         season_path = joinpath(data_dir, HeatSeason.HEAT_SEASON_FILENAME)
+    committed_season = TreesSurfaces.read_json_path(season_path)
+    for field in ("request_url", "grid_probe_url")
+        @test occursin("timezone=UTC", committed_season[field])
+    end
         season = TreesSurfaces.read_json_path(season_path)
         season["cells"][1]["hottest_season_year"] = "2019"
         TreesSurfaces.atomic_write_json(season_path, season)
@@ -851,6 +855,10 @@ end
     @test_throws ErrorException HeatSeason.era5_grid_point(NaN, 4.25)
     @test occursin("models=era5", HeatSeason.archive_request_url([(50.75, 4.25)]))
     @test occursin("start_date=2016-08-24", HeatSeason.grid_probe_request_url([(50.84, 4.34)]))
+    # The daily aggregates are UTC-day values. Losing this parameter would silently change the
+    # seasonal series, so it is asserted here and against the committed artifact below.
+    @test occursin("timezone=UTC", HeatSeason.archive_request_url([(50.75, 4.25)]))
+    @test occursin("timezone=UTC", HeatSeason.grid_probe_request_url([(50.84, 4.34)]))
     probe_point = HeatSeason.era5_grid_point(50.84, 4.34)
     probe_payload = Dict("latitude" => probe_point[1], "longitude" => probe_point[2], "daily_units" => Dict("temperature_2m_max" => "°C"), "daily" => Dict("time" => [HeatSeason.REFERENCE_DATE], "temperature_2m_max" => [31.0]))
     @test HeatSeason.validate_grid_probe_payload(probe_payload, 50.84, 4.34) == probe_point

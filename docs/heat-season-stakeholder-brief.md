@@ -23,6 +23,8 @@ Two further measurements matter for interpretation:
 
 This is why the brief does not simply recommend switching. "Seasonal mean" and "worst day" are different decisions, and the project cannot choose between them without a stakeholder saying what the screen is for.
 
+**Day-boundary caveat.** The ERA5 seasonal series is requested as UTC-day aggregates, and that convention is recorded and tested. The VITO daily archive states no such convention, so a daily maximum from each context need not aggregate the same hours; the comparison treats that as unresolved rather than assumed common.
+
 **Licence caveat.** The [VITO archive page](https://provide.marvin.vito.be/ftp/compressed_daily/) asks users to cite De Ridder et al. (2015) and Souverijns et al. (2026), but states no licence or redistribution terms. The related Souverijns et al. CC BY 4.0 dataset is the decadal 2010–2100 indicator set, not this daily archive. The committed artifact records terms as unresolved. A 2026-10-17 primary-source check found no licence attribute in the annual NetCDF files either, and the Copernicus Climate Data Store sibling record `sis-urban-climate-cities` (CC-BY-4.0, deprecated on the CDS on 2024-05-10) covers hourly temperature, humidity and wind for 100 cities and contains no WBGT, so it does not license this daily WBGT archive (see [`heat-season-method.md`](heat-season-method.md), *Licence and lineage*). Confirm reuse terms with VITO (`urbclim@vito.be`) before external redistribution or relying on derived values beyond exploratory analysis; do not redistribute the NetCDF files.
 
 ## Coarse ERA5 context (independent check)
