@@ -1,0 +1,147 @@
+{
+  "schema_version": 2,
+  "frame_manifest_sha256": "c8e3bed851f5b8fffbd20f0abad202c18d0e8a498db8de02244e82b0f0045582",
+  "frame_code_sha256": "a7116b49d9c5c6dbb7759c9a576103f0335e486cf6692724d965fae511e8e57c",
+  "candidate_count": 644,
+  "assessed_length_m": 1288.0,
+  "step_m": 2.0,
+  "canopy_candidates": 90,
+  "frame_prevalence": 0.139752,
+  "sample_size": 385,
+  "sampling_fraction": 0.597826,
+  "sampling_step_m": 3.3455,
+  "spacing_lags": 1.6727,
+  "draws": 4000,
+  "seed": 20261018,
+  "design": "systematic with a common step and an independent random start per segment, segment allocations proportional to candidate counts, no class strata",
+  "mean_estimate": 0.139753,
+  "variance": 3.36372e-05,
+  "srswr_variance": 0.0003122625,
+  "srswor_variance": 0.0001255838,
+  "step_near_integer": false,
+  "design_effect": 0.1077,
+  "design_effect_finite": 0.2678,
+  "inflation_for_random_placement": 3.6902,
+  "variance_mc_standard_error": 7.52245e-07,
+  "estimate_range": [
+    0.127273,
+    0.153247
+  ],
+  "estimate_quantiles": {
+    "2.5": 0.12987,
+    "25": 0.135065,
+    "50": 0.14026,
+    "75": 0.145455,
+    "97.5": 0.150649
+  },
+  "lag_autocorrelation": {
+    "lag_1": 0.6251,
+    "lag_2": 0.3056,
+    "lag_3": 0.2062,
+    "lag_4": 0.1718,
+    "lag_5": 0.1255,
+    "lag_6": 0.1134,
+    "lag_7": 0.1512,
+    "lag_8": 0.2011,
+    "lag_9": 0.2046,
+    "lag_10": 0.2316,
+    "lag_11": 0.2117,
+    "lag_12": 0.1915,
+    "lag_13": 0.1554,
+    "lag_14": 0.131,
+    "lag_15": 0.1183,
+    "lag_16": 0.1177,
+    "lag_17": 0.1537,
+    "lag_18": 0.1656,
+    "lag_19": 0.1035,
+    "lag_20": 0.0904,
+    "lag_21": 0.0896,
+    "lag_22": 0.0928,
+    "lag_23": 0.092,
+    "lag_24": 0.0532
+  },
+  "canopy_runs": {
+    "count": 20,
+    "mean_length_frames": 4.5,
+    "longest_frames": 13,
+    "mean_length_m": 9.0
+  },
+  "limits": [
+    "Measures clustering of the mapped class along these five segments, not of reference labels",
+    "Removes the class strata, so it cannot measure stratification gain for the reference proportion",
+    "Reference omission and commission are spatially structured too and are invisible here",
+    "The finite-population reading treats the frame itself as the population; the infinite reading treats these streets as a sample from a broader population, and only the second matches the plan",
+    "Five convenience segments are not a sample of Brussels streets",
+    "The variance across starting points is a diagnostic: near-integral sampling steps leave few substantively distinct samples and bias it low",
+    "inflation_for_random_placement applies to randomly placed points, which is the implicit model of the plan, not to its systematic design",
+    "Monte-Carlo precision is reported; it is not a sampling-theory confidence interval",
+    "A lag-sum (spectral) estimator was implemented and dropped: these segments are too",
+    "short for stable long-lag autocorrelation and it returned impossible negative inflation"
+  ],
+  "cost_at_assumed_design_effect_3": {
+    "0.10": {
+      "5 pp": 415,
+      "7 pp": 185,
+      "10 pp": 104
+    },
+    "0.14": {
+      "5 pp": 556,
+      "7 pp": 247,
+      "10 pp": 139
+    },
+    "0.25": {
+      "5 pp": 865,
+      "7 pp": 385,
+      "10 pp": 217
+    },
+    "0.50": {
+      "5 pp": 1153,
+      "7 pp": 513,
+      "10 pp": 289
+    }
+  },
+  "cost_at_measured_inflation_for_random_placement": {
+    "0.10": {
+      "5 pp": 511,
+      "7 pp": 227,
+      "10 pp": 128
+    },
+    "0.14": {
+      "5 pp": 683,
+      "7 pp": 304,
+      "10 pp": 171
+    },
+    "0.25": {
+      "5 pp": 1064,
+      "7 pp": 473,
+      "10 pp": 266
+    },
+    "0.50": {
+      "5 pp": 1418,
+      "7 pp": 631,
+      "10 pp": 355
+    }
+  },
+  "cost_at_measured_finite_design_effect": {
+    "0.10": {
+      "5 pp": 139,
+      "7 pp": 62,
+      "10 pp": 35
+    },
+    "0.14": {
+      "5 pp": 186,
+      "7 pp": 83,
+      "10 pp": 47
+    },
+    "0.25": {
+      "5 pp": 289,
+      "7 pp": 129,
+      "10 pp": 73
+    },
+    "0.50": {
+      "5 pp": 385,
+      "7 pp": 171,
+      "10 pp": 97
+    }
+  }
+}

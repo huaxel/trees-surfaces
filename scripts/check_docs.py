@@ -88,6 +88,7 @@ FRAME = 'data/research/canopy-validation-frame.json'
 WINDOWS = 'data/research/canopy-verified/windows.json'
 COMPARISON = 'data/research/canopy-verified/comparison.json'
 TREES = 'data/brussels-trees-sample.json'
+EFFECT = 'data/research/canopy-design-effect.json'
 PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
 WBGT = 'docs/wbgt-mean-max-method.md'
@@ -118,6 +119,19 @@ LEDGER = (
           rationale='the frame is five published segments, not a sample'),
     claim(BRIEF, r'the (\d+) committed tree points', TREES, lambda d: len(d['records'])),
     claim(WBGT, r'The (\d+) committed tree points', TREES, lambda d: len(d['records'])),
+    claim(PLAN, r'\*\*([\d.]+) m\*\* step', EFFECT, lambda d: d['sampling_step_m'], tolerance=0.01),
+    claim(PLAN, r'averaging \*\*([\d.]+) m\*\*', EFFECT, lambda d: d['canopy_runs']['mean_length_m'],
+          tolerance=0.01, rationale='mean mapped-canopy run length'),
+    claim(PLAN, r'between \*\*([\d.]+)%\*\* and', EFFECT,
+          lambda d: d['estimate_quantiles']['2.5']*100, tolerance=0.01),
+    claim(PLAN, r'and\s+\*\*([\d.]+)%\*\* \(2\.5th', EFFECT,
+          lambda d: d['estimate_quantiles']['97.5']*100, tolerance=0.01),
+    claim(PLAN, r'around the frame.s \*\*([\d.]+)%\*\*', EFFECT,
+          lambda d: d['frame_prevalence']*100, tolerance=0.01),
+    claim(PLAN, r'sampling fraction of \*\*([\d.]+)\*\*', EFFECT,
+          lambda d: d['sampling_fraction'], tolerance=0.005),
+    claim(PLAN, r'inflation near ([\d.]+)\*\*', EFFECT,
+          lambda d: d['inflation_for_random_placement'], tolerance=0.05),
 )
 
 

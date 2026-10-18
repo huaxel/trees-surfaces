@@ -20,6 +20,8 @@ from metrics import merge_intervals, profile, route_line
 from pipeline import encoded, execute, publish, rename_no_replace
 from alignment_audit import shifted_profiles
 from validation_frame import STEP_M, classify_points
+from design_effect import (allocate, lag_autocorrelation, measure, segment_series,
+                           systematic_proportion)
 from selection import allocate_cells, build, select, systematic_indices
 from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
                            stratum_totals, wilson_interval)
@@ -464,6 +466,106 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(report['selected'], 385)
         self.assertEqual(sum(report['points_by_segment'].values()), 385)
         self.assertTrue(all(abs(entry['design_weight'] - 1) < 0.02 for entry in report['strata'].values()))
+
+
+class DesignEffectTests(unittest.TestCase):
+    """The design effect is measured on the frame, so the machinery must be able to fail."""
+
+    def frame_from_series(self, series, step=2.0):
+        points = []
+        for gid, values in series.items():
+            for index, value in enumerate(values):
+                points.append(dict(gid=gid, chainage_m=float(index*step+step/2), x=0.0, y=0.0,
+                                   stratum='mapped_overlap' if value else 'mapped_non_overlap',
+                                   distance_to_cover_m=0.0))
+        return dict(candidate_count=len(points), step_m=step, points=points,
+                    assessed_length_m=len(points)*step, manifest_sha256='fixture',
+                    frame_code_sha256='fixture')
+
+    def test_a_periodic_pattern_is_sampled_exactly(self):
+        # Every fourth frame is canopy and the step advances the phase by two, so every
+        # systematic draw intercepts the pattern identically: zero variance, and a design
+        # effect of exactly zero. Worth pinning because it shows how strong even spreading is.
+        series = {1: [1 if index % 4 == 0 else 0 for index in range(600)]}
+        report = measure(self.frame_from_series(series), 120, 1500, 7)
+        self.assertEqual(report['variance'], 0.0)
+        self.assertEqual(report['design_effect_finite'], 0.0)
+
+    def test_near_integral_step_is_flagged(self):
+        # The step here is exactly five frame steps, which leaves only five substantively
+        # distinct samples. The report must say so rather than present a variance that looks
+        # reassuringly small. This is the limitation the module documents.
+        import random as random_module
+        rng = random_module.Random(20261018)
+        series = {1: [1 if rng.random() < 0.25 else 0 for _ in range(600)]}
+        report = measure(self.frame_from_series(series), 120, 1500, 7)
+        self.assertTrue(report['step_near_integer'])
+        self.assertLess(report['design_effect_finite'], 0.75)   # biased low, as documented
+        # A step far from any integer number of frame steps is not flagged: 1200/62 = 19.35.
+        off = measure(self.frame_from_series(series), 62, 1000, 7)
+        self.assertFalse(off['step_near_integer'], off['spacing_lags'])
+
+    def test_aliasing_inflates_the_design_effect(self):
+        # Strict alternation with a step of exactly two frames: every draw lands on the same
+        # phase, so the estimate is either all-canopy or none. This is the case the frame is
+        # NOT in, which is why the measured effect can sit below 1 without the check being
+        # vacuous.
+        series = {1: [index % 2 for index in range(600)]}
+        frame = self.frame_from_series(series)
+        report = measure(frame, 100, 2000, 11)   # step = 1200/100 = 12 frames: an even phase 2
+        self.assertGreater(report['design_effect_finite'], 5.0,
+                           f"aliased sampling should inflate; got {report['design_effect_finite']}")
+        estimates = {report['estimate_range'][0], report['estimate_range'][1]}
+        self.assertTrue(any(value in (0.0, 1.0) for value in estimates),
+                        f'aliased draws should collapse to a constant; got {estimates}')
+
+    def test_allocation_covers_every_segment(self):
+        series = {1: [0]*300, 2: [0]*100, 3: [0]*20}
+        allocation = allocate(series, 60)
+        self.assertEqual(sum(allocation.values()), 60)
+        self.assertTrue(all(count >= 1 for count in allocation.values()))
+        self.assertGreater(allocation[1], allocation[2])
+        with self.assertRaises(ValueError):
+            allocate(series, 500)
+
+    def test_within_segment_autocorrelation(self):
+        # Alternating within each segment gives rho_1 near -1 whatever the segment means are;
+        # pooling first would give a different, mean-driven answer.
+        series = {1: [index % 2 for index in range(60)], 2: [1 - index % 2 for index in range(60)]}
+        rhos = lag_autocorrelation(series, 4)
+        self.assertAlmostEqual(rhos[0], -1.0, delta=0.05)
+        with self.assertRaises(ValueError):
+            lag_autocorrelation({1: [0]*50}, 4)   # a constant segment carries no lag information
+
+    def test_measurement_is_reproducible_and_unbiased(self):
+        import random as random_module
+        rng = random_module.Random(11)
+        series = {1: [1 if rng.random() < 0.25 else 0 for _ in range(600)]}
+        frame = self.frame_from_series(series)
+        report = measure(frame, 120, 1500, 3)
+        self.assertEqual(report, measure(frame, 120, 1500, 3))
+        self.assertAlmostEqual(report['mean_estimate'], report['frame_prevalence'], delta=0.01)
+        self.assertLess(report['variance_mc_standard_error'], report['variance']/10)
+        self.assertGreater(report['canopy_runs']['count'], 50)
+        self.assertGreater(report['canopy_runs']['mean_length_m'], 1.0)
+        self.assertLess(report['canopy_runs']['mean_length_m'], 4.0)
+
+    def test_committed_frame_reports_the_plan_reading(self):
+        frame = json.loads((ROOT/'data/research/canopy-validation-frame.json').read_text())
+        report = measure(frame, 385, 1500, 20261018)
+        self.assertEqual(report['candidate_count'], 644)
+        self.assertAlmostEqual(report['sampling_fraction'], 385/644, places=6)
+        self.assertAlmostEqual(report['mean_estimate'], report['frame_prevalence'], delta=0.01)
+        # The design spreads evenly, so on a finite frame it beats random selection at the same n.
+        self.assertLess(report['design_effect_finite'], 1.0)
+        # And the patch-length bound lands in the same order of magnitude as the plan's 3.
+        self.assertGreater(report['inflation_for_random_placement'], 2.0)
+        self.assertLess(report['inflation_for_random_placement'], 6.0)
+        self.assertFalse(report['step_near_integer'])
+        # Across starting points the estimate moves by roughly a percentage point, which is
+        # the model-free statement the plan can lean on.
+        low, high = report['estimate_quantiles'][2.5], report['estimate_quantiles'][97.5]
+        self.assertLess(high-low, 0.03)
 
 if __name__ == '__main__':
     unittest.main()

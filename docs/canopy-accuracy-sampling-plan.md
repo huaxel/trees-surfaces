@@ -41,6 +41,30 @@ that overlap is spatially autocorrelated. **The design effect must be estimated 
 pilot labels themselves**, as an intra-cluster correlation over street segments; 3 is a
 planning placeholder, not a measured value.
 
+Part of that placeholder can be measured without labels, and has been:
+`research/canopy/design_effect.py` writes `data/research/canopy-design-effect.json` from the
+committed frame, and the result splits the single number into two different things.
+
+- **The mapped class is strongly clustered at short range.** The canopy indicator's
+  within-segment autocorrelation is 0.63 at 2 m, 0.31 at 4 m, 0.21 at 6 m, and the frame
+  holds 20 canopy runs averaging **9.0 m** (longest 26 m).
+- **Randomly placed points would therefore face an inflation near 3.7** — one plus mean run
+  over step, at this plan's **3.35 m** step. So 3 is not an arbitrary placeholder: it is
+  about what random placement on this patch structure costs.
+- **But the plan places points systematically, and even spreading removes most of that
+  cost.** Across 4,000 random starting points the estimate moves between **12.99%** and
+  **15.06%** (2.5th to 97.5th percentile) around the frame's **13.98%** — roughly ±1 pp,
+  inside the binomial band, at a sampling fraction of **0.60**.
+- **What the placeholder must still cover is label error.** Clustering of reference-label
+  errors is invisible in mapped geometry and remains unmeasurable until labels exist.
+
+One limitation is recorded with the artifact and should travel with the numbers: the variance
+across starting points is a diagnostic, and when the sampling step is near an integer number
+of frame steps the design has few substantively distinct realisations, which biases that
+variance low — on synthetic frames with an exactly integral step it reported 0.34-0.55 where
+theory says 1.0. The committed frame's step of 1.67 frame steps is not integral, so the
+reported spread stands, but it is not a design-effect estimate and must not be quoted as one.
+
 ## Frame and strata
 
 The frame is the 1,295.5 m of reference line in the frozen comparison frame (five segments),
