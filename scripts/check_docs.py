@@ -154,6 +154,28 @@ def _comparison_gid(data, gid):
                 if r['gid'] == gid and r['vegetation'] == 'trees' and r['buffer_m'] == 0)
 
 
+def _date_share(data, prefix):
+    """Share of analysed reference-line length whose segment start matches prefix."""
+    segs = {}
+    for r in data['results']:
+        segs.setdefault(r['gid'], (r['begin_date'], r['length_m']))
+    total = sum(length for _, length in segs.values())
+    return sum(length for (begin, length) in segs.values()
+               if begin.startswith(prefix))/total*100
+
+
+def _ortho_window(data, gid, frac):
+    return next(r for r in data['results'] if r['window_id'] == f'gid{gid}-{frac}')
+
+
+def _ortho_ratio_bound(data, which):
+    """Min/max over per-band median peak ratios for the four bands the audit range covers."""
+    medians = [statistics.median(b['peak_separation_ratio'] for r in data['results']
+                                 for b in r['bands'] if b['band'] == band)
+               for band in ('full', 'above_1m', 'above_2m', 'above_5m')]
+    return min(medians) if which == 'min' else max(medians)
+
+
 def _stratum(name):
     return lambda data: sum(segment[name] for segment in data['segments'])
 
@@ -624,6 +646,64 @@ LEDGER = (
     claim(AUDIT, r'against the published ([\d.]+)%', COMPARISON,
           lambda d: _pooled_overlap(d, 'trees', 0), tolerance=0.005,
           rationale='the published figure is the trees-only buffer-0 pool, not all classes'),
+    # The audit restates the ortho verdict and the segment-date weights; pin the repeats so
+    # the two documents cannot drift apart unnoticed. The 3 mm resolving-band figure is
+    # skipped: the claim ledger compares quoted floats, and millimetres need a unit the
+    # ledger does not have. The 1.20 m end of the taper history has no JSON backing.
+    claim(AUDIT, r'stable to a median of \*\*([\d.]+) m\*\* across', ORTHO,
+          lambda d: d['summary']['median_resolving_band_spread_m'], tolerance=0.005),
+    claim(AUDIT, r'\(worst ([\d.]+) m; \d+ of 15 windows within', ORTHO,
+          lambda d: d['summary']['max_resolving_band_spread_m'], tolerance=0.005),
+    claim(AUDIT, r'\(worst [\d.]+ m; (\d+) of 15 windows within', ORTHO,
+          lambda d: d['summary']['consistent_windows']),
+    claim(AUDIT, r'The offset itself is \*\*([\d.]+)[\u2013-]', ORTHO,
+          lambda d: d['summary']['full_band_offset_m_range'][0], tolerance=0.005),
+    claim(AUDIT, r'The offset itself is \*\*[\d.]+[\u2013-]([\d.]+) m', ORTHO,
+          lambda d: d['summary']['full_band_offset_m_range'][1], tolerance=0.005),
+    claim(AUDIT, r'The offset itself is \*\*[\d.]+[\u2013-][\d.]+ m \(median ([\d.]+) m\)\*\*',
+          ORTHO, lambda d: d['summary']['median_full_band_offset_m'], tolerance=0.005),
+    claim(AUDIT, r'Full-band correlation ([\d.]+)[\u2013-]', ORTHO,
+          lambda d: d['summary']['full_band_ncc_range'][0], tolerance=0.005),
+    claim(AUDIT, r'Full-band correlation [\d.]+[\u2013-]([\d.]*\d)\.', ORTHO,
+          lambda d: d['summary']['full_band_ncc_range'][1], tolerance=0.005),
+    claim(AUDIT, r'peak-to-shoulder ratios ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, w='min': _ortho_ratio_bound(d, w), tolerance=0.005,
+          rationale='least-sharp of the four per-band medians'),
+    claim(AUDIT, r'peak-to-shoulder ratios [\d.]+[\u2013-]([\d.]+)', ORTHO,
+          lambda d, w='max': _ortho_ratio_bound(d, w), tolerance=0.005,
+          rationale='sharpest of the four per-band medians'),
+    claim(AUDIT, r'moved the median magnitude from 1\.20 m to ([\d.]+) m', ORTHO,
+          lambda d: d['summary']['median_full_band_offset_m'], tolerance=0.005),
+    claim(AUDIT, r'moves the wide bands by ([\d.]+) m', ORTHO,
+          lambda d: d['degraded_max_error_wide_band_m'], tolerance=0.001),
+    claim(AUDIT, r'gid 5642 runs [\u2212-]([\d.]+) \u2192', ORTHO,
+          lambda d, g=5642: abs(_ortho_window(d, g, 'at10')['offset_m']['full_band_east_m']),
+          tolerance=0.005, rationale='magnitude pinned here; the sign lives in the glyph'),
+    claim(AUDIT, r'\u2192 \+([\d.]+) \u2192', ORTHO,
+          lambda d, g=5642: _ortho_window(d, g, 'at50')['offset_m']['full_band_east_m'],
+          tolerance=0.005),
+    claim(AUDIT, r'\u2192 [\u2212-]([\d.]+) m east over', ORTHO,
+          lambda d, g=5642: abs(_ortho_window(d, g, 'at90')['offset_m']['full_band_east_m']),
+          tolerance=0.005, rationale='magnitude pinned here; the sign lives in the glyph'),
+    claim(AUDIT, r'gid 266 ([\d.]+) \u2192', ORTHO,
+          lambda d, g=266: _ortho_window(d, g, 'at10')['offset_m']['full_band_magnitude_m'],
+          tolerance=0.005),
+    claim(AUDIT, r'gid 266 [\d.]+ \u2192 ([\d.]+) \u2192', ORTHO,
+          lambda d, g=266: _ortho_window(d, g, 'at50')['offset_m']['full_band_magnitude_m'],
+          tolerance=0.005),
+    claim(AUDIT, r'gid 266 [\d.]+ \u2192 [\d.]+ \u2192 ([\d.]+) m\.', ORTHO,
+          lambda d, g=266: _ortho_window(d, g, 'at90')['offset_m']['full_band_magnitude_m'],
+          tolerance=0.005),
+    # The temporal weights behind "only gid 266 predates the canopy year".
+    claim(AUDIT, r'\(1,295\.5 m\): ([\d.]+)% \(gid 266\) starts in 2017', COMPARISON,
+          lambda d: _date_share(d, '2017'), tolerance=0.05),
+    claim(AUDIT, r'\*\*([\d.]+)% \(gid 5630, 5642, 5643\) starts in June 2021', COMPARISON,
+          lambda d: _date_share(d, '2021-06'), tolerance=0.05),
+    claim(AUDIT, r'and ([\d.]+)% \(gid 5634\) starts in June 2022', COMPARISON,
+          lambda d: _date_share(d, '2022'), tolerance=0.05),
+    claim(AUDIT, r'the other four segments \u2014 ([\d.]+)% of analysed length', COMPARISON,
+          lambda d: 100 - _date_share(d, '2017'), tolerance=0.1,
+          rationale='sums the rounded published components 41.8+14.6; the exact pool is 56.4951'),
 )
 
 
