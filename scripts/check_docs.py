@@ -132,6 +132,7 @@ HMETHOD = 'docs/heat-season-method.md'
 WIN100 = 'data/research/cycling-canopy-100m-windows.json'
 WIN100MD = 'data/research/cycling-canopy-100m-windows.md'
 PROTO = 'docs/prototype-next-iteration.md'
+FRAME05 = 'data/research/canopy-validation-frame-0m5.json'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
@@ -241,6 +242,29 @@ def _window_summary(data, gid, buffer_m):
 def _heat_overlap(data, key):
     """One named top-ten overlap from the WBGT period-sensitivity block."""
     return data['period_sensitivity']['top_ten_overlap'][key]
+
+
+def _frame_share(data, stratum):
+    """Length-weighted share of one mapped stratum in a validation frame."""
+    return 100*data['stratum_lengths_m'][stratum]/data['assessed_length_m']
+
+
+def _frame_seg_share(data, gid):
+    """Point-grid direct-overlap share of one segment in a validation frame."""
+    seg = next(s for s in data['segments'] if s['gid'] == gid)
+    return 100*seg['mapped_overlap']/seg['candidates']
+
+
+def _max_point_gap(frame, comparison):
+    """Worst segment-level gap between the point grid and the interval measurement."""
+    gaps = []
+    for seg in frame['segments']:
+        point = 100*seg['mapped_overlap']/seg['candidates']
+        interval = next(r['overlap_percent'] for r in comparison['results']
+                        if r['gid'] == seg['gid'] and r['vegetation'] == 'trees'
+                        and r['buffer_m'] == 0)
+        gaps.append(abs(point - interval))
+    return max(gaps)
 
 
 def _stratum(name):
@@ -1059,6 +1083,36 @@ LEDGER = (
           SENSITIVITY, lambda d: d['weight_sensitivity']['heat_only_top_10_overlap']),
     claim(SPEC, r'the \d+/10 versus (\d+)/10 sensitivity result',
           SENSITIVITY, lambda d: d['weight_sensitivity']['proximity_only_top_10_overlap']),
+    # The point-grid recomputation: the 2 m column is the committed frame, the 0.5 m
+    # column the new 0.5 m frame built from committed code under the same midpoint rule.
+    claim(CHECKPOINT, r'\| Direct overlap \| [\d.]+% \| ([\d.]+)%', FRAME,
+          lambda d, s='mapped_overlap': _frame_share(d, s), tolerance=0.005,
+          rationale='the 2 m column is the validation frame itself'),
+    claim(CHECKPOINT, r'Proximity-only \(0-5 m, not overlapping\) \| [\d.]+% \| ([\d.]+)%',
+          FRAME, lambda d, s='proximity_only': _frame_share(d, s), tolerance=0.005),
+    claim(CHECKPOINT, r'\| Mapped non-overlap \| [\d.]+% \| ([\d.]+)%', FRAME,
+          lambda d, s='mapped_non_overlap': _frame_share(d, s), tolerance=0.005),
+    claim(CHECKPOINT, r'\| Direct overlap \| [\d.]+% \| [\d.]+% \| ([\d.]+)%', FRAME05,
+          lambda d, s='mapped_overlap': _frame_share(d, s), tolerance=0.005),
+    claim(CHECKPOINT, r'Proximity-only \(0-5 m, not overlapping\) \| [\d.]+% \| [\d.]+% \| ([\d.]+)%',
+          FRAME05, lambda d, s='proximity_only': _frame_share(d, s), tolerance=0.005),
+    claim(CHECKPOINT, r'\| Mapped non-overlap \| [\d.]+% \| [\d.]+% \| ([\d.]+)%', FRAME05,
+          lambda d, s='mapped_non_overlap': _frame_share(d, s), tolerance=0.005),
+    claim(CHECKPOINT, r'gid 266 ([\d.]+)% vs [\d.]+%', FRAME05,
+          lambda d, g=266: _frame_seg_share(d, g), tolerance=0.005),
+    claim(CHECKPOINT, r'gid 5642 ([\d.]+)% vs [\d.]+%', FRAME05,
+          lambda d, g=5642: _frame_seg_share(d, g), tolerance=0.005),
+    claim(CHECKPOINT, r'gid 5630, 5634 and 5643 ([\d.]+)% both ways', FRAME05,
+          lambda d: max(_frame_seg_share(d, g) for g in (5630, 5634, 5643)),
+          rationale='three zero-share segments; a drift in any one breaks the bound'),
+    claim(AUDIT, r': ([\d.]+)-[\d.]+% overlap against', FRAME05,
+          lambda d, s='mapped_overlap': _frame_share(d, s), tolerance=0.005),
+    claim(AUDIT, r': [\d.]+-([\d.]+)% overlap against', FRAME,
+          lambda d, s='mapped_overlap': _frame_share(d, s), tolerance=0.005),
+    claim(AUDIT, r'at most ([\d.]+) pp difference on a single segment', FRAME05,
+          lambda inputs: _max_point_gap(inputs[FRAME05], inputs[COMPARISON]),
+          also=(COMPARISON,), tolerance=0.05,
+          rationale='an upper bound; the recomputed worst gap is 0.32 on gid 266'),
 )
 
 

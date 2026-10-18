@@ -68,7 +68,7 @@ The published proportions come from exact line-interval intersection. An indepen
 | Proximity-only (0-5 m, not overlapping) | 32.39% | 32.45% | 32.46% |
 | Mapped non-overlap | 53.64% | 53.57% | 53.67% |
 
-Per segment at 0.5 m: gid 266 31.06% vs 31.38%; gid 5642 1.68% vs 1.55%; gid 5630, 5634 and 5643 0.00% both ways. Agreement is therefore at the level of discretisation (about 0.1 pp in aggregate, at most 0.35 pp on one segment, where a grazed boundary contributes a few sample points). The exact interval value stands; the point check confirms the geometry rather than replacing it. `alignment_audit.py` was also re-executed and reproduces `data/research/cycling-canopy-alignment-audit.json` byte for byte, and both the pipeline outputs and this audit match their recorded code identities.
+Per segment at 0.5 m: gid 266 31.06% vs 31.38%; gid 5642 1.68% vs 1.55%; gid 5630, 5634 and 5643 0.00% both ways. Both point columns are reproduced from committed code: the 2 m column is the validation frame (`data/research/canopy-validation-frame.json`), and the 0.5 m column is `data/research/canopy-validation-frame-0m5.json`, built by `research/canopy/validation_frame.py --step-m 0.5` under the same midpoint rule. Agreement is therefore at the level of discretisation (about 0.1 pp in aggregate, at most 0.35 pp on one segment, where a grazed boundary contributes a few sample points). The exact interval value stands; the point check confirms the geometry rather than replacing it. `alignment_audit.py` was also re-executed and reproduces `data/research/cycling-canopy-alignment-audit.json` byte for byte, and both the pipeline outputs and this audit match their recorded code identities.
 
 ## Verification completed: legacy versus canonical artifacts (2026-10-17)
 
