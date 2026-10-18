@@ -341,6 +341,12 @@ LEDGER = (
           rationale='mean 15-minute count at CB2105'),
     # Verified by recomputation this session; the table above them is deliberately not pinned
     # because no committed artifact holds it, and the brief now says so.
+    claim(BRIEF, r'seasonal 90th percentile shares \*\*(\d+)/10\*\*', HEAT,
+          lambda d: d['period_sensitivity']['top_ten_overlap']['seasonal_p90_vs_reference_day'],
+          rationale='same-series aggregation, computed by the generator'),
+    claim(BRIEF, r'at or above 26 °C shares \*\*(\d+)/10\*\*', HEAT,
+          lambda d: d['period_sensitivity']['top_ten_overlap']['hot_days_vs_reference_day'],
+          rationale='same-series aggregation, computed by the generator'),
     claim(BRIEF, r'compared with (four) ERA5 cells', SEASON,
           lambda d: NUMBER_WORDS[len(d['cells'])], word=True,
           rationale='ERA5 grid cells covering the tree sample'),

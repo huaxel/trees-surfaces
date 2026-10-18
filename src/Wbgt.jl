@@ -365,13 +365,15 @@ function build_wbgt_payload(metrics, years; archive_urls = String[], extra = Dic
         ),
         "period_sensitivity" => Dict{String, Any}(
             "balanced_top_ten_ids" => balanced,
-            "note" => "Cross-screen overlaps compare each VITO heat-only alternative with the current balanced raster-plus-proximity screen; they are descriptive and combine differences in WBGT output semantics, heat period and scoring. The reference-day versus seasonal-mean overlap compares two aggregations of the same VITO daily-maximum series and more directly describes temporal sensitivity. None of these comparisons selects a ranking.",
+            "note" => "Cross-screen overlaps compare each VITO heat-only alternative with the current balanced raster-plus-proximity screen; they are descriptive and combine differences in WBGT output semantics, heat period and scoring. The three reference-day comparisons relate aggregations of the same VITO daily-maximum series to the same reference day, so they describe temporal sensitivity within the archive and are the comparable set; all three answer the heat-period question at the same resolution and source. None of these comparisons selects a ranking.",
             "top_ten_overlap" => Dict{String, Any}(
                 "reference_day_vs_balanced" => overlap(top_ids(metrics, "reference_date_wbgt_c"), balanced),
                 "seasonal_mean_vs_balanced" => overlap(top_ids(metrics, "seasonal_mean_wbgt_c"), balanced),
                 "seasonal_p90_vs_balanced" => overlap(top_ids(metrics, "seasonal_p90_wbgt_c"), balanced),
                 "hot_days_vs_balanced" => overlap(top_ids(metrics, "hot_days_per_season"), balanced),
                 "seasonal_mean_vs_reference_day" => overlap(top_ids(metrics, "seasonal_mean_wbgt_c"), top_ids(metrics, "reference_date_wbgt_c")),
+                "seasonal_p90_vs_reference_day" => overlap(top_ids(metrics, "seasonal_p90_wbgt_c"), top_ids(metrics, "reference_date_wbgt_c")),
+                "hot_days_vs_reference_day" => overlap(top_ids(metrics, "hot_days_per_season"), top_ids(metrics, "reference_date_wbgt_c")),
             ),
         ),
         "licence_review" => Dict{String, Any}(
@@ -491,6 +493,8 @@ function context_summary(data_dir)
         "seasonal_mean_vs_balanced" => overlap["seasonal_mean_vs_balanced"],
         "hot_days_vs_balanced" => overlap["hot_days_vs_balanced"],
         "seasonal_mean_vs_reference_day" => overlap["seasonal_mean_vs_reference_day"],
+        "seasonal_p90_vs_reference_day" => overlap["seasonal_p90_vs_reference_day"],
+        "hot_days_vs_reference_day" => overlap["hot_days_vs_reference_day"],
         "licence_status" => payload["licence_review"]["status"],
     )
 end
