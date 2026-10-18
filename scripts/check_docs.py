@@ -131,6 +131,7 @@ LOCALMD = 'data/research/cycling-canopy-local-comparison.md'
 HMETHOD = 'docs/heat-season-method.md'
 WIN100 = 'data/research/cycling-canopy-100m-windows.json'
 WIN100MD = 'data/research/cycling-canopy-100m-windows.md'
+PROTO = 'docs/prototype-next-iteration.md'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
@@ -235,6 +236,11 @@ def _window_summary(data, gid, buffer_m):
     """The per-gid, per-buffer window summary (ranges span both endpoint choices)."""
     return next(s for s in data['summaries']
                 if s['gid'] == gid and s['buffer_m'] == buffer_m)
+
+
+def _heat_overlap(data, key):
+    """One named top-ten overlap from the WBGT period-sensitivity block."""
+    return data['period_sensitivity']['top_ten_overlap'][key]
 
 
 def _stratum(name):
@@ -1008,6 +1014,51 @@ LEDGER = (
           lambda d: d['analysed_length_per_anchor_m']),
     claim(WIN100MD, r'\d+ m of ([\d,.]+) m analysed per scheme', WIN100,
           lambda d: d['total_segment_length_m'], tolerance=0.05),
+    # The cross-screen overlaps: what isolates heat period from shared-input agreement.
+    claim(PROTO, r'seasonal-mean heat-only top tens from the VITO daily-max series share (\d+)/10',
+          HEAT, lambda d, k='seasonal_mean_vs_reference_day': _heat_overlap(d, k),
+          rationale='same-series aggregation; the cross-screen zeros below are the contrast'),
+    claim(PROTO, r'overlaps with the current balanced screen are (\d+)/10 and \d+/10',
+          HEAT, lambda d, k='reference_day_vs_balanced': _heat_overlap(d, k),
+          rationale='reference-day heat versus the operational screen'),
+    claim(PROTO, r'overlaps with the current balanced screen are \d+/10 and (\d+)/10',
+          HEAT, lambda d, k='seasonal_mean_vs_balanced': _heat_overlap(d, k)),
+    claim(PROTO, r'\(hot-day count also (\d+)/10\)',
+          HEAT, lambda d, k='hot_days_vs_balanced': _heat_overlap(d, k)),
+    claim(PROTO, r'top ten overlaps (\d+)/10 with heat-only but only \d+/10 with proximity-only',
+          SENSITIVITY, lambda d: d['weight_sensitivity']['heat_only_top_10_overlap']),
+    claim(PROTO, r'top ten overlaps \d+/10 with heat-only but only (\d+)/10 with proximity-only',
+          SENSITIVITY, lambda d: d['weight_sensitivity']['proximity_only_top_10_overlap']),
+    # Corrected 2026-10-18: the prose carried a stale 7-10 range and the old weighted-0/10
+    # error the mobility brief already corrected. Both now match the checked artifacts.
+    claim(PROTO, r'flow-only ranking shares (\d+)/10', FLOW,
+          lambda inputs, m='flow_only': _mobility_overlap(inputs, m),
+          also=(NEAREST, SENSITIVITY),
+          rationale='five counters cannot form a flow ranking'),
+    claim(PROTO, r'heat-plus-flow alternative shares (\d+)/10', FLOW,
+          lambda inputs, m='weighted': _mobility_overlap(inputs, m),
+          also=(NEAREST, SENSITIVITY)),
+    claim(PROTO, r'daily top tens share (\d+)/10 with the weekly mean on every day', FLOW,
+          lambda inputs: _mobility_statistic(inputs, 'daily_overlap_min'),
+          also=(NEAREST, SENSITIVITY) + HISTORIES,
+          rationale='a 10 minimum over top-ten overlaps implies every day is 10 of 10'),
+    claim(BRIEF_MOBILITY, r'flow-only\*\* top ten shared \*\*(\d+) of 10\*\* points', FLOW,
+          lambda inputs, m='flow_only': _mobility_overlap(inputs, m),
+          also=(NEAREST, SENSITIVITY)),
+    claim(BRIEF_MOBILITY, r'shares \*\*(\d+) of 10\*\* with the current balanced top ten', FLOW,
+          lambda inputs, m='weighted': _mobility_overlap(inputs, m),
+          also=(NEAREST, SENSITIVITY),
+          rationale='the corrected reading: heat-led agreement, not any-flow reshuffle'),
+    claim(SPEC, r'seasonal-mean heat-only top tens share (\d+)/10 trees',
+          HEAT, lambda d, k='seasonal_mean_vs_reference_day': _heat_overlap(d, k)),
+    claim(SPEC, r'balanced ranking are (\d+)/10 and \d+/10 respectively',
+          HEAT, lambda d, k='reference_day_vs_balanced': _heat_overlap(d, k)),
+    claim(SPEC, r'balanced ranking are \d+/10 and (\d+)/10 respectively',
+          HEAT, lambda d, k='seasonal_mean_vs_balanced': _heat_overlap(d, k)),
+    claim(SPEC, r'the (\d+)/10 versus \d+/10 sensitivity result',
+          SENSITIVITY, lambda d: d['weight_sensitivity']['heat_only_top_10_overlap']),
+    claim(SPEC, r'the \d+/10 versus (\d+)/10 sensitivity result',
+          SENSITIVITY, lambda d: d['weight_sensitivity']['proximity_only_top_10_overlap']),
 )
 
 
