@@ -53,10 +53,19 @@ def require(condition, message):
 class Claim:
     """One number quoted in a document, and the artifact value it must equal."""
 
-    def __init__(self, doc, pattern, artifact, selector, tolerance=0.0, rationale='', word=False):
+    def __init__(self, doc, pattern, artifact, selector, tolerance=0.0, rationale='', word=False,
+                 also=()):
         self.doc, self.pattern, self.artifact = doc, re.compile(pattern), artifact
         self.selector, self.tolerance, self.rationale = selector, tolerance, rationale
         self.word = word
+        # Claims that need more than one artifact receive a mapping keyed by path instead.
+        self.also = tuple(also)
+
+    def inputs(self, artifacts):
+        names = (self.artifact,) + self.also
+        if len(names) == 1:
+            return artifacts[self.artifact]
+        return {name: artifacts[name] for name in names}
 
     def check(self, texts, artifacts):
         text = texts.get(self.doc)
@@ -65,8 +74,9 @@ class Claim:
         require(match is not None,
                 f'claim pattern no longer matches {self.doc}: {self.pattern.pattern!r}'
                 + (f' ({self.rationale})' if self.rationale else ''))
-        data = artifacts.get(self.artifact)
-        require(data is not None, f'ledger names a missing artifact: {self.artifact}')
+        require(all(name in artifacts for name in (self.artifact,)+self.also),
+                f'ledger names a missing artifact for {self.doc}: {self.artifact}')
+        data = self.inputs(artifacts)
         if self.word:
             quoted, actual = match.group(1), str(self.selector(data))
             require(quoted == actual,
@@ -93,6 +103,7 @@ EFFECT = 'data/research/canopy-design-effect.json'
 HEAT = 'data/brussels-heat-wbgt-sample.json'
 SENSITIVITY = 'data/tree-signal-sensitivity.json'
 SPEC = 'docs/trees-stakeholder-spec.md'
+BRIEF_MOBILITY = 'docs/mobility-measure-stakeholder-brief.md'
 ANALYSIS = 'data/tree-signal-analysis.md'
 PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
@@ -102,6 +113,28 @@ BRIEF = 'docs/heat-season-stakeholder-brief.md'
 
 def _stratum(name):
     return lambda data: sum(segment[name] for segment in data['segments'])
+
+
+def _mobility_overlap(inputs, mode):
+    """Recompute the flow-only and weighted top tens against the committed balanced top ten."""
+    sensitivity, flow = inputs[SENSITIVITY], inputs['data/brussels-tree-counter-flow.json']
+    matched = {row['id']: row['counter_flow_mean'] for row in flow['records']
+               if row.get('has_measured_flow')}
+    ranked = [row for row in sensitivity['balanced_screening'] if row['id'] in matched]
+    require(ranked, 'no matched trees to rank')
+    values = [matched[row['id']] for row in ranked]
+    low, high = min(values), max(values)
+
+    def score(row):
+        flow_value = matched[row['id']]
+        if mode == 'flow_only':
+            return flow_value
+        scaled = 0.0 if high == low else (flow_value-low)/(high-low)
+        return 0.6*row['heat_score'] + 0.4*scaled
+
+    top = {row['id'] for row in sorted(ranked, key=lambda r: (-score(r), r['id']))[:10]}
+    balanced = set(sensitivity['weight_sensitivity']['balanced_top_10_ids'])
+    return len(top & balanced)
 
 
 def _quadrant(records):
@@ -163,6 +196,14 @@ LEDGER = (
           lambda d: min(r['reference_percentile_in_season'] for r in d['records']), tolerance=0.01),
     claim(BRIEF, r'and ([\d.]+)th percentiles', HEAT,
           lambda d: max(r['reference_percentile_in_season'] for r in d['records']), tolerance=0.01),
+    claim(BRIEF_MOBILITY, r'flow-only\*\* top ten shared \*\*(\d+) of 10', SENSITIVITY,
+          lambda inputs: _mobility_overlap(inputs, 'flow_only'),
+          also=('data/brussels-tree-counter-flow.json',),
+          rationale='a flow-only ranking puts all ten on the highest-flow counter'),
+    claim(BRIEF_MOBILITY, r'shares \*\*(\d+) of 10\*\* with the current balanced', SENSITIVITY,
+          lambda inputs: _mobility_overlap(inputs, 'weighted'),
+          also=('data/brussels-tree-counter-flow.json',),
+          rationale='the weighted heat-plus-flow alternative the brief described'),
     claim(SPEC, r'finds (\d+) of 100 points at or above', SENSITIVITY,
           lambda d: _quadrant(d['balanced_screening']),
           rationale='third-quartile quadrant count, recomputed from the committed scores'),
@@ -248,10 +289,11 @@ def check_claims(root, texts, ledger=None):
     ledger = LEDGER if ledger is None else ledger
     artifacts, problems, checked = {}, [], []
     for item in ledger:
-        if item.artifact not in artifacts:
-            path = root/item.artifact
-            require(path.is_file(), f'missing artifact: {item.artifact}')
-            artifacts[item.artifact] = json.loads(path.read_text())
+        for name in (item.artifact,) + item.also:
+            if name not in artifacts:
+                path = root/name
+                require(path.is_file(), f'missing artifact: {name}')
+                artifacts[name] = json.loads(path.read_text())
         checked.append(item)
     results = []
     for item in ledger:

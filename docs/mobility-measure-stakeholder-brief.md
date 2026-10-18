@@ -11,7 +11,10 @@ The current ranking uses distance. This comparison is exploratory and does not c
 - The committed flow snapshot covers **97 of 100 trees** through their nearest counter. It represents five counters and one winter week, **2024-01-01 to 2024-01-07**, using 15-minute counts.
 - Each tree inherits its nearest counter's one-week mean, so the matched tree sample has only **five distinct flow values**, repeated across trees.
 - Across the 97 matched trees, raw nearest-counter distance and assigned counter flow have a weak negative association (Pearson *r* = −0.20; Spearman *rho* = −0.23). This is descriptive only: the 97 tree rows do not represent 97 independent flow measurements.
-- In a min–max comparison with the same heat values and 60/40 heat-to-mobility weights, a flow-based alternative had **0 of 10** points in common with the current 60/40 balanced top ten (restricted to the 97 matched trees). The proximity-only and flow-only top tens also shared **0 of 10** points on the matched sample. This demonstrates sensitivity to the mobility definition, not that either result is preferable.
+- A **flow-only** top ten shared **0 of 10** points with the current 60/40 balanced top ten (restricted to the 97 matched trees), because all ten sit on the single highest-flow counter: the matched sample has only five distinct flow values, so a flow-only ranking is really a counter ranking. The proximity-only top ten also shared **0 of 10**.
+- A **60/40 heat-plus-min–max-flow** alternative — the comparison the sentence above used to describe — shares **9 of 10** with the current balanced top ten. An earlier version of this brief attributed the 0 of 10 to that weighted alternative; it does not reproduce, and the difference matters. The reading is not "any flow input reshuffles the top ten" but "the current screen is heat-led and already agrees with a weighted flow input, while a flow-only ranking cannot be formed from five counters at all".
+
+  Both figures are recomputed from committed artifacts and pinned in the canopy test suite. The evidence, the counter network and the season and outage findings are in [`mobility-data-candidates.md`](mobility-data-candidates.md).
 
 | Nearest counter | Sample trees | Mean 15-minute count | Range of daily means |
 | --- | ---: | ---: | ---: |
