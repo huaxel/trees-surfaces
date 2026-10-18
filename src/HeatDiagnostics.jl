@@ -207,6 +207,14 @@ function analyze(trees_payload, heat_payload, wbgt_payload)
     temporal = Dict(
         "tree" => comparison(values[first(METRICS)], values["seasonal_mean_wbgt_c"], ids, tree_k),
         "cell" => comparison(cell_values[first(METRICS)], cell_values["seasonal_mean_wbgt_c"], cell_ids, cell_k))
+    # The other two aggregations of the same series answer the same heat-period question, so they
+    # belong beside the seasonal mean rather than in a separate analysis. Both are computed here
+    # from the same inputs as the WBGT context artifact, which records the same overlaps: the two
+    # generators must agree, and the test suite asserts it.
+    other_aggregations = Dict(metric => Dict(
+        "tree" => comparison(values[first(METRICS)], values[metric], ids, tree_k),
+        "cell" => comparison(cell_values[first(METRICS)], cell_values[metric], cell_ids, cell_k))
+        for metric in ("seasonal_p90_wbgt_c", "hot_days_per_season"))
     top_cells = Dict{String, Any}()
     for metric in METRICS
         selected = Set(tree_comparisons[metric]["right"]["exact_ids"])
@@ -235,7 +243,8 @@ function analyze(trees_payload, heat_payload, wbgt_payload)
         "variance_tree_weighted" => variance_partition(fine, cells),
         "variance_equal_cell" => variance_partition(fine, cells; equal_cells=true),
         "fine_vs_archive_tree" => tree_comparisons, "fine_vs_archive_cell" => cell_comparisons,
-        "reference_vs_seasonal" => temporal, "tree_top_distinct_cells" => top_cells,
+        "reference_vs_seasonal" => temporal, "reference_vs_other_aggregations" => other_aggregations,
+        "tree_top_distinct_cells" => top_cells,
         "leave_one_district_out" => leave_out,
         "robustness" => Dict(
             "selection_percentages" => collect(SELECTION_PERCENTAGES),
@@ -303,10 +312,15 @@ function markdown(report)
         push!(lines, "| $(metric) | $(fmt(t["spearman"])) | $(fmt(c["spearman"])) | $(fmt(c["inclusive_jaccard"])) | $(report["tree_top_distinct_cells"][metric]) |")
     end
     append!(lines, ["", "## Same-series temporal comparison", "",
-        "| Unit | Exact overlap | Tie-inclusive set sizes | Inclusive overlap | Jaccard | Spearman |", "|---|---:|---:|---:|---:|---:|"])
+        "All rows compare aggregations of the same VITO daily-maximum series against the same reference day, so the period is the only thing that changes. Exact overlap is out of the same k, with ID tie-breaking; tie-inclusive sets can be larger.", "",
+        "| Archive metric | Unit | Exact overlap | Tie-inclusive set sizes | Inclusive overlap | Jaccard | Spearman |", "|---|---|---:|---:|---:|---:|---:|"])
     for unit in ("tree", "cell")
         c = report["reference_vs_seasonal"][unit]
-        push!(lines, "| $(unit) | $(c["exact_overlap"])/$(c["left"]["k"]) | $(length(c["left"]["inclusive_ids"])), $(length(c["right"]["inclusive_ids"])) | $(c["inclusive_overlap"]) | $(fmt(c["inclusive_jaccard"])) | $(fmt(c["spearman"])) |")
+        push!(lines, "| seasonal_mean_wbgt_c | $(unit) | $(c["exact_overlap"])/$(c["left"]["k"]) | $(length(c["left"]["inclusive_ids"])), $(length(c["right"]["inclusive_ids"])) | $(c["inclusive_overlap"]) | $(fmt(c["inclusive_jaccard"])) | $(fmt(c["spearman"])) |")
+    end
+    for metric in ("seasonal_p90_wbgt_c", "hot_days_per_season"), unit in ("tree", "cell")
+        c = report["reference_vs_other_aggregations"][metric][unit]
+        push!(lines, "| $(metric) | $(unit) | $(c["exact_overlap"])/$(c["left"]["k"]) | $(length(c["left"]["inclusive_ids"])), $(length(c["right"]["inclusive_ids"])) | $(c["inclusive_overlap"]) | $(fmt(c["inclusive_jaccard"])) | $(fmt(c["spearman"])) |")
     end
     append!(lines, ["", "## Within-cell variation", "",
         "Population variance is partitioned into within-cell and between-cell components using the sampled indicator values, in indicator-squared units. It is not a causal effect or a random-effects estimate. $(report["singleton_cells"]) cells contain only one sampled tree and contribute zero observed within-cell variance by construction; this does not establish spatial uniformity.", "",

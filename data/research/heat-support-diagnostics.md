@@ -29,10 +29,16 @@ Published numeric diagnostics are rounded to 12 decimal places for cross-runtime
 
 ## Same-series temporal comparison
 
-| Unit | Exact overlap | Tie-inclusive set sizes | Inclusive overlap | Jaccard | Spearman |
-|---|---:|---:|---:|---:|---:|
-| tree | 7/10 | 11, 12 | 7 | 0.438 | 0.922 |
-| cell | 9/10 | 10, 10 | 9 | 0.818 | 0.918 |
+All rows compare aggregations of the same VITO daily-maximum series against the same reference day, so the period is the only thing that changes. Exact overlap is out of the same k, with ID tie-breaking; tie-inclusive sets can be larger.
+
+| Archive metric | Unit | Exact overlap | Tie-inclusive set sizes | Inclusive overlap | Jaccard | Spearman |
+|---|---|---:|---:|---:|---:|---:|
+| seasonal_mean_wbgt_c | tree | 7/10 | 11, 12 | 7 | 0.438 | 0.922 |
+| seasonal_mean_wbgt_c | cell | 9/10 | 10, 10 | 9 | 0.818 | 0.918 |
+| seasonal_p90_wbgt_c | tree | 7/10 | 11, 12 | 7 | 0.438 | 0.841 |
+| seasonal_p90_wbgt_c | cell | 9/10 | 10, 10 | 9 | 0.818 | 0.839 |
+| hot_days_per_season | tree | 7/10 | 11, 12 | 7 | 0.438 | 0.862 |
+| hot_days_per_season | cell | 9/10 | 10, 10 | 9 | 0.818 | 0.875 |
 
 ## Within-cell variation
 

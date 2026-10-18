@@ -140,6 +140,26 @@ using .HeatDiagnostics
             @test isfile(joinpath(data, "research", name))
             @test read(joinpath(output, name), String) == read(joinpath(data, "research", name), String)
         end
+        # The same three aggregations are compared with the reference day by two independent
+        # generators: this one and the WBGT context artifact. They read the same archive through
+        # different code paths, so their tree-level overlaps must agree, and a disagreement means
+        # one of them is wrong rather than that the answer changed.
+        context = HeatDiagnostics.JSON3.read(
+            read(joinpath(data, "brussels-heat-wbgt-sample.json"), String), Dict{String,Any})
+        overlaps = context["period_sensitivity"]["top_ten_overlap"]
+        @test report["reference_vs_seasonal"]["tree"]["exact_overlap"] ==
+              overlaps["seasonal_mean_vs_reference_day"]
+        @test report["reference_vs_other_aggregations"]["seasonal_p90_wbgt_c"]["tree"]["exact_overlap"] ==
+              overlaps["seasonal_p90_vs_reference_day"]
+        @test report["reference_vs_other_aggregations"]["hot_days_per_season"]["tree"]["exact_overlap"] ==
+              overlaps["hot_days_vs_reference_day"]
+        # Cell-level overlap is a different unit and is expected to be at least as high, since
+        # 39 cells give ties more room than 100 trees.
+        for metric in ("seasonal_p90_wbgt_c", "hot_days_per_season")
+            tree = report["reference_vs_other_aggregations"][metric]["tree"]["exact_overlap"]
+            cell = report["reference_vs_other_aggregations"][metric]["cell"]["exact_overlap"]
+            @test cell >= tree
+        end
     end
 
 @testset "Top-k chance reference" begin

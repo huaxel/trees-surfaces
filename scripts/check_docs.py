@@ -113,6 +113,8 @@ FLOW = 'data/brussels-tree-counter-flow.json'
 NEAREST = 'data/brussels-tree-bike-nearest.json'
 ANALYSIS = 'data/tree-signal-analysis.md'
 DOCS_REVIEW = 'docs/prototype-review.md'
+DIAGNOSTICS = 'data/research/heat-support-diagnostics.md'
+DIAGNOSTICS_JSON = 'data/research/heat-support-diagnostics.json'
 PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
 WBGT = 'docs/wbgt-mean-max-method.md'
@@ -223,6 +225,21 @@ def _daily_overlaps(inputs):
 
     baseline = top_ten(weekly)
     return [len(top_ten(daily[day]) & baseline) for day in sorted(daily)]
+
+
+def _temporal_block(data, metric):
+    """The seasonal mean sits in its own block; the other aggregations share one."""
+    if metric == 'seasonal_mean_wbgt_c':
+        return data['reference_vs_seasonal']
+    return data['reference_vs_other_aggregations'][metric]
+
+
+def _temporal_overlap(data, metric, unit):
+    return _temporal_block(data, metric)[unit]['exact_overlap']
+
+
+def _temporal_spearman(data, metric, unit):
+    return _temporal_block(data, metric)[unit]['spearman']
 
 
 def _quadrant(records):
@@ -389,6 +406,33 @@ LEDGER = (
     claim(ANALYSIS, r'mean count [\d.]+, maximum (\d+)', HISTORIES[0],
           lambda inputs: max(row['count'] for path in HISTORIES for row in inputs[path]['records']),
           also=HISTORIES[1:]),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| tree \| (\d+)/10', DIAGNOSTICS_JSON,
+          lambda d, m='seasonal_mean_wbgt_c': _temporal_overlap(d, m, 'tree'),
+          rationale='tree-level overlap, also recorded by the WBGT context generator'),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| cell \| (\d+)/10', DIAGNOSTICS_JSON,
+          lambda d, m='seasonal_mean_wbgt_c': _temporal_overlap(d, m, 'cell'),
+          rationale='cell-level overlap at the top quarter of cells'),
+    claim(DIAGNOSTICS, rf'\| seasonal_mean_wbgt_c \| tree \| \d+/10 \| [\d, ]+ \| \d+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': _temporal_spearman(d, m, 'tree'),
+          tolerance=0.001, rationale='tree-level Spearman for seasonal_mean_wbgt_c'),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| tree \| (\d+)/10', DIAGNOSTICS_JSON,
+          lambda d, m='seasonal_p90_wbgt_c': _temporal_overlap(d, m, 'tree'),
+          rationale='tree-level overlap, also recorded by the WBGT context generator'),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| cell \| (\d+)/10', DIAGNOSTICS_JSON,
+          lambda d, m='seasonal_p90_wbgt_c': _temporal_overlap(d, m, 'cell'),
+          rationale='cell-level overlap at the top quarter of cells'),
+    claim(DIAGNOSTICS, rf'\| seasonal_p90_wbgt_c \| tree \| \d+/10 \| [\d, ]+ \| \d+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_p90_wbgt_c': _temporal_spearman(d, m, 'tree'),
+          tolerance=0.001, rationale='tree-level Spearman for seasonal_p90_wbgt_c'),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| tree \| (\d+)/10', DIAGNOSTICS_JSON,
+          lambda d, m='hot_days_per_season': _temporal_overlap(d, m, 'tree'),
+          rationale='tree-level overlap, also recorded by the WBGT context generator'),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| cell \| (\d+)/10', DIAGNOSTICS_JSON,
+          lambda d, m='hot_days_per_season': _temporal_overlap(d, m, 'cell'),
+          rationale='cell-level overlap at the top quarter of cells'),
+    claim(DIAGNOSTICS, rf'\| hot_days_per_season \| tree \| \d+/10 \| [\d, ]+ \| \d+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='hot_days_per_season': _temporal_spearman(d, m, 'tree'),
+          tolerance=0.001, rationale='tree-level Spearman for hot_days_per_season'),
     claim(SPEC, r'finds (\d+) of 100 points at or above', SENSITIVITY,
           lambda d: _quadrant(d['balanced_screening']),
           rationale='third-quartile quadrant count, recomputed from the committed scores'),
@@ -558,6 +602,7 @@ def main():
     root = args.root
     docs = DOCS + tuple(sorted(str(p.relative_to(root)) for p in (root/'docs').glob('*.md')))
     docs += tuple(sorted(str(p.relative_to(root)) for p in (root/'data').glob('*.md')))
+    docs += tuple(sorted(str(p.relative_to(root)) for p in (root/'data/research').glob('*.md')))
     texts = load_texts(root, docs)
     paths = tracked_files(root)
     problems, _ = check_references(root, texts, paths)
