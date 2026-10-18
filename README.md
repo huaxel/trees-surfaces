@@ -54,7 +54,8 @@ VITO reuse terms and daily aggregation conventions still require confirmation.
   - [`docs/prototype-next-iteration.md`](docs/prototype-next-iteration.md) — definition of done for subsequent analytical MVP iterations.
   - [`docs/trees-stakeholder-spec.md`](docs/trees-stakeholder-spec.md) — stakeholder decision question, metric definitions, and interview protocol.
   - [`docs/trees-demo-script.md`](docs/trees-demo-script.md) — 5-minute stakeholder walkthrough script.
-  - [`docs/heat-season-stakeholder-brief.md`](docs/heat-season-stakeholder-brief.md) — decision brief comparing coarse ERA5 and 100 m multi-date WBGT context, with explicit limits on ranking comparisons.
+  - [`docs/mobility-measure-stakeholder-brief.md`](docs/mobility-measure-stakeholder-brief.md) — the mobility-measure decision brief, including how counter data is and is not used.
+- [`docs/heat-season-stakeholder-brief.md`](docs/heat-season-stakeholder-brief.md) — decision brief comparing coarse ERA5 and 100 m multi-date WBGT context, with explicit limits on ranking comparisons.
   - [`docs/heat-season-method.md`](docs/heat-season-method.md) — method and limits for the committed seasonal and 100 m WBGT context artifacts.
 - [`src/`](src/) and [`bin/`](bin/) — Julia package modules, server entry point, analytical pipeline, refresh workflow, and CLI tools.
 - [`data/`](data/) — canonical committed snapshots and generated review/analysis artifacts.

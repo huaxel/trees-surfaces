@@ -70,6 +70,10 @@ The published proportions come from exact line-interval intersection. An indepen
 
 Per segment at 0.5 m: gid 266 31.06% vs 31.38%; gid 5642 1.68% vs 1.55%; gid 5630, 5634 and 5643 0.00% both ways. Agreement is therefore at the level of discretisation (about 0.1 pp in aggregate, at most 0.35 pp on one segment, where a grazed boundary contributes a few sample points). The exact interval value stands; the point check confirms the geometry rather than replacing it. `alignment_audit.py` was also re-executed and reproduces `data/research/cycling-canopy-alignment-audit.json` byte for byte, and both the pipeline outputs and this audit match their recorded code identities.
 
+## Verification completed: legacy versus canonical artifacts (2026-10-17)
+
+The exploratory artifacts kept under `data/research/` were compared against the canonical pipeline outputs. Where they overlap the numbers are identical: 30 of 30 comparison rows match on overlap and longest non-overlap, and 40 of 40 window rows plus 10 of 10 summaries match on every shared value field. The differences are metadata only — the canonical files replace the exploratory `method`/`limits` wording and add provenance, `schema_version` and the comparison digest. The legacy files are left byte-unchanged as the exploratory record; `docs/cycling-canopy-pipeline.md` now names them as superseded so new work reads the canonical outputs.
+
 ## Independent review
 
 An independent read-only reviewer found **no important calculation errors in static review**. The reviewer did not execute scripts, verify source bytes, or independently inspect imagery. The review accepted the mapped-overlap/proximity interpretation and identified two reproducibility blockers before expansion:

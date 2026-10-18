@@ -5,6 +5,22 @@ canonical implementation is `research/canopy/`; it replaces the exploratory
 scripts in ignored `.cache/vub-canopy-2021/`. Do not use cached scripts to regenerate
 new research results.
 
+## Superseded artifacts
+
+Three committed files come from the exploratory phase and are kept only as history. Their
+numbers were verified against the canonical outputs on 2026-10-17 and agree exactly where
+they overlap, so nothing is lost by using the canonical files instead:
+
+| Superseded | Canonical | Agreement |
+|---|---|---|
+| `data/research/cycling-canopy-local-comparison.json` | `data/research/canopy-verified/comparison.json` | all 30 rows identical on overlap and longest non-overlap; differs only in the `limits` text and two legacy-only fields |
+| `data/research/cycling-canopy-100m-windows.json` | `data/research/canopy-verified/windows.json` | all 40 window rows and 10 summaries identical; differs only in `method`/`limits` wording and in the canonical file's added provenance fields |
+| `data/research/cycling-canopy-pilot-segments.json` | covered by the canonical selection | kept as the original three-segment pilot record |
+
+The legacy files are deliberately left byte-unchanged rather than annotated in place, so the
+exploratory record stays as produced. New work must read the canonical outputs, which carry
+input identity, code identity and environment provenance; the legacy files do not.
+
 ## Environment and tests
 
 Linux is currently required for atomic no-replace output publication. Use
