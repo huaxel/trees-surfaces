@@ -24,6 +24,7 @@ from design_effect import (allocate, distinct_realisations, lag_autocorrelation,
                            segment_series, systematic_proportion)
 from estimate import (CANOPY, NOT_CANOPY, UNKNOWN, effective_sample_size, estimate, report,
                       wilson_on_effective, with_replacement_variance)
+from labels import coverage, load_labels, template
 from selection import allocate_cells, build, select, systematic_indices
 from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
                            stratum_totals, wilson_interval)
@@ -710,6 +711,94 @@ class EstimateTests(unittest.TestCase):
         filled = report(self.points([1.0]*10), self.labels([CANOPY]*6 + [NOT_CANOPY]*4), 20)
         self.assertLess(filled['interval_effective_size'][0], filled['proportion'])
         self.assertGreater(filled['interval_effective_size'][1], filled['proportion'])
+
+
+class LabelFileTests(unittest.TestCase):
+    """The protocol must be enforceable, or an unprotocolised pass can be estimated from."""
+
+    def setUp(self):
+        self.frame = json.loads((ROOT/'data/research/canopy-validation-frame.json').read_text())
+        self.sample = select(self.frame, 385, 20261017)
+        import tempfile
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.dir = pathlib.Path(self.temp.name)
+
+    def write(self, document, name='labels.json'):
+        path = self.dir/name
+        path.write_text(json.dumps(document))
+        return path
+
+    def good(self, count=3, label=CANOPY):
+        protocol = dict(reference_definition='canopy over the reference line at footprint',
+                        source_hierarchy='UrbIS 2021 orthophoto, then street imagery, then field',
+                        leaf_on=True, blinded=True)
+        labels = [dict(gid=row['gid'], chainage_m=row['chainage_m'], label=label,
+                       interpreter='AB', date='2026-06-15') for row in self.sample[:count]]
+        return dict(schema_version=1, protocol=protocol, labels=labels)
+
+    def test_valid_file_loads_and_feeds_the_estimator(self):
+        loaded = load_labels(self.write(self.good(count=4)), self.frame)
+        self.assertEqual(loaded['labelled'], 4)
+        self.assertEqual(loaded['frame_candidates'], 644)
+        result = estimate(self.sample[:4], loaded['labels'], self.frame['candidate_count'])
+        self.assertAlmostEqual(result['proportion'], 1.0, places=6)   # all labelled canopy
+
+    def test_unknown_point_is_refused_rather_than_snapped(self):
+        document = self.good(count=2)
+        # Candidates sit at midpoints of 2 m cells: 1.0, 3.0, 5.0 ... so 3.0 would be valid
+        # and 2.0 is not a candidate. The first version of this test used 3.0 and passed only
+        # because the validator was right to accept it.
+        document['labels'][0]['chainage_m'] = 2.0
+        with self.assertRaises(ValueError) as caught:
+            load_labels(self.write(document, 'snap.json'), self.frame)
+        self.assertIn('not a frame candidate', str(caught.exception))
+
+    def test_protocol_requirements_are_enforced(self):
+        for field, value, message in (('leaf_on', False, 'leaf_on'),
+                                      ('blinded', False, 'blinded'),
+                                      ('reference_definition', '  ', 'reference_definition'),
+                                      ('source_hierarchy', '', 'source_hierarchy')):
+            document = self.good()
+            document['protocol'][field] = value
+            with self.assertRaises(ValueError) as caught:
+                load_labels(self.write(document, f'{field}.json'), self.frame)
+            self.assertIn(message, str(caught.exception))
+
+    def test_bad_entries_are_refused(self):
+        cases = (('label', 'tree', 'unrecognised label'),
+                 ('date', '15/06/2026', 'ISO'),
+                 ('interpreter', '', 'interpreter'),
+                 ('gid', '266', 'gid'),
+                 ('typo_field', 1, 'unrecognised fields'))
+        for field, value, message in cases:
+            document = self.good()
+            document['labels'][0][field] = value
+            with self.assertRaises(ValueError) as caught:
+                load_labels(self.write(document, f'bad-{field}.json'), self.frame)
+            self.assertIn(message, str(caught.exception))
+
+    def test_duplicates_are_refused(self):
+        document = self.good(count=2)
+        document['labels'].append(dict(document['labels'][0]))
+        with self.assertRaises(ValueError) as caught:
+            load_labels(self.write(document, 'dupe.json'), self.frame)
+        self.assertIn('duplicate label', str(caught.exception))
+
+    def test_template_is_a_skeleton_not_a_result(self):
+        skeleton = template(self.frame, self.sample)
+        self.assertEqual(len(skeleton['labels']), 385)
+        self.assertTrue(all(entry['label'] == UNKNOWN for entry in skeleton['labels']))
+        # Its protocol placeholders are empty, so it must not load as a finished pass.
+        with self.assertRaises(ValueError):
+            load_labels(self.write(skeleton, 'template.json'), self.frame)
+
+    def test_coverage_reports_partial_progress(self):
+        loaded = load_labels(self.write(self.good(count=6)), self.frame)
+        report = coverage(self.frame, loaded['labels'])
+        self.assertEqual(sum(entry['labelled'] for entry in report.values()), 6)
+        self.assertEqual(sum(entry['candidates'] for entry in report.values()), 644)
+        self.assertTrue(all(0 <= entry['fraction'] <= 1 for entry in report.values()))
 
 if __name__ == '__main__':
     unittest.main()

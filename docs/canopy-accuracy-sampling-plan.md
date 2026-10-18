@@ -192,6 +192,17 @@ Protocol requirements taken from the audit, to be fixed before any labelling:
    polygon.
 3. **Unknown is a category.** Obscured or ambiguous locations are labelled unknown, not
    forced into positive or negative, and the unknown fraction is reported.
+
+The file format enforces these three requirements rather than trusting discipline.
+`research/canopy/labels.py` validates a label file before anything estimates from it, and
+`data/research/canopy-labels-template.json` is a skeleton with all 385 rows present and every
+label `unknown`. A file is refused unless its protocol block declares a `reference_definition`
+and a `source_hierarchy`, both non-empty, and sets `leaf_on` and `blinded` true — off-season or
+unblinded interpretation is not the protocol and cannot be estimated from. Each row must name a
+frame candidate on its exact `(gid, chainage_m)`; a chainage that is not a candidate is refused
+rather than snapped, because snapping would silently move a label. Unknown rows are legitimate
+and counted, so a partial pass is visible through the `coverage()` report instead of looking
+like a finished result.
 4. Observed disagreement is adjudicated against a documented source hierarchy, with
    disagreements preserved rather than resolved silently.
 5. Temporal change is coded **separately** from classification error: growth, planting or

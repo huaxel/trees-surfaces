@@ -302,6 +302,11 @@ def self_test():
         problems, checked = check_claims(root, texts, ledger)
         require(problems == [] and checked == ['7 == frame.json'],
                 f'the claim loader disagreed: {problems} {checked}')
+        # The loader's failure path, not only Claim.check's: a stale document must be
+        # reported by the function the gate actually calls.
+        broken_claims, _ = check_claims(root, stale_for_loader := dict(texts, **{'docs/good.md': texts['docs/broken.md']}), ledger)
+        require(any('quotes 9' in problem for problem in broken_claims),
+                f'the claim loader did not aggregate the failure: {broken_claims}')
         stale = dict(texts)
         stale['docs/good.md'] = texts['docs/broken.md']
         try:
