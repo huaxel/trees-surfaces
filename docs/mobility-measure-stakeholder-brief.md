@@ -26,7 +26,9 @@ The current ranking uses distance. This comparison is exploratory and does not c
 
 The alternative score uses the same heat scores as the current 100-tree sample, min–max normalizes flow across the 97 matched trees, and applies 60/40 weights. The three trees without measured flow are excluded, not imputed; the current balanced top ten happens to be fully inside the matched set. Score ties use the existing ID tie-break.
 
-Within the sampled week, each counter has 96 observations on each of seven days. Daily means vary, as shown by the table's ranges, but recomputing the flow-based 60/40 top ten separately for each day yields 7–10 points in common with the weekly-mean top ten (10/10 on Tuesday–Friday; 7/10 on January 1 and 7; 8/10 on January 6). This is only within-week stability; it does not show that a January week represents summer or annual mobility.
+Within the sampled week, each counter has 96 observations on each of seven days, and daily means vary as the table's ranges show. Recomputing the flow-based 60/40 top ten separately for each day gives **10 of 10** in common with the weekly-mean top ten on every day, and that is unchanged for mobility weights from 0.2 to 0.8.
+
+An earlier version of this brief reported 7–10 with lower agreement on 1, 6 and 7 January. That does not reproduce from the committed snapshots under any reading tested — absolute or counter-relative flows, either baseline, any weight — and the reason is structural: five distinct flow values leave the mobility term with almost no leverage over the top ten next to a 60% heat weight. So the ranking is stable within the week and across seasons (a June week gives the same top ten; see [`mobility-data-candidates.md`](mobility-data-candidates.md)), and both facts show the same thing: **this input barely moves the result**. Stability is therefore not evidence that counter flow measures street use, which remains the limit below.
 
 ## Limits
 

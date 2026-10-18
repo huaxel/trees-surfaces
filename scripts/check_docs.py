@@ -104,6 +104,10 @@ HEAT = 'data/brussels-heat-wbgt-sample.json'
 SENSITIVITY = 'data/tree-signal-sensitivity.json'
 SPEC = 'docs/trees-stakeholder-spec.md'
 BRIEF_MOBILITY = 'docs/mobility-measure-stakeholder-brief.md'
+COUNTER_IDS = ('CB1101', 'CB1142', 'CJM90', 'CB1143', 'CB2105')
+HISTORIES = tuple(f'data/brussels-bike-history-{c}-2024-01.json' for c in COUNTER_IDS)
+FLOW = 'data/brussels-tree-counter-flow.json'
+NEAREST = 'data/brussels-tree-bike-nearest.json'
 ANALYSIS = 'data/tree-signal-analysis.md'
 PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
@@ -135,6 +139,86 @@ def _mobility_overlap(inputs, mode):
     top = {row['id'] for row in sorted(ranked, key=lambda r: (-score(r), r['id']))[:10]}
     balanced = set(sensitivity['weight_sensitivity']['balanced_top_10_ids'])
     return len(top & balanced)
+
+
+def _mobility_panel(inputs):
+    """Matched trees, their assigned flow, distance and heat score, from committed artifacts."""
+    flow = inputs[FLOW]['records']
+    nearest = {row['id']: row for row in inputs[NEAREST]['records']}
+    heat = {row['id']: row['heat_score'] for row in inputs[SENSITIVITY]['balanced_screening']}
+    trees = [row for row in flow if row.get('has_measured_flow') and row['id'] in nearest]
+    return trees, nearest, heat
+
+
+def _mobility_statistic(inputs, which):
+    trees, nearest, heat = _mobility_panel(inputs)
+    pairs = [(nearest[row['id']]['nearest_counter_distance_m'], row['counter_flow_mean'])
+             for row in trees]
+
+    def pearson(x, y):
+        count = len(x)
+        mx, my = sum(x)/count, sum(y)/count
+        numerator = sum((a-mx)*(b-my) for a, b in zip(x, y))
+        denominator = (sum((a-mx)**2 for a in x)*sum((b-my)**2 for b in y))**0.5
+        return numerator/denominator
+
+    def ranks(values):
+        order = sorted(range(len(values)), key=lambda index: values[index])
+        out = [0.0]*len(values)
+        index = 0
+        while index < len(order):
+            end = index
+            while end+1 < len(order) and values[order[end+1]] == values[order[index]]:
+                end += 1
+            for position in range(index, end+1):
+                out[order[position]] = (index+end)/2 + 1
+            index = end+1
+        return out
+
+    if which == 'matched':
+        return len(trees)
+    if which == 'distinct_flow_values':
+        return len({round(row['counter_flow_mean'], 6) for row in trees})
+    if which == 'pearson':
+        return abs(pearson([p[0] for p in pairs], [p[1] for p in pairs]))
+    if which == 'spearman':
+        return abs(pearson(ranks([p[0] for p in pairs]), ranks([p[1] for p in pairs])))
+    if which.startswith('trees_of_'):
+        counter = which.split('trees_of_')[1]
+        return sum(1 for row in trees if nearest[row['id']]['nearest_counter'] == counter)
+    if which.startswith('mean_of_'):
+        counter = which.split('mean_of_')[1]
+        rows = inputs[f'data/brussels-bike-history-{counter}-2024-01.json']['records']
+        return round(sum(row['count'] for row in rows)/len(rows), 3)
+    if which == 'daily_overlap_min':
+        return min(_daily_overlaps(inputs))
+    if which == 'daily_overlap_max':
+        return max(_daily_overlaps(inputs))
+    raise ValueError(f'unknown mobility statistic {which}')
+
+
+def _daily_overlaps(inputs):
+    """Per-day flow ranking against the weekly-mean flow ranking, both at 60/40."""
+    trees, nearest, heat = _mobility_panel(inputs)
+    weekly, daily = {}, {}
+    for counter in COUNTER_IDS:
+        rows = inputs[f'data/brussels-bike-history-{counter}-2024-01.json']['records']
+        per_day = {}
+        for row in rows:
+            per_day.setdefault(row['count_date'], []).append(row['count'])
+        for day, counts in per_day.items():
+            daily.setdefault(day, {})[counter] = sum(counts)/len(counts)
+        weekly[counter] = sum(row['count'] for row in rows)/len(rows)
+
+    def top_ten(flows):
+        values = {row['id']: flows[nearest[row['id']]['nearest_counter']] for row in trees}
+        low, high = min(values.values()), max(values.values())
+        scored = sorted(((0.6*heat[key] + 0.4*(0.0 if high == low else (value-low)/(high-low)), key)
+                         for key, value in values.items()), key=lambda pair: (-pair[0], pair[1]))
+        return {key for _, key in scored[:10]}
+
+    baseline = top_ten(weekly)
+    return [len(top_ten(daily[day]) & baseline) for day in sorted(daily)]
 
 
 def _quadrant(records):
@@ -196,14 +280,61 @@ LEDGER = (
           lambda d: min(r['reference_percentile_in_season'] for r in d['records']), tolerance=0.01),
     claim(BRIEF, r'and ([\d.]+)th percentiles', HEAT,
           lambda d: max(r['reference_percentile_in_season'] for r in d['records']), tolerance=0.01),
-    claim(BRIEF_MOBILITY, r'flow-only\*\* top ten shared \*\*(\d+) of 10', SENSITIVITY,
-          lambda inputs: _mobility_overlap(inputs, 'flow_only'),
-          also=('data/brussels-tree-counter-flow.json',),
-          rationale='a flow-only ranking puts all ten on the highest-flow counter'),
-    claim(BRIEF_MOBILITY, r'shares \*\*(\d+) of 10\*\* with the current balanced', SENSITIVITY,
-          lambda inputs: _mobility_overlap(inputs, 'weighted'),
-          also=('data/brussels-tree-counter-flow.json',),
-          rationale='the weighted heat-plus-flow alternative the brief described'),
+
+    claim(BRIEF_MOBILITY, r'covers \*\*(\d+) of 100 trees\*\*', FLOW,
+          lambda inputs: _mobility_statistic(inputs, 'matched'),
+          also=(NEAREST, SENSITIVITY), rationale='trees with a measured counter'),
+    claim(BRIEF_MOBILITY, r'only \*\*(five) distinct flow values\*\*', FLOW,
+          lambda inputs: NUMBER_WORDS[_mobility_statistic(inputs, 'distinct_flow_values')],
+          word=True, also=(NEAREST, SENSITIVITY),
+          rationale='five counters means five distinct values'),
+    claim(BRIEF_MOBILITY, r'Pearson \*r\* = [−-]([\d.]+)', FLOW,
+          lambda inputs: _mobility_statistic(inputs, 'pearson'),
+          tolerance=0.005, also=(NEAREST, SENSITIVITY),
+          rationale='distance against assigned flow, recomputed'),
+    claim(BRIEF_MOBILITY, r'Spearman \*rho\* = [−-]([\d.]+)', FLOW,
+          lambda inputs: _mobility_statistic(inputs, 'spearman'),
+          tolerance=0.005, also=(NEAREST, SENSITIVITY),
+          rationale='rank association, recomputed'),
+    claim(BRIEF_MOBILITY, r'gives \*\*(\d+) of 10\*\* in common', FLOW,
+          lambda inputs: _mobility_statistic(inputs, 'daily_overlap_min'),
+          also=(NEAREST, SENSITIVITY) + HISTORIES,
+          rationale='per-day flow ranking against the weekly one'),
+    claim(BRIEF_MOBILITY, r'\| CB1101 \| (\d+) \|', FLOW,
+          lambda inputs, c='CB1101': _mobility_statistic(inputs, 'trees_of_'+c),
+          also=(NEAREST, SENSITIVITY), rationale='sample trees served by CB1101'),
+    claim(BRIEF_MOBILITY, r'\| CB1101 \| \d+ \| ([\d.]+) \|', FLOW,
+          lambda inputs, c='CB1101': _mobility_statistic(inputs, 'mean_of_'+c),
+          tolerance=0.001, also=(NEAREST, SENSITIVITY, 'data/brussels-bike-history-CB1101-2024-01.json'),
+          rationale='mean 15-minute count at CB1101'),
+    claim(BRIEF_MOBILITY, r'\| CB1142 \| (\d+) \|', FLOW,
+          lambda inputs, c='CB1142': _mobility_statistic(inputs, 'trees_of_'+c),
+          also=(NEAREST, SENSITIVITY), rationale='sample trees served by CB1142'),
+    claim(BRIEF_MOBILITY, r'\| CB1142 \| \d+ \| ([\d.]+) \|', FLOW,
+          lambda inputs, c='CB1142': _mobility_statistic(inputs, 'mean_of_'+c),
+          tolerance=0.001, also=(NEAREST, SENSITIVITY, 'data/brussels-bike-history-CB1142-2024-01.json'),
+          rationale='mean 15-minute count at CB1142'),
+    claim(BRIEF_MOBILITY, r'\| CJM90 \| (\d+) \|', FLOW,
+          lambda inputs, c='CJM90': _mobility_statistic(inputs, 'trees_of_'+c),
+          also=(NEAREST, SENSITIVITY), rationale='sample trees served by CJM90'),
+    claim(BRIEF_MOBILITY, r'\| CJM90 \| \d+ \| ([\d.]+) \|', FLOW,
+          lambda inputs, c='CJM90': _mobility_statistic(inputs, 'mean_of_'+c),
+          tolerance=0.001, also=(NEAREST, SENSITIVITY, 'data/brussels-bike-history-CJM90-2024-01.json'),
+          rationale='mean 15-minute count at CJM90'),
+    claim(BRIEF_MOBILITY, r'\| CB1143 \| (\d+) \|', FLOW,
+          lambda inputs, c='CB1143': _mobility_statistic(inputs, 'trees_of_'+c),
+          also=(NEAREST, SENSITIVITY), rationale='sample trees served by CB1143'),
+    claim(BRIEF_MOBILITY, r'\| CB1143 \| \d+ \| ([\d.]+) \|', FLOW,
+          lambda inputs, c='CB1143': _mobility_statistic(inputs, 'mean_of_'+c),
+          tolerance=0.001, also=(NEAREST, SENSITIVITY, 'data/brussels-bike-history-CB1143-2024-01.json'),
+          rationale='mean 15-minute count at CB1143'),
+    claim(BRIEF_MOBILITY, r'\| CB2105 \| (\d+) \|', FLOW,
+          lambda inputs, c='CB2105': _mobility_statistic(inputs, 'trees_of_'+c),
+          also=(NEAREST, SENSITIVITY), rationale='sample trees served by CB2105'),
+    claim(BRIEF_MOBILITY, r'\| CB2105 \| \d+ \| ([\d.]+) \|', FLOW,
+          lambda inputs, c='CB2105': _mobility_statistic(inputs, 'mean_of_'+c),
+          tolerance=0.001, also=(NEAREST, SENSITIVITY, 'data/brussels-bike-history-CB2105-2024-01.json'),
+          rationale='mean 15-minute count at CB2105'),
     claim(SPEC, r'finds (\d+) of 100 points at or above', SENSITIVITY,
           lambda d: _quadrant(d['balanced_screening']),
           rationale='third-quartile quadrant count, recomputed from the committed scores'),
