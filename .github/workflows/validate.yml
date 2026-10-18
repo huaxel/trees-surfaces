@@ -16,6 +16,34 @@ permissions:
 
 jobs:
 
+  validate-canopy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install pinned uv in an isolated tooling environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/canopy-tools"
+          "$RUNNER_TEMP/canopy-tools/bin/pip" install uv==0.13.0
+          echo "$RUNNER_TEMP/canopy-tools/bin" >> "$GITHUB_PATH"
+      - name: Validate canopy geometry and provenance without upstream datasets
+        run: scripts/validate-canopy.sh
+
+  validate-imagery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install pinned uv in an isolated tooling environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/imagery-tools"
+          "$RUNNER_TEMP/imagery-tools/bin/pip" install uv==0.13.0
+          echo "$RUNNER_TEMP/imagery-tools/bin" >> "$GITHUB_PATH"
+      - name: Validate imagery registration on synthetic fixtures without downloads
+        run: scripts/validate-imagery.sh
+
   validate-julia:
     runs-on: ubuntu-24.04
     timeout-minutes: 10

@@ -1,0 +1,4687 @@
+{
+  "schema_version": 2,
+  "manifest_sha256": "1c543f8e67fa6f837399a0e3f3ad035badf3d201cda3cf72004109be7d8e979a",
+  "plan_sha256": "70d4f2cb3fa9a950c0ac23d7ddf81369778f73ab2169697f9e30ce83a1ec70f5",
+  "code_sha256": {
+    "registration.py": "4e80b5f597019e686234321bbcd96a579a481e1028f5350c451fc0b3ae841477",
+    "wms.py": "477281d1b9884e690e41c40ba62eedfd529ca786002787e5e850e99bc2573564",
+    "consistency.py": "bbc1d60f0a012134c7b21672cf959bd540a940da4bb8df9f044994a6e636306b",
+    "geometry.py": "0b70e809c85f998450dccee7157254b986103675d1f110816e1d140bf3aa3746",
+    "support.py": "a7d602e71fa0d52d51f89e26bfea765de51a2b2397bbefbdf3cd0ffdaf308423",
+    "pyproject.toml": "45f9372101cfc66b66b2a3c74f7a9f1bc067c84869554fae2a5a30f3e9ea12a1",
+    "uv.lock": "86947ac08e81e38f6942060e10dd18536e1c979514ea746ac1d38c627e27ecfe"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "numpy": "2.5.4",
+    "pillow": "13.0.0",
+    "platform": "Linux-7.2.9-2-cachyos-x86_64-with-glibc2.44"
+  },
+  "method": {
+    "reference_product": "east_west_2021_09_22_or_25",
+    "moving_product": "north_south_2021_10_09",
+    "measurements": [
+      "normalised luminance cross-correlation per spatial band",
+      "phase-only correlation of gradient energy (diagnostic only)"
+    ],
+    "band_wavelengths_m": [
+      1.0,
+      2.0,
+      5.0,
+      20.0
+    ],
+    "min_cycles_across_window": 4,
+    "verdict_band_set": "bands whose correlation lobe is no wider than the agreement tolerance: a wider lobe cannot resolve the difference, and the sets are nested",
+    "sensitivity_band_sets": "spread is also reported for every wider nested set",
+    "band_agreement_m": 0.5,
+    "max_shift_m": 6.0,
+    "window_m": 120,
+    "pixel_m": 0.1,
+    "search_mask": "square, +/-6 m on each axis, so up to 8.5 m diagonally",
+    "known_answers": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        2.0,
+        0.0
+      ],
+      [
+        0.0,
+        2.0
+      ],
+      [
+        2.0,
+        2.0
+      ],
+      [
+        4.0,
+        0.0
+      ]
+    ],
+    "known_answer_tolerance_px": 0.25,
+    "known_answer_control": "Synthetic band-limited displacement of the pinned reference window: proves the estimator recovers a known shift in this imagery",
+    "resampled_control": "Cubic resampling of a padded copy of the pinned window, so no filled edge is analysed",
+    "degraded_control": {
+      "shift_m": [
+        1.5,
+        0.0
+      ],
+      "jpeg_quality": 45,
+      "illumination_ramp": 0.6,
+      "noise_lsb": 3.0,
+      "requirement": "every resolving band must stay within 0.5 m of the known shift"
+    }
+  },
+  "source_records": {
+    "east_west_2021_09_22_or_25": {
+      "record_url": "https://geobru.irisnet.be/geonetwork/srv/api/records/fed5671a-e61a-4972-9eb9-fc5e8cdc6dbd/formatters/xml",
+      "record_sha256": "c307ca174e73bac6e9a8230776e7484e7714f5dfb911f6a0a95aa18c9bec81c9",
+      "begin_position": "2021-09-17T00:00:00",
+      "end_position": "2021-10-09T00:00:00",
+      "statement": "Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. De vluchten ter inzameling van de gegevens zijn uitgevoerd in het Brussels Hoofdstedelijk Gewest op 22 en 25 september 2021 op een oost-westas, en op 9 oktober 2021 op een noord-zuidas. De beelden zijn genomen met een multispectrale UltraCam Eagle Mark3-camera met een brandpuntsafstand van 100 mm en een vierkanalensensor: R, G, B & NI (Red, Green, Blue, en Near-Infrared). Een orthorectificatieproces elimineert de distorsions veroorzaakt door reli\u00ebf en perspectief, wat het mogelijk maakt de UrbIS-vectorlagen op de orthophotos te doen overlappen of metingen uit te voeren rechtstreeks op de beelden. The data collection flights took place in the Brussels Capital Region on an East-West axis on 22 and 25 September 2021 and on a North-South axis on 9 October 2021. The images were taken using an UltraCam Eagle Mark3 multispectral camera with a 100 mm focal length and a four-channel sensor. R, G, B & NI (Red, Green, Blue, and Near-Infrared). An orthorectification process eliminates distortions caused by relief and perspective, allowing UrbIS vector layers to be superimposed on orthophotos or measurements to be made directly on the images."
+    },
+    "north_south_2021_10_09": {
+      "record_url": "https://geobru.irisnet.be/geonetwork/srv/api/records/fec72767-d6b6-41b9-a767-616df2779aae/formatters/xml",
+      "record_sha256": "9fcdfe8a7152d092888e76407ef030aff386a7afa28bf3a1aa7365c5904412d4",
+      "begin_position": "2021-09-17T00:00:00",
+      "end_position": "2021-10-09T00:00:00",
+      "statement": "Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. De vluchten ter inzameling van de gegevens zijn uitgevoerd in het Brussels Hoofdstedelijk Gewest op 22 en 25 september 2021 op een oost-westas, en op 9 oktober 2021 op een noord-zuidas. De beelden zijn genomen met een multispectrale UltraCam Eagle Mark3-camera met een brandpuntsafstand van 100 mm en een vierkanalensensor: R, G, B & NI (Red, Green, Blue, en Near-Infrared). Een orthorectificatieproces elimineert de distorsions veroorzaakt door reli\u00ebf en perspectief, wat het mogelijk maakt de UrbIS-vectorlagen op de orthophotos te doen overlappen of metingen uit te voeren rechtstreeks op de beelden. The data collection flights took place in the Brussels Capital Region on an East-West axis on 22 and 25 September 2021 and on a North-South axis on 9 October 2021. The images were taken using an UltraCam Eagle Mark3 multispectral camera with a 100 mm focal length and a four-channel sensor. R, G, B & NI (Red, Green, Blue, and Near-Infrared). An orthorectification process eliminates distortions caused by relief and perspective, allowing UrbIS vector layers to be superimposed on orthophotos or measurements to be made directly on the images."
+    }
+  },
+  "requests": [
+    {
+      "window_id": "gid266-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid266-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152194.4654136372%2C169689.41933096995%2C152314.4654136372%2C169809.41933096995&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152194.4654136372,
+        169689.41933096995,
+        152314.4654136372,
+        169809.41933096995
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:37.510270+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:37 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 209812,
+      "sha256": "c90bceb182d109210464578bf65a6f0a7c65349b6fddd003e8da3015d7868ac0"
+    },
+    {
+      "window_id": "gid266-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid266-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152194.4654136372%2C169689.41933096995%2C152314.4654136372%2C169809.41933096995&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152194.4654136372,
+        169689.41933096995,
+        152314.4654136372,
+        169809.41933096995
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:38.780364+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:38 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "1",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 184963,
+      "sha256": "940d46b0c114d73a3fc17dc76fb2a19fe68739083dfb943129e3382cddcdd0af"
+    },
+    {
+      "window_id": "gid266-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid266-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152245.79200773887%2C169469.91065953998%2C152365.79200773887%2C169589.91065953998&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152245.79200773887,
+        169469.91065953998,
+        152365.79200773887,
+        169589.91065953998
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:41.318428+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:41 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "1",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 236913,
+      "sha256": "e25368f41d59e9e1ab0359a86045fd4a60096380ad9f6653048463cfbebbe36a"
+    },
+    {
+      "window_id": "gid266-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid266-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152245.79200773887%2C169469.91065953998%2C152365.79200773887%2C169589.91065953998&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152245.79200773887,
+        169469.91065953998,
+        152365.79200773887,
+        169589.91065953998
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:43.249427+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:43 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 229963,
+      "sha256": "48429c9e54ba61f492f87fecc0a5587b2ac720e80668a92110af6b51aba8fc9b"
+    },
+    {
+      "window_id": "gid266-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid266-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152296.84597396903%2C169250.34090001072%2C152416.84597396903%2C169370.34090001072&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152296.84597396903,
+        169250.34090001072,
+        152416.84597396903,
+        169370.34090001072
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:46.495364+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:46 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 235670,
+      "sha256": "a3c321adbb963b63ecc0f53ee5d4b9a493d6a30ae106837173d9886bf6e81de8"
+    },
+    {
+      "window_id": "gid266-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid266-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152296.84597396903%2C169250.34090001072%2C152416.84597396903%2C169370.34090001072&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152296.84597396903,
+        169250.34090001072,
+        152416.84597396903,
+        169370.34090001072
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:48.725745+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:48 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 220902,
+      "sha256": "80a8916b673d4a4d9a4712d2c5eb30ae8e341ad18e22306fe1af90660d8e6a05"
+    },
+    {
+      "window_id": "gid5630-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5630-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152105.39208558874%2C170002.96129172447%2C152225.39208558874%2C170122.96129172447&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152105.39208558874,
+        170002.96129172447,
+        152225.39208558874,
+        170122.96129172447
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:49.771071+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:49 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 243729,
+      "sha256": "fb26e7bb6cb31b72769f1d7792433471e58bbd8758c18e69a75880f9a87e40f3"
+    },
+    {
+      "window_id": "gid5630-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5630-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152105.39208558874%2C170002.96129172447%2C152225.39208558874%2C170122.96129172447&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152105.39208558874,
+        170002.96129172447,
+        152225.39208558874,
+        170122.96129172447
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:51.062362+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:51 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 218612,
+      "sha256": "f18e95430368d82946282f8c8b8643d1548bcf6fb6eecf1451de347f887393b8"
+    },
+    {
+      "window_id": "gid5630-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5630-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152148.8419359784%2C169981.05530318804%2C152268.8419359784%2C170101.05530318804&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152148.8419359784,
+        169981.05530318804,
+        152268.8419359784,
+        170101.05530318804
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:52.044851+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:51 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 249012,
+      "sha256": "e759bcfe48f32f0e196165e69a23f485783af016bdbf7d13a4a1d14fc3f9053b"
+    },
+    {
+      "window_id": "gid5630-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5630-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152148.8419359784%2C169981.05530318804%2C152268.8419359784%2C170101.05530318804&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152148.8419359784,
+        169981.05530318804,
+        152268.8419359784,
+        170101.05530318804
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:52.981528+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:52 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 228079,
+      "sha256": "5d4c2b845f6df56b5296c229723cc2ca042440c63ece2fe6d3f81733c2309610"
+    },
+    {
+      "window_id": "gid5630-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5630-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152195.0014622505%2C169965.29554411824%2C152315.0014622505%2C170085.29554411824&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152195.0014622505,
+        169965.29554411824,
+        152315.0014622505,
+        170085.29554411824
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:53.920026+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:53 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 244791,
+      "sha256": "9345c5667ec251509598c7d06e5933bfd0895085988eb5fe7c241d89306bd321"
+    },
+    {
+      "window_id": "gid5630-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5630-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152195.0014622505%2C169965.29554411824%2C152315.0014622505%2C170085.29554411824&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152195.0014622505,
+        169965.29554411824,
+        152315.0014622505,
+        170085.29554411824
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:54.792272+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:54 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 234253,
+      "sha256": "c0d33cbcf58d1b1c1a5b90477d4a42babb669a7b8d5d9d5a7c71e727a07210c1"
+    },
+    {
+      "window_id": "gid5634-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5634-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152275.63469039596%2C169766.30307857008%2C152395.63469039596%2C169886.30307857008&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152275.63469039596,
+        169766.30307857008,
+        152395.63469039596,
+        169886.30307857008
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:55.718758+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:55 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 211399,
+      "sha256": "e61c078191393a2cce1b0468e1828aa8b6447660804280cfdcbfed8fbcd671fc"
+    },
+    {
+      "window_id": "gid5634-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5634-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152275.63469039596%2C169766.30307857008%2C152395.63469039596%2C169886.30307857008&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152275.63469039596,
+        169766.30307857008,
+        152395.63469039596,
+        169886.30307857008
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:58.597372+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:58 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 189926,
+      "sha256": "d782b9b162e8d30b1484deb8fffd928b1142a30ad3bf97cb8b3c4d7983ab88c6"
+    },
+    {
+      "window_id": "gid5634-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5634-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152347.70133814274%2C169742.47877251587%2C152467.70133814274%2C169862.47877251587&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152347.70133814274,
+        169742.47877251587,
+        152467.70133814274,
+        169862.47877251587
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:59.688034+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:59 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 215631,
+      "sha256": "3f6ef97dcd0a914f587a6eae76e0e6cf349df89a261cc6e47e8a7b0aa0264e42"
+    },
+    {
+      "window_id": "gid5634-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5634-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152347.70133814274%2C169742.47877251587%2C152467.70133814274%2C169862.47877251587&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152347.70133814274,
+        169742.47877251587,
+        152467.70133814274,
+        169862.47877251587
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:00.598603+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:00 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 189461,
+      "sha256": "91c4c92047bfe9f448fab2477d1894d967b57eb8f07ce93035d5c88d9c9cbf6f"
+    },
+    {
+      "window_id": "gid5634-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5634-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152419.9152284209%2C169719.10375018642%2C152539.9152284209%2C169839.10375018642&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152419.9152284209,
+        169719.10375018642,
+        152539.9152284209,
+        169839.10375018642
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:01.738530+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:01 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 226606,
+      "sha256": "2883ae106b1bf05a2e8c7459d0d982b9c135d6be44e776ba9f41801e5cfebbbb"
+    },
+    {
+      "window_id": "gid5634-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5634-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152419.9152284209%2C169719.10375018642%2C152539.9152284209%2C169839.10375018642&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152419.9152284209,
+        169719.10375018642,
+        152539.9152284209,
+        169839.10375018642
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:02.922686+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:02 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 209635,
+      "sha256": "18e7b3fcc5f046a12a14cc4e94efca870ca2f31b73b1b0b5ad2c1d035086b7ba"
+    },
+    {
+      "window_id": "gid5642-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5642-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152587.32756383007%2C169468.09740643651%2C152707.32756383007%2C169588.09740643651&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152587.32756383007,
+        169468.09740643651,
+        152707.32756383007,
+        169588.09740643651
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:03.891475+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:03 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 250917,
+      "sha256": "2b9ec88f727bf452e3788797c656b729ba17ba0f278f44ccd494a7e2c14eaaf7"
+    },
+    {
+      "window_id": "gid5642-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5642-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152587.32756383007%2C169468.09740643651%2C152707.32756383007%2C169588.09740643651&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152587.32756383007,
+        169468.09740643651,
+        152707.32756383007,
+        169588.09740643651
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:05.747863+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:05 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 227724,
+      "sha256": "cc8a1a487f309bf991883455264756cb1d9376adf989762f1277ab9e8ddf8324"
+    },
+    {
+      "window_id": "gid5642-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5642-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152485.16744994812%2C169501.22699595647%2C152605.16744994812%2C169621.22699595647&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152485.16744994812,
+        169501.22699595647,
+        152605.16744994812,
+        169621.22699595647
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:08.621057+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:08 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 245983,
+      "sha256": "21c3b4818e0923deadccb9129e3705788e92345fc511a323625c52586c0bb025"
+    },
+    {
+      "window_id": "gid5642-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5642-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152485.16744994812%2C169501.22699595647%2C152605.16744994812%2C169621.22699595647&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152485.16744994812,
+        169501.22699595647,
+        152605.16744994812,
+        169621.22699595647
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:11.228735+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:11 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 215956,
+      "sha256": "dbd2644a7c2e91323a5dc723559cc4126a3586c94e27f5ce7f6eee3c0497be31"
+    },
+    {
+      "window_id": "gid5642-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5642-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152384.7360451131%2C169538.63621867518%2C152504.7360451131%2C169658.63621867518&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152384.7360451131,
+        169538.63621867518,
+        152504.7360451131,
+        169658.63621867518
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:12.518471+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:12 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 245486,
+      "sha256": "277cd697011355cf0bec6e10d7a6784e79b511597b43e200c9c6afe0494e1a55"
+    },
+    {
+      "window_id": "gid5642-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5642-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152384.7360451131%2C169538.63621867518%2C152504.7360451131%2C169658.63621867518&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152384.7360451131,
+        169538.63621867518,
+        152504.7360451131,
+        169658.63621867518
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:13.972048+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:13 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 223865,
+      "sha256": "17ef3f449aab78980568fd7004a31f3d0b16bac8669397abbea1c14a06116a74"
+    },
+    {
+      "window_id": "gid5643-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5643-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152303.7817369839%2C169618.76707184434%2C152423.7817369839%2C169738.76707184434&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152303.7817369839,
+        169618.76707184434,
+        152423.7817369839,
+        169738.76707184434
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:14.976819+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:14 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 256039,
+      "sha256": "da91d58039a9b01de6d23e0ded77cf51b94db1bdeb01f5dba41fb37b8c1a0a7d"
+    },
+    {
+      "window_id": "gid5643-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5643-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152303.7817369839%2C169618.76707184434%2C152423.7817369839%2C169738.76707184434&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152303.7817369839,
+        169618.76707184434,
+        152423.7817369839,
+        169738.76707184434
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:15.924961+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:15 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 232272,
+      "sha256": "96d2560cd9faba6cc9d18c84b1a56698da00cdc9b25f0eee9da57b97c5fbd9c2"
+    },
+    {
+      "window_id": "gid5643-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5643-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152267.500959825%2C169667.39223501715%2C152387.500959825%2C169787.39223501715&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152267.500959825,
+        169667.39223501715,
+        152387.500959825,
+        169787.39223501715
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:16.912821+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:16 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 237760,
+      "sha256": "ebd5b298a95a5ec5fa4fd659d95723f095ab8d2f5407c76806b291f61d8d66ba"
+    },
+    {
+      "window_id": "gid5643-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5643-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152267.500959825%2C169667.39223501715%2C152387.500959825%2C169787.39223501715&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152267.500959825,
+        169667.39223501715,
+        152387.500959825,
+        169787.39223501715
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:17.990628+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:17 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 203813,
+      "sha256": "b9ca7b45db6f39843b3a4bedc1c7413573800fa6cead23523c902817376c69e9"
+    },
+    {
+      "window_id": "gid5643-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5643-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152231.22018266612%2C169716.01739818993%2C152351.22018266612%2C169836.01739818993&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152231.22018266612,
+        169716.01739818993,
+        152351.22018266612,
+        169836.01739818993
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:19.021022+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:18 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 210184,
+      "sha256": "72b4bdd798bf9a758081b9f54ccba5d5688b50446550345dc0c0f3a16191397b"
+    },
+    {
+      "window_id": "gid5643-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5643-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152231.22018266612%2C169716.01739818993%2C152351.22018266612%2C169836.01739818993&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152231.22018266612,
+        169716.01739818993,
+        152351.22018266612,
+        169836.01739818993
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:19.939290+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:19 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 186976,
+      "sha256": "efc3998ddb8b78d1b941f8b6a31171d86920ed62173bd14fa41eb5e0b285a857"
+    }
+  ],
+  "known_answer_max_error_px": 0.0003401498842878915,
+  "resampled_max_error_px": 0.00035435098548650183,
+  "degraded_max_error_resolving_band_m": 0.0031239125697240314,
+  "degraded_max_error_wide_band_m": 0.8715459820676985,
+  "results": [
+    {
+      "window_id": "gid266-at10",
+      "gid": 266,
+      "chainage_m": 56.35845793404259,
+      "segment_length_m": 563.5845793404259,
+      "bounds": [
+        152194.4654136372,
+        169689.41933096995,
+        152314.4654136372,
+        169809.41933096995
+      ],
+      "offset_m": {
+        "full_band_east_m": 3.1052375882751138,
+        "full_band_north_m": -1.127342302907964,
+        "full_band_magnitude_m": 3.303543725692529,
+        "full_band_ncc": 0.6805190998876602
+      },
+      "phase": {
+        "east_m": 5.786270234980104,
+        "north_m": -2.7877091864401944,
+        "magnitude_m": 6.422791117604539,
+        "peak_ratio": 1.3446503477458283,
+        "at_search_bound": true
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6805190998876602,
+          "peak_separation_ratio": 1.0016862002738356,
+          "east_m": 3.1052375882751138,
+          "north_m": -1.127342302907964
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7146156840424144,
+          "peak_separation_ratio": 1.0115752792748383,
+          "east_m": 3.0917983179038036,
+          "north_m": -1.0311138985821087
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7552008130102454,
+          "peak_separation_ratio": 1.0284891725685443,
+          "east_m": 3.0360546220062212,
+          "north_m": -0.9015416876777613
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.833088505310073,
+          "peak_separation_ratio": 1.071067941049341,
+          "east_m": 3.293649904579767,
+          "north_m": -0.9032370407848389
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9374181452795269,
+          "peak_separation_ratio": 1.3855053185729354,
+          "east_m": 2.9517058900339666,
+          "north_m": -0.04014682085254878
+        }
+      ],
+      "resolving_band_spread_m": 0.09716233728772404,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.09716233728772404,
+        "3_bands_through_2m": 0.23616138689485355,
+        "4_bands_through_5m": 0.292783827160175,
+        "5_bands_through_20m": 1.0979826950214275
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000056151241266,
+          "north_m": -5.370440009912524e-07,
+          "error_m": 5.640747753236289e-06,
+          "error_px": 5.6407477532362886e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.0000098043109484,
+          "north_m": -1.407264885195242e-06,
+          "error_m": 9.904792154847164e-06,
+          "error_px": 9.904792154847164e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": 6.089621915618403e-06,
+          "north_m": 2.000010740983066,
+          "error_m": 1.2347154016251747e-05,
+          "error_px": 0.00012347154016251747
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.000013027406415,
+          "north_m": 2.0000061506583964,
+          "error_m": 1.440638457800368e-05,
+          "error_px": 0.0001440638457800368
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000015358002328,
+          "north_m": -4.552872535070875e-06,
+          "error_m": 1.6018641759430792e-05,
+          "error_px": 0.00016018641759430792
+        }
+      ],
+      "known_answer_max_error_px": 0.00016018641759430792,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.0000037840349074,
+          "north_m": -2.3359911114179284e-07,
+          "error_m": 3.791238415778724e-06,
+          "error_px": 3.791238415778724e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.000007786292993,
+          "north_m": 1.2545074331976102e-06,
+          "error_m": 7.886707010738417e-06,
+          "error_px": 7.886707010738416e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 6.439451202091621e-06,
+          "north_m": 2.0000116383327398,
+          "error_m": 1.3301027056039858e-05,
+          "error_px": 0.00013301027056039858
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.40000793190464,
+          "north_m": -0.30000009097881986,
+          "error_m": 7.932426385860848e-06,
+          "error_px": 7.932426385860848e-05
+        }
+      ],
+      "resampled_max_error_px": 0.00013301027056039858,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.099904680023471,
+            "north_m": 0.9003062491641232,
+            "error_m": 0.00032074046899581416,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.100021927508586,
+            "north_m": 0.8968761643885046,
+            "error_m": 0.0031239125697240314,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.099527525203753,
+            "north_m": 0.8899339074391719,
+            "error_m": 0.010077174796352801,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.1071822746582036,
+            "north_m": 0.8552750777215579,
+            "error_m": 0.045297944126401195,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.153104130482484,
+            "north_m": 0.5740726863333748,
+            "error_m": 0.3302251693439544,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0031239125697240314,
+        "max_error_wide_band_m": 0.3302251693439544
+      }
+    },
+    {
+      "window_id": "gid266-at50",
+      "gid": 266,
+      "chainage_m": 281.79228967021294,
+      "segment_length_m": 563.5845793404259,
+      "bounds": [
+        152245.79200773887,
+        169469.91065953998,
+        152365.79200773887,
+        169589.91065953998
+      ],
+      "offset_m": {
+        "full_band_east_m": 1.3140940599804147,
+        "full_band_north_m": 0.5315989001885555,
+        "full_band_magnitude_m": 1.4175473851541935,
+        "full_band_ncc": 0.6653686492237147
+      },
+      "phase": {
+        "east_m": 1.0975543611294327,
+        "north_m": 0.48303392515435917,
+        "magnitude_m": 1.1991444235304873,
+        "peak_ratio": 1.019390450201904,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6653686492237147,
+          "peak_separation_ratio": 1.0097256235554493,
+          "east_m": 1.3140940599804147,
+          "north_m": 0.5315989001885555
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7202574437808041,
+          "peak_separation_ratio": 1.0456120530270603,
+          "east_m": 1.3469073765693307,
+          "north_m": 0.5264371780274815
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7731484713115035,
+          "peak_separation_ratio": 1.0637594345028922,
+          "east_m": 1.5325610082325425,
+          "north_m": 0.4032193389954273
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8702957334014103,
+          "peak_separation_ratio": 1.2525792689511606,
+          "east_m": 1.6212333770533502,
+          "north_m": 0.22011360354617865
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9604476568089686,
+          "peak_separation_ratio": 2.1608036187239934,
+          "east_m": 1.4696424286747727,
+          "north_m": 0.8224557507629697
+        }
+      ],
+      "resolving_band_spread_m": 0.03321681985429294,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.03321681985429294,
+        "3_bands_through_2m": 0.25339518387439414,
+        "4_bands_through_5m": 0.43744445374975177,
+        "5_bands_through_20m": 0.6211246879202686
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.00000800447267,
+          "north_m": -1.6016371872365843e-06,
+          "error_m": 8.163138146854946e-06,
+          "error_px": 8.163138146854945e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.0000181959154566,
+          "north_m": -4.479065381218494e-06,
+          "error_m": 1.873908658373971e-05,
+          "error_px": 0.0001873908658373971
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -5.434353986693096e-06,
+          "north_m": 2.000008144479716,
+          "error_m": 9.791054748935166e-06,
+          "error_px": 9.791054748935165e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.000010556566968,
+          "north_m": 2.000007400963091,
+          "error_m": 1.2892453638636005e-05,
+          "error_px": 0.00012892453638636004
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000030745257312,
+          "north_m": -7.600099308797415e-06,
+          "error_m": 3.167068607815447e-05,
+          "error_px": 0.0003167068607815447
+        }
+      ],
+      "known_answer_max_error_px": 0.0003167068607815447,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.0000155612774577,
+          "north_m": -1.6397885237621958e-06,
+          "error_m": 1.5647436292211886e-05,
+          "error_px": 0.00015647436292211885
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.000022731578143,
+          "north_m": -4.659340971333686e-06,
+          "error_m": 2.3204182880568084e-05,
+          "error_px": 0.00023204182880568082
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 2.5670653247060764e-06,
+          "north_m": 2.0000084091016563,
+          "error_m": 8.792201945355796e-06,
+          "error_px": 8.792201945355796e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.400026822189005,
+          "north_m": -0.30000802936751186,
+          "error_m": 2.7998224330472318e-05,
+          "error_px": 0.0002799822433047232
+        }
+      ],
+      "resampled_max_error_px": 0.0002799822433047232,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.1000673214632353,
+            "north_m": 0.8998558589057439,
+            "error_m": 0.00015908750568623784,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.100410517795092,
+            "north_m": 0.897777385677091,
+            "error_m": 0.0022602077976344105,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.0991845244893956,
+            "north_m": 0.8940212441051699,
+            "error_m": 0.006034113220545442,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.0931324342640583,
+            "north_m": 0.874565058922417,
+            "error_m": 0.026345771705486316,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.0187086409355444,
+            "north_m": 0.6746416827449366,
+            "error_m": 0.2395718184899469,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0022602077976344105,
+        "max_error_wide_band_m": 0.2395718184899469
+      }
+    },
+    {
+      "window_id": "gid266-at90",
+      "gid": 266,
+      "chainage_m": 507.2261214063833,
+      "segment_length_m": 563.5845793404259,
+      "bounds": [
+        152296.84597396903,
+        169250.34090001072,
+        152416.84597396903,
+        169370.34090001072
+      ],
+      "offset_m": {
+        "full_band_east_m": 0.8521098752858504,
+        "full_band_north_m": -0.5100621970564078,
+        "full_band_magnitude_m": 0.9931035617827968,
+        "full_band_ncc": 0.486122464504248
+      },
+      "phase": {
+        "east_m": 0.030235322109984305,
+        "north_m": 0.007756265571528926,
+        "magnitude_m": 0.031214329381080586,
+        "peak_ratio": 1.6053541945636078,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.486122464504248,
+          "peak_separation_ratio": 1.00681002329275,
+          "east_m": 0.8521098752858504,
+          "north_m": -0.5100621970564078
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.5424861895379187,
+          "peak_separation_ratio": 1.0239391539864344,
+          "east_m": 0.999911594534108,
+          "north_m": -0.5233419406117575
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.6047478745537573,
+          "peak_separation_ratio": 1.0607679742872502,
+          "east_m": 1.400474959943282,
+          "north_m": -0.5788926695415735
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7272419344811972,
+          "peak_separation_ratio": 1.203066198574343,
+          "east_m": 1.9843556799143922,
+          "north_m": -0.7494383255147162
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8126516463403363,
+          "peak_separation_ratio": 1.2616167176376714,
+          "east_m": 3.574622335839353,
+          "north_m": 0.051019180105746666
+        }
+      ],
+      "resolving_band_spread_m": 0.14839710172923407,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.14839710172923407,
+        "3_bands_through_2m": 0.5526679835252656,
+        "4_bands_through_5m": 1.1572733008994127,
+        "5_bands_through_20m": 2.7797277581927453
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 0.9999983951629977,
+          "north_m": -1.0496251911062794e-06,
+          "error_m": 1.9176065409049536e-06,
+          "error_px": 1.9176065409049536e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.9999975871119142,
+          "north_m": -2.1661536351518672e-06,
+          "error_m": 3.24256850129258e-06,
+          "error_px": 3.24256850129258e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -1.8184310441011893e-07,
+          "north_m": 2.000009537365486,
+          "error_m": 9.539098873823621e-06,
+          "error_px": 9.53909887382362e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 1.9999981360874928,
+          "north_m": 2.0000113243654143,
+          "error_m": 1.1476733937446962e-05,
+          "error_px": 0.00011476733937446962
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 3.999996348964359,
+          "north_m": -7.899329493577127e-06,
+          "error_m": 8.702267962975193e-06,
+          "error_px": 8.702267962975193e-05
+        }
+      ],
+      "known_answer_max_error_px": 0.00011476733937446962,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999966933120827,
+          "north_m": 7.515586273059478e-06,
+          "error_m": 8.210860004283925e-06,
+          "error_px": 8.210860004283925e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999951711547976,
+          "north_m": 5.547001409144703e-06,
+          "error_m": 7.354384448847846e-06,
+          "error_px": 7.354384448847845e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 2.020473264210336e-07,
+          "north_m": 2.000020920545603,
+          "error_m": 2.092152125082627e-05,
+          "error_px": 0.00020921521250826268
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.3999941508703824,
+          "north_m": -0.29999713914741805,
+          "error_m": 6.511282114767315e-06,
+          "error_px": 6.511282114767314e-05
+        }
+      ],
+      "resampled_max_error_px": 0.00020921521250826268,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.1003821887887333,
+            "north_m": 0.8996246264291813,
+            "error_m": 0.0005356991580192721,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.097945343932666,
+            "north_m": 0.8999066548686643,
+            "error_m": 0.0020567753568575663,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.0926751051149295,
+            "north_m": 0.8999551252875109,
+            "error_m": 0.007325032342396475,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.0625780871187853,
+            "north_m": 0.9038882225232556,
+            "error_m": 0.037623368244743584,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 1.4027118355238384,
+            "north_m": 1.4228590771324663,
+            "error_m": 0.8715459820676985,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0020567753568575663,
+        "max_error_wide_band_m": 0.8715459820676985
+      }
+    },
+    {
+      "window_id": "gid5630-at10",
+      "gid": 5630,
+      "chainage_m": 12.194098310146012,
+      "segment_length_m": 121.94098310146012,
+      "bounds": [
+        152105.39208558874,
+        170002.96129172447,
+        152225.39208558874,
+        170122.96129172447
+      ],
+      "offset_m": {
+        "full_band_east_m": 1.8042320001380823,
+        "full_band_north_m": -0.479040189643801,
+        "full_band_magnitude_m": 1.866743853241851,
+        "full_band_ncc": 0.7462315709616437
+      },
+      "phase": {
+        "east_m": 1.9482890094480902,
+        "north_m": -0.6163620560589937,
+        "magnitude_m": 2.0434608507347263,
+        "peak_ratio": 1.0411191396918433,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7462315709616437,
+          "peak_separation_ratio": 1.0033944288775802,
+          "east_m": 1.8042320001380823,
+          "north_m": -0.479040189643801
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7863908892810052,
+          "peak_separation_ratio": 1.0103668084034017,
+          "east_m": 1.7588729628561592,
+          "north_m": -0.3661975047718218
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8255388449556825,
+          "peak_separation_ratio": 1.0402033539562805,
+          "east_m": 1.5558657974291938,
+          "north_m": -0.14874570807786205
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9003669587954483,
+          "peak_separation_ratio": 1.1839279991334133,
+          "east_m": 1.399000074271316,
+          "north_m": 0.12934815667460953
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9556428043658349,
+          "peak_separation_ratio": 1.7110108648847522,
+          "east_m": 1.2282307529935028,
+          "north_m": 0.2762305703930224
+        }
+      ],
+      "resolving_band_spread_m": 0.12161790078873955,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.12161790078873955,
+        "3_bands_through_2m": 0.4132556293638903,
+        "4_bands_through_5m": 0.7309919928957763,
+        "5_bands_through_20m": 0.9498480708401275
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000083147455743,
+          "north_m": -2.009194114789501e-06,
+          "error_m": 8.554054883848039e-06,
+          "error_px": 8.554054883848038e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.0000156744691617,
+          "north_m": -1.3124438583795112e-06,
+          "error_m": 1.572931951431593e-05,
+          "error_px": 0.00015729319514315928
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -2.0914068069144956e-06,
+          "north_m": 2.000003170828927,
+          "error_m": 3.7984389578059037e-06,
+          "error_px": 3.7984389578059036e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.0000135658892972,
+          "north_m": 1.9999987232996774,
+          "error_m": 1.3625832676890979e-05,
+          "error_px": 0.00013625832676890978
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000030664767055,
+          "north_m": 4.322094852009797e-06,
+          "error_m": 3.096786144489669e-05,
+          "error_px": 0.0003096786144489669
+        }
+      ],
+      "known_answer_max_error_px": 0.0003096786144489669,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.0000123040865139,
+          "north_m": 3.877925763741717e-06,
+          "error_m": 1.2900730722323187e-05,
+          "error_px": 0.00012900730722323187
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.0000193326567355,
+          "north_m": 2.2654625640544133e-06,
+          "error_m": 1.9464941229839943e-05,
+          "error_px": 0.00019464941229839941
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 5.3750036628027e-06,
+          "north_m": 2.000011159024916,
+          "error_m": 1.238606077223309e-05,
+          "error_px": 0.0001238606077223309
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.4000212058754617,
+          "north_m": -0.299998288670683,
+          "error_m": 2.1274816148064658e-05,
+          "error_px": 0.00021274816148064658
+        }
+      ],
+      "resampled_max_error_px": 0.00021274816148064658,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.1000536037800073,
+            "north_m": 0.8995316519692551,
+            "error_m": 0.0004714056036299286,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.100052671833789,
+            "north_m": 0.9003912185068885,
+            "error_m": 0.00039474832768073915,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.100266680592087,
+            "north_m": 0.8993993244660943,
+            "error_m": 0.0006572135385313006,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.098893443357293,
+            "north_m": 0.8945293405427265,
+            "error_m": 0.005581449856531511,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.0438678452849874,
+            "north_m": 0.9126790579159434,
+            "error_m": 0.057546305724920026,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0004714056036299286,
+        "max_error_wide_band_m": 0.057546305724920026
+      }
+    },
+    {
+      "window_id": "gid5630-at50",
+      "gid": 5630,
+      "chainage_m": 60.97049155073006,
+      "segment_length_m": 121.94098310146012,
+      "bounds": [
+        152148.8419359784,
+        169981.05530318804,
+        152268.8419359784,
+        170101.05530318804
+      ],
+      "offset_m": {
+        "full_band_east_m": 1.7129413133099902,
+        "full_band_north_m": -0.48080491915309526,
+        "full_band_magnitude_m": 1.7791406108360206,
+        "full_band_ncc": 0.7302286829294631
+      },
+      "phase": {
+        "east_m": 1.8690961109670512,
+        "north_m": -0.6038034555548663,
+        "magnitude_m": 1.9642043898159256,
+        "peak_ratio": 1.0628358084169172,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7302286829294631,
+          "peak_separation_ratio": 1.003157743089636,
+          "east_m": 1.7129413133099902,
+          "north_m": -0.48080491915309526
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7645260564000653,
+          "peak_separation_ratio": 1.012804151503597,
+          "east_m": 1.7222483662493382,
+          "north_m": -0.36472080898415826
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7994967972344927,
+          "peak_separation_ratio": 1.0385255938920708,
+          "east_m": 1.6120526928921184,
+          "north_m": -0.14880148194972884
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8770594153972663,
+          "peak_separation_ratio": 1.1125841130244476,
+          "east_m": 1.873848104714211,
+          "north_m": 0.1513418227309103
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9504679485263865,
+          "peak_separation_ratio": 1.5274040320289832,
+          "east_m": 2.545211768364406,
+          "north_m": -0.042702367924023925
+        }
+      ],
+      "resolving_band_spread_m": 0.11645660937932946,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.11645660937932946,
+        "3_bands_through_2m": 0.34699394237460557,
+        "4_bands_through_5m": 0.6523039926250375,
+        "5_bands_through_20m": 0.9405359938619603
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000000974958227,
+          "north_m": -6.576883726450095e-07,
+          "error_m": 6.648755003501285e-07,
+          "error_px": 6.648755003501285e-06
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.000002058982349,
+          "north_m": -1.7646218064361034e-07,
+          "error_m": 2.066530235672382e-06,
+          "error_px": 2.0665302356723818e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -2.4866297257965453e-06,
+          "north_m": 2.0000012828630815,
+          "error_m": 2.7980466542212062e-06,
+          "error_px": 2.7980466542212062e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 1.9999996228213135,
+          "north_m": 2.0000001998850165,
+          "error_m": 4.2686974757052676e-07,
+          "error_px": 4.268697475705267e-06
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000008950560745,
+          "north_m": -3.623873977794037e-06,
+          "error_m": 9.656345077569994e-06,
+          "error_px": 9.656345077569993e-05
+        }
+      ],
+      "known_answer_max_error_px": 9.656345077569993e-05,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999950474192163,
+          "north_m": 5.020940542267976e-06,
+          "error_m": 7.052510216091772e-06,
+          "error_px": 7.052510216091771e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999942589306077,
+          "north_m": 4.277115538212414e-06,
+          "error_m": 7.159161619544029e-06,
+          "error_px": 7.159161619544028e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -8.423777487803143e-06,
+          "north_m": 2.000005675302168,
+          "error_m": 1.0157218214875324e-05,
+          "error_px": 0.00010157218214875323
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.399997054160047,
+          "north_m": -0.2999955185687846,
+          "error_m": 5.362946835995582e-06,
+          "error_px": 5.362946835995582e-05
+        }
+      ],
+      "resampled_max_error_px": 0.00010157218214875323,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.101415574535033,
+            "north_m": 0.8997719889533073,
+            "error_m": 0.0014338201775843168,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.10193557258503,
+            "north_m": 0.8987983856117125,
+            "error_m": 0.002278227023380132,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.1060729626876924,
+            "north_m": 0.8983301173076144,
+            "error_m": 0.006298363597985762,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.1280530065478445,
+            "north_m": 0.889727911599266,
+            "error_m": 0.029874520523112895,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.3334197740438705,
+            "north_m": 0.8659236982455923,
+            "error_m": 0.2358940127598599,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.002278227023380132,
+        "max_error_wide_band_m": 0.2358940127598599
+      }
+    },
+    {
+      "window_id": "gid5630-at90",
+      "gid": 5630,
+      "chainage_m": 109.74688479131412,
+      "segment_length_m": 121.94098310146012,
+      "bounds": [
+        152195.0014622505,
+        169965.29554411824,
+        152315.0014622505,
+        170085.29554411824
+      ],
+      "offset_m": {
+        "full_band_east_m": 1.8231091725090711,
+        "full_band_north_m": -0.5348592275232593,
+        "full_band_magnitude_m": 1.8999477487956051,
+        "full_band_ncc": 0.6156657719491061
+      },
+      "phase": {
+        "east_m": 1.8826280116349847,
+        "north_m": -0.5915492146934223,
+        "magnitude_m": 1.9733774863408926,
+        "peak_ratio": 1.1193069464775702,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6156657719491061,
+          "peak_separation_ratio": 1.0032738563436425,
+          "east_m": 1.8231091725090711,
+          "north_m": -0.5348592275232593
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6501839057634874,
+          "peak_separation_ratio": 1.0248909767264562,
+          "east_m": 1.8529799012758297,
+          "north_m": -0.43609956910661857
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.6872940380130605,
+          "peak_separation_ratio": 1.049320474846109,
+          "east_m": 1.7969601442011056,
+          "north_m": -0.22998259871541277
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7780596950862121,
+          "peak_separation_ratio": 1.1934521104898652,
+          "east_m": 2.009171279410738,
+          "north_m": -0.037757865148761255
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8315694705704391,
+          "peak_separation_ratio": 1.9447470826598505,
+          "east_m": 2.6589332774194463,
+          "north_m": -0.12098775806729128
+        }
+      ],
+      "resolving_band_spread_m": 0.10317814966178071,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.10317814966178071,
+        "3_bands_through_2m": 0.305995964801316,
+        "4_bands_through_5m": 0.5307813788173709,
+        "5_bands_through_20m": 0.9326797561751151
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000019848669937,
+          "north_m": 1.3754995220785695e-06,
+          "error_m": 2.4148904566740308e-06,
+          "error_px": 2.4148904566740305e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.0000060415530934,
+          "north_m": 1.3655345587681465e-06,
+          "error_m": 6.193952567714002e-06,
+          "error_px": 6.193952567714002e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": 5.190532714458769e-07,
+          "north_m": 2.0000097670333616,
+          "error_m": 9.780815762808334e-06,
+          "error_px": 9.780815762808332e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.0000074046054923,
+          "north_m": 2.000008198843034,
+          "error_m": 1.104758840607574e-05,
+          "error_px": 0.0001104758840607574
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000012015083974,
+          "north_m": 1.374594759333523e-06,
+          "error_m": 1.2093459126898166e-05,
+          "error_px": 0.00012093459126898166
+        }
+      ],
+      "known_answer_max_error_px": 0.00012093459126898166,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999959843563189,
+          "north_m": 1.3145281334843565e-05,
+          "error_m": 1.3744956003785686e-05,
+          "error_px": 0.00013744956003785685
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999986654998225,
+          "north_m": 1.565845670535704e-05,
+          "error_m": 1.5715220555793045e-05,
+          "error_px": 0.00015715220555793043
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -6.287241212574999e-06,
+          "north_m": 2.000017268748593,
+          "error_m": 1.8377678853131034e-05,
+          "error_px": 0.00018377678853131034
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.4000000299014292,
+          "north_m": -0.2999858904112566,
+          "error_m": 1.4109620427247245e-05,
+          "error_px": 0.00014109620427247245
+        }
+      ],
+      "resampled_max_error_px": 0.00018377678853131034,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.09997843193259,
+            "north_m": 0.8996220320030717,
+            "error_m": 0.00037858286838398394,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.10031573466729,
+            "north_m": 0.898925444391125,
+            "error_m": 0.0011199813108678932,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.098950997516516,
+            "north_m": 0.8971869282760964,
+            "error_m": 0.003002295577417761,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.0949135122157023,
+            "north_m": 0.8903363792792107,
+            "error_m": 0.010920527616149265,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 1.9684586176835852,
+            "north_m": 0.8643868327490737,
+            "error_m": 0.13627704481443556,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0011199813108678932,
+        "max_error_wide_band_m": 0.13627704481443556
+      }
+    },
+    {
+      "window_id": "gid5634-at10",
+      "gid": 5634,
+      "chainage_m": 18.97570423266473,
+      "segment_length_m": 189.75704232664728,
+      "bounds": [
+        152275.63469039596,
+        169766.30307857008,
+        152395.63469039596,
+        169886.30307857008
+      ],
+      "offset_m": {
+        "full_band_east_m": -2.615845334750384,
+        "full_band_north_m": 4.53543945526651,
+        "full_band_magnitude_m": 5.235728971950661,
+        "full_band_ncc": 0.4572730958177752
+      },
+      "phase": {
+        "east_m": 0.07399892944197775,
+        "north_m": 0.011067645540311843,
+        "magnitude_m": 0.07482201772449595,
+        "peak_ratio": 1.9616546592818207,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.4572730958177752,
+          "peak_separation_ratio": 1.003946612994977,
+          "east_m": -2.615845334750384,
+          "north_m": 4.53543945526651
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.4883568916386539,
+          "peak_separation_ratio": 1.0144708995387604,
+          "east_m": -2.610119836541867,
+          "north_m": 4.583093149714637
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.5169574556308874,
+          "peak_separation_ratio": 1.043150991415228,
+          "east_m": -2.4393612334820776,
+          "north_m": 4.568783562177191
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.5676589055650172,
+          "peak_separation_ratio": 1.0215503010642428,
+          "east_m": -1.593146262982964,
+          "north_m": 4.224604098564692
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8448445063781117,
+          "peak_separation_ratio": 1.1673718301354072,
+          "east_m": 2.849762981498824,
+          "north_m": 4.433342668335399
+        }
+      ],
+      "resolving_band_spread_m": 0.04799641574421133,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.04799641574421133,
+        "3_bands_through_2m": 0.1796064237886629,
+        "4_bands_through_5m": 1.0783086984308128,
+        "5_bands_through_20m": 5.4665618098174065
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.000008838600961,
+          "north_m": 1.3755239845997688e-06,
+          "error_m": 8.944994867426563e-06,
+          "error_px": 8.944994867426563e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.00001673909174,
+          "north_m": 1.4701237080626139e-06,
+          "error_m": 1.6803525106099372e-05,
+          "error_px": 0.00016803525106099372
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": 9.936695589756328e-06,
+          "north_m": 2.0000145133427396,
+          "error_m": 1.7589060143191914e-05,
+          "error_px": 0.00017589060143191913
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.0000213176961523,
+          "north_m": 2.000012340593071,
+          "error_m": 2.4631979347716098e-05,
+          "error_px": 0.000246319793477161
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000027682827759,
+          "north_m": 7.822491903602383e-07,
+          "error_m": 2.7693877780663972e-05,
+          "error_px": 0.0002769387778066397
+        }
+      ],
+      "known_answer_max_error_px": 0.0002769387778066397,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.0000068943018035,
+          "north_m": 9.638630110584859e-08,
+          "error_m": 6.894975538470277e-06,
+          "error_px": 6.894975538470277e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.0000149576628194,
+          "north_m": 5.029781213494483e-07,
+          "error_m": 1.4966117198888175e-05,
+          "error_px": 0.00014966117198888173
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 1.1622272498856052e-05,
+          "north_m": 2.000014106071126,
+          "error_m": 1.8277266224601413e-05,
+          "error_px": 0.00018277266224601412
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.4000161820448995,
+          "north_m": -0.30000183555819776,
+          "error_m": 1.6285817481194314e-05,
+          "error_px": 0.00016285817481194312
+        }
+      ],
+      "resampled_max_error_px": 0.00018277266224601412,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.0997313796342354,
+            "north_m": 0.8996647731698886,
+            "error_m": 0.0004295741246049695,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.1024013089995024,
+            "north_m": 0.9003335668395949,
+            "error_m": 0.0024243662568943776,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.1043370127415537,
+            "north_m": 0.8987557409710235,
+            "error_m": 0.004511968533975837,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.11377155789375,
+            "north_m": 0.8999614323133756,
+            "error_m": 0.013771611898661726,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.397397354452721,
+            "north_m": 0.8760033056184057,
+            "error_m": 0.2983639183559585,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0024243662568943776,
+        "max_error_wide_band_m": 0.2983639183559585
+      }
+    },
+    {
+      "window_id": "gid5634-at50",
+      "gid": 5634,
+      "chainage_m": 94.87852116332364,
+      "segment_length_m": 189.75704232664728,
+      "bounds": [
+        152347.70133814274,
+        169742.47877251587,
+        152467.70133814274,
+        169862.47877251587
+      ],
+      "offset_m": {
+        "full_band_east_m": -2.8641134207120786,
+        "full_band_north_m": 4.618673258631566,
+        "full_band_magnitude_m": 5.434637831235985,
+        "full_band_ncc": 0.49534366123907747
+      },
+      "phase": {
+        "east_m": 0.06795279534309619,
+        "north_m": 0.01881645313407046,
+        "magnitude_m": 0.07050986671018025,
+        "peak_ratio": 2.331484546725209,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.49534366123907747,
+          "peak_separation_ratio": 1.002108077140416,
+          "east_m": -2.8641134207120786,
+          "north_m": 4.618673258631566
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.5292564218493954,
+          "peak_separation_ratio": 1.0100381502754037,
+          "east_m": -2.831198557142875,
+          "north_m": 4.536146397610992
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.5618013366525767,
+          "peak_separation_ratio": 1.0390037009586308,
+          "east_m": -2.668136451297164,
+          "north_m": 4.281465795034729
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.6249978474855311,
+          "peak_separation_ratio": 1.007344835526152,
+          "east_m": -2.5628793632924047,
+          "north_m": 3.637274170931687
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8695404863468059,
+          "peak_separation_ratio": 1.2913260595149736,
+          "east_m": -0.21704931385947931,
+          "north_m": 4.428899311906753
+        }
+      ],
+      "resolving_band_spread_m": 0.08884858487161461,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.08884858487161461,
+        "3_bands_through_2m": 0.3900203149150912,
+        "4_bands_through_5m": 1.026589560967612,
+        "5_bands_through_20m": 2.6538580475682685
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000061320095572,
+          "north_m": 1.143003342189542e-06,
+          "error_m": 6.237627581884727e-06,
+          "error_px": 6.237627581884727e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.000008915364335,
+          "north_m": 2.838369204786675e-06,
+          "error_m": 9.356284570522554e-06,
+          "error_px": 9.356284570522553e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": 4.040775225284012e-06,
+          "north_m": 2.0000056344086943,
+          "error_m": 6.933572366061803e-06,
+          "error_px": 6.933572366061803e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.0000125396617316,
+          "north_m": 2.0000089439153728,
+          "error_m": 1.5402491309501132e-05,
+          "error_px": 0.0001540249130950113
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000013545661658,
+          "north_m": 3.6529209011527824e-06,
+          "error_m": 1.4029568092652207e-05,
+          "error_px": 0.00014029568092652206
+        }
+      ],
+      "known_answer_max_error_px": 0.0001540249130950113,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999966494728398,
+          "north_m": 9.291539743835883e-06,
+          "error_m": 9.877182951746138e-06,
+          "error_px": 9.877182951746137e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.999999767330415,
+          "north_m": 1.1870449259398583e-05,
+          "error_m": 1.1872729288403268e-05,
+          "error_px": 0.00011872729288403268
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -5.334406244878631e-06,
+          "north_m": 2.0000146314993343,
+          "error_m": 1.5573588628063787e-05,
+          "error_px": 0.00015573588628063785
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.4000000419344265,
+          "north_m": -0.29998964982307147,
+          "error_m": 1.0350261878167449e-05,
+          "error_px": 0.00010350261878167449
+        }
+      ],
+      "resampled_max_error_px": 0.00015573588628063785,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.099540739440022,
+            "north_m": 0.8997698734419146,
+            "error_m": 0.0005136910498419942,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.1008125161497553,
+            "north_m": 0.89859841348989,
+            "error_m": 0.0016200701339557462,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.102788766300997,
+            "north_m": 0.8981984052254802,
+            "error_m": 0.0033200845189775173,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.117303073348246,
+            "north_m": 0.8951797361524996,
+            "error_m": 0.017961940063765183,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.3249162173705846,
+            "north_m": 0.8249606203055692,
+            "error_m": 0.2371038028822334,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0016200701339557462,
+        "max_error_wide_band_m": 0.2371038028822334
+      }
+    },
+    {
+      "window_id": "gid5634-at90",
+      "gid": 5634,
+      "chainage_m": 170.78133809398255,
+      "segment_length_m": 189.75704232664728,
+      "bounds": [
+        152419.9152284209,
+        169719.10375018642,
+        152539.9152284209,
+        169839.10375018642
+      ],
+      "offset_m": {
+        "full_band_east_m": -2.332884141105933,
+        "full_band_north_m": 4.038124830356674,
+        "full_band_magnitude_m": 4.663560931452133,
+        "full_band_ncc": 0.44683636847898256
+      },
+      "phase": {
+        "east_m": 0.06588619498613352,
+        "north_m": 0.011815222815306082,
+        "magnitude_m": 0.06693721072711452,
+        "peak_ratio": 2.8984668435027245,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.44683636847898256,
+          "peak_separation_ratio": 1.0039621177991152,
+          "east_m": -2.332884141105933,
+          "north_m": 4.038124830356674
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.4838383132402113,
+          "peak_separation_ratio": 1.046233824093731,
+          "east_m": -2.25426518971758,
+          "north_m": 4.008953906631473
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.5169478423184851,
+          "peak_separation_ratio": 1.0962864154781404,
+          "east_m": -2.298407186896998,
+          "north_m": 3.9810093748893
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.5693898329486327,
+          "peak_separation_ratio": 1.1208019015693815,
+          "east_m": -2.5863126349649974,
+          "north_m": 3.7650847476583977
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8821186946285093,
+          "peak_separation_ratio": 1.1613580532997818,
+          "east_m": 1.3733980420006193,
+          "north_m": 4.178398106424948
+        }
+      ],
+      "resolving_band_spread_m": 0.08385631943023562,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.08385631943023562,
+        "3_bands_through_2m": 0.08385631943023562,
+        "4_bands_through_5m": 0.4119801847098616,
+        "5_bands_through_20m": 3.9812230002614006
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.000003440886923,
+          "north_m": 1.2610832341755595e-06,
+          "error_m": 3.664701043743398e-06,
+          "error_px": 3.6647010437433974e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.0000079377846616,
+          "north_m": 2.720037264109467e-06,
+          "error_m": 8.390889586427748e-06,
+          "error_px": 8.390889586427748e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -5.990276244457537e-06,
+          "north_m": 2.000011683960588,
+          "error_m": 1.3130055007696877e-05,
+          "error_px": 0.00013130055007696875
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.0000024625487707,
+          "north_m": 2.0000116955969136,
+          "error_m": 1.1952034706005261e-05,
+          "error_px": 0.0001195203470600526
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000019836315586,
+          "north_m": 8.499690783166094e-06,
+          "error_m": 2.1580643165195415e-05,
+          "error_px": 0.00021580643165195414
+        }
+      ],
+      "known_answer_max_error_px": 0.00021580643165195414,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.0000249092950249,
+          "north_m": -7.173226612837666e-06,
+          "error_m": 2.5921577086944435e-05,
+          "error_px": 0.0002592157708694443
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.0000308551892854,
+          "north_m": -9.25228537600365e-06,
+          "error_m": 3.22125362322574e-05,
+          "error_px": 0.00032212536232257394
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 1.932851586954692e-05,
+          "north_m": 2.0000001877219122,
+          "error_m": 1.9329427442003065e-05,
+          "error_px": 0.00019329427442003064
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.4000340073372874,
+          "north_m": -0.3000099572696942,
+          "error_m": 3.5435098548650186e-05,
+          "error_px": 0.00035435098548650183
+        }
+      ],
+      "resampled_max_error_px": 0.00035435098548650183,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.101480661979632,
+            "north_m": 0.8997208785179964,
+            "error_m": 0.001506741085801876,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.1013370511624134,
+            "north_m": 0.8999486027509648,
+            "error_m": 0.001338038672131434,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.1018350256651472,
+            "north_m": 0.9014039180704231,
+            "error_m": 0.002310477253774455,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.1068843451639823,
+            "north_m": 0.9061266299814407,
+            "error_m": 0.009215736718588058,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.5760786842842505,
+            "north_m": 0.8979722480937881,
+            "error_m": 0.4760830026451439,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.001506741085801876,
+        "max_error_wide_band_m": 0.4760830026451439
+      }
+    },
+    {
+      "window_id": "gid5642-at10",
+      "gid": 5642,
+      "chainage_m": 26.84966665673524,
+      "segment_length_m": 268.4966665673524,
+      "bounds": [
+        152587.32756383007,
+        169468.09740643651,
+        152707.32756383007,
+        169588.09740643651
+      ],
+      "offset_m": {
+        "full_band_east_m": -0.06863189532455181,
+        "full_band_north_m": 0.5453896197672066,
+        "full_band_magnitude_m": 0.549690980829828,
+        "full_band_ncc": 0.40089847105824916
+      },
+      "phase": {
+        "east_m": -5.378583136393286,
+        "north_m": -1.3023488604394506,
+        "magnitude_m": 5.534010219486604,
+        "peak_ratio": 1.0159944587861085,
+        "at_search_bound": true
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.40089847105824916,
+          "peak_separation_ratio": 1.0000244124487838,
+          "east_m": -0.06863189532455181,
+          "north_m": 0.5453896197672066
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.43034214127960924,
+          "peak_separation_ratio": 1.0282750908588616,
+          "east_m": -0.026839840242938985,
+          "north_m": 0.572563851859968
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.4581772691241688,
+          "peak_separation_ratio": 1.029861340306791,
+          "east_m": -0.15560219466751735,
+          "north_m": 0.4469831615662543
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.517908563590169,
+          "peak_separation_ratio": 1.0154711535926162,
+          "east_m": -1.4037234398681222,
+          "north_m": 0.5813291555209389
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.6689534134379137,
+          "peak_separation_ratio": 1.014134205700007,
+          "east_m": 6.1495,
+          "north_m": -0.2271784064817314
+        }
+      ],
+      "resolving_band_spread_m": 0.049849922344732185,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.049849922344732185,
+        "3_bands_through_2m": 0.17986176272795282,
+        "4_bands_through_5m": 1.376911499503534,
+        "5_bands_through_20m": 7.596372082144787
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000077004263148,
+          "north_m": -8.86144651551304e-06,
+          "error_m": 1.1739752969173215e-05,
+          "error_px": 0.00011739752969173215
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.00001215125944,
+          "north_m": -1.6708740874715906e-05,
+          "error_m": 2.0659988567185458e-05,
+          "error_px": 0.00020659988567185456
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -2.9337111729035913e-06,
+          "north_m": 2.0000016580672084,
+          "error_m": 3.3698439301635814e-06,
+          "error_px": 3.3698439301635814e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.000008457166294,
+          "north_m": 1.9999890790622659,
+          "error_m": 1.3812694983828402e-05,
+          "error_px": 0.000138126949838284
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000019139163633,
+          "north_m": -2.8119599094846357e-05,
+          "error_m": 3.401498842878915e-05,
+          "error_px": 0.0003401498842878915
+        }
+      ],
+      "known_answer_max_error_px": 0.0003401498842878915,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999966903898792,
+          "north_m": -2.204931275253605e-05,
+          "error_m": 2.229631610852293e-05,
+          "error_px": 0.0002229631610852293
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999983320206667,
+          "north_m": -3.1257351995128956e-05,
+          "error_m": 3.1301824368617454e-05,
+          "error_px": 0.0003130182436861745
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -1.2303037570375288e-05,
+          "north_m": 1.9999905938221674,
+          "error_m": 1.5486798083434524e-05,
+          "error_px": 0.00015486798083434524
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.400001090875683,
+          "north_m": -0.300034248850223,
+          "error_m": 3.4266218807427736e-05,
+          "error_px": 0.0003426621880742773
+        }
+      ],
+      "resampled_max_error_px": 0.0003426621880742773,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.0998967805847037,
+            "north_m": 0.8997548339217929,
+            "error_m": 0.0002660087472200514,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.0998701996846765,
+            "north_m": 0.8986459445128958,
+            "error_m": 0.0013602626158264923,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.0995302265200553,
+            "north_m": 0.898057198961692,
+            "error_m": 0.0019987903834344837,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.1016538590463845,
+            "north_m": 0.8941585129720124,
+            "error_m": 0.0060710971367171135,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.061024580642354,
+            "north_m": 0.8768336575294825,
+            "error_m": 0.04534051982019705,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0013602626158264923,
+        "max_error_wide_band_m": 0.04534051982019705
+      }
+    },
+    {
+      "window_id": "gid5642-at50",
+      "gid": 5642,
+      "chainage_m": 134.2483332836762,
+      "segment_length_m": 268.4966665673524,
+      "bounds": [
+        152485.16744994812,
+        169501.22699595647,
+        152605.16744994812,
+        169621.22699595647
+      ],
+      "offset_m": {
+        "full_band_east_m": 0.06236515332449083,
+        "full_band_north_m": -0.6717671254258945,
+        "full_band_magnitude_m": 0.6746558257008952,
+        "full_band_ncc": 0.7334877456695417
+      },
+      "phase": {
+        "east_m": 0.004057548708625464,
+        "north_m": 0.7704406517779262,
+        "magnitude_m": 0.7704513363045837,
+        "peak_ratio": 1.3440717079298714,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7334877456695417,
+          "peak_separation_ratio": 1.0011939107255852,
+          "east_m": 0.06236515332449083,
+          "north_m": -0.6717671254258945
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7708358722744044,
+          "peak_separation_ratio": 1.0168950701339516,
+          "east_m": 0.07182412209521609,
+          "north_m": -0.5882494934101308
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8112811842207632,
+          "peak_separation_ratio": 1.039938001451379,
+          "east_m": 0.07330194272625515,
+          "north_m": -0.3226286954250578
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8897718519126551,
+          "peak_separation_ratio": 1.0741264621801914,
+          "east_m": 0.1662343189137151,
+          "north_m": -0.23817814582174135
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9606884098339371,
+          "peak_separation_ratio": 1.1209353621548634,
+          "east_m": -0.8486093510009823,
+          "north_m": 0.3052834217058944
+        }
+      ],
+      "resolving_band_spread_m": 0.0840515731424824,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.0840515731424824,
+        "3_bands_through_2m": 0.34930968590330796,
+        "4_bands_through_5m": 0.4458567110567838,
+        "5_bands_through_20m": 1.335852656239291
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000015535106772,
+          "north_m": 3.71384578250386e-06,
+          "error_m": 4.025673349941329e-06,
+          "error_px": 4.025673349941329e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.000001777359518,
+          "north_m": 6.66561412121624e-06,
+          "error_m": 6.89850842345056e-06,
+          "error_px": 6.89850842345056e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -9.988859533417575e-06,
+          "north_m": 2.0000014232020704,
+          "error_m": 1.008973829747752e-05,
+          "error_px": 0.0001008973829747752
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 1.9999962985611188,
+          "north_m": 2.0000099030034564,
+          "error_m": 1.0572139199242034e-05,
+          "error_px": 0.00010572139199242033
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000002908656238,
+          "north_m": 5.417494062504033e-06,
+          "error_m": 6.1489448709554e-06,
+          "error_px": 6.148944870955399e-05
+        }
+      ],
+      "known_answer_max_error_px": 0.00010572139199242033,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999912136555539,
+          "north_m": 7.723823380491549e-06,
+          "error_m": 1.169860232416299e-05,
+          "error_px": 0.0001169860232416299
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999908998018718,
+          "north_m": 7.244746983060416e-06,
+          "error_m": 1.1631851306667154e-05,
+          "error_px": 0.00011631851306667154
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -1.7509213304217454e-05,
+          "north_m": 2.0000086542584543,
+          "error_m": 1.9531224742104307e-05,
+          "error_px": 0.00019531224742104307
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.3999930405588943,
+          "north_m": -0.29999346100461727,
+          "error_m": 9.549464964969789e-06,
+          "error_px": 9.549464964969788e-05
+        }
+      ],
+      "resampled_max_error_px": 0.00019531224742104307,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.100027379520374,
+            "north_m": 0.8998355504753136,
+            "error_m": 0.00016671317975942816,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.1008192251429847,
+            "north_m": 0.8987321739577965,
+            "error_m": 0.0015094743151798412,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.1029931575346117,
+            "north_m": 0.8980863112914677,
+            "error_m": 0.0035526323339414795,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.1190025564503996,
+            "north_m": 0.8916020369114221,
+            "error_m": 0.020775536953054573,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.316042455663309,
+            "north_m": 0.8500590365432118,
+            "error_m": 0.22173958257384938,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0015094743151798412,
+        "max_error_wide_band_m": 0.22173958257384938
+      }
+    },
+    {
+      "window_id": "gid5642-at90",
+      "gid": 5642,
+      "chainage_m": 241.64699991061718,
+      "segment_length_m": 268.4966665673524,
+      "bounds": [
+        152384.7360451131,
+        169538.63621867518,
+        152504.7360451131,
+        169658.63621867518
+      ],
+      "offset_m": {
+        "full_band_east_m": -1.8439107107376231,
+        "full_band_north_m": 0.7840016482902457,
+        "full_band_magnitude_m": 2.0036629690880523,
+        "full_band_ncc": 0.6817718763023974
+      },
+      "phase": {
+        "east_m": -2.4070771042544266,
+        "north_m": 1.113915235720856,
+        "magnitude_m": 2.6523248930319463,
+        "peak_ratio": 1.1797310552092626,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6817718763023974,
+          "peak_separation_ratio": 1.0005248161373275,
+          "east_m": -1.8439107107376231,
+          "north_m": 0.7840016482902457
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7210040848895959,
+          "peak_separation_ratio": 1.004493405753325,
+          "east_m": -1.6530991927168772,
+          "north_m": 0.5687785536512138
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7654586294554636,
+          "peak_separation_ratio": 1.0342538048346317,
+          "east_m": -1.4711155720615352,
+          "north_m": 0.1391093188103696
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8633888268807426,
+          "peak_separation_ratio": 1.1023674405763648,
+          "east_m": -1.5355061669029284,
+          "north_m": 0.06846100834120535
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9586186734119816,
+          "peak_separation_ratio": 1.356860077808461,
+          "east_m": -1.036273951743533,
+          "north_m": -0.5763445754354931
+        }
+      ],
+      "resolving_band_spread_m": 0.2876282598691984,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.2876282598691984,
+        "3_bands_through_2m": 0.7448908188738164,
+        "4_bands_through_5m": 0.7791737739917638,
+        "5_bands_through_20m": 1.5820300195898165
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000045674141826,
+          "north_m": 9.967430994389584e-07,
+          "error_m": 4.674908461359666e-06,
+          "error_px": 4.674908461359666e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.000008115513537,
+          "north_m": 2.4167541950804676e-06,
+          "error_m": 8.46771874897368e-06,
+          "error_px": 8.46771874897368e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -3.401782566354878e-06,
+          "north_m": 1.9999950490685934,
+          "error_m": 6.006983138134539e-06,
+          "error_px": 6.006983138134539e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.0000055161824837,
+          "north_m": 1.9999949421169505,
+          "error_m": 7.484012970033475e-06,
+          "error_px": 7.484012970033475e-05
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000016233480745,
+          "north_m": 6.2720393490712886e-06,
+          "error_m": 1.7402999014773952e-05,
+          "error_px": 0.0001740299901477395
+        }
+      ],
+      "known_answer_max_error_px": 0.0001740299901477395,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999992404022295,
+          "north_m": -8.339745511294536e-06,
+          "error_m": 8.374266771846165e-06,
+          "error_px": 8.374266771846164e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.000003264024598,
+          "north_m": -5.661075025436065e-06,
+          "error_m": 6.5346481941270035e-06,
+          "error_px": 6.534648194127003e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -4.8763184379182516e-06,
+          "north_m": 1.999984184605137,
+          "error_m": 1.6550081455464995e-05,
+          "error_px": 0.00016550081455464995
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.40000574097365,
+          "north_m": -0.30000553429891985,
+          "error_m": 7.974160958235444e-06,
+          "error_px": 7.974160958235444e-05
+        }
+      ],
+      "resampled_max_error_px": 0.00016550081455464995,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.0995362535513094,
+            "north_m": 0.8995730394172142,
+            "error_m": 0.0006303618864795508,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.101125298324971,
+            "north_m": 0.8986186396774429,
+            "error_m": 0.0017816993744505685,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.1031506861860416,
+            "north_m": 0.8977834277005059,
+            "error_m": 0.003852274159739619,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.11401982431185,
+            "north_m": 0.8931383126027413,
+            "error_m": 0.015608915006266199,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.1961149454757307,
+            "north_m": 0.8559439793543788,
+            "error_m": 0.10573086445749923,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0017816993744505685,
+        "max_error_wide_band_m": 0.10573086445749923
+      }
+    },
+    {
+      "window_id": "gid5643-at10",
+      "gid": 5643,
+      "chainage_m": 15.167195861531006,
+      "segment_length_m": 151.67195861531005,
+      "bounds": [
+        152303.7817369839,
+        169618.76707184434,
+        152423.7817369839,
+        169738.76707184434
+      ],
+      "offset_m": {
+        "full_band_east_m": 1.7391448970834433,
+        "full_band_north_m": -0.8152991737531434,
+        "full_band_magnitude_m": 1.9207648777958064,
+        "full_band_ncc": 0.6301313713018134
+      },
+      "phase": {
+        "east_m": -1.8020246904371335,
+        "north_m": -0.9179085130408728,
+        "magnitude_m": 2.0223375146740348,
+        "peak_ratio": 1.1422445553779297,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6301313713018134,
+          "peak_separation_ratio": 1.0015114370193474,
+          "east_m": 1.7391448970834433,
+          "north_m": -0.8152991737531434
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.671088589389059,
+          "peak_separation_ratio": 1.00239523853235,
+          "east_m": 1.6125498658573094,
+          "north_m": -0.8121094600464315
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7199742392957873,
+          "peak_separation_ratio": 1.0077537514790043,
+          "east_m": 1.4361870576123381,
+          "north_m": -0.7812747287633568
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8110634737782086,
+          "peak_separation_ratio": 1.101406279870091,
+          "east_m": 0.6534432735146101,
+          "north_m": -0.486902173649155
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9496852891175663,
+          "peak_separation_ratio": 1.620860117495146,
+          "east_m": 0.7993287615117003,
+          "north_m": -0.5619768597109838
+        }
+      ],
+      "resolving_band_spread_m": 0.12663520918242527,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.12663520918242527,
+        "3_bands_through_2m": 0.3048624531716934,
+        "4_bands_through_5m": 1.1342806553482694,
+        "5_bands_through_20m": 1.1342806553482694
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000082076093173,
+          "north_m": 5.500379860835446e-07,
+          "error_m": 8.22601923724855e-06,
+          "error_px": 8.22601923724855e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.000012537092319,
+          "north_m": -3.6303012758986226e-06,
+          "error_m": 1.305211749748066e-05,
+          "error_px": 0.0001305211749748066
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -1.9882289843045007e-06,
+          "north_m": 2.000012347333882,
+          "error_m": 1.2506386707904283e-05,
+          "error_px": 0.00012506386707904283
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.000002591860098,
+          "north_m": 2.0000095900279575,
+          "error_m": 9.934101619890457e-06,
+          "error_px": 9.934101619890457e-05
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000011876438517,
+          "north_m": -7.0697619223887265e-06,
+          "error_m": 1.3821408231044538e-05,
+          "error_px": 0.00013821408231044538
+        }
+      ],
+      "known_answer_max_error_px": 0.00013821408231044538,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999948531669866,
+          "north_m": -2.037419929179657e-05,
+          "error_m": 2.1014230579541957e-05,
+          "error_px": 0.00021014230579541955
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999994663552483,
+          "north_m": -2.2692334465039885e-05,
+          "error_m": 2.2698608331663785e-05,
+          "error_px": 0.00022698608331663783
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -1.352625916290588e-05,
+          "north_m": 1.9999938363815772,
+          "error_m": 1.4864382900191084e-05,
+          "error_px": 0.00014864382900191083
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.4000003392467026,
+          "north_m": -0.300023287562801,
+          "error_m": 2.3290033695530113e-05,
+          "error_px": 0.00023290033695530111
+        }
+      ],
+      "resampled_max_error_px": 0.00023290033695530111,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.0997796025604774,
+            "north_m": 0.8996628081745712,
+            "error_m": 0.00040283167512520756,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.101189499799178,
+            "north_m": 0.9004661977300658,
+            "error_m": 0.0012775954350897805,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.10328567900916,
+            "north_m": 0.8994984684333076,
+            "error_m": 0.0033237359196578078,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.113525503405832,
+            "north_m": 0.8916323223448445,
+            "error_m": 0.015904630511953254,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.1825115342100303,
+            "north_m": 0.8647550930459602,
+            "error_m": 0.08972378025859092,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0012775954350897805,
+        "max_error_wide_band_m": 0.08972378025859092
+      }
+    },
+    {
+      "window_id": "gid5643-at50",
+      "gid": 5643,
+      "chainage_m": 75.83597930765502,
+      "segment_length_m": 151.67195861531005,
+      "bounds": [
+        152267.500959825,
+        169667.39223501715,
+        152387.500959825,
+        169787.39223501715
+      ],
+      "offset_m": {
+        "full_band_east_m": 1.931660160473782,
+        "full_band_north_m": -0.8739251266414156,
+        "full_band_magnitude_m": 2.1201547355173895,
+        "full_band_ncc": 0.5574085495456766
+      },
+      "phase": {
+        "east_m": 2.7191957395938804,
+        "north_m": -1.242822578963961,
+        "magnitude_m": 2.989754744625074,
+        "peak_ratio": 1.4075599347383543,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.5574085495456766,
+          "peak_separation_ratio": 1.002704551251688,
+          "east_m": 1.931660160473782,
+          "north_m": -0.8739251266414156
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.5947688567584265,
+          "peak_separation_ratio": 1.0104104491713473,
+          "east_m": 1.99121602528853,
+          "north_m": -0.9001307457207153
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.6430617590585391,
+          "peak_separation_ratio": 1.0011924452183745,
+          "east_m": 1.8440022915065244,
+          "north_m": -0.8060409523844758
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7624856909804105,
+          "peak_separation_ratio": 1.1057430524186629,
+          "east_m": 0.8711186606611125,
+          "north_m": -0.3070338942874306
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9444885404410196,
+          "peak_separation_ratio": 1.7003673525726952,
+          "east_m": 0.28937693167775763,
+          "north_m": 0.8104549955501625
+        }
+      ],
+      "resolving_band_spread_m": 0.06506639305480133,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.06506639305480133,
+        "3_bands_through_2m": 0.17471340138665803,
+        "4_bands_through_5m": 1.267431253135791,
+        "5_bands_through_20m": 2.4129566674064358
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 0.9999986459786172,
+          "north_m": -4.2973507708073415e-06,
+          "error_m": 4.505618442835587e-06,
+          "error_px": 4.505618442835587e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.9999986838564414,
+          "north_m": -1.0110628938353684e-05,
+          "error_m": 1.0195933081178701e-05,
+          "error_px": 0.00010195933081178701
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": -1.4953366438982024e-06,
+          "north_m": 2.000015190262843,
+          "error_m": 1.5263686216707107e-05,
+          "error_px": 0.00015263686216707107
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 1.9999991657254652,
+          "north_m": 2.0000109947446845,
+          "error_m": 1.102635137640806e-05,
+          "error_px": 0.00011026351376408059
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000005689655713,
+          "north_m": -1.9451845748388983e-05,
+          "error_m": 2.026688148554765e-05,
+          "error_px": 0.00020266881485547647
+        }
+      ],
+      "known_answer_max_error_px": 0.00020266881485547647,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 0.9999851890317356,
+          "north_m": -2.267164739612023e-06,
+          "error_m": 1.498348480445346e-05,
+          "error_px": 0.00014983484804453458
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.9999862502367383,
+          "north_m": -7.242186022402051e-06,
+          "error_m": 1.5540439123040935e-05,
+          "error_px": 0.00015540439123040933
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": -1.130451540828023e-05,
+          "north_m": 2.0000233642244214,
+          "error_m": 2.5955327996952875e-05,
+          "error_px": 0.0002595532799695287
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.3999880895118806,
+          "north_m": -0.30001179546265916,
+          "error_m": 1.6762835875406055e-05,
+          "error_px": 0.00016762835875406055
+        }
+      ],
+      "resampled_max_error_px": 0.0002595532799695287,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.099832196652913,
+            "north_m": 0.8997021895305125,
+            "error_m": 0.0003418318870876937,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.1014304952644025,
+            "north_m": 0.8991315289606518,
+            "error_m": 0.0016734869726604527,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.102272537853643,
+            "north_m": 0.8955907893655195,
+            "error_m": 0.004960399854392434,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.1056288558866005,
+            "north_m": 0.8899163236188997,
+            "error_m": 0.011548356937282319,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.203698951436915,
+            "north_m": 0.7761406195076916,
+            "error_m": 0.16153828854192462,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.0016734869726604527,
+        "max_error_wide_band_m": 0.16153828854192462
+      }
+    },
+    {
+      "window_id": "gid5643-at90",
+      "gid": 5643,
+      "chainage_m": 136.50476275377903,
+      "segment_length_m": 151.67195861531005,
+      "bounds": [
+        152231.22018266612,
+        169716.01739818993,
+        152351.22018266612,
+        169836.01739818993
+      ],
+      "offset_m": {
+        "full_band_east_m": 3.205630406062602,
+        "full_band_north_m": -1.124825112673039,
+        "full_band_magnitude_m": 3.397248568234741,
+        "full_band_ncc": 0.6740710319979342
+      },
+      "phase": {
+        "east_m": 4.216138073249242,
+        "north_m": -1.915695359753482,
+        "magnitude_m": 4.630951194310177,
+        "peak_ratio": 1.703567492958,
+        "at_search_bound": false
+      },
+      "bands": [
+        {
+          "band": "full",
+          "cutoff": 0.5,
+          "wavelength_m": 0.2,
+          "lobe_width_m": 0.05,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.6740710319979342,
+          "peak_separation_ratio": 1.0010489713450068,
+          "east_m": 3.205630406062602,
+          "north_m": -1.124825112673039
+        },
+        {
+          "band": "above_1m",
+          "cutoff": 0.1,
+          "wavelength_m": 1.0,
+          "lobe_width_m": 0.5,
+          "can_resolve_tolerance": true,
+          "best_ncc": 0.7112016655417169,
+          "peak_separation_ratio": 1.0161839934095174,
+          "east_m": 3.151285038068226,
+          "north_m": -1.1845886830653158
+        },
+        {
+          "band": "above_2m",
+          "cutoff": 0.05,
+          "wavelength_m": 2.0,
+          "lobe_width_m": 1.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.7491264353172606,
+          "peak_separation_ratio": 1.032324146783415,
+          "east_m": 3.3088468879889064,
+          "north_m": -1.3330302063144337
+        },
+        {
+          "band": "above_5m",
+          "cutoff": 0.02,
+          "wavelength_m": 5.0,
+          "lobe_width_m": 2.5,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.8198541424986489,
+          "peak_separation_ratio": 1.0926305295219203,
+          "east_m": 3.2355633449533387,
+          "north_m": -1.2182703329395022
+        },
+        {
+          "band": "above_20m",
+          "cutoff": 0.005,
+          "wavelength_m": 20.0,
+          "lobe_width_m": 10.0,
+          "can_resolve_tolerance": false,
+          "best_ncc": 0.9016402435216422,
+          "peak_separation_ratio": 1.6241186689174312,
+          "east_m": 2.537084452844371,
+          "north_m": -0.7390568634629352
+        }
+      ],
+      "resolving_band_spread_m": 0.08077811193929182,
+      "spread_by_band_set_m": {
+        "2_bands_through_1m": 0.08077811193929182,
+        "3_bands_through_2m": 0.2323854624529362,
+        "4_bands_through_5m": 0.2323854624529362,
+        "5_bands_through_20m": 0.9738693897635385
+      },
+      "verdict": "consistent",
+      "verdict_rule": "bands agree within the tolerance",
+      "known_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "east_m": 1.0000028910794723,
+          "north_m": -3.6031077236480535e-06,
+          "error_m": 4.619602340372567e-06,
+          "error_px": 4.619602340372566e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "east_m": 2.0000057356327936,
+          "north_m": -7.110810218586434e-06,
+          "error_m": 9.135704981433892e-06,
+          "error_px": 9.13570498143389e-05
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "east_m": 1.7368014096237023e-06,
+          "north_m": 2.000006622379783,
+          "error_m": 6.846341587273182e-06,
+          "error_px": 6.846341587273181e-05
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 2.0,
+          "east_m": 2.000004962803249,
+          "north_m": 2.0000026497648835,
+          "error_m": 5.625892820181441e-06,
+          "error_px": 5.62589282018144e-05
+        },
+        {
+          "asked_east_m": 4.0,
+          "asked_north_m": 0.0,
+          "east_m": 4.000013151098098,
+          "north_m": -1.3569692961362611e-05,
+          "error_m": 1.889677084157887e-05,
+          "error_px": 0.0001889677084157887
+        }
+      ],
+      "known_answer_max_error_px": 0.0001889677084157887,
+      "resampled_answers": [
+        {
+          "asked_east_m": 1.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 1.0,
+          "expected_north_m": 0.0,
+          "east_m": 1.0000046253188721,
+          "north_m": -2.0248613879005876e-05,
+          "error_m": 2.0770169442976695e-05,
+          "error_px": 0.00020770169442976694
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": 0.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 2.0,
+          "expected_north_m": 0.0,
+          "east_m": 2.0000084095575352,
+          "north_m": -2.4296292432727562e-05,
+          "error_m": 2.5710513100965358e-05,
+          "error_px": 0.0002571051310096536
+        },
+        {
+          "asked_east_m": 0.0,
+          "asked_north_m": 2.0,
+          "footprint_rows": 0,
+          "footprint_columns": 0,
+          "expected_east_m": 0.0,
+          "expected_north_m": 2.0,
+          "east_m": 6.294783399813701e-06,
+          "north_m": 1.9999877596531634,
+          "error_m": 1.3764097817501909e-05,
+          "error_px": 0.00013764097817501908
+        },
+        {
+          "asked_east_m": 2.0,
+          "asked_north_m": -1.0,
+          "footprint_rows": 7,
+          "footprint_columns": -4,
+          "expected_east_m": 2.4,
+          "expected_north_m": -0.29999999999999993,
+          "east_m": 2.400011556607329,
+          "north_m": -0.3000274264424485,
+          "error_m": 2.976180300887118e-05,
+          "error_px": 0.0002976180300887118
+        }
+      ],
+      "resampled_max_error_px": 0.0002976180300887118,
+      "degraded_control": {
+        "asked_east_m": 1.5,
+        "asked_north_m": 0.0,
+        "footprint_pixels": [
+          9,
+          -6
+        ],
+        "expected_east_m": 2.1,
+        "expected_north_m": 0.9,
+        "bands": [
+          {
+            "band": "full",
+            "east_m": 2.099548687854352,
+            "north_m": 0.8995837920680061,
+            "error_m": 0.0006139313442593085,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_1m",
+            "east_m": 2.1009829617072064,
+            "north_m": 0.8990566032122388,
+            "error_m": 0.001362428426374111,
+            "can_resolve_tolerance": true
+          },
+          {
+            "band": "above_2m",
+            "east_m": 2.103070726980327,
+            "north_m": 0.8973288514042906,
+            "error_m": 0.0040699384526140855,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_5m",
+            "east_m": 2.11358340203843,
+            "north_m": 0.8830493965258257,
+            "error_m": 0.021721688909389823,
+            "can_resolve_tolerance": false
+          },
+          {
+            "band": "above_20m",
+            "east_m": 2.1779370556947373,
+            "north_m": 0.8111403976565725,
+            "error_m": 0.11819565803783416,
+            "can_resolve_tolerance": false
+          }
+        ],
+        "max_error_resolving_m": 0.001362428426374111,
+        "max_error_wide_band_m": 0.11819565803783416
+      }
+    }
+  ],
+  "summary": {
+    "windows": 15,
+    "consistent_windows": 15,
+    "inconsistent_windows": 0,
+    "median_full_band_offset_m": 1.9207648777958064,
+    "full_band_offset_m_range": [
+      0.549690980829828,
+      5.434637831235985
+    ],
+    "median_resolving_band_spread_m": 0.08884858487161461,
+    "max_resolving_band_spread_m": 0.2876282598691984,
+    "band_set_sensitivity": {
+      "2_bands_through_1m": {
+        "consistent_windows": 15,
+        "median_spread_m": 0.08884858487161461,
+        "max_spread_m": 0.2876282598691984
+      },
+      "3_bands_through_2m": {
+        "consistent_windows": 13,
+        "median_spread_m": 0.3048624531716934,
+        "max_spread_m": 0.7448908188738164
+      },
+      "4_bands_through_5m": {
+        "consistent_windows": 5,
+        "median_spread_m": 0.7309919928957763,
+        "max_spread_m": 1.376911499503534
+      },
+      "5_bands_through_20m": {
+        "consistent_windows": 0,
+        "median_spread_m": 1.335852656239291,
+        "max_spread_m": 7.596372082144787
+      }
+    },
+    "full_band_ncc_range": [
+      0.40089847105824916,
+      0.7462315709616437
+    ],
+    "phase_peak_ratio_range": [
+      1.0159944587861085,
+      2.8984668435027245
+    ],
+    "phase_at_search_bound": 2,
+    "finding": "One offset per window describes the pair to a median of 0.09 m (range 0.03-0.29 m) across the bands that can resolve the tolerance, while the offset itself varies by window from 0.55 m to 5.43 m (median 1.92 m); 15 of 15 windows agree within 0.5 m on the resolving bands alone"
+  },
+  "limitations": [
+    "The two products are one 2021 programme, same camera and orthorectification chain, and both are CC BY 4.0 with required source citation; their records name the flight axes and the shared statement dates the passes, while the acquisition period alone (2021-09-17 to 2021-10-09) is identical in both",
+    "A measured offset mixes georeferencing difference, relief displacement at building height, sun-angle and seasonal change that this method cannot separate",
+    "Two products can be displaced relative to each other and both be accurate, or both be wrong in the same way; this is not an accuracy assessment of either product",
+    "Agreement across bands shows only that they located the same maximum; it does not validate that maximum against any reference, so a consistent window is not a verified offset",
+    "Fixed 120 m windows at three chainages per route are a diagnostic subset, not a probability sample; the window geometry was declared before fetching, the agreement thresholds were not",
+    "Bands whose correlation lobe is wider than the tolerance cannot resolve it; they are reported but excluded from the verdict",
+    "The phase-only estimator weights all frequencies equally and is not a test of the products; its failure to peak is reported separately and never used as evidence of disagreement",
+    "Estimator sensitivity is about 0.25 px on hard synthetic texture and far better on these windows; the controls resample the imagery itself, so they test the estimator, not the products",
+    "Nothing here validates canopy classification, tree presence, or the positional accuracy of the vegetation polygons",
+    "No result from this check was used to adjust canopy figures or the operational ranking"
+  ]
+}

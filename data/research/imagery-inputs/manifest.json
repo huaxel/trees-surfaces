@@ -1,0 +1,1462 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "70d4f2cb3fa9a950c0ac23d7ddf81369778f73ab2169697f9e30ce83a1ec70f5",
+  "plan": {
+    "schema_version": 1,
+    "pixel_m": 0.1,
+    "window_m": 120,
+    "width": 1200,
+    "height": 1200,
+    "srs": "EPSG:31370",
+    "service": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows",
+    "layers": {
+      "east_west_2021_09_22_or_25": "Ortho2021Eo",
+      "north_south_2021_10_09": "Ortho2021Ns"
+    },
+    "records": {
+      "east_west_2021_09_22_or_25": "fed5671a-e61a-4972-9eb9-fc5e8cdc6dbd",
+      "north_south_2021_10_09": "fec72767-d6b6-41b9-a767-616df2779aae"
+    },
+    "chainage_fractions": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "windows": [
+      {
+        "window_id": "gid266-at10",
+        "gid": 266,
+        "fraction": 0.1,
+        "chainage_m": 56.35845793404259,
+        "segment_length_m": 563.5845793404259,
+        "bounds": [
+          152194.4654136372,
+          169689.41933096995,
+          152314.4654136372,
+          169809.41933096995
+        ]
+      },
+      {
+        "window_id": "gid266-at50",
+        "gid": 266,
+        "fraction": 0.5,
+        "chainage_m": 281.79228967021294,
+        "segment_length_m": 563.5845793404259,
+        "bounds": [
+          152245.79200773887,
+          169469.91065953998,
+          152365.79200773887,
+          169589.91065953998
+        ]
+      },
+      {
+        "window_id": "gid266-at90",
+        "gid": 266,
+        "fraction": 0.9,
+        "chainage_m": 507.2261214063833,
+        "segment_length_m": 563.5845793404259,
+        "bounds": [
+          152296.84597396903,
+          169250.34090001072,
+          152416.84597396903,
+          169370.34090001072
+        ]
+      },
+      {
+        "window_id": "gid5630-at10",
+        "gid": 5630,
+        "fraction": 0.1,
+        "chainage_m": 12.194098310146012,
+        "segment_length_m": 121.94098310146012,
+        "bounds": [
+          152105.39208558874,
+          170002.96129172447,
+          152225.39208558874,
+          170122.96129172447
+        ]
+      },
+      {
+        "window_id": "gid5630-at50",
+        "gid": 5630,
+        "fraction": 0.5,
+        "chainage_m": 60.97049155073006,
+        "segment_length_m": 121.94098310146012,
+        "bounds": [
+          152148.8419359784,
+          169981.05530318804,
+          152268.8419359784,
+          170101.05530318804
+        ]
+      },
+      {
+        "window_id": "gid5630-at90",
+        "gid": 5630,
+        "fraction": 0.9,
+        "chainage_m": 109.74688479131412,
+        "segment_length_m": 121.94098310146012,
+        "bounds": [
+          152195.0014622505,
+          169965.29554411824,
+          152315.0014622505,
+          170085.29554411824
+        ]
+      },
+      {
+        "window_id": "gid5634-at10",
+        "gid": 5634,
+        "fraction": 0.1,
+        "chainage_m": 18.97570423266473,
+        "segment_length_m": 189.75704232664728,
+        "bounds": [
+          152275.63469039596,
+          169766.30307857008,
+          152395.63469039596,
+          169886.30307857008
+        ]
+      },
+      {
+        "window_id": "gid5634-at50",
+        "gid": 5634,
+        "fraction": 0.5,
+        "chainage_m": 94.87852116332364,
+        "segment_length_m": 189.75704232664728,
+        "bounds": [
+          152347.70133814274,
+          169742.47877251587,
+          152467.70133814274,
+          169862.47877251587
+        ]
+      },
+      {
+        "window_id": "gid5634-at90",
+        "gid": 5634,
+        "fraction": 0.9,
+        "chainage_m": 170.78133809398255,
+        "segment_length_m": 189.75704232664728,
+        "bounds": [
+          152419.9152284209,
+          169719.10375018642,
+          152539.9152284209,
+          169839.10375018642
+        ]
+      },
+      {
+        "window_id": "gid5642-at10",
+        "gid": 5642,
+        "fraction": 0.1,
+        "chainage_m": 26.84966665673524,
+        "segment_length_m": 268.4966665673524,
+        "bounds": [
+          152587.32756383007,
+          169468.09740643651,
+          152707.32756383007,
+          169588.09740643651
+        ]
+      },
+      {
+        "window_id": "gid5642-at50",
+        "gid": 5642,
+        "fraction": 0.5,
+        "chainage_m": 134.2483332836762,
+        "segment_length_m": 268.4966665673524,
+        "bounds": [
+          152485.16744994812,
+          169501.22699595647,
+          152605.16744994812,
+          169621.22699595647
+        ]
+      },
+      {
+        "window_id": "gid5642-at90",
+        "gid": 5642,
+        "fraction": 0.9,
+        "chainage_m": 241.64699991061718,
+        "segment_length_m": 268.4966665673524,
+        "bounds": [
+          152384.7360451131,
+          169538.63621867518,
+          152504.7360451131,
+          169658.63621867518
+        ]
+      },
+      {
+        "window_id": "gid5643-at10",
+        "gid": 5643,
+        "fraction": 0.1,
+        "chainage_m": 15.167195861531006,
+        "segment_length_m": 151.67195861531005,
+        "bounds": [
+          152303.7817369839,
+          169618.76707184434,
+          152423.7817369839,
+          169738.76707184434
+        ]
+      },
+      {
+        "window_id": "gid5643-at50",
+        "gid": 5643,
+        "fraction": 0.5,
+        "chainage_m": 75.83597930765502,
+        "segment_length_m": 151.67195861531005,
+        "bounds": [
+          152267.500959825,
+          169667.39223501715,
+          152387.500959825,
+          169787.39223501715
+        ]
+      },
+      {
+        "window_id": "gid5643-at90",
+        "gid": 5643,
+        "fraction": 0.9,
+        "chainage_m": 136.50476275377903,
+        "segment_length_m": 151.67195861531005,
+        "bounds": [
+          152231.22018266612,
+          169716.01739818993,
+          152351.22018266612,
+          169836.01739818993
+        ]
+      }
+    ],
+    "frozen_inputs": {
+      "cycling-frame.geojson": "5def9b3641e4e5d550d78100c5fc7bb34c41ea40075ad5c39dc59fd3b5a1bad6",
+      "frame-request.json": "2b22a47236d1b45a64f6845662ddf81b70e3c90618ac63f06e0eb830650b3169",
+      "frame-hits.xml": "8f719ec70fe2c8981cfc7d6b57aa61af57fdfe403fa3d402d72e0b274fff3e70"
+    },
+    "published_comparison_sha256": "94a602aa15aeda8031a9a4cc0924bb35dc44cb9751afdc19057a8bad6de16ede"
+  },
+  "source_records": {
+    "east_west_2021_09_22_or_25": {
+      "record_url": "https://geobru.irisnet.be/geonetwork/srv/api/records/fed5671a-e61a-4972-9eb9-fc5e8cdc6dbd/formatters/xml",
+      "record_sha256": "c307ca174e73bac6e9a8230776e7484e7714f5dfb911f6a0a95aa18c9bec81c9",
+      "begin_position": "2021-09-17T00:00:00",
+      "end_position": "2021-10-09T00:00:00",
+      "statement": "Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. De vluchten ter inzameling van de gegevens zijn uitgevoerd in het Brussels Hoofdstedelijk Gewest op 22 en 25 september 2021 op een oost-westas, en op 9 oktober 2021 op een noord-zuidas. De beelden zijn genomen met een multispectrale UltraCam Eagle Mark3-camera met een brandpuntsafstand van 100 mm en een vierkanalensensor: R, G, B & NI (Red, Green, Blue, en Near-Infrared). Een orthorectificatieproces elimineert de distorsions veroorzaakt door reli\u00ebf en perspectief, wat het mogelijk maakt de UrbIS-vectorlagen op de orthophotos te doen overlappen of metingen uit te voeren rechtstreeks op de beelden. The data collection flights took place in the Brussels Capital Region on an East-West axis on 22 and 25 September 2021 and on a North-South axis on 9 October 2021. The images were taken using an UltraCam Eagle Mark3 multispectral camera with a 100 mm focal length and a four-channel sensor. R, G, B & NI (Red, Green, Blue, and Near-Infrared). An orthorectification process eliminates distortions caused by relief and perspective, allowing UrbIS vector layers to be superimposed on orthophotos or measurements to be made directly on the images."
+    },
+    "north_south_2021_10_09": {
+      "record_url": "https://geobru.irisnet.be/geonetwork/srv/api/records/fec72767-d6b6-41b9-a767-616df2779aae/formatters/xml",
+      "record_sha256": "9fcdfe8a7152d092888e76407ef030aff386a7afa28bf3a1aa7365c5904412d4",
+      "begin_position": "2021-09-17T00:00:00",
+      "end_position": "2021-10-09T00:00:00",
+      "statement": "Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. Les vols de collecte des donn\u00e9es ont \u00e9t\u00e9 r\u00e9alis\u00e9s dans la R\u00e9gion de Bruxelles-Capitale les 22 et 25 septembre 2021 sur un axe Est-Ouest, et le 9 octobre 2021 sur un axe Nord-Sud. Les images ont \u00e9t\u00e9 prises au moyen d\u2019une cam\u00e9ra multispectrale UltraCam Eagle Mark3 avec une focale de 100mm, embarquant un senseur \u00e0 quatre canaux : R, G, B & NI (Red, Green, Blue, et Near-Infrared). Un processus d\u2019orthorectification \u00e9limine les distorsions caus\u00e9es par le relief et la perspective, permettant de superposer les couches vectorielles UrbIS sur les orthophotos ou d\u2019effectuer des mesures directement sur les images. De vluchten ter inzameling van de gegevens zijn uitgevoerd in het Brussels Hoofdstedelijk Gewest op 22 en 25 september 2021 op een oost-westas, en op 9 oktober 2021 op een noord-zuidas. De beelden zijn genomen met een multispectrale UltraCam Eagle Mark3-camera met een brandpuntsafstand van 100 mm en een vierkanalensensor: R, G, B & NI (Red, Green, Blue, en Near-Infrared). Een orthorectificatieproces elimineert de distorsions veroorzaakt door reli\u00ebf en perspectief, wat het mogelijk maakt de UrbIS-vectorlagen op de orthophotos te doen overlappen of metingen uit te voeren rechtstreeks op de beelden. The data collection flights took place in the Brussels Capital Region on an East-West axis on 22 and 25 September 2021 and on a North-South axis on 9 October 2021. The images were taken using an UltraCam Eagle Mark3 multispectral camera with a 100 mm focal length and a four-channel sensor. R, G, B & NI (Red, Green, Blue, and Near-Infrared). An orthorectification process eliminates distortions caused by relief and perspective, allowing UrbIS vector layers to be superimposed on orthophotos or measurements to be made directly on the images."
+    }
+  },
+  "requests": [
+    {
+      "window_id": "gid266-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid266-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152194.4654136372%2C169689.41933096995%2C152314.4654136372%2C169809.41933096995&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152194.4654136372,
+        169689.41933096995,
+        152314.4654136372,
+        169809.41933096995
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:37.510270+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:37 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 209812,
+      "sha256": "c90bceb182d109210464578bf65a6f0a7c65349b6fddd003e8da3015d7868ac0"
+    },
+    {
+      "window_id": "gid266-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid266-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152194.4654136372%2C169689.41933096995%2C152314.4654136372%2C169809.41933096995&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152194.4654136372,
+        169689.41933096995,
+        152314.4654136372,
+        169809.41933096995
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:38.780364+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:38 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "1",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 184963,
+      "sha256": "940d46b0c114d73a3fc17dc76fb2a19fe68739083dfb943129e3382cddcdd0af"
+    },
+    {
+      "window_id": "gid266-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid266-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152245.79200773887%2C169469.91065953998%2C152365.79200773887%2C169589.91065953998&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152245.79200773887,
+        169469.91065953998,
+        152365.79200773887,
+        169589.91065953998
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:41.318428+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:41 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "1",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 236913,
+      "sha256": "e25368f41d59e9e1ab0359a86045fd4a60096380ad9f6653048463cfbebbe36a"
+    },
+    {
+      "window_id": "gid266-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid266-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152245.79200773887%2C169469.91065953998%2C152365.79200773887%2C169589.91065953998&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152245.79200773887,
+        169469.91065953998,
+        152365.79200773887,
+        169589.91065953998
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:43.249427+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:43 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 229963,
+      "sha256": "48429c9e54ba61f492f87fecc0a5587b2ac720e80668a92110af6b51aba8fc9b"
+    },
+    {
+      "window_id": "gid266-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid266-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152296.84597396903%2C169250.34090001072%2C152416.84597396903%2C169370.34090001072&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152296.84597396903,
+        169250.34090001072,
+        152416.84597396903,
+        169370.34090001072
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:46.495364+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:46 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 235670,
+      "sha256": "a3c321adbb963b63ecc0f53ee5d4b9a493d6a30ae106837173d9886bf6e81de8"
+    },
+    {
+      "window_id": "gid266-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid266-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152296.84597396903%2C169250.34090001072%2C152416.84597396903%2C169370.34090001072&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152296.84597396903,
+        169250.34090001072,
+        152416.84597396903,
+        169370.34090001072
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:48.725745+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:48 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 220902,
+      "sha256": "80a8916b673d4a4d9a4712d2c5eb30ae8e341ad18e22306fe1af90660d8e6a05"
+    },
+    {
+      "window_id": "gid5630-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5630-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152105.39208558874%2C170002.96129172447%2C152225.39208558874%2C170122.96129172447&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152105.39208558874,
+        170002.96129172447,
+        152225.39208558874,
+        170122.96129172447
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:49.771071+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:49 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 243729,
+      "sha256": "fb26e7bb6cb31b72769f1d7792433471e58bbd8758c18e69a75880f9a87e40f3"
+    },
+    {
+      "window_id": "gid5630-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5630-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152105.39208558874%2C170002.96129172447%2C152225.39208558874%2C170122.96129172447&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152105.39208558874,
+        170002.96129172447,
+        152225.39208558874,
+        170122.96129172447
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:51.062362+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:51 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 218612,
+      "sha256": "f18e95430368d82946282f8c8b8643d1548bcf6fb6eecf1451de347f887393b8"
+    },
+    {
+      "window_id": "gid5630-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5630-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152148.8419359784%2C169981.05530318804%2C152268.8419359784%2C170101.05530318804&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152148.8419359784,
+        169981.05530318804,
+        152268.8419359784,
+        170101.05530318804
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:52.044851+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:51 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 249012,
+      "sha256": "e759bcfe48f32f0e196165e69a23f485783af016bdbf7d13a4a1d14fc3f9053b"
+    },
+    {
+      "window_id": "gid5630-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5630-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152148.8419359784%2C169981.05530318804%2C152268.8419359784%2C170101.05530318804&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152148.8419359784,
+        169981.05530318804,
+        152268.8419359784,
+        170101.05530318804
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:52.981528+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:52 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 228079,
+      "sha256": "5d4c2b845f6df56b5296c229723cc2ca042440c63ece2fe6d3f81733c2309610"
+    },
+    {
+      "window_id": "gid5630-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5630-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152195.0014622505%2C169965.29554411824%2C152315.0014622505%2C170085.29554411824&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152195.0014622505,
+        169965.29554411824,
+        152315.0014622505,
+        170085.29554411824
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:53.920026+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:53 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 244791,
+      "sha256": "9345c5667ec251509598c7d06e5933bfd0895085988eb5fe7c241d89306bd321"
+    },
+    {
+      "window_id": "gid5630-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5630-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152195.0014622505%2C169965.29554411824%2C152315.0014622505%2C170085.29554411824&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152195.0014622505,
+        169965.29554411824,
+        152315.0014622505,
+        170085.29554411824
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:54.792272+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:54 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 234253,
+      "sha256": "c0d33cbcf58d1b1c1a5b90477d4a42babb669a7b8d5d9d5a7c71e727a07210c1"
+    },
+    {
+      "window_id": "gid5634-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5634-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152275.63469039596%2C169766.30307857008%2C152395.63469039596%2C169886.30307857008&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152275.63469039596,
+        169766.30307857008,
+        152395.63469039596,
+        169886.30307857008
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:55.718758+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:55 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 211399,
+      "sha256": "e61c078191393a2cce1b0468e1828aa8b6447660804280cfdcbfed8fbcd671fc"
+    },
+    {
+      "window_id": "gid5634-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5634-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152275.63469039596%2C169766.30307857008%2C152395.63469039596%2C169886.30307857008&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152275.63469039596,
+        169766.30307857008,
+        152395.63469039596,
+        169886.30307857008
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:58.597372+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:58 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 189926,
+      "sha256": "d782b9b162e8d30b1484deb8fffd928b1142a30ad3bf97cb8b3c4d7983ab88c6"
+    },
+    {
+      "window_id": "gid5634-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5634-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152347.70133814274%2C169742.47877251587%2C152467.70133814274%2C169862.47877251587&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152347.70133814274,
+        169742.47877251587,
+        152467.70133814274,
+        169862.47877251587
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:28:59.688034+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:28:59 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 215631,
+      "sha256": "3f6ef97dcd0a914f587a6eae76e0e6cf349df89a261cc6e47e8a7b0aa0264e42"
+    },
+    {
+      "window_id": "gid5634-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5634-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152347.70133814274%2C169742.47877251587%2C152467.70133814274%2C169862.47877251587&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152347.70133814274,
+        169742.47877251587,
+        152467.70133814274,
+        169862.47877251587
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:00.598603+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:00 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 189461,
+      "sha256": "91c4c92047bfe9f448fab2477d1894d967b57eb8f07ce93035d5c88d9c9cbf6f"
+    },
+    {
+      "window_id": "gid5634-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5634-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152419.9152284209%2C169719.10375018642%2C152539.9152284209%2C169839.10375018642&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152419.9152284209,
+        169719.10375018642,
+        152539.9152284209,
+        169839.10375018642
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:01.738530+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:01 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 226606,
+      "sha256": "2883ae106b1bf05a2e8c7459d0d982b9c135d6be44e776ba9f41801e5cfebbbb"
+    },
+    {
+      "window_id": "gid5634-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5634-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152419.9152284209%2C169719.10375018642%2C152539.9152284209%2C169839.10375018642&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152419.9152284209,
+        169719.10375018642,
+        152539.9152284209,
+        169839.10375018642
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:02.922686+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:02 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 209635,
+      "sha256": "18e7b3fcc5f046a12a14cc4e94efca870ca2f31b73b1b0b5ad2c1d035086b7ba"
+    },
+    {
+      "window_id": "gid5642-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5642-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152587.32756383007%2C169468.09740643651%2C152707.32756383007%2C169588.09740643651&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152587.32756383007,
+        169468.09740643651,
+        152707.32756383007,
+        169588.09740643651
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:03.891475+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:03 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 250917,
+      "sha256": "2b9ec88f727bf452e3788797c656b729ba17ba0f278f44ccd494a7e2c14eaaf7"
+    },
+    {
+      "window_id": "gid5642-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5642-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152587.32756383007%2C169468.09740643651%2C152707.32756383007%2C169588.09740643651&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152587.32756383007,
+        169468.09740643651,
+        152707.32756383007,
+        169588.09740643651
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:05.747863+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:05 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 227724,
+      "sha256": "cc8a1a487f309bf991883455264756cb1d9376adf989762f1277ab9e8ddf8324"
+    },
+    {
+      "window_id": "gid5642-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5642-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152485.16744994812%2C169501.22699595647%2C152605.16744994812%2C169621.22699595647&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152485.16744994812,
+        169501.22699595647,
+        152605.16744994812,
+        169621.22699595647
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:08.621057+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:08 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 245983,
+      "sha256": "21c3b4818e0923deadccb9129e3705788e92345fc511a323625c52586c0bb025"
+    },
+    {
+      "window_id": "gid5642-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5642-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152485.16744994812%2C169501.22699595647%2C152605.16744994812%2C169621.22699595647&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152485.16744994812,
+        169501.22699595647,
+        152605.16744994812,
+        169621.22699595647
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:11.228735+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:11 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 215956,
+      "sha256": "dbd2644a7c2e91323a5dc723559cc4126a3586c94e27f5ce7f6eee3c0497be31"
+    },
+    {
+      "window_id": "gid5642-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5642-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152384.7360451131%2C169538.63621867518%2C152504.7360451131%2C169658.63621867518&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152384.7360451131,
+        169538.63621867518,
+        152504.7360451131,
+        169658.63621867518
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:12.518471+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:12 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 245486,
+      "sha256": "277cd697011355cf0bec6e10d7a6784e79b511597b43e200c9c6afe0494e1a55"
+    },
+    {
+      "window_id": "gid5642-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5642-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152384.7360451131%2C169538.63621867518%2C152504.7360451131%2C169658.63621867518&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152384.7360451131,
+        169538.63621867518,
+        152504.7360451131,
+        169658.63621867518
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:13.972048+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:13 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 223865,
+      "sha256": "17ef3f449aab78980568fd7004a31f3d0b16bac8669397abbea1c14a06116a74"
+    },
+    {
+      "window_id": "gid5643-at10",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5643-at10-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152303.7817369839%2C169618.76707184434%2C152423.7817369839%2C169738.76707184434&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152303.7817369839,
+        169618.76707184434,
+        152423.7817369839,
+        169738.76707184434
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:14.976819+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:14 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 256039,
+      "sha256": "da91d58039a9b01de6d23e0ded77cf51b94db1bdeb01f5dba41fb37b8c1a0a7d"
+    },
+    {
+      "window_id": "gid5643-at10",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5643-at10-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152303.7817369839%2C169618.76707184434%2C152423.7817369839%2C169738.76707184434&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152303.7817369839,
+        169618.76707184434,
+        152423.7817369839,
+        169738.76707184434
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:15.924961+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:15 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 232272,
+      "sha256": "96d2560cd9faba6cc9d18c84b1a56698da00cdc9b25f0eee9da57b97c5fbd9c2"
+    },
+    {
+      "window_id": "gid5643-at50",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5643-at50-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152267.500959825%2C169667.39223501715%2C152387.500959825%2C169787.39223501715&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152267.500959825,
+        169667.39223501715,
+        152387.500959825,
+        169787.39223501715
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:16.912821+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:16 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 237760,
+      "sha256": "ebd5b298a95a5ec5fa4fd659d95723f095ab8d2f5407c76806b291f61d8d66ba"
+    },
+    {
+      "window_id": "gid5643-at50",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5643-at50-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152267.500959825%2C169667.39223501715%2C152387.500959825%2C169787.39223501715&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152267.500959825,
+        169667.39223501715,
+        152387.500959825,
+        169787.39223501715
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:17.990628+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:17 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 203813,
+      "sha256": "b9ca7b45db6f39843b3a4bedc1c7413573800fa6cead23523c902817376c69e9"
+    },
+    {
+      "window_id": "gid5643-at90",
+      "layer": "Ortho2021Eo",
+      "product": "east_west_2021_09_22_or_25",
+      "file": "images/gid5643-at90-Ortho2021Eo.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Eo&styles=&srs=EPSG%3A31370&bbox=152231.22018266612%2C169716.01739818993%2C152351.22018266612%2C169836.01739818993&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152231.22018266612,
+        169716.01739818993,
+        152351.22018266612,
+        169836.01739818993
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:19.021022+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:18 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Eo.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 210184,
+      "sha256": "72b4bdd798bf9a758081b9f54ccba5d5688b50446550345dc0c0f3a16191397b"
+    },
+    {
+      "window_id": "gid5643-at90",
+      "layer": "Ortho2021Ns",
+      "product": "north_south_2021_10_09",
+      "file": "images/gid5643-at90-Ortho2021Ns.jpg",
+      "url": "https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows?service=WMS&version=1.1.1&request=GetMap&layers=Ortho2021Ns&styles=&srs=EPSG%3A31370&bbox=152231.22018266612%2C169716.01739818993%2C152351.22018266612%2C169836.01739818993&width=1200&height=1200&format=image%2Fjpeg",
+      "bbox": [
+        152231.22018266612,
+        169716.01739818993,
+        152351.22018266612,
+        169836.01739818993
+      ],
+      "width": 1200,
+      "height": 1200,
+      "srs": "EPSG:31370",
+      "format": "image/jpeg",
+      "retrieved_at_utc": "2026-10-17T20:29:19.939290+00:00",
+      "response_headers": {
+        "server": "nginx",
+        "date": "Sat, 17 Oct 2026 20:29:19 GMT",
+        "content-type": "image/jpeg",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "x-frame-options": "SAMEORIGIN",
+        "x-control-flow-delay-ms": "0",
+        "content-disposition": "inline; filename=urbisgrid-Ortho2021Ns.jpg",
+        "x-country": "RO",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "access-control-allow-headers": "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+      },
+      "bytes": 186976,
+      "sha256": "efc3998ddb8b78d1b941f8b6a31171d86920ed62173bd14fa41eb5e0b285a857"
+    }
+  ],
+  "files": [
+    {
+      "location": "record",
+      "name": "records/east_west_2021_09_22_or_25.xml",
+      "bytes": 66488,
+      "sha256": "c307ca174e73bac6e9a8230776e7484e7714f5dfb911f6a0a95aa18c9bec81c9"
+    },
+    {
+      "location": "record",
+      "name": "records/north_south_2021_10_09.xml",
+      "bytes": 65489,
+      "sha256": "9fcdfe8a7152d092888e76407ef030aff386a7afa28bf3a1aa7365c5904412d4"
+    },
+    {
+      "location": "image",
+      "name": "images/gid266-at10-Ortho2021Eo.jpg",
+      "bytes": 209812,
+      "sha256": "c90bceb182d109210464578bf65a6f0a7c65349b6fddd003e8da3015d7868ac0"
+    },
+    {
+      "location": "image",
+      "name": "images/gid266-at10-Ortho2021Ns.jpg",
+      "bytes": 184963,
+      "sha256": "940d46b0c114d73a3fc17dc76fb2a19fe68739083dfb943129e3382cddcdd0af"
+    },
+    {
+      "location": "image",
+      "name": "images/gid266-at50-Ortho2021Eo.jpg",
+      "bytes": 236913,
+      "sha256": "e25368f41d59e9e1ab0359a86045fd4a60096380ad9f6653048463cfbebbe36a"
+    },
+    {
+      "location": "image",
+      "name": "images/gid266-at50-Ortho2021Ns.jpg",
+      "bytes": 229963,
+      "sha256": "48429c9e54ba61f492f87fecc0a5587b2ac720e80668a92110af6b51aba8fc9b"
+    },
+    {
+      "location": "image",
+      "name": "images/gid266-at90-Ortho2021Eo.jpg",
+      "bytes": 235670,
+      "sha256": "a3c321adbb963b63ecc0f53ee5d4b9a493d6a30ae106837173d9886bf6e81de8"
+    },
+    {
+      "location": "image",
+      "name": "images/gid266-at90-Ortho2021Ns.jpg",
+      "bytes": 220902,
+      "sha256": "80a8916b673d4a4d9a4712d2c5eb30ae8e341ad18e22306fe1af90660d8e6a05"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5630-at10-Ortho2021Eo.jpg",
+      "bytes": 243729,
+      "sha256": "fb26e7bb6cb31b72769f1d7792433471e58bbd8758c18e69a75880f9a87e40f3"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5630-at10-Ortho2021Ns.jpg",
+      "bytes": 218612,
+      "sha256": "f18e95430368d82946282f8c8b8643d1548bcf6fb6eecf1451de347f887393b8"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5630-at50-Ortho2021Eo.jpg",
+      "bytes": 249012,
+      "sha256": "e759bcfe48f32f0e196165e69a23f485783af016bdbf7d13a4a1d14fc3f9053b"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5630-at50-Ortho2021Ns.jpg",
+      "bytes": 228079,
+      "sha256": "5d4c2b845f6df56b5296c229723cc2ca042440c63ece2fe6d3f81733c2309610"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5630-at90-Ortho2021Eo.jpg",
+      "bytes": 244791,
+      "sha256": "9345c5667ec251509598c7d06e5933bfd0895085988eb5fe7c241d89306bd321"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5630-at90-Ortho2021Ns.jpg",
+      "bytes": 234253,
+      "sha256": "c0d33cbcf58d1b1c1a5b90477d4a42babb669a7b8d5d9d5a7c71e727a07210c1"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5634-at10-Ortho2021Eo.jpg",
+      "bytes": 211399,
+      "sha256": "e61c078191393a2cce1b0468e1828aa8b6447660804280cfdcbfed8fbcd671fc"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5634-at10-Ortho2021Ns.jpg",
+      "bytes": 189926,
+      "sha256": "d782b9b162e8d30b1484deb8fffd928b1142a30ad3bf97cb8b3c4d7983ab88c6"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5634-at50-Ortho2021Eo.jpg",
+      "bytes": 215631,
+      "sha256": "3f6ef97dcd0a914f587a6eae76e0e6cf349df89a261cc6e47e8a7b0aa0264e42"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5634-at50-Ortho2021Ns.jpg",
+      "bytes": 189461,
+      "sha256": "91c4c92047bfe9f448fab2477d1894d967b57eb8f07ce93035d5c88d9c9cbf6f"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5634-at90-Ortho2021Eo.jpg",
+      "bytes": 226606,
+      "sha256": "2883ae106b1bf05a2e8c7459d0d982b9c135d6be44e776ba9f41801e5cfebbbb"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5634-at90-Ortho2021Ns.jpg",
+      "bytes": 209635,
+      "sha256": "18e7b3fcc5f046a12a14cc4e94efca870ca2f31b73b1b0b5ad2c1d035086b7ba"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5642-at10-Ortho2021Eo.jpg",
+      "bytes": 250917,
+      "sha256": "2b9ec88f727bf452e3788797c656b729ba17ba0f278f44ccd494a7e2c14eaaf7"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5642-at10-Ortho2021Ns.jpg",
+      "bytes": 227724,
+      "sha256": "cc8a1a487f309bf991883455264756cb1d9376adf989762f1277ab9e8ddf8324"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5642-at50-Ortho2021Eo.jpg",
+      "bytes": 245983,
+      "sha256": "21c3b4818e0923deadccb9129e3705788e92345fc511a323625c52586c0bb025"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5642-at50-Ortho2021Ns.jpg",
+      "bytes": 215956,
+      "sha256": "dbd2644a7c2e91323a5dc723559cc4126a3586c94e27f5ce7f6eee3c0497be31"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5642-at90-Ortho2021Eo.jpg",
+      "bytes": 245486,
+      "sha256": "277cd697011355cf0bec6e10d7a6784e79b511597b43e200c9c6afe0494e1a55"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5642-at90-Ortho2021Ns.jpg",
+      "bytes": 223865,
+      "sha256": "17ef3f449aab78980568fd7004a31f3d0b16bac8669397abbea1c14a06116a74"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5643-at10-Ortho2021Eo.jpg",
+      "bytes": 256039,
+      "sha256": "da91d58039a9b01de6d23e0ded77cf51b94db1bdeb01f5dba41fb37b8c1a0a7d"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5643-at10-Ortho2021Ns.jpg",
+      "bytes": 232272,
+      "sha256": "96d2560cd9faba6cc9d18c84b1a56698da00cdc9b25f0eee9da57b97c5fbd9c2"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5643-at50-Ortho2021Eo.jpg",
+      "bytes": 237760,
+      "sha256": "ebd5b298a95a5ec5fa4fd659d95723f095ab8d2f5407c76806b291f61d8d66ba"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5643-at50-Ortho2021Ns.jpg",
+      "bytes": 203813,
+      "sha256": "b9ca7b45db6f39843b3a4bedc1c7413573800fa6cead23523c902817376c69e9"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5643-at90-Ortho2021Eo.jpg",
+      "bytes": 210184,
+      "sha256": "72b4bdd798bf9a758081b9f54ccba5d5688b50446550345dc0c0f3a16191397b"
+    },
+    {
+      "location": "image",
+      "name": "images/gid5643-at90-Ortho2021Ns.jpg",
+      "bytes": 186976,
+      "sha256": "efc3998ddb8b78d1b941f8b6a31171d86920ed62173bd14fa41eb5e0b285a857"
+    }
+  ],
+  "retrieved_at_utc": "2026-10-17T20:29:19.939424+00:00"
+}

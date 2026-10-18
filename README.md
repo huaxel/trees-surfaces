@@ -20,7 +20,12 @@ The project evaluates open data feasibility for urban greening and climate adapt
 - [`docs/julia.md`](docs/julia.md) — Julia runtime, refresh, generation, and validation commands.
 - [`Dockerfile`](Dockerfile) — containerized Julia application.
 - [`scripts/validate-julia.sh`](scripts/validate-julia.sh) — Julia unit tests and UI/API smoke test.
-- [`scripts/validate-all.sh`](scripts/validate-all.sh) — the repository-wide Julia validation entry point.
+- [`scripts/validate-all.sh`](scripts/validate-all.sh) — the repository-wide canopy, imagery and Julia validation entry point.
+- [`docs/cycling-canopy-pipeline.md`](docs/cycling-canopy-pipeline.md) — locked, checksum-verified offline canopy comparison and 100 m window analysis.
+- [`docs/trees-measurement-audit.md`](docs/trees-measurement-audit.md) — data quality, spatial/temporal alignment, indicator validity, and directional registration stress tests.
+- [`docs/imagery-registration-check.md`](docs/imagery-registration-check.md) — pixel-level comparison of the two 2021 flight products, why co-registering them cannot bound lane-level alignment, and the per-window controls behind that negative result.
+- [`scripts/validate-canopy.sh`](scripts/validate-canopy.sh) — canopy geometry/provenance regressions using synthetic data and small versioned snapshots (requires uv).
+- [`scripts/validate-imagery.sh`](scripts/validate-imagery.sh) — registration-estimator and imagery-manifest regressions on synthetic fixtures, with no downloads (requires uv).
 - [`.github/workflows/validate.yml`](.github/workflows/validate.yml) — Julia unit, refresh, and container validation.
 
 ## Quick start
