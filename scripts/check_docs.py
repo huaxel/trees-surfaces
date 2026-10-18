@@ -20,6 +20,7 @@ cannot fail in CI is not a check.
 """
 import argparse
 import json
+import math
 import os
 import re
 import statistics
@@ -132,6 +133,7 @@ HMETHOD = 'docs/heat-season-method.md'
 WIN100 = 'data/research/cycling-canopy-100m-windows.json'
 WIN100MD = 'data/research/cycling-canopy-100m-windows.md'
 PROTO = 'docs/prototype-next-iteration.md'
+GEOJSON = 'data/research/canopy-inputs/cycling-frame.geojson'
 DEMO = 'docs/trees-demo-script.md'
 JULIA = 'docs/julia.md'
 FRAME05 = 'data/research/canopy-validation-frame-0m5.json'
@@ -239,6 +241,20 @@ def _window_summary(data, gid, buffer_m):
     """The per-gid, per-buffer window summary (ranges span both endpoint choices)."""
     return next(s for s in data['summaries']
                 if s['gid'] == gid and s['buffer_m'] == buffer_m)
+
+
+def _exact_overlap(block):
+    """Size of the intersection of the two exact top-k ID sets."""
+    return len(set(block['left']['exact_ids']) & set(block['right']['exact_ids']))
+
+
+def _geo_length(data, gid):
+    """Planar length of one selected route straight from the committed frame."""
+    feat = next(f for f in data['features'] if f['properties'].get('gid') == gid)
+    geom = feat['geometry']
+    lines = geom['coordinates'] if geom['type'] == 'MultiLineString' else [geom['coordinates']]
+    return sum(math.dist(line[i], line[i + 1])
+               for line in lines for i in range(len(line) - 1))
 
 
 def _heat_overlap(data, key):
@@ -1111,6 +1127,106 @@ LEDGER = (
           SENSITIVITY, lambda d: d['weight_sensitivity']['heat_only_top_10_overlap']),
     claim(SPEC, r'the \d+/10 versus (\d+)/10 sensitivity result',
           SENSITIVITY, lambda d: d['weight_sensitivity']['proximity_only_top_10_overlap']),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| cell \| \d+/10 \| [\d, ]+ \| \d+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': _temporal_spearman(d, m, 'cell'),
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| cell \| \d+/10 \| [\d, ]+ \| \d+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_p90_wbgt_c': _temporal_spearman(d, m, 'cell'),
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| cell \| \d+/10 \| [\d, ]+ \| \d+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='hot_days_per_season': _temporal_spearman(d, m, 'cell'),
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'cell-level Spearman ([\d.]+) and exact top-cell overlap',
+          DIAGNOSTICS_JSON, lambda d: d['reference_vs_seasonal']['cell']['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'exact top-cell overlap (\d+)/10',
+          DIAGNOSTICS_JSON, lambda d: _exact_overlap(d['reference_vs_seasonal']['cell'])),
+    claim(DIAGNOSTICS, r'Only ([\d.]+)% of the fine',
+          DIAGNOSTICS_JSON, lambda d: 100*d['variance_equal_cell']['within_fraction'],
+          tolerance=0.01,
+          rationale='percentage of a fraction; the table below rounds the same value to 0.026'),
+    claim(DIAGNOSTICS, r'ranks have cell-level Spearman ([\d.]+) after aggregation',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': d['fine_vs_archive_cell'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| reference_date_wbgt_c \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='reference_date_wbgt_c': d['fine_vs_archive_tree'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| reference_date_wbgt_c \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='reference_date_wbgt_c': d['fine_vs_archive_cell'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| reference_date_wbgt_c \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='reference_date_wbgt_c': d['fine_vs_archive_cell'][m]['inclusive_jaccard'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| reference_date_wbgt_c \| [\d.]+ \| [\d.]+ \| [\d.]+ \| (\d+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='reference_date_wbgt_c': d['tree_top_distinct_cells'][m]),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': d['fine_vs_archive_tree'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': d['fine_vs_archive_cell'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': d['fine_vs_archive_cell'][m]['inclusive_jaccard'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_mean_wbgt_c \| [\d.]+ \| [\d.]+ \| [\d.]+ \| (\d+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_mean_wbgt_c': d['tree_top_distinct_cells'][m]),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_p90_wbgt_c': d['fine_vs_archive_tree'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_p90_wbgt_c': d['fine_vs_archive_cell'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_p90_wbgt_c': d['fine_vs_archive_cell'][m]['inclusive_jaccard'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| seasonal_p90_wbgt_c \| [\d.]+ \| [\d.]+ \| [\d.]+ \| (\d+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='seasonal_p90_wbgt_c': d['tree_top_distinct_cells'][m]),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='hot_days_per_season': d['fine_vs_archive_tree'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='hot_days_per_season': d['fine_vs_archive_cell'][m]['spearman'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='hot_days_per_season': d['fine_vs_archive_cell'][m]['inclusive_jaccard'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| hot_days_per_season \| [\d.]+ \| [\d.]+ \| [\d.]+ \| (\d+) \|',
+          DIAGNOSTICS_JSON, lambda d, m='hot_days_per_season': d['tree_top_distinct_cells'][m]),
+    claim(DIAGNOSTICS, r'\| variance_tree_weighted \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d: d['variance_tree_weighted']['within'], tolerance=0.005),
+    claim(DIAGNOSTICS, r'\| variance_tree_weighted \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d: d['variance_tree_weighted']['between'], tolerance=0.005),
+    claim(DIAGNOSTICS, r'\| variance_tree_weighted \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d: d['variance_tree_weighted']['within_fraction'],
+          tolerance=0.001),
+    claim(DIAGNOSTICS, r'\| variance_equal_cell \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d: d['variance_equal_cell']['within'], tolerance=0.005),
+    claim(DIAGNOSTICS, r'\| variance_equal_cell \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d: d['variance_equal_cell']['between'], tolerance=0.005),
+    claim(DIAGNOSTICS, r'\| variance_equal_cell \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          DIAGNOSTICS_JSON, lambda d: d['variance_equal_cell']['within_fraction'], tolerance=0.001),
+    claim(CHECKPOINT, r'(\d+) of \d+ comparison rows match', COMPARISON,
+          lambda d: len(d['results'])),
+    claim(CHECKPOINT, r'\d+ of (\d+) comparison rows match', COMPARISON,
+          lambda d: len(d['results'])),
+    claim(CHECKPOINT, r'(\d+) of \d+ window rows', WIN100,
+          lambda d: len(d['windows'])),
+    claim(CHECKPOINT, r'\d+ of (\d+) window rows', WIN100,
+          lambda d: len(d['windows'])),
+    claim(CHECKPOINT, r'(\d+) of \d+ summaries match', WIN100,
+          lambda d: len(d['summaries'])),
+    claim(CHECKPOINT, r'\d+ of (\d+) summaries match', WIN100,
+          lambda d: len(d['summaries'])),
+    claim(CHECKPOINT, r'All (\d+) cycling-infrastructure records matching', LOCAL,
+          lambda d: d['selection']['response_count']),
+    claim(CHECKPOINT, r'response confirmed (\d+)', LOCAL,
+          lambda d: d['selection']['count_only_number_matched']),
+    claim(CHECKPOINT, r'(\w+) records met the rules', LOCAL,
+          lambda d: NUMBER_WORDS[d['sample_size']].capitalize(), word=True,
+          rationale='sentence-initial capital, as in the local record'),
+    claim(CHECKPOINT, r'original (\d+) m segment 5644', GEOJSON,
+          lambda d, g=5644: _geo_length(d, g), tolerance=0.05,
+          rationale='planar length straight from the committed frame'),
     claim(DEMO, r'uses (\d+) sampled managed-tree records', TREES,
           lambda d: len(d['records']),
           rationale='the sample the demo walks stakeholders through'),
