@@ -44,6 +44,8 @@ A point-coverage audit sampled the 100 tree coordinates against Planetary Comput
 
 The baseline screen requires a nonzero temperature DN and clear QA_PIXEL bits 0–5 (fill, dilated cloud, cirrus where applicable, cloud, cloud shadow, snow). The stricter tests additionally apply the ST_QA uncertainty band (scale 0.01 K) and/or ST_CDIST cloud-distance band (scale 0.01 km). USGS describes these bands but does not prescribe the cutoffs below; they are sensitivity scenarios, not official pass/fail thresholds.
 
+**Not reproducible from this repository.** These counts were produced by querying Planetary Computer in an earlier session, and no committed artifact holds them; the tooling that would re-derive them (rasterio, pystac-client, planetary-computer) is deliberately not part of the locked research environments. They are the only numbers in this brief that the documentation checker cannot verify, and they should be read as exploratory context rather than as a checked result. Re-deriving them would mean adding those dependencies and re-running the scene and QA-band queries over the 100 tree coordinates.
+
 | Summer | ST scenes | Eligible tree-date pairs | Baseline QA | ST_QA ≤ 3 K | ST_CDIST ≥ 1 km |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | 2015 | 30 | 2,000 | 778 (38.9%) | 291 (14.5%) | 392 (19.6%) |

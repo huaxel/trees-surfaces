@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import re
+import statistics
 import subprocess
 import sys
 from pathlib import Path
@@ -99,6 +100,8 @@ FRAME = 'data/research/canopy-validation-frame.json'
 WINDOWS = 'data/research/canopy-verified/windows.json'
 COMPARISON = 'data/research/canopy-verified/comparison.json'
 TREES = 'data/brussels-trees-sample.json'
+TREE_HEAT = 'data/brussels-tree-heat-sample.json'
+SEASON = 'data/brussels-heat-season-sample.json'
 EFFECT = 'data/research/canopy-design-effect.json'
 HEAT = 'data/brussels-heat-wbgt-sample.json'
 SENSITIVITY = 'data/tree-signal-sensitivity.json'
@@ -335,6 +338,45 @@ LEDGER = (
           lambda inputs, c='CB2105': _mobility_statistic(inputs, 'mean_of_'+c),
           tolerance=0.001, also=(NEAREST, SENSITIVITY, 'data/brussels-bike-history-CB2105-2024-01.json'),
           rationale='mean 15-minute count at CB2105'),
+    # Verified by recomputation this session; the table above them is deliberately not pinned
+    # because no committed artifact holds it, and the brief now says so.
+    claim(BRIEF, r'compared with (four) ERA5 cells', SEASON,
+          lambda d: NUMBER_WORDS[len(d['cells'])], word=True,
+          rationale='ERA5 grid cells covering the tree sample'),
+    claim(BRIEF, r'WBGT spans \*\*([\d.]+)–', HEAT, lambda d: d['region_summary']['reference_date_wbgt_min_c']),
+    claim(BRIEF, r'–([\d.]+) °C\*\* \(1\.39', HEAT,
+          lambda d: d['region_summary']['reference_date_wbgt_max_c']),
+    claim(BRIEF, r'\(([\d.]+) °C across the sample\)', HEAT,
+          lambda d: d['region_summary']['reference_date_wbgt_spread_c']),
+    claim(BRIEF, r'seasonal mean spans \*\*([\d.]+)–', HEAT,
+          lambda d: d['region_summary']['seasonal_mean_wbgt_min_c']),
+    claim(BRIEF, r'–([\d.]+) °C\*\* \(1\.41', HEAT,
+          lambda d: d['region_summary']['seasonal_mean_wbgt_max_c']),
+    claim(BRIEF, r'\(([\d.]+) °C\)\. It resolves', HEAT,
+          lambda d: d['region_summary']['seasonal_mean_wbgt_spread_c']),
+    claim(ANALYSIS, r'Records analyzed: (\d+) of', TREES, lambda d: len(d['records'])),
+    claim(ANALYSIS, r'of ([\d,]+) managed-tree records', TREES, lambda d: d['source']),
+    claim(ANALYSIS, r'not °C\): min (\d+)', TREE_HEAT, lambda d: min(r['heat_pixel'] for r in d['records'])),
+    claim(ANALYSIS, r'median ([\d.]+), max', TREE_HEAT,
+          lambda d: statistics.median(r['heat_pixel'] for r in d['records']), tolerance=0.05),
+    claim(ANALYSIS, r'median [\d.]+, max (\d+)', TREE_HEAT,
+          lambda d: max(r['heat_pixel'] for r in d['records'])),
+    claim(ANALYSIS, r'Counter distance: min ([\d.]+) m', NEAREST,
+          lambda d: min(r['nearest_counter_distance_m'] for r in d['records'])),
+    claim(ANALYSIS, r'min [\d.]+ m, median ([\d.]+) m', NEAREST,
+          lambda d: statistics.median(r['nearest_counter_distance_m'] for r in d['records']),
+          tolerance=0.06, rationale='a mid-pair median of 490.55, so 490.5 and 490.6 are both fair'),
+    claim(ANALYSIS, r'median [\d.]+ m, max ([\d.]+) m', NEAREST,
+          lambda d: max(r['nearest_counter_distance_m'] for r in d['records'])),
+    claim(ANALYSIS, r'([\d,]+) fifteen-minute observations', HISTORIES[0],
+          lambda inputs: sum(len(inputs[path]['records']) for path in HISTORIES), also=HISTORIES[1:]),
+    claim(ANALYSIS, r'mean count ([\d.]+), maximum', HISTORIES[0],
+          lambda inputs: round(sum(row['count'] for path in HISTORIES for row in inputs[path]['records'])
+                               /sum(len(inputs[path]['records']) for path in HISTORIES), 1),
+          tolerance=0.05, also=HISTORIES[1:]),
+    claim(ANALYSIS, r'mean count [\d.]+, maximum (\d+)', HISTORIES[0],
+          lambda inputs: max(row['count'] for path in HISTORIES for row in inputs[path]['records']),
+          also=HISTORIES[1:]),
     claim(SPEC, r'finds (\d+) of 100 points at or above', SENSITIVITY,
           lambda d: _quadrant(d['balanced_screening']),
           rationale='third-quartile quadrant count, recomputed from the committed scores'),
