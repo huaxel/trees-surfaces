@@ -124,6 +124,8 @@ IMAGERY = 'docs/imagery-registration-check.md'
 AUDIT_JSON = 'data/research/cycling-canopy-alignment-audit.json'
 AUDIT = 'docs/trees-measurement-audit.md'
 CHECKPOINT = 'data/research/cycling-canopy-checkpoint.md'
+CANDIDATES = 'docs/open-data-candidates.md'
+ZENODO = 'data/research/canopy-inputs/zenodo-record.json'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
@@ -174,6 +176,34 @@ def _ortho_ratio_bound(data, which):
                                  for b in r['bands'] if b['band'] == band)
                for band in ('full', 'above_1m', 'above_2m', 'above_5m')]
     return min(medians) if which == 'min' else max(medians)
+
+
+def _gid_values(data, gid, key):
+    """Per-window magnitude, resolving-band spread, or full-band NCC for one gid."""
+    out = []
+    for r in data['results']:
+        if r['gid'] != gid:
+            continue
+        if key == 'magnitude':
+            out.append(r['offset_m']['full_band_magnitude_m'])
+        elif key == 'spread':
+            out.append(r['resolving_band_spread_m'])
+        else:
+            out.append(r['offset_m']['full_band_ncc'])
+    return out
+
+
+def _zenodo_class_bound(data, which):
+    """The gridcode-4 tree-class height bounds as the source record states them."""
+    match = re.search(r'From ([\d.]+) to ([\d.]+) m \(nDSM value\): gridcode 4',
+                      data['metadata']['description'])
+    return float(match.group(1) if which == 'min' else match.group(2))
+
+
+def _zenodo_ndvi(data):
+    """The NDVI selection threshold as the source record states it."""
+    return float(re.search(r'NDVI values of ([\d.]+) and higher',
+                           data['metadata']['description']).group(1))
 
 
 def _stratum(name):
@@ -704,6 +734,76 @@ LEDGER = (
     claim(AUDIT, r'the other four segments \u2014 ([\d.]+)% of analysed length', COMPARISON,
           lambda d: 100 - _date_share(d, '2017'), tolerance=0.1,
           rationale='sums the rounded published components 41.8+14.6; the exact pool is 56.4951'),
+    # The per-gid results table: magnitude ranges, worst resolving-band spreads, NCC ranges.
+    claim(IMAGERY, r'\| 266 \| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=266: min(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 266 \| [^|]*\| [\d.]+[\u2013-]([\d.]+) m \|', ORTHO,
+          lambda d, g=266: max(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 266 \| [^|]*\| [^|]*\| \u2264([\d.]+) m \|', ORTHO,
+          lambda d, g=266: max(_gid_values(d, g, 'spread')), tolerance=0.005),
+    claim(IMAGERY, r'\| 266 \| [^|]*\| [^|]*\| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=266: min(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 266 \| [^|]*\| [^|]*\| [^|]*\| [\d.]+[\u2013-]([\d.]+) \|',
+          ORTHO, lambda d, g=266: max(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5630 \| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5630: min(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5630 \| [^|]*\| [\d.]+[\u2013-]([\d.]+) m \|', ORTHO,
+          lambda d, g=5630: max(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5630 \| [^|]*\| [^|]*\| \u2264([\d.]+) m \|', ORTHO,
+          lambda d, g=5630: max(_gid_values(d, g, 'spread')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5630 \| [^|]*\| [^|]*\| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5630: min(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5630 \| [^|]*\| [^|]*\| [^|]*\| [\d.]+[\u2013-]([\d.]+) \|',
+          ORTHO, lambda d, g=5630: max(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5634 \| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5634: min(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5634 \| [^|]*\| [\d.]+[\u2013-]([\d.]+) m \|', ORTHO,
+          lambda d, g=5634: max(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5634 \| [^|]*\| [^|]*\| \u2264([\d.]+) m \|', ORTHO,
+          lambda d, g=5634: max(_gid_values(d, g, 'spread')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5634 \| [^|]*\| [^|]*\| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5634: min(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5634 \| [^|]*\| [^|]*\| [^|]*\| [\d.]+[\u2013-]([\d.]+) \|',
+          ORTHO, lambda d, g=5634: max(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5642 \| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5642: min(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5642 \| [^|]*\| [\d.]+[\u2013-]([\d.]+) m \|', ORTHO,
+          lambda d, g=5642: max(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5642 \| [^|]*\| [^|]*\| \u2264([\d.]+) m \|', ORTHO,
+          lambda d, g=5642: max(_gid_values(d, g, 'spread')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5642 \| [^|]*\| [^|]*\| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5642: min(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5642 \| [^|]*\| [^|]*\| [^|]*\| [\d.]+[\u2013-]([\d.]+) \|',
+          ORTHO, lambda d, g=5642: max(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5643 \| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5643: min(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5643 \| [^|]*\| [\d.]+[\u2013-]([\d.]+) m \|', ORTHO,
+          lambda d, g=5643: max(_gid_values(d, g, 'magnitude')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5643 \| [^|]*\| [^|]*\| \u2264([\d.]+) m \|', ORTHO,
+          lambda d, g=5643: max(_gid_values(d, g, 'spread')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5643 \| [^|]*\| [^|]*\| [^|]*\| ([\d.]+)[\u2013-]', ORTHO,
+          lambda d, g=5643: min(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    claim(IMAGERY, r'\| 5643 \| [^|]*\| [^|]*\| [^|]*\| [\d.]+[\u2013-]([\d.]+) \|',
+          ORTHO, lambda d, g=5643: max(_gid_values(d, g, 'ncc')), tolerance=0.005),
+    # The Sample line restates the headline values in distinct phrasing; pin those.
+    # Its NCC, phase-ratio and search-bound repeats are word-identical to the intro pins,
+    # so the existing claims already cover the values if not their second occurrence.
+    claim(IMAGERY, r'Sample: median magnitude \*\*([\d.]+) m\*\*', ORTHO,
+          lambda d: d['summary']['median_full_band_offset_m'], tolerance=0.005),
+    claim(IMAGERY, r'range ([\d.]+)[\u2013-][\d.]+ m; median', ORTHO,
+          lambda d: d['summary']['full_band_offset_m_range'][0], tolerance=0.005),
+    claim(IMAGERY, r'range [\d.]+[\u2013-]([\d.]+) m; median', ORTHO,
+          lambda d: d['summary']['full_band_offset_m_range'][1], tolerance=0.005),
+    claim(IMAGERY, r'median 2-band spread \*\*([\d.]+) m\*\*, worst', ORTHO,
+          lambda d: d['summary']['median_resolving_band_spread_m'], tolerance=0.005),
+    claim(IMAGERY, r'2-band spread \*\*[\d.]+ m\*\*, worst\s+([\d.]+) m', ORTHO,
+          lambda d: d['summary']['max_resolving_band_spread_m'], tolerance=0.005),
+    # The class definition the circularity argument stands on, as the source record states it.
+    claim(CANDIDATES, r'normalised height \*\*([\d.]+)[\u2013-]', ZENODO,
+          lambda d, w='min': _zenodo_class_bound(d, w)),
+    claim(CANDIDATES, r'normalised height \*\*[\d.]+[\u2013-]([\d.]+) m\*\*', ZENODO,
+          lambda d, w='max': _zenodo_class_bound(d, w)),
+    claim(CANDIDATES, r'using NDVI \u2265 ([\d.]+)', ZENODO, _zenodo_ndvi),
 )
 
 
