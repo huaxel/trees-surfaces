@@ -5,7 +5,7 @@ using Statistics
 include(joinpath(@__DIR__, "IOUtils.jl"))
 using .IOUtils
 
-export analyze, generate, top_set, midranks, variance_partition
+export analyze, generate, top_set, midranks, variance_partition, chance_top_k
 
 const METRICS = ("reference_date_wbgt_c", "seasonal_mean_wbgt_c", "seasonal_p90_wbgt_c", "hot_days_per_season")
 const INPUTS = ("brussels-trees-sample.json", "brussels-tree-heat-sample.json", "brussels-heat-wbgt-sample.json")
@@ -24,6 +24,26 @@ function top_set(values, ids, k)
         "exact_ids" => ids[order[1:k]],
         "inclusive_ids" => sort(ids[findall(v -> v >= cutoff, values)]),
         "cutoff_ties" => count(==(cutoff), values))
+end
+
+"""Exact chance reference for two top-k sets drawn independently from `total` items.
+
+Expected overlap is k^2/total. The probability of at least `observed` overlapping items is
+hypergeometric, evaluated with exact integer binomials so small probabilities are not lost
+to cancellation. This is a reference point rather than a test: rankings computed from the
+same inputs are dependent, and the screens compared here share most of their heat
+evidence, so agreement is expected by construction.
+"""
+function chance_top_k(total, k, observed)
+    total isa Integer && k isa Integer && observed isa Integer || error("chance_top_k takes integer arguments")
+    0 <= k <= total || error("k must lie between 0 and total")
+    0 <= observed <= k || error("observed must lie between 0 and k")
+    denominator = big(binomial(total, k))
+    probability = sum(big(binomial(k, overlap)) * big(binomial(total - k, k - overlap)) for overlap in observed:k)
+    at_least = Float64(probability / denominator)
+    return (expected = Float64(big(k) * big(k) / big(total)),
+        probability_at_least = at_least,
+        probability_observed_or_less = 1 - at_least)
 end
 
 function comparison(a, b, ids, k)

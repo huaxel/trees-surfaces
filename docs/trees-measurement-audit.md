@@ -104,6 +104,10 @@ A recent field visit cannot directly validate 2021 vegetation absence. Apparent 
 
 ## 6. Statistical support and novelty
 
+**Top-k overlap needs a chance reference.** The project quotes overlaps such as 7/10 and 9/10 between screens. For two top-ten sets drawn independently from 100 items the expected overlap is **1.0**, and agreement that high is far outside what independence gives (P(overlap ≥ 7) ≈ 8.2 × 10⁻⁷). At the cell level (39 cells, top ten), the expectation is **2.6** and P(overlap ≥ 7) ≈ 7.2 × 10⁻⁴. So the quoted overlaps are not small-sample artefacts.
+
+They are, however, **not evidence of agreement in the underlying construct**. The screens share most of their inputs, so a high overlap is expected by construction; the comparison that isolates a measure rather than a shared input is the heat-only reference-day versus seasonal-mean case, not a cross-screen overlap. The chance figures are computed exactly (hypergeometric, integer binomials) by `chance_top_k` in `src/HeatDiagnostics.jl` and pinned by tests, so a reader can check them rather than take them on trust. Ties remain a separate inflation source: exact top-k breaks them by ID while inclusive membership keeps them.
+
 - Five local administrative segments are not five random, independent samples. One segment contributes half of the 10 complete 100 m windows per anchoring scheme. Adjacent windows share context and source errors; reversing the anchor does not create new observations.
 - Equal-length windows improve comparability of run lengths but exclude about 295.5 m per scheme. Their results are not exhaustive sliding-window extrema. Database splitting and frame-edge exclusions can change the sample.
 - Whole-segment percentages and pooled window averages answer different questions. A network description should state whether it weights equal streets, equal length, trips, or people; none is a neutral default for exposure.

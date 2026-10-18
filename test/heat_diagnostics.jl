@@ -141,4 +141,24 @@ using .HeatDiagnostics
             @test read(joinpath(output, name), String) == read(joinpath(data, "research", name), String)
         end
     end
+
+@testset "Top-k chance reference" begin
+    # Read quoted top-ten overlaps against what independence would give, so a 7/10 or 9/10
+    # overlap is not mistaken for evidence beyond what the shared inputs already imply.
+    hundred = HeatDiagnostics.chance_top_k(100, 10, 7)
+    @test hundred.expected == 1.0
+    @test isapprox(hundred.probability_at_least, 8.249e-7, rtol = 1e-3)
+    @test isapprox(1 - hundred.probability_observed_or_less, hundred.probability_at_least, rtol = 1e-9)
+    @test isapprox(HeatDiagnostics.chance_top_k(100, 10, 2).probability_at_least, 0.2615, atol = 5e-4)
+    @test isapprox(HeatDiagnostics.chance_top_k(100, 10, 10).probability_at_least, 5.777e-14, rtol = 1e-3)
+    cells = HeatDiagnostics.chance_top_k(39, 10, 7)
+    @test isapprox(cells.expected, 2.5641, atol = 5e-4)
+    @test isapprox(cells.probability_at_least, 7.189e-4, rtol = 1e-3)
+    @test HeatDiagnostics.chance_top_k(5, 5, 5).probability_at_least == 1.0
+    @test HeatDiagnostics.chance_top_k(5, 5, 0).probability_at_least == 1.0
+    for bad in ((100, 10, 11), (100, 101, 1), (100, 10, -1), (100, 2.5, 1))
+        @test_throws ErrorException HeatDiagnostics.chance_top_k(bad...)
+    end
+end
+
 end
