@@ -112,6 +112,7 @@ HISTORIES = tuple(f'data/brussels-bike-history-{c}-2024-01.json' for c in COUNTE
 FLOW = 'data/brussels-tree-counter-flow.json'
 NEAREST = 'data/brussels-tree-bike-nearest.json'
 ANALYSIS = 'data/tree-signal-analysis.md'
+DOCS_REVIEW = 'docs/prototype-review.md'
 PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
 WBGT = 'docs/wbgt-mean-max-method.md'
@@ -356,6 +357,11 @@ LEDGER = (
           lambda d: d['region_summary']['seasonal_mean_wbgt_spread_c']),
     claim(ANALYSIS, r'Records analyzed: (\d+) of', TREES, lambda d: len(d['records'])),
     claim(ANALYSIS, r'of ([\d,]+) managed-tree records', TREES, lambda d: d['source']),
+    claim(DOCS_REVIEW, r'sampled values range from (\d+) to 88', TREE_HEAT,
+          lambda d: min(r['heat_pixel'] for r in d['records']),
+          rationale='the same sampled range the review quotes'),
+    claim(DOCS_REVIEW, r'sampled values range from 51 to (\d+)', TREE_HEAT,
+          lambda d: max(r['heat_pixel'] for r in d['records'])),
     claim(ANALYSIS, r'not °C\): min (\d+)', TREE_HEAT, lambda d: min(r['heat_pixel'] for r in d['records'])),
     claim(ANALYSIS, r'median ([\d.]+), max', TREE_HEAT,
           lambda d: statistics.median(r['heat_pixel'] for r in d['records']), tolerance=0.05),

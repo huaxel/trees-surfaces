@@ -48,6 +48,20 @@ struct TwoBandStubRaster end
 Base.size(::TwoBandStubRaster) = (9_000, 10_000)
 Base.getindex(::TwoBandStubRaster, ::Int, ::Int) = (UInt8(20), UInt8(20))
 
+# Correct size and type, but uniform: the shape checks accept this, which is why the content
+# check exists. A blank or error image would otherwise give every tree the same heat value.
+struct BlankStubRaster end
+Base.size(::BlankStubRaster) = (9_000, 10_000)
+Base.getindex(::BlankStubRaster, ::Int, ::Int) = (UInt8(20),)
+
+# Varies, so it passes the uniformity check, but the tree's own pixel is source NoData.
+struct NoDataStubRaster end
+Base.size(::NoDataStubRaster) = (9_000, 10_000)
+function Base.getindex(::NoDataStubRaster, row::Int, column::Int)
+    sampled_column, sampled_row = Projection.raster_pixel(50.85, 4.35, 10_000, 9_000)
+    (row == sampled_row + 1 && column == sampled_column + 1) ? (UInt8(0),) : (UInt8(20 + mod(row, 10)),)
+end
+
 # Synthetic ERA5 archive payloads so seasonal aggregation and its rejection rules can be
 # exercised without network access. The series is built so that 2016-08-24 is the warmest day
 # of its own summer while 2019 is the warmest season in the window.
@@ -485,6 +499,16 @@ end
     @test_throws ErrorException Heat.validate_raster(SmallStubRaster())
     @test_throws ErrorException Heat.validate_raster(WideStubRaster())
     @test_throws ErrorException Heat.validate_raster(TwoBandStubRaster())
+    @test_throws ErrorException Heat.validate_raster(BlankStubRaster())
+    # A tree on a NoData pixel must be refused rather than recorded as the coolest point.
+    nodata_error = try
+        Heat.heat_join_records(NoDataStubRaster(), Dict("records" => [Dict("id" => "stub-tree", "latitude" => 50.85, "longitude" => 4.35)]))
+        nothing
+    catch error
+        error
+    end
+    @test nodata_error isa ErrorException
+    @test occursin("NoData", sprint(showerror, nodata_error))
     stub_join = Heat.heat_join_records(StubRaster(), Dict("records" => [Dict("id" => "stub-tree", "latitude" => 50.85, "longitude" => 4.35)]))
     @test length(stub_join) == 1
     expected_column, expected_row = Projection.raster_pixel(50.85, 4.35, 10_000, 9_000)
