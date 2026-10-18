@@ -43,6 +43,12 @@ north–south flight to 9 October. What the records do **not** separate is the a
 period: both carry 2021-09-17 to 2021-10-09, which is why an earlier version of this
 report treated the axis mapping as an inference from layer names. Record bytes are pinned
 and their fields re-extracted on verification, so all of this is re-checkable offline.
+A reader looking for accuracy numbers will not find them in the records: as versioned,
+each XML carries a data-quality section containing only the INSPIRE domain-conformance
+claim, with no quantitative positional accuracy — no RMSE, no GCP residuals, nothing
+equivalent (checked against the committed bytes on 2026-10-18, when the live records
+were byte-identical to the versioned ones; `test_versioned_records_state_no_positional_accuracy`
+fails if a record ever gains any, so a silent publisher update cannot pass unnoticed).
 
 Windows are the same five routes and three chainage fractions (10%, 50%, 90%) used by the
 alignment audit, re-derived from the frozen cycling frame and cross-checked against the

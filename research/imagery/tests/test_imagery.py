@@ -307,6 +307,30 @@ class ManifestTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'missing'):
             verify(self.fixture.manifest_path, self.root, self.fixture.plan_path)
 
+    def test_versioned_records_state_no_positional_accuracy(self):
+        # Tripwire for the alignment follow-up: both publisher records carry a
+        # data-quality section containing only an INSPIRE domain-conformance claim,
+        # with no quantitative positional accuracy (no RMSE, no GCP residuals). If the
+        # publisher adds accuracy metadata, this fails and the check document and its
+        # follow-up must be revisited instead of silently staying current.
+        import xml.etree.ElementTree as ET
+        expected = {'DQ_ConformanceResult', 'DQ_DataQuality', 'DQ_DomainConsistency',
+                    'DQ_Scope'}
+        names = ('records/east_west_2021_09_22_or_25.xml',
+                 'records/north_south_2021_10_09.xml')
+        for name in names:
+            root = ET.parse(FROZEN/name).getroot()
+            quality = set()
+            for el in root.iter():
+                quality.add(el.tag.split("}")[-1])
+            self.assertEqual({tag for tag in quality if tag.startswith('DQ_')},
+                             expected, name)
+            text = ' '.join(' '.join(root.itertext()).split()).lower()
+            words = ('rmse', 'gcp', 'ground control', 'residual',
+                     'positional accuracy', 'exactitude de position',
+                     'accuracy assessment')
+            for word in words:
+                self.assertNotIn(word, text, name + ' now states ' + word)
 
 class AnalysisTests(unittest.TestCase):
     def setUp(self):
