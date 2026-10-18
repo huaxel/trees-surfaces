@@ -1,0 +1,130 @@
+# Planning a canopy-class validation sample
+
+**Status: a plan, not a result.** No reference labels exist. Nothing here estimates
+accuracy, changes a canopy number, or affects the operational ranking. This document makes
+one audit recommendation concrete — *derive a precision target and sampling plan before
+estimating accuracy* — so that the decision about whether to fund validation can be made
+against numbers rather than adjectives.
+
+## What would be estimated
+
+The estimand is the **line-length-weighted proportion of reference line that intersects
+mapped tree-class canopy** — the same quantity the pipeline reports as direct overlap —
+together with class-specific omission and commission at that support. The unit is a point
+on the line with a stated footprint, not a polygon: polygons inherit their boundaries from
+the classifier, so sampling polygons cannot measure omission.
+
+Two consequences follow and are built into the plan:
+
+- The frame is line length, and weights are measured mapped lengths, so a balanced sample of
+  strata is **not** an estimate of canopy prevalence.
+- Locations are clustered along streets. Precision must be quoted for the effective sample
+  size, not the number of labelled points.
+
+## What a given precision costs
+
+Required independent points for a 95% interval half-width on a proportion, normal
+approximation (z = 1.96), from `research/canopy/sampling_plan.py`:
+
+| Assumed prevalence | ±5 pp | ±7.5 pp | ±10 pp | ±7.5 pp with design effect 3 |
+|---|---:|---:|---:|---:|
+| 0.10 | 139 | 62 | 35 | 185 |
+| 0.25 | 289 | 129 | 73 | 385 |
+| 0.50 | 385 | 171 | 97 | 513 |
+
+The realised interval should be reported with the Wilson score interval, which stays inside
+[0, 1] near the extremes where overlap is small: at n = 385 and p = 0.5 the Wilson
+half-width is 4.98 pp, and at n = 97 it is 9.76 pp. The `design_effect` column exists
+because adjacent locations on one street are not independent; the audit's translation
+results (segment 266 moving from 31.4% to 6.2–54.1% under 2 m shifts) are a direct warning
+that overlap is spatially autocorrelated. **The design effect must be estimated from the
+pilot labels themselves**, as an intra-cluster correlation over street segments; 3 is a
+planning placeholder, not a measured value.
+
+## Frame and strata
+
+The frame is the 1,295.5 m of reference line in the frozen comparison frame (five segments),
+discretised at **2 m chainage**: 648 candidate points. Stratum lengths are measured from the
+published artifact (`data/research/canopy-verified/comparison.json`, tree class at buffer 0
+and 5 m):
+
+| Stratum | Length | Share | Points at n = 385 | Systematic step |
+|---|---:|---:|---:|---:|
+| Mapped non-overlap (beyond 5 m of any mapped tree) | 694.8 m | 53.6% | 206 | every 3.4 m |
+| Proximity-only (inside the 5 m buffer, not overlapping) | 419.6 m | 32.4% | 125 | every 3.4 m |
+| Mapped overlap | 181.0 m | 14.0% | 54 | every 3.4 m |
+
+Mapped overlap is only 14% of the frame, so an unstratified sample would spend most of its
+budget confirming absence. Allocation is proportional to measured stratum length, with the
+largest-remainder rule applied deterministically, so the three counts sum exactly to the
+requested total. A fourth stratum, **difficult or obscured locations** (for example where
+the reference imagery is shadowed or the line is occluded by buildings), cannot be sized
+from existing artifacts: it must be identified by a declared rule during sampling, kept as
+its own stratum with its own reported results, and **never reweighted into the primary
+estimate**, because its location rule is a judgement rather than a mapped length.
+
+Selection within each stratum is systematic with a random start at the stated step, keeping
+the segment ID and chainage for every point, so inclusion probabilities are equal within a
+stratum and known. Proportional allocation then lets the strata be recombined with the
+mapped length weights for an overall line-length estimate.
+
+## Reference labels
+
+This is the hardest part, and the plan cannot paper over it: **the 2021 UrbIS orthophotos
+are the same acquisition programme the mapped class was derived from**, so interpreting them
+again is a consistency check, not independent validation. A label that can support an
+accuracy claim needs one of:
+
+- a field visit at leaf-on, recording canopy presence over the reference line and, for
+  edges, the height class and approximate extent;
+- a genuinely different source — a later or earlier orthophoto with its acquisition metadata
+  verified, or a structural dataset not derived from the same classification.
+
+Protocol requirements taken from the audit, to be fixed before any labelling:
+
+1. Interpreters work **blinded** to the mapped class and to the pipeline's scores.
+2. The reference definition is declared in advance — canopy over the reference line, at the
+   point's footprint — and distinguishes a botanical tree from a height-class vegetation
+   polygon.
+3. **Unknown is a category.** Obscured or ambiguous locations are labelled unknown, not
+   forced into positive or negative, and the unknown fraction is reported.
+4. Observed disagreement is adjudicated against a documented source hierarchy, with
+   disagreements preserved rather than resolved silently.
+5. Temporal change is coded **separately** from classification error: growth, planting or
+   removal between the reference observation and the 2021 imagery is not a classifier error,
+   and a single "disagreement" rate would conflate the two.
+6. No point used for positional registration is reused for class validation.
+
+## Analysis rules
+
+- Report omission, commission and unknown as proportions with Wilson intervals, at
+  line-length weights for the frame and separately by stratum.
+- Report the interval at the **effective** sample size, using the design effect estimated
+  from the pilot (segment-level clustering), and state the estimator used.
+- Report bounds with unknowns treated as all-positive and all-negative, so a reader sees how
+  much the unknown category could move the result. Do not silently treat unknown as negative.
+- Report positional/edge discrepancies alongside class error, since a boundary shift and a
+  class error can produce the same disagreement at the line support.
+
+## Limits of this plan
+
+- The frame is a 1 km² convenience frame with five segments, not a probability sample of
+  Brussels streets. Precision statements apply to these lines, not the city, and the stratum
+  shares are mapped lengths rather than validated canopy.
+- The arithmetic assumes the normal approximation for planning and a design effect that is
+  still unknown; both must be revisited once labels exist.
+- A balanced or oversampled design changes what can be reported: it estimates stratum
+  accuracy, not prevalence.
+- Nothing here is a licence or redistribution clearance; reference imagery or field data
+  would carry their own terms.
+
+## Reproduction
+
+```sh
+uv run --locked --python 3.12.12 --project research/canopy python research/canopy/sampling_plan.py
+```
+
+Prints the precision table, the Wilson check, and the frame, strata and allocation above.
+`research/canopy/tests/test_pipeline.py` asserts the arithmetic, the deterministic
+allocation, and that strata reconcile to the published artifact's lengths; the canopy gate
+runs them.

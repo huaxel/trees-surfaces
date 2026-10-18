@@ -63,6 +63,7 @@ VITO reuse terms and daily aggregation conventions still require confirmation.
 - [`scripts/validate-julia.sh`](scripts/validate-julia.sh) — Julia unit tests and UI/API smoke test.
 - [`scripts/validate-all.sh`](scripts/validate-all.sh) — the repository-wide canopy, imagery and Julia validation entry point.
 - [`docs/cycling-canopy-pipeline.md`](docs/cycling-canopy-pipeline.md) — locked, checksum-verified offline canopy comparison and 100 m window analysis.
+- [`docs/canopy-accuracy-sampling-plan.md`](docs/canopy-accuracy-sampling-plan.md) — planning arithmetic for validating the mapped canopy class: frame, strata, sample sizes, label protocol and limits. A plan, not a result.
 - [`docs/trees-measurement-audit.md`](docs/trees-measurement-audit.md) — data quality, spatial/temporal alignment, indicator validity, and directional registration stress tests.
 - [`docs/imagery-registration-check.md`](docs/imagery-registration-check.md) — pixel-level comparison of the two 2021 flight products, why co-registering them cannot bound lane-level alignment, and the per-window controls behind that negative result.
 - [`scripts/validate-canopy.sh`](scripts/validate-canopy.sh) — canopy geometry/provenance regressions using synthetic data and small versioned snapshots (requires uv).

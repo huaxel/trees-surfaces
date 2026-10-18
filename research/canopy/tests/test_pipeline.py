@@ -1,5 +1,6 @@
 import hashlib
 import json
+import pathlib
 import shutil
 import sys
 import tempfile
@@ -17,6 +18,8 @@ from inputs import (EXTENSIONS, SNAPSHOTS, STEM, digest, full_scan_candidates,
 from metrics import merge_intervals, profile, route_line
 from pipeline import encoded, execute, publish, rename_no_replace
 from alignment_audit import shifted_profiles
+from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
+                           stratum_totals, wilson_interval)
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -238,6 +241,84 @@ class InputTests(unittest.TestCase):
         self.assertTrue((self.root/'race').is_dir())
         self.assertEqual(list((self.root/'race').iterdir()), [])
 
+
+
+class SamplingPlanTests(unittest.TestCase):
+    """Planning arithmetic only: these check the design, not any measured accuracy."""
+
+    def test_required_sample_size_matches_the_normal_approximation(self):
+        # z^2 * p(1-p) / e^2 with z = 1.95996
+        self.assertEqual(required_sample_size(0.05, 0.5), 385)
+        self.assertEqual(required_sample_size(0.10, 0.5), 97)
+        self.assertEqual(required_sample_size(0.10, 0.1), 35)
+        self.assertEqual(required_sample_size(0.075, 0.25), 129)
+        # Clustering can only increase the requirement.
+        self.assertEqual(required_sample_size(0.075, 0.25, design_effect=3), 385)
+        for bad in (0.0, 1.0, -0.1):
+            with self.subTest(prevalence=bad), self.assertRaises(ValueError):
+                required_sample_size(0.05, bad)
+        with self.assertRaises(ValueError):
+            required_sample_size(0.05, 0.25, design_effect=0.5)
+
+    def test_wilson_interval_is_bounded_and_reaches_the_target(self):
+        low, high = wilson_interval(192, 385)
+        self.assertGreaterEqual(low, 0.0)
+        self.assertLessEqual(high, 1.0)
+        self.assertAlmostEqual((high - low) / 2, 0.05, delta=0.002)
+        for successes, total in ((0, 40), (40, 40)):
+            with self.subTest(successes=successes):
+                low, high = wilson_interval(successes, total)
+                self.assertGreaterEqual(low, 0.0)
+                self.assertLessEqual(high, 1.0)
+        with self.assertRaises(ValueError):
+            wilson_interval(5, 0)
+
+    def test_largest_remainder_is_deterministic_and_exact(self):
+        self.assertEqual(largest_remainder([1, 1, 1], 10), [4, 3, 3])
+        self.assertEqual(largest_remainder([0, 5, 5], 3), [0, 2, 1])
+        self.assertEqual(sum(largest_remainder([694.8, 419.6, 181.0], 385)), 385)
+        self.assertEqual(largest_remainder([694.8, 419.6, 181.0], 385),
+                         largest_remainder([694.8, 419.6, 181.0], 385))
+        with self.assertRaises(ValueError):
+            largest_remainder([0, 0], 5)
+
+    def test_strata_come_from_the_published_artifact_and_reconcile(self):
+        path = ROOT/'data/research/canopy-verified/comparison.json'
+        rows = strata_from_published(path)
+        self.assertEqual([row['gid'] for row in rows], [266, 5630, 5634, 5642, 5643])
+        self.assertAlmostEqual(sum(row['length_m'] for row in rows), 1295.5, delta=0.05)
+        totals = stratum_totals(rows)
+        self.assertAlmostEqual(sum(totals.values()), 1295.5, delta=0.05)
+        self.assertAlmostEqual(totals['mapped_overlap'], 181.0, delta=0.5)
+        for row in rows:
+            self.assertGreaterEqual(row['proximity_only_m'], 0)
+            self.assertGreaterEqual(row['non_overlap_m'], 0)
+            self.assertAlmostEqual(row['overlap_m'] + row['proximity_only_m'] + row['non_overlap_m'],
+                                   row['length_m'], delta=1e-6)
+
+    def test_plan_allocates_the_whole_sample(self):
+        result = plan(ROOT/'data/research/canopy-verified/comparison.json',
+                      half_width=0.075, prevalence=0.25, design_effect=3, step_m=2.0)
+        self.assertEqual(result['segments'], 5)
+        self.assertAlmostEqual(result['frame_m'], 1295.5, delta=0.05)
+        self.assertEqual(result['candidates'], 648)
+        self.assertEqual(result['precision']['clustered_points'], 385)
+        self.assertEqual(sum(values['points'] for values in result['strata'].values()), 385)
+        for name, values in result['strata'].items():
+            with self.subTest(stratum=name):
+                self.assertGreater(values['points'], 0)
+                self.assertGreater(values['systematic_step_m'], 0)
+                self.assertAlmostEqual(values['share'] * result['frame_m'], values['length_m'], places=6)
+        # A strata file whose buffers go backwards must be rejected rather than planned from.
+        with tempfile.TemporaryDirectory() as temp:
+            broken = json.loads(pathlib.Path(ROOT/'data/research/canopy-verified/comparison.json').read_text())
+            for row in broken['results']:
+                if row['vegetation'] == 'trees' and row['gid'] == 266 and row['buffer_m'] == 5:
+                    row['overlap_m'] = 0.0
+            bad = pathlib.Path(temp)/'comparison.json'
+            bad.write_text(json.dumps(broken))
+            with self.assertRaisesRegex(ValueError, 'monotone'):
+                strata_from_published(bad)
 
 if __name__ == '__main__':
     unittest.main()
