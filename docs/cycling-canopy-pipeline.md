@@ -136,3 +136,11 @@ one recorded 2022 cycling-street start); class 4 is height-based; absence of a
 mapped polygon is not validated absence, and neither direct overlap nor 5 m
 proximity measures actual shade, cooling, or cyclist exposure. This pipeline
 improves reproducibility, not the underlying observational evidence.
+
+Being height-based matters for what can be checked. The source record defines
+class 4 as normalised height 5–113.96 m, computed from the UrbIS orthophotos and
+the 50 cm DSM/DTM captured 2021-09-22. Any comparison of this class against a
+height surface — including the open UrbIS DSM/DTM, the obvious candidate —
+recovers the threshold that defined the class rather than testing whether canopy
+is there. Structural evidence from the raw LiDAR point cloud (crown versus planar
+roof at the same elevation) remains a different property, but shares the flight.

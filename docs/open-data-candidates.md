@@ -24,8 +24,8 @@ question, not as a discovery.
 
 | Candidate | Provider | Coverage and resolution | Terms | Access | What it could support |
 | --- | --- | --- | --- | --- | --- |
-| **Airborne LiDAR point cloud, 2021** | Paradigm / UrbIS | Brussels region, LAS point cloud; flight date **2021-10-09** | CC BY 4.0 (as recorded on the data.gov.be entry) | Open, direct download | An **independent-modality** test: do our classified canopy pixels sit where a different instrument measured elevated vegetation? |
-| **DTM / DSM, 2021** | Paradigm / UrbIS | Region-wide, 50 cm grid (record states `Distance: 0.5`) | Same open UrbIS download | Open, direct download | Ground and surface heights to build a normalised height (nDSM) for the same test without point-cloud processing |
+| **Airborne LiDAR point cloud, 2021** | Paradigm / UrbIS | Brussels region, LAS point cloud; flight date **2021-10-09** | CC BY 4.0 (as recorded on the data.gov.be entry) | Open, direct download | Echo and surface **structure** for telling a crown from a roof at the same height — a different property from height, so not circular for the class mapped here. Heights from it are circular, see below |
+| **DTM / DSM, 2021** | Paradigm / UrbIS | Region-wide, 50 cm grid (record states `Distance: 0.5`) | Same open UrbIS download | Open, direct download | **Not usable as a check of this project's canopy class**: the class boundary is a height threshold computed from this very product |
 | **LiDAR tree models, Brussels 2021** | IOER FDZ (Münzinger et al.), DOI 10.71830/AIEEPB | CHM 0.5 m, parameterised tree positions, crown convex hulls, CityGML LoD2 crowns | CC BY 4.0 | **File access restricted — request access**; metadata and README public | Per-tree crowns and heights, the closest thing to a tree inventory of the region, from the same October 2021 LiDAR |
 | **Urban Atlas Street Tree Layer 2018** | Copernicus Land Monitoring Service / EEA | Brussels FUA `be001l2`, vector, MMU 500 m², MMW 10 m | CLMS terms, free of charge with citation | Open (service queried directly; prepackaged per-FUA download) | A 2018 satellite-interpreted street-tree extent, independent of our imagery — **measured below as unusable on four of the five streets** |
 | **HRL Tree Cover Density, 2018–2023** | Copernicus Land Monitoring Service | Europe, 10 m raster, yearly | CLMS terms, free of charge | Open via WeKeo / Copernicus Data Space | A year-matched (2021) crown-cover fraction, but at 10 m it cannot resolve 2 m canopy pixels |
@@ -38,6 +38,18 @@ question, not as a discovery.
 The point of a structural reference is to be independent of the thing being checked. On that
 test the candidates split cleanly, and the split is not the one the descriptions suggest:
 
+- **For the class this project maps, a height check is circular.** The mapped tree class is
+  `gridcode == 4` (`research/canopy/pipeline.py`, `alignment_audit.py`, `validation_frame.py`),
+  which the source record defines as normalised height **5–113.96 m** — and that record states
+  the model was built from the UrbIS north–south 2021 orthophotos *and from the 50 cm DSM/DTM
+  captured 2021-09-22*, which is the same product offered on the open portal. A nDSM check
+  against that surface model would recover the threshold that defined the class. It verifies
+  arithmetic, not canopy. Height can check a class derived from **imagery alone**; it cannot
+  check one whose boundary *is* a height.
+- **What the point cloud can still add is structure, not height.** Whether a polygon is a crown
+  or a roof at the same elevation is a question of echo and surface roughness, a property the
+  DSM/DTM interpolation discards and the CHM never used. That use needs the point cloud, not
+  the raster, and it is a weaker check than field labels because it shares the flight.
 - **LiDAR is a different instrument, but not a different occasion.** Both 2021 orthophoto
   products carry the acquisition period 2021-09-17 to 2021-10-09
   (`docs/imagery-registration-check.md`) and the LiDAR flight is dated 2021-10-09, inside that
@@ -85,8 +97,10 @@ obvious candidate.
 
 ## What this changes
 
-1. The sampling plan's structural-reference gap now has a named candidate: the **open UrbIS
-   LiDAR/DSM from the same 2021 campaign**, usable as an independent-modality check.
+1. The sampling plan's structural-reference gap is **narrower than it looked, and still open**.
+   The open UrbIS LiDAR can check surface structure, and can check a height *class* derived from
+   imagery alone — but not this project's tree class, whose definition is a height threshold
+   taken from the same DSM/DTM. No candidate found removes the need for field labels.
 2. One door is closed with a measurement rather than an assumption: **STL 2018 does not cover
    these streets**.
 3. A licensing trap is on record: the national 1 m DSM is **not openly reusable**.

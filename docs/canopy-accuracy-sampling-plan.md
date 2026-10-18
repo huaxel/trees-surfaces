@@ -118,12 +118,16 @@ accuracy claim needs one of:
 Of the structural options, one is now named and one is closed, both on evidence recorded in
 [`open-data-candidates.md`](open-data-candidates.md):
 
-- **Usable candidate:** the open **UrbIS airborne LiDAR point cloud and 50 cm DTM/DSM from the
-  2021 campaign** (CC BY 4.0, flight dated 2021-10-09). It is a different instrument from the
-  orthophoto camera, so a height mask built from it does not share the imagery's failure modes —
-  but it sits inside the same acquisition window as both orthophotos (2021-09-17 to 2021-10-09),
-  so it is an independent-**modality** check, not a temporally independent one, and it says
-  nothing about any year but 2021.
+- **Usable candidate, with one condition that rules out the obvious use:** the open **UrbIS
+  airborne LiDAR point cloud and 50 cm DTM/DSM from the 2021 campaign** (CC BY 4.0, flight dated
+  2021-10-09). It is a different instrument from the orthophoto camera, so it does not share the
+  imagery's failure modes — but it sits inside the same acquisition window as both orthophotos
+  (2021-09-17 to 2021-10-09), so it is an independent-**modality** check, not a temporally
+  independent one, and it says nothing about any year but 2021. **A height check against its
+  DSM/DTM cannot validate the class this project maps**, because that class is the 5–113.96 m
+  height band of a model built from the same 50 cm DSM/DTM; it would recover the defining
+  threshold. The legitimate use is surface **structure** from the raw point cloud — crown versus
+  planar roof at the same height — which is a different property from height.
 - **Closed door:** **Copernicus Urban Atlas Street Tree Layer 2018** was queried against these
   five segments and does not reach four of them (nearest polygon 22.9 m, 44.6 m and 101.6 m from
   the centreline). Its 500 m² minimum mapping unit excludes street trees, so it cannot be the
