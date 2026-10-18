@@ -33,8 +33,23 @@ approximation (z = 1.96), from `research/canopy/sampling_plan.py`:
 | 0.50 | 385 | 171 | 97 | 513 |
 
 The realised interval should be reported with the Wilson score interval, which stays inside
-[0, 1] near the extremes where overlap is small: at n = 385 and p = 0.5 the Wilson
-half-width is 4.97 pp, and at n = 97 it is 9.76 pp. The `design_effect` column exists
+[0, 1] near the extremes where overlap is small, **evaluated at the effective sample size
+rather than the number of points**. Two distinct things reduce that size and they multiply:
+
+- **unequal weights.** Inclusion probability varies within a stratum, because the minimum-one
+  rule gives small cells a larger share, so the sample is not equal-weight. Kish's effective
+  size `(Σw)² / Σw²` converts it. At the 385-point target it is **384.4** — the rule costs
+  0.15% of the sample, so the cost table above remains a fair price;
+- **clustering**, measured separately above and divided out as the design effect.
+
+At n = 385 and p = 0.5 the Wilson half-width is 4.97 pp, and at n = 97 it is 9.76 pp.
+
+`research/canopy/estimate.py` implements what the protocol below asks for, before any label
+exists: the Hájek estimator with inverse inclusion probability weights, unknown as an excluded
+category with all-positive and all-negative bounds, an effective-size interval, and a
+with-replacement variance approximation that says plainly it cannot recover the equal-spread
+gain from a single systematic draw. Its test recovers the frame's own share exactly from a
+385-point subsample, which is the property that makes the unequal-probability design usable. The `design_effect` column exists
 because adjacent locations on one street are not independent; the audit's translation
 results (segment 266 moving from 31.4% to 6.2–54.1% under 2 m shifts) are a direct warning
 that overlap is spatially autocorrelated. **The design effect must be estimated from the
@@ -188,8 +203,9 @@ Protocol requirements taken from the audit, to be fixed before any labelling:
 
 - Report omission, commission and unknown as proportions with Wilson intervals, at
   line-length weights for the frame and separately by stratum.
-- Report the interval at the **effective** sample size, using the design effect estimated
-  from the pilot (segment-level clustering), and state the estimator used.
+- Report the interval at the **effective** sample size — Kish's effective size from the
+  weights, divided by the clustering design effect estimated from the pilot — and state the
+  estimator used (`research/canopy/estimate.py` computes both halves).
 - Report bounds with unknowns treated as all-positive and all-negative, so a reader sees how
   much the unknown category could move the result. Do not silently treat unknown as negative.
 - Report positional/edge discrepancies alongside class error, since a boundary shift and a

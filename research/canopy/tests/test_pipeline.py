@@ -22,6 +22,8 @@ from alignment_audit import shifted_profiles
 from validation_frame import STEP_M, classify_points
 from design_effect import (allocate, distinct_realisations, lag_autocorrelation, measure,
                            segment_series, systematic_proportion)
+from estimate import (CANOPY, NOT_CANOPY, UNKNOWN, effective_sample_size, estimate, report,
+                      wilson_on_effective, with_replacement_variance)
 from selection import allocate_cells, build, select, systematic_indices
 from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
                            stratum_totals, wilson_interval)
@@ -612,13 +614,102 @@ class PlanCostTableTests(unittest.TestCase):
     def test_published_wilson_half_widths_match_the_code(self):
         text = (ROOT/'docs/canopy-accuracy-sampling-plan.md').read_text()
         import re as regex
-        quoted = regex.search(r'at n = (\d+) and p = ([\d.]+) the Wilson\s+half-width is ([\d.]+) pp', text)
+        quoted = regex.search(r'at n = (\d+) and p = ([\d.]+) the Wilson\s+half-width is ([\d.]+) pp',
+                              text, regex.IGNORECASE)
         self.assertIsNotNone(quoted, 'the Wilson sentence no longer parses')
         n, prevalence, stated = quoted.groups()
         low, high = wilson_interval(int(round(float(prevalence)*int(n))), int(n))
         half_width_pp = (high-low)/2*100
         self.assertAlmostEqual(half_width_pp, float(stated), delta=0.01,
                                msg=f'plan states {stated} pp for n={n}; code gives {half_width_pp:.3f}')
+
+
+class EstimateTests(unittest.TestCase):
+    """The estimator must reproduce known answers before any label exists."""
+
+    def points(self, weights, gid=1):
+        return [dict(gid=gid, chainage_m=float(index*2+1), inverse_inclusion_probability=weight)
+                for index, weight in enumerate(weights)]
+
+    def labels(self, values, gid=1):
+        return {(gid, float(index*2+1)): value for index, value in enumerate(values)}
+
+    def test_hajek_recovers_the_frame_share_exactly(self):
+        # Labels equal to the mapped class: because every cell is sampled, the weighted
+        # estimator must return the frame's own share to the last digit. This is the property
+        # that makes the unequal-probability design usable at all.
+        frame = json.loads((ROOT/'data/research/canopy-validation-frame.json').read_text())
+        sample = select(frame, 385, 20261017)
+        labels = {(row['gid'], row['chainage_m']):
+                  CANOPY if row['stratum'] == 'mapped_overlap' else NOT_CANOPY for row in sample}
+        result = estimate(sample, labels, frame['candidate_count'])
+        canopy = sum(1 for point in frame['points'] if point['stratum'] == 'mapped_overlap')
+        self.assertAlmostEqual(result['proportion'], canopy/frame['candidate_count'], places=6)
+        self.assertAlmostEqual(result['horvitz_thompson'], canopy/frame['candidate_count'], places=6)
+
+    def test_committed_sample_costs_little_effective_size(self):
+        # The plan states the effective size at the 385-point target is 384.4, within 1% of
+        # nominal. That follows from the committed frame and the selection, so pin it.
+        frame = json.loads((ROOT/'data/research/canopy-validation-frame.json').read_text())
+        sample = select(frame, 385, 20261017)
+        weights = [row['inverse_inclusion_probability'] for row in sample]
+        size = effective_sample_size(weights)
+        self.assertAlmostEqual(size, 384.4, delta=0.05)
+        self.assertGreater(size/len(sample), 0.99)
+
+    def test_equal_weights_reduce_to_the_sample_proportion(self):
+        points = self.points([2.0, 2.0, 2.0, 2.0])
+        result = estimate(points, self.labels([CANOPY, CANOPY, CANOPY, NOT_CANOPY]), 10)
+        self.assertAlmostEqual(result['proportion'], 0.75)
+        self.assertAlmostEqual(result['effective_sample_size'], 4.0, places=6)
+
+    def test_effective_sample_size_hand_case(self):
+        self.assertAlmostEqual(effective_sample_size([2.0, 2.0, 2.0]), 3.0)
+        self.assertAlmostEqual(effective_sample_size([1.0, 3.0]), 16/10)
+        self.assertLess(effective_sample_size([1.0, 5.0]), effective_sample_size([3.0, 3.0]))
+
+    def test_unknowns_are_excluded_and_bounded(self):
+        points = self.points([1.0, 1.0, 1.0, 1.0])
+        labels = self.labels([CANOPY, CANOPY, NOT_CANOPY, UNKNOWN])
+        result = estimate(points, labels, 8)
+        self.assertAlmostEqual(result['proportion'], 2/3, delta=1e-6)   # unknown excluded
+        self.assertAlmostEqual(result['unknown_share'], 0.25)
+        self.assertAlmostEqual(result['bounds_unknown_all_not_canopy'], 0.5)
+        self.assertAlmostEqual(result['bounds_unknown_all_canopy'], 0.75)
+        self.assertLess(result['bounds_unknown_all_not_canopy'], result['proportion'])
+        self.assertGreater(result['bounds_unknown_all_canopy'], result['proportion'])
+
+    def test_unlabelled_and_invalid_inputs_are_refused(self):
+        points = self.points([1.0, 1.0])
+        with self.assertRaises(ValueError):
+            estimate(points, self.labels([CANOPY]), 4)               # second point unlabelled
+        with self.assertRaises(ValueError):
+            estimate(points, self.labels([CANOPY, 'probably']), 4)   # unrecognised label
+        with self.assertRaises(ValueError):
+            estimate(self.points([1.0, 0.5]), self.labels([CANOPY, NOT_CANOPY]), 4)
+        with self.assertRaises(ValueError):
+            estimate(points, self.labels([UNKNOWN, UNKNOWN]), 4)     # nothing labelled
+
+    def test_with_replacement_variance_hand_case(self):
+        points = self.points([2.0, 2.0])
+        variance = with_replacement_variance(points, self.labels([CANOPY, NOT_CANOPY]))
+        self.assertAlmostEqual(variance, 0.25)      # 2·(2²·0.25)/(4²)·2/1
+
+    def test_interval_uses_the_effective_size_and_is_wider_at_equal_prevalence(self):
+        # Hold the estimate fixed at 0.5 and vary only the weights: Wilson width peaks at 0.5,
+        # so comparing different prevalences would test the wrong thing.
+        equal = estimate(self.points([1.0]*4), self.labels([CANOPY, NOT_CANOPY, CANOPY, NOT_CANOPY]), 20)
+        unequal = estimate(self.points([1.0, 1.0, 4.0, 4.0]),
+                           self.labels([CANOPY, NOT_CANOPY, CANOPY, NOT_CANOPY]), 20)
+        self.assertAlmostEqual(equal['proportion'], 0.5, delta=1e-6)
+        self.assertAlmostEqual(unequal['proportion'], 0.5, delta=1e-6)
+        self.assertLess(unequal['effective_sample_size'], equal['effective_sample_size'])
+        low_e, high_e = wilson_on_effective(equal['proportion'], equal['effective_sample_size'])
+        low_u, high_u = wilson_on_effective(unequal['proportion'], unequal['effective_sample_size'])
+        self.assertGreater(high_u-low_u, high_e-low_e)
+        filled = report(self.points([1.0]*10), self.labels([CANOPY]*6 + [NOT_CANOPY]*4), 20)
+        self.assertLess(filled['interval_effective_size'][0], filled['proportion'])
+        self.assertGreater(filled['interval_effective_size'][1], filled['proportion'])
 
 if __name__ == '__main__':
     unittest.main()
