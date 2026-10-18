@@ -1,20 +1,23 @@
 """Draw a reproducible validation sample from the candidate frame.
 
-The plan fixes a stratified, proportional, systematic design; this executes it. Two
-stages, both deterministic given a seed:
+The plan fixes a stratified, proportional, systematic design; this executes it in two
+deterministic steps given a seed:
 
-1. strata receive points in proportion to their candidate counts in the frame (the
-   population actually sampled, not the interval lengths the plan quotes as weights);
-2. within a stratum, its points are split across the segments in proportion to each
-   segment's candidate count, with every non-empty cell receiving at least one point so
-   that no sampled street is left unvisited;
-3. within a (stratum, segment) cell the draw is systematic with a random start, so every
-   candidate in that cell has the same inclusion probability, equal to
-   allocated / candidates, which is recorded per selected point.
+1. points are allocated across the (stratum, segment) cells in a single proportional
+   largest-remainder pass over cell candidate counts, with every non-empty cell receiving
+   at least one point so that no sampled street is left unvisited. Stratum shares
+   therefore come out proportional to their frame counts to within 1%, but not exactly;
+2. within a cell the draw is systematic with a random start, so every candidate in that
+   cell has the same inclusion probability, allocated / candidates.
 
-The sample is therefore balanced across streets by construction, which is a survey
-choice, not an estimate of canopy prevalence; stratum weights must be applied when
-reporting frame-level proportions.
+Inclusion probability is **not** constant within a stratum, because the minimum-one rule
+gives small cells a larger share. Proportions must therefore be weighted by each point's
+inverse inclusion probability, which is recorded per selected point. The stratum-level
+design weight is a diagnostic that is only valid where cell probabilities are equal, and it
+is reported with the range of inverse probabilities it averages over.
+
+The sample is therefore balanced across streets by construction, which is a survey choice,
+not an estimate of canopy prevalence.
 """
 import argparse
 import json
@@ -96,7 +99,8 @@ def select(frame, total, seed):
                                  cell=f'{key[0]}:{key[1]}',
                                  cell_candidates=len(indices),
                                  cell_allocated=count,
-                                 inclusion_probability=round(count/len(indices), 8)))
+                                 inclusion_probability=round(count/len(indices), 8),
+                                 inverse_inclusion_probability=round(len(indices)/count, 8)))
     require(len({(row['gid'], row['chainage_m']) for row in selected}) == len(selected),
             'sample contains duplicate candidates')
     return sorted(selected, key=lambda row: (row['gid'], row['chainage_m']))
@@ -117,18 +121,28 @@ def build(frame_path, total, seed):
         entry['share_of_sample'] = round(entry['points']/total, 6)
         entry['share_of_frame'] = round(entry['frame_points']/frame['candidate_count'], 6)
         entry['design_weight'] = round(entry['share_of_frame']/entry['share_of_sample'], 6)
+        weights = [row['inverse_inclusion_probability'] for row in selected
+                   if row['stratum'] == name]
+        entry['inverse_probability_range'] = [round(min(weights), 6), round(max(weights), 6)]
+        entry['design_weight_valid'] = round(max(weights)-min(weights), 8) <= 1e-6
+        if not entry['design_weight_valid']:
+            entry['design_weight_note'] = ('cells with few candidates have larger inclusion '
+                                           'probabilities, so weight by inverse inclusion '
+                                           'probability, not by this stratum ratio')
     by_segment = {}
     for row in selected:
         by_segment[row['gid']] = by_segment.get(row['gid'], 0) + 1
     return dict(schema_version=1, frame_sha256=__import__('hashlib').sha256(Path(frame_path).read_bytes()).hexdigest(),
                 frame_manifest_sha256=frame['manifest_sha256'], frame_code_sha256=frame['frame_code_sha256'],
                 seed=seed, requested=total, selected=len(selected), step_m=frame['step_m'],
-                design='strata proportional to frame candidates; cells proportional across segments with at '
-                       'least one point each; systematic with a random start within each cell',
+                design='points allocated across (stratum, segment) cells in one proportional pass over '
+                       'cell candidate counts, at least one point per non-empty cell; systematic with a '
+                       'random start within each cell',
                 strata=strata, points_by_segment=by_segment, points=selected,
                 limits=[
                     'The sample is balanced across streets by construction; it is not an estimate of canopy prevalence',
-                    'Frame-level proportions need the recorded design weights, not the sample shares',
+                    'Proportions must be weighted by per-point inverse inclusion probability, not by sample shares',
+                    'The stratum design_weight is valid only where cell probabilities are equal; design_weight_valid records that',
                     'Cells with few candidates receive a proportionally larger inclusion probability, which is recorded per point',
                     'A validation sample of positions is not a field protocol: access, safety and permission are separate',
                     'Labels do not exist yet; this artifact selects candidates to visit, nothing more',

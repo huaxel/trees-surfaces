@@ -20,8 +20,8 @@ from metrics import merge_intervals, profile, route_line
 from pipeline import encoded, execute, publish, rename_no_replace
 from alignment_audit import shifted_profiles
 from validation_frame import STEP_M, classify_points
-from design_effect import (allocate, lag_autocorrelation, measure, segment_series,
-                           systematic_proportion)
+from design_effect import (allocate, distinct_realisations, lag_autocorrelation, measure,
+                           segment_series, systematic_proportion)
 from selection import allocate_cells, build, select, systematic_indices
 from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
                            stratum_totals, wilson_interval)
@@ -491,19 +491,24 @@ class DesignEffectTests(unittest.TestCase):
         self.assertEqual(report['variance'], 0.0)
         self.assertEqual(report['design_effect_finite'], 0.0)
 
-    def test_near_integral_step_is_flagged(self):
-        # The step here is exactly five frame steps, which leaves only five substantively
-        # distinct samples. The report must say so rather than present a variance that looks
-        # reassuringly small. This is the limitation the module documents.
+    def test_few_distinct_realisations_are_reported(self):
+        # A step of exactly five frame steps repeats the same five samples, so the
+        # across-start variance says little. The report must measure that rather than infer
+        # it from the step, and must only flag segments that also vary.
         import random as random_module
         rng = random_module.Random(20261018)
         series = {1: [1 if rng.random() < 0.25 else 0 for _ in range(600)]}
-        report = measure(self.frame_from_series(series), 120, 1500, 7)
-        self.assertTrue(report['step_near_integer'])
-        self.assertLess(report['design_effect_finite'], 0.75)   # biased low, as documented
-        # A step far from any integer number of frame steps is not flagged: 1200/62 = 19.35.
-        off = measure(self.frame_from_series(series), 62, 1000, 7)
-        self.assertFalse(off['step_near_integer'], off['spacing_lags'])
+        report = measure(self.frame_from_series(series), 120, 1200, 7)
+        entry = report['distinct_realisations'][1]
+        self.assertEqual(entry['step'], 5.0)
+        self.assertLessEqual(entry['distinct'], 5)
+        self.assertTrue(report['few_distinct_realisations'])
+        # A segment with no variation contributes no variance, so it never triggers the flag
+        # however degenerate its step is. `measure` refuses a frame with no variation at all,
+        # which is why the diagnostic is exercised directly here.
+        flat = distinct_realisations({1: [0]*600}, 120, 7, trials=200)
+        self.assertFalse(flat[1]['varies'])
+        self.assertLessEqual(flat[1]['distinct'], 5)
 
     def test_aliasing_inflates_the_design_effect(self):
         # Strict alternation with a step of exactly two frames: every draw lands on the same
@@ -561,7 +566,14 @@ class DesignEffectTests(unittest.TestCase):
         # And the patch-length bound lands in the same order of magnitude as the plan's 3.
         self.assertGreater(report['inflation_for_random_placement'], 2.0)
         self.assertLess(report['inflation_for_random_placement'], 6.0)
-        self.assertFalse(report['step_near_integer'])
+        # Two segments have a step of exactly 5/3 and only five distinct realisations, but
+        # neither contains any canopy, so the spread is still driven by segments 266 and 5642.
+        realisations = report['distinct_realisations']
+        self.assertEqual(realisations[5630]['distinct'], 5)
+        self.assertEqual(realisations[5643]['distinct'], 5)
+        self.assertFalse(realisations[5630]['varies'])
+        self.assertGreaterEqual(realisations[266]['distinct'], 50)
+        self.assertFalse(report['few_distinct_realisations'])
         # Across starting points the estimate moves by roughly a percentage point, which is
         # the model-free statement the plan can lean on.
         low, high = report['estimate_quantiles'][2.5], report['estimate_quantiles'][97.5]
@@ -587,6 +599,17 @@ class PlanCostTableTests(unittest.TestCase):
                                  f'code gives {expected}')
                 checked += 1
         self.assertEqual(checked, 12, f'expected twelve published cells, checked {checked}')
+
+    def test_published_wilson_half_widths_match_the_code(self):
+        text = (ROOT/'docs/canopy-accuracy-sampling-plan.md').read_text()
+        import re as regex
+        quoted = regex.search(r'at n = (\d+) and p = ([\d.]+) the Wilson\s+half-width is ([\d.]+) pp', text)
+        self.assertIsNotNone(quoted, 'the Wilson sentence no longer parses')
+        n, prevalence, stated = quoted.groups()
+        low, high = wilson_interval(int(round(float(prevalence)*int(n))), int(n))
+        half_width_pp = (high-low)/2*100
+        self.assertAlmostEqual(half_width_pp, float(stated), delta=0.01,
+                               msg=f'plan states {stated} pp for n={n}; code gives {half_width_pp:.3f}')
 
 if __name__ == '__main__':
     unittest.main()

@@ -34,7 +34,7 @@ approximation (z = 1.96), from `research/canopy/sampling_plan.py`:
 
 The realised interval should be reported with the Wilson score interval, which stays inside
 [0, 1] near the extremes where overlap is small: at n = 385 and p = 0.5 the Wilson
-half-width is 4.98 pp, and at n = 97 it is 9.76 pp. The `design_effect` column exists
+half-width is 4.97 pp, and at n = 97 it is 9.76 pp. The `design_effect` column exists
 because adjacent locations on one street are not independent; the audit's translation
 results (segment 266 moving from 31.4% to 6.2–54.1% under 2 m shifts) are a direct warning
 that overlap is spatially autocorrelated. **The design effect must be estimated from the
@@ -59,11 +59,14 @@ committed frame, and the result splits the single number into two different thin
   errors is invisible in mapped geometry and remains unmeasurable until labels exist.
 
 One limitation is recorded with the artifact and should travel with the numbers: the variance
-across starting points is a diagnostic, and when the sampling step is near an integer number
-of frame steps the design has few substantively distinct realisations, which biases that
-variance low — on synthetic frames with an exactly integral step it reported 0.34-0.55 where
-theory says 1.0. The committed frame's step of 1.67 frame steps is not integral, so the
-reported spread stands, but it is not a design-effect estimate and must not be quoted as one.
+across starting points is a diagnostic, and a segment whose step is a fraction with a small
+denominator repeats the same few samples, which makes that variance **unreliable rather than
+systematically low** — forty synthetic i.i.d. frames with an integral step spanned 0.14 to 3.2
+around a true 1.0. On the committed frame, segments 5630 and 5643 have a step of exactly 5/3
+and only five distinct realisations, but neither contains any mapped canopy, so they
+contribute no variance and the reported spread is driven by segment 266 with 215 distinct
+realisations. The artifact records each segment's count. The spread is not a design-effect
+estimate and must not be quoted as one.
 
 ## Frame and strata
 
@@ -98,27 +101,28 @@ The frame reproduces the same geometry through a different method, which is why 
 trusted as the population for a sample: point lengths at 2 m spacing against an interval
 measurement of exactly the same range agree to within boundary discretisation —
 overlap 180.0 vs 181.0 m, proximity-only 418.0 vs 419.1 m, non-overlap 690.0 vs 687.8 m
-(worst difference 2.2 m, 51% of the check's tolerance of one step or 1% of the stratum
+(worst absolute difference 2.2 m for non-overlap; every stratum within 51% of its tolerance of one step or 1% of the stratum
 length). The artifact records that reconciliation, its bound and the generating script's
 hash; `validation_frame.py` fails rather than publishing if it drifts.
 
-Selection is executed by `research/canopy/selection.py` as a two-stage draw, which the first
-draft of this plan left vague:
+Selection is executed by `research/canopy/selection.py`. Allocation is a single
+proportional largest-remainder pass over the fifteen **(stratum, segment)** cells, weighted by
+each cell's candidate count, with **at least one point per non-empty cell** so that no sampled
+street is left unvisited. Strata therefore receive points in proportion to their frame
+candidate counts (90 overlap, 209 proximity-only, 345 non-overlap) to within 1%, not exactly.
+Within a cell the draw is systematic with a random start, so every candidate in that cell has
+the same inclusion probability, `allocated / candidates`.
 
-1. strata receive points in proportion to their **frame candidate counts** (90 overlap,
-   209 proximity-only, 345 non-overlap), because that is the population actually sampled —
-   not the interval lengths quoted above, which agree to within 1%;
-2. within a stratum the points are split across the five segments in proportion to each
-   segment's candidates, with **at least one point per non-empty cell**, so no sampled street
-   is left unvisited;
-3. within a (stratum, segment) cell the draw is systematic with a random start, so every
-   candidate in that cell has the same inclusion probability, `allocated / candidates`, which
-   is recorded per selected point.
+**Inclusion probability is not constant within a stratum**, because the minimum-one rule gives
+small cells a larger share: inverse probabilities range from 1.0 to 1.69 at the 385-point
+target. Proportions must therefore be weighted by each point's **inverse inclusion
+probability**, which is recorded per point and sums to the frame size (644) over the sample.
+The stratum-level `design_weight` (frame share ÷ sample share) does come out within 1% of 1,
+but it is a diagnostic, not an estimator weight: the artifact records
+`design_weight_valid: false` for every stratum, with the range it averages over. Using it at
+stratum level would under-weight the certainty cells by up to 1.69×.
 
-That balance across streets is a survey choice, not a prevalence estimate: each selected
-point carries its inclusion probability, each stratum carries the design weight
-(frame share ÷ sample share), and frame-level proportions must be reported with those weights.
-At the 385-point target the weights come out within 1% of 1, as intended.
+That balance across streets is a survey choice, not a prevalence estimate.
 
 Run it with an explicit total and seed, neither of which is defaulted:
 

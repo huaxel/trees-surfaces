@@ -185,7 +185,9 @@ missing sentinels before interpreting ranks. Agreement of metadata alone does no
 replace that check. A negative paired difference, incompatible day convention or
 unexplained independent-extraction mismatch blocks interpretation.
 
-On the real pair, none of those three blockers fired. Every listed validation
+On the real pair, none of those three blockers was detected — but the day-convention blocker
+was not tested either, since the timezone and aggregation convention remain unconfirmed with
+the provider. Every listed validation
 passed across all 14,274 sampled cell-days, including that each sampled daily
 maximum is greater than its paired daily mean, and a second run into a fresh
 directory reproduced both output files byte for byte — so the determinism claimed
@@ -204,8 +206,8 @@ An independent read-only review of this module (2026-10-17) found that cross-fil
 never compared, that provenance recorded filenames only, and that degenerate or duplicated
 inputs were accepted; a verification pass on the fixes then found the staging, identity-during-
 read, declared-CRS and tie-coverage gaps. All are closed above and covered by the tests below.
-The reviewer did not have the real mean archive, so nothing here has been checked against
-VITO's actual mean file.
+That review did not have the real mean archive, so the review itself could not check anything
+against VITO's file. A later run on the cached pair did, and is recorded under *Status*.
 
 `test/wbgt_comparison.jl` supplies hand-computable paired series and temporary
 synthetic HDF5 archives. It checks statistic/calendar rejection, alignment,

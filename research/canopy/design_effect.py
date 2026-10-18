@@ -98,6 +98,26 @@ def lag_autocorrelation(series, max_lag):
     return [totals[lag]/counts[lag] for lag in sorted(counts)]
 
 
+def distinct_realisations(series, total, seed, trials=400):
+    """How many distinct systematic samples each segment can actually produce.
+
+    A segment whose step is a fraction with a small denominator, such as 5/3, repeats the
+    same handful of samples, so a variance across random starts says little about it.
+    """
+    allocation = allocate(series, total)
+    rng = random.Random(seed)
+    seen = {key: set() for key in series}
+    for _ in range(trials):
+        for key in sorted(series):
+            positions = systematic_indices(len(series[key]), allocation[key], rng)
+            seen[key].add(tuple(positions))
+    return {key: dict(allocated=allocation[key], candidates=len(series[key]),
+                      step=round(len(series[key])/allocation[key], 4),
+                      distinct=len(seen[key]),
+                      varies=len(set(series[key])) > 1)
+            for key in sorted(series)}
+
+
 def measure(frame, total, draws, seed):
     series = segment_series(frame)
     points = frame['points']
@@ -111,9 +131,10 @@ def measure(frame, total, draws, seed):
     # sampling fraction, which is large here: 385 of 644 candidates is 60%.
     srswr_variance = prevalence*(1-prevalence)/total
     fraction = total/len(points)
-    srswor_variance = srswr_variance*(1-fraction)
+    srswor_variance = srswr_variance*(len(points)-total)/(len(points)-1)
     step = frame['assessed_length_m']/total
     spacing_lags = step/frame['step_m']
+    realisations = distinct_realisations(series, total, seed)
     rhos = lag_autocorrelation(series, max_lag=min(200, max(len(v) for v in series.values()))-8)
     runs = []
     for key in sorted(series):
@@ -144,11 +165,14 @@ def measure(frame, total, draws, seed):
         variance=round(variance, 10),
         srswr_variance=round(srswr_variance, 10),
         srswor_variance=round(srswor_variance, 10),
-        # Diagnostics, not headlines: when the sampling step is near an integer number of
-        # frame steps the systematic design has few substantively distinct realisations, and
-        # the variance across starts is biased low. On i.i.d. synthetic frames whose step is
-        # exactly integral this estimator reported 0.34-0.55 where theory says 1.0.
-        step_near_integer=abs(spacing_lags-round(spacing_lags)) < 0.05,
+        # Diagnostics, not headlines. A segment whose step has a small denominator yields few
+        # distinct systematic samples, and across-start variance is then unreliable rather than
+        # systematically low: forty synthetic i.i.d. frames with an integral step spanned
+        # 0.14-3.2 around a true 1.0. `distinct_realisations` measures this directly instead of
+        # guessing from the step, because the step is per segment and the global ratio hides it.
+        distinct_realisations=realisations,
+        few_distinct_realisations=any(entry['distinct'] < 20 and entry['varies']
+                                      for entry in realisations.values()),
         design_effect=round(variance/srswr_variance, 4),
         design_effect_finite=round(variance/srswor_variance, 4),
         # A crude bound, not an estimate: for an infinite population, systematic sampling
@@ -171,7 +195,7 @@ def measure(frame, total, draws, seed):
             'Reference omission and commission are spatially structured too and are invisible here',
             'The finite-population reading treats the frame itself as the population; the infinite reading treats these streets as a sample from a broader population, and only the second matches the plan',
             'Five convenience segments are not a sample of Brussels streets',
-            'The variance across starting points is a diagnostic: near-integral sampling steps leave few substantively distinct samples and bias it low',
+            'The variance across starting points is a diagnostic: a segment with few distinct realisations makes it unreliable, not biased (synthetic i.i.d. frames spanned 0.14-3.2 around a true 1.0)',
             'inflation_for_random_placement applies to randomly placed points, which is the implicit model of the plan, not to its systematic design',
             'Monte-Carlo precision is reported; it is not a sampling-theory confidence interval',
             'A lag-sum (spectral) estimator was implemented and dropped: these segments are too',
@@ -182,7 +206,7 @@ def measure(frame, total, draws, seed):
 
 def cost_table(design_effect, prevalences=(0.10, 0.14, 0.25, 0.50),
                half_widths=(0.05, 0.075, 0.10)):
-    """Required independent points; `required_sample_size` rejects inflation below 1."""
+    """Required independent points, with inflation clamped at 1 as the planner requires."""
     design_effect = max(1.0, design_effect)
     return {f'{prevalence:.2f}': {f'{int(hw*100)} pp': required_sample_size(hw, prevalence, design_effect)
                                   for hw in half_widths}
@@ -205,7 +229,12 @@ def main():
     report['cost_at_assumed_design_effect_3'] = cost_table(3.0)
     report['cost_at_measured_inflation_for_random_placement'] = cost_table(
         report['inflation_for_random_placement'])
-    report['cost_at_measured_finite_design_effect'] = cost_table(report['design_effect_finite'])
+    # The finite-frame effect is below 1, so this table is the no-inflation column; the key
+    # says so rather than implying an estimate at 0.27 was computed.
+    report['cost_at_finite_design_effect_clamped_to_1'] = cost_table(report['design_effect_finite'])
+    report['finite_design_effect_note'] = (
+        f"design_effect_finite {report['design_effect_finite']} is below 1, so the clamped cost "
+        'table equals the no-inflation column; the planner cannot price a sub-unit effect')
     if args.output:
         require(not args.output.exists(), 'output already exists')
         args.output.parent.mkdir(parents=True, exist_ok=True)

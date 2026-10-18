@@ -20,6 +20,7 @@ cannot fail in CI is not a check.
 """
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -146,6 +147,9 @@ LEDGER = (
     claim(PLAN, r'inflation near ([\d.]+)\*\*', EFFECT,
           lambda d: d['inflation_for_random_placement'], tolerance=0.05),
     # Stakeholder-facing numbers: the ones a reader acts on, so they are pinned too.
+    claim('README.md', r'top tens share (\d+)/10', HEAT,
+          lambda d: d['period_sensitivity']['top_ten_overlap']['seasonal_mean_vs_reference_day'],
+          rationale='the README quotes the same overlap as the brief'),
     claim(BRIEF, r'shares \*\*(\d+)/10\*\* members', HEAT,
           lambda d: d['period_sensitivity']['top_ten_overlap']['seasonal_mean_vs_reference_day'],
           rationale='reference-day versus seasonal-mean top ten'),
@@ -214,9 +218,14 @@ def unresolved(root, text, name, paths, basenames):
         if any(marker in token for marker in PLACEHOLDER_MARKERS):
             continue
         if '/' in token:
-            # `../bin/x.jl` is written from the document's own directory.
-            base = (root/name).parent if token.startswith(('.', '../')) else root
-            found = token in paths or (base/token).resolve().exists()
+            if token.startswith(('.', '../')):
+                # Written from the document's own directory, so normalise against it and
+                # require the result to be a tracked path: an untracked file present in the
+                # working tree would otherwise pass here and fail in a clean checkout.
+                normalised = os.path.normpath(os.path.join(os.path.dirname(name), token))
+                found = normalised in paths
+            else:
+                found = token in paths or (root/token).is_dir()
         else:
             found = token in basenames
         if not found:
@@ -232,16 +241,18 @@ def check_references(root, texts, paths):
     return problems, basenames
 
 
-def check_claims(root, texts):
+def check_claims(root, texts, ledger=None):
+    """Verify every claim, optionally against a supplied ledger rather than the module one."""
+    ledger = LEDGER if ledger is None else ledger
     artifacts, problems, checked = {}, [], []
-    for item in LEDGER:
+    for item in ledger:
         if item.artifact not in artifacts:
             path = root/item.artifact
             require(path.is_file(), f'missing artifact: {item.artifact}')
             artifacts[item.artifact] = json.loads(path.read_text())
         checked.append(item)
     results = []
-    for item in LEDGER:
+    for item in ledger:
         try:
             results.append(item.check(texts, artifacts))
         except ValueError as error:
@@ -272,18 +283,31 @@ def self_test():
         accepted = check_references(root, {'docs/good.md': texts['docs/good.md']}, paths)[0]
         require(accepted == [], f'path check rejected a good reference: {accepted}')
 
-        import unittest.mock as mock
-        with mock.patch('check_docs.LEDGER', ledger):
-            artifacts = {'frame.json': json.loads(artifact.read_text())}
-            results = [item.check(texts, artifacts) for item in ledger]
-            require(results == ['7 == frame.json'], f'claim check misread a correct claim: {results}')
-            stale = dict(texts); stale['docs/good.md'] = texts['docs/broken.md']
-            try:
-                ledger[0].check(stale, artifacts)
-            except ValueError as error:
-                require('quotes 9' in str(error), f'claim check reported the wrong problem: {error}')
-            else:
-                raise ValueError('claim check did not detect a mismatched number')
+        # A claim whose pattern no longer matches must fail rather than pass silently.
+        drifted = dict(texts)
+        drifted['docs/good.md'] = 'The sentence was reworded and the number is gone.\n'
+        try:
+            ledger[0].check(drifted, {'frame.json': json.loads(artifact.read_text())})
+        except ValueError as error:
+            require('no longer matches' in str(error), f'unexpected failure: {error}')
+        else:
+            raise ValueError('claim check did not notice a vanished claim')
+
+        artifacts = {'frame.json': json.loads(artifact.read_text())}
+        results = [item.check(texts, artifacts) for item in ledger]
+        require(results == ['7 == frame.json'], f'claim check misread a correct claim: {results}')
+        # Exercise the loader the gate actually calls, not only Claim.check directly.
+        problems, checked = check_claims(root, texts, ledger)
+        require(problems == [] and checked == ['7 == frame.json'],
+                f'the claim loader disagreed: {problems} {checked}')
+        stale = dict(texts)
+        stale['docs/good.md'] = texts['docs/broken.md']
+        try:
+            ledger[0].check(stale, artifacts)
+        except ValueError as error:
+            require('quotes 9' in str(error), f'claim check reported the wrong problem: {error}')
+        else:
+            raise ValueError('claim check did not detect a mismatched number')
     print('self-test passed: the path check and the claim check each detected an injected error, '
           'and neither rejected the correct pair')
 

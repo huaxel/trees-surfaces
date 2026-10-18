@@ -17,10 +17,47 @@
   "mean_estimate": 0.139753,
   "variance": 3.36372e-05,
   "srswr_variance": 0.0003122625,
-  "srswor_variance": 0.0001255838,
-  "step_near_integer": false,
+  "srswor_variance": 0.0001257791,
+  "distinct_realisations": {
+    "266": {
+      "allocated": 168,
+      "candidates": 281,
+      "step": 1.6726,
+      "distinct": 215,
+      "varies": true
+    },
+    "5630": {
+      "allocated": 36,
+      "candidates": 60,
+      "step": 1.6667,
+      "distinct": 5,
+      "varies": false
+    },
+    "5634": {
+      "allocated": 56,
+      "candidates": 94,
+      "step": 1.6786,
+      "distinct": 47,
+      "varies": false
+    },
+    "5642": {
+      "allocated": 80,
+      "candidates": 134,
+      "step": 1.675,
+      "distinct": 65,
+      "varies": true
+    },
+    "5643": {
+      "allocated": 45,
+      "candidates": 75,
+      "step": 1.6667,
+      "distinct": 5,
+      "varies": false
+    }
+  },
+  "few_distinct_realisations": false,
   "design_effect": 0.1077,
-  "design_effect_finite": 0.2678,
+  "design_effect_finite": 0.2674,
   "inflation_for_random_placement": 3.6902,
   "variance_mc_standard_error": 7.52245e-07,
   "estimate_range": [
@@ -72,7 +109,7 @@
     "Reference omission and commission are spatially structured too and are invisible here",
     "The finite-population reading treats the frame itself as the population; the infinite reading treats these streets as a sample from a broader population, and only the second matches the plan",
     "Five convenience segments are not a sample of Brussels streets",
-    "The variance across starting points is a diagnostic: near-integral sampling steps leave few substantively distinct samples and bias it low",
+    "The variance across starting points is a diagnostic: a segment with few distinct realisations makes it unreliable, not biased (synthetic i.i.d. frames spanned 0.14-3.2 around a true 1.0)",
     "inflation_for_random_placement applies to randomly placed points, which is the implicit model of the plan, not to its systematic design",
     "Monte-Carlo precision is reported; it is not a sampling-theory confidence interval",
     "A lag-sum (spectral) estimator was implemented and dropped: these segments are too",
@@ -122,7 +159,7 @@
       "10 pp": 355
     }
   },
-  "cost_at_measured_finite_design_effect": {
+  "cost_at_finite_design_effect_clamped_to_1": {
     "0.10": {
       "5 pp": 139,
       "7 pp": 62,
@@ -143,5 +180,6 @@
       "7 pp": 171,
       "10 pp": 97
     }
-  }
+  },
+  "finite_design_effect_note": "design_effect_finite 0.2674 is below 1, so the clamped cost table equals the no-inflation column; the planner cannot price a sub-unit effect"
 }
