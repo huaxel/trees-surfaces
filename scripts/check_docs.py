@@ -129,6 +129,8 @@ ZENODO = 'data/research/canopy-inputs/zenodo-record.json'
 LOCAL = 'data/research/cycling-canopy-local-comparison.json'
 LOCALMD = 'data/research/cycling-canopy-local-comparison.md'
 HMETHOD = 'docs/heat-season-method.md'
+WIN100 = 'data/research/cycling-canopy-100m-windows.json'
+WIN100MD = 'data/research/cycling-canopy-100m-windows.md'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
@@ -227,6 +229,12 @@ def _season_threshold(data, which):
     """Hot-day (30) then tropical-night (20) thresholds, in method-text order."""
     vals = re.findall(r'at or above ([\d.]+) \u00b0C', data['method'])
     return float(vals[0] if which == 'hot' else vals[1])
+
+
+def _window_summary(data, gid, buffer_m):
+    """The per-gid, per-buffer window summary (ranges span both endpoint choices)."""
+    return next(s for s in data['summaries']
+                if s['gid'] == gid and s['buffer_m'] == buffer_m)
 
 
 def _stratum(name):
@@ -923,6 +931,83 @@ LEDGER = (
           lambda d, w='tropical': _season_threshold(d, w)),
     claim(HMETHOD, r'probe for the (\d+) committed tree points', SEASON,
           lambda d: len(d['records'])),
+    # The equal-length window check: per-gid ranges plus the analysed-length statement.
+    claim(WIN100MD, r'\| 266 \| (\d+) \|', WIN100,
+          lambda d, g=266: _window_summary(d, g, 0)['windows_per_anchor']),
+    claim(WIN100MD, r'\| 266 \| \d+ \| ([\d.]+)[\u2013-]', WIN100,
+          lambda d, g=266: _window_summary(d, g, 0)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 266 \| \d+ \| [\d.]+[\u2013-]([\d.]+) \|', WIN100,
+          lambda d, g=266: _window_summary(d, g, 0)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 266 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| ([\d.]+)[\u2013-]',
+          WIN100, lambda d, g=266: _window_summary(d, g, 5)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 266 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| [\d.]+[\u2013-]([\d.]+) \|',
+          WIN100, lambda d, g=266: _window_summary(d, g, 5)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5630 \| (\d+) \|', WIN100,
+          lambda d, g=5630: _window_summary(d, g, 0)['windows_per_anchor']),
+    claim(WIN100MD, r'\| 5630 \| \d+ \| ([\d.]+)[\u2013-]', WIN100,
+          lambda d, g=5630: _window_summary(d, g, 0)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5630 \| \d+ \| [\d.]+[\u2013-]([\d.]+) \|', WIN100,
+          lambda d, g=5630: _window_summary(d, g, 0)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5630 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| ([\d.]+)[\u2013-]',
+          WIN100, lambda d, g=5630: _window_summary(d, g, 5)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5630 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| [\d.]+[\u2013-]([\d.]+) \|',
+          WIN100, lambda d, g=5630: _window_summary(d, g, 5)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5634 \| (\d+) \|', WIN100,
+          lambda d, g=5634: _window_summary(d, g, 0)['windows_per_anchor']),
+    claim(WIN100MD, r'\| 5634 \| \d+ \| ([\d.]+)[\u2013-]', WIN100,
+          lambda d, g=5634: _window_summary(d, g, 0)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5634 \| \d+ \| [\d.]+[\u2013-]([\d.]+) \|', WIN100,
+          lambda d, g=5634: _window_summary(d, g, 0)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5634 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| ([\d.]+)[\u2013-]',
+          WIN100, lambda d, g=5634: _window_summary(d, g, 5)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5634 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| [\d.]+[\u2013-]([\d.]+) \|',
+          WIN100, lambda d, g=5634: _window_summary(d, g, 5)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5642 \| (\d+) \|', WIN100,
+          lambda d, g=5642: _window_summary(d, g, 0)['windows_per_anchor']),
+    claim(WIN100MD, r'\| 5642 \| \d+ \| ([\d.]+)[\u2013-]', WIN100,
+          lambda d, g=5642: _window_summary(d, g, 0)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5642 \| \d+ \| [\d.]+[\u2013-]([\d.]+) \|', WIN100,
+          lambda d, g=5642: _window_summary(d, g, 0)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5642 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| ([\d.]+)[\u2013-]',
+          WIN100, lambda d, g=5642: _window_summary(d, g, 5)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5642 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| [\d.]+[\u2013-]([\d.]+) \|',
+          WIN100, lambda d, g=5642: _window_summary(d, g, 5)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5643 \| (\d+) \|', WIN100,
+          lambda d, g=5643: _window_summary(d, g, 0)['windows_per_anchor']),
+    claim(WIN100MD, r'\| 5643 \| \d+ \| ([\d.]+)[\u2013-]', WIN100,
+          lambda d, g=5643: _window_summary(d, g, 0)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5643 \| \d+ \| [\d.]+[\u2013-]([\d.]+) \|', WIN100,
+          lambda d, g=5643: _window_summary(d, g, 0)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5643 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| ([\d.]+)[\u2013-]',
+          WIN100, lambda d, g=5643: _window_summary(d, g, 5)['overlap_percent_range'][0],
+          tolerance=0.05),
+    claim(WIN100MD, r'\| 5643 \| \d+ \| [\d.]+[\u2013-][\d.]+ \| [\d.]+[\u2013-]([\d.]+) \|',
+          WIN100, lambda d, g=5643: _window_summary(d, g, 5)['overlap_percent_range'][1],
+          tolerance=0.05),
+    claim(WIN100MD, r'(\d+) windows per anchoring scheme', WIN100,
+          lambda d: d['windows_per_anchor']),
+    claim(WIN100MD, r'(\d+) m of [\d,.]+ m analysed per scheme', WIN100,
+          lambda d: d['analysed_length_per_anchor_m']),
+    claim(WIN100MD, r'\d+ m of ([\d,.]+) m analysed per scheme', WIN100,
+          lambda d: d['total_segment_length_m'], tolerance=0.05),
 )
 
 
