@@ -126,6 +126,9 @@ AUDIT = 'docs/trees-measurement-audit.md'
 CHECKPOINT = 'data/research/cycling-canopy-checkpoint.md'
 CANDIDATES = 'docs/open-data-candidates.md'
 ZENODO = 'data/research/canopy-inputs/zenodo-record.json'
+LOCAL = 'data/research/cycling-canopy-local-comparison.json'
+LOCALMD = 'data/research/cycling-canopy-local-comparison.md'
+HMETHOD = 'docs/heat-season-method.md'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
@@ -204,6 +207,26 @@ def _zenodo_ndvi(data):
     """The NDVI selection threshold as the source record states it."""
     return float(re.search(r'NDVI values of ([\d.]+) and higher',
                            data['metadata']['description']).group(1))
+
+
+def _local_cell(data, gid, buffer_m, key='overlap_percent'):
+    """One trees-only comparison cell for one gid and buffer."""
+    return next(r[key] for r in data['results']
+                if r['gid'] == gid and r['vegetation'] == 'trees'
+                and r['buffer_m'] == buffer_m)
+
+
+def _grid_note(data, which):
+    """The coarse-grid footprint as the artifact's grid note states it."""
+    match = re.search(r'about (\d+) km north-south and (\d+) km east-west',
+                      data['grid']['note'])
+    return float(match.group(1) if which == 'ns' else match.group(2))
+
+
+def _season_threshold(data, which):
+    """Hot-day (30) then tropical-night (20) thresholds, in method-text order."""
+    vals = re.findall(r'at or above ([\d.]+) \u00b0C', data['method'])
+    return float(vals[0] if which == 'hot' else vals[1])
 
 
 def _stratum(name):
@@ -804,6 +827,102 @@ LEDGER = (
     claim(CANDIDATES, r'normalised height \*\*[\d.]+[\u2013-]([\d.]+) m\*\*', ZENODO,
           lambda d, w='max': _zenodo_class_bound(d, w)),
     claim(CANDIDATES, r'using NDVI \u2265 ([\d.]+)', ZENODO, _zenodo_ndvi),
+    # The exploratory comparison record: per-gid cells plus the frame counts it states.
+    claim(LOCALMD, r'\| 266 \| ([\d.]+) \|', LOCAL,
+          lambda d, g=266: _local_cell(d, g, 0, 'length_m'), tolerance=0.05),
+    claim(LOCALMD, r'\| 266 \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=266: _local_cell(d, g, 0), tolerance=0.05),
+    claim(LOCALMD, r'\| 266 \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=266: _local_cell(d, g, 2), tolerance=0.05),
+    claim(LOCALMD, r'\| 266 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=266: _local_cell(d, g, 5), tolerance=0.05),
+    claim(LOCALMD, r'\| 266 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          LOCAL, lambda d, g=266: _local_cell(d, g, 0, 'longest_nonoverlap_m'),
+          tolerance=0.05),
+    claim(LOCALMD, r'\| 5630 \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5630: _local_cell(d, g, 0, 'length_m'), tolerance=0.05),
+    claim(LOCALMD, r'\| 5630 \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5630: _local_cell(d, g, 0), tolerance=0.05),
+    claim(LOCALMD, r'\| 5630 \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5630: _local_cell(d, g, 2), tolerance=0.05),
+    claim(LOCALMD, r'\| 5630 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5630: _local_cell(d, g, 5), tolerance=0.05),
+    claim(LOCALMD, r'\| 5630 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          LOCAL, lambda d, g=5630: _local_cell(d, g, 0, 'longest_nonoverlap_m'),
+          tolerance=0.05),
+    claim(LOCALMD, r'\| 5634 \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5634: _local_cell(d, g, 0, 'length_m'), tolerance=0.05),
+    claim(LOCALMD, r'\| 5634 \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5634: _local_cell(d, g, 0), tolerance=0.05),
+    claim(LOCALMD, r'\| 5634 \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5634: _local_cell(d, g, 2), tolerance=0.05),
+    claim(LOCALMD, r'\| 5634 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5634: _local_cell(d, g, 5), tolerance=0.05),
+    claim(LOCALMD, r'\| 5634 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          LOCAL, lambda d, g=5634: _local_cell(d, g, 0, 'longest_nonoverlap_m'),
+          tolerance=0.05),
+    claim(LOCALMD, r'\| 5642 \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5642: _local_cell(d, g, 0, 'length_m'), tolerance=0.05),
+    claim(LOCALMD, r'\| 5642 \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5642: _local_cell(d, g, 0), tolerance=0.05),
+    claim(LOCALMD, r'\| 5642 \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5642: _local_cell(d, g, 2), tolerance=0.05),
+    claim(LOCALMD, r'\| 5642 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5642: _local_cell(d, g, 5), tolerance=0.05),
+    claim(LOCALMD, r'\| 5642 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          LOCAL, lambda d, g=5642: _local_cell(d, g, 0, 'longest_nonoverlap_m'),
+          tolerance=0.05),
+    claim(LOCALMD, r'\| 5643 \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5643: _local_cell(d, g, 0, 'length_m'), tolerance=0.05),
+    claim(LOCALMD, r'\| 5643 \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5643: _local_cell(d, g, 0), tolerance=0.05),
+    claim(LOCALMD, r'\| 5643 \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5643: _local_cell(d, g, 2), tolerance=0.05),
+    claim(LOCALMD, r'\| 5643 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|', LOCAL,
+          lambda d, g=5643: _local_cell(d, g, 5), tolerance=0.05),
+    claim(LOCALMD, r'\| 5643 \| [\d.]+ \| [\d.]+ \| [\d.]+ \| [\d.]+ \| ([\d.]+) \|',
+          LOCAL, lambda d, g=5643: _local_cell(d, g, 0, 'longest_nonoverlap_m'),
+          tolerance=0.05),
+    claim(LOCALMD, r'All (\d+) cycling records in the frame were retrieved', LOCAL,
+          lambda d: d['selection']['response_count']),
+    claim(LOCALMD, r'separate WFS count confirmed (\d+)', LOCAL,
+          lambda d: d['selection']['count_only_number_matched']),
+    claim(LOCALMD, r'(\w+) met the rules', LOCAL,
+          lambda d: NUMBER_WORDS[d['sample_size']].capitalize(), word=True,
+          rationale='sentence-initial capital; five published segments, not a sample'),
+    claim(LOCALMD, r'([\d,]+) intersecting vegetation polygons were cross-checked', LOCAL,
+          lambda d: d['extraction_polygon_count']),
+    claim(LOCALMD, r'scan of ([\d,]+) source records', LOCAL,
+          lambda d: d['source_records_scanned']),
+    claim(LOCALMD, r'The (\d+) invalid tree/high-shrub polygons', LOCAL,
+          lambda d: sum(d['invalid_selected_classes'].values()),
+          rationale='41 class-4 plus 41 class-3 repairs, no area change'),
+    # The method doc's parameters, as the season artifact records them.
+    claim(HMETHOD, r'giving (\d+) days per year and \d+ seasonal days', SEASON,
+          lambda d: d['season']['season_days_per_year']),
+    claim(HMETHOD, r'giving \d+ days per year and (\d+) seasonal days per grid cell', SEASON,
+          lambda d: d['season']['season_days']),
+    claim(HMETHOD, r'window is 1 January (\d+)[\u2013-]', SEASON,
+          lambda d: d['season']['window_start_year']),
+    claim(HMETHOD, r'January \d+[\u2013-]\d+ December (\d+)', SEASON,
+          lambda d: d['season']['window_end_year']),
+    claim(HMETHOD, r'nearest ([\d.]+)\u00b0 ERA5 grid step', SEASON,
+          lambda d: d['grid']['requested_step_degrees']),
+    claim(HMETHOD, r'approximately (\d+) km north-south', SEASON,
+          lambda d, w='ns': _grid_note(d, w)),
+    claim(HMETHOD, r'and (\d+) km east-west', SEASON,
+          lambda d, w='ew': _grid_note(d, w)),
+    claim(HMETHOD, r'models=(\w+)', SEASON, lambda d: d['model'], word=True,
+          rationale='the reanalysis the context is actually drawn from'),
+    claim(HMETHOD, r'timezone=([A-Z]+)', SEASON,
+          lambda d: re.search(r'timezone=(\w+)', d['request_url']).group(1), word=True,
+          rationale='a dropped timezone would silently shift the series'),
+    claim(HMETHOD, r'maximum \u2265([\d.]+) \u00b0C \(a descriptive', SEASON,
+          lambda d, w='hot': _season_threshold(d, w)),
+    claim(HMETHOD, r'minimum temperature \u2265([\d.]+) \u00b0C', SEASON,
+          lambda d, w='tropical': _season_threshold(d, w)),
+    claim(HMETHOD, r'probe for the (\d+) committed tree points', SEASON,
+          lambda d: len(d['records'])),
 )
 
 
