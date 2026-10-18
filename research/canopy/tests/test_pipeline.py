@@ -567,5 +567,26 @@ class DesignEffectTests(unittest.TestCase):
         low, high = report['estimate_quantiles'][2.5], report['estimate_quantiles'][97.5]
         self.assertLess(high-low, 0.03)
 
+
+class PlanCostTableTests(unittest.TestCase):
+    """The plan's cost table is the decision input, so its numbers are recomputed."""
+
+    def test_published_cost_table_matches_the_code(self):
+        import re as regex
+        text = (ROOT/'docs/canopy-accuracy-sampling-plan.md').read_text()
+        rows = regex.findall(r'^\| (0\.\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+) \|$', text, regex.M)
+        self.assertEqual(len(rows), 3, f'expected three published rows, parsed {len(rows)}')
+        columns = ((0.05, 1.0), (0.075, 1.0), (0.10, 1.0), (0.075, 3.0))
+        checked = 0
+        for prevalence, *published in rows:
+            for (half_width, design_effect), quoted in zip(columns, published):
+                expected = required_sample_size(half_width, float(prevalence), design_effect)
+                self.assertEqual(int(quoted), expected,
+                                 f'plan quotes {quoted} for prevalence {prevalence}, '
+                                 f'{half_width*100:g} pp, design effect {design_effect:g}; '
+                                 f'code gives {expected}')
+                checked += 1
+        self.assertEqual(checked, 12, f'expected twelve published cells, checked {checked}')
+
 if __name__ == '__main__':
     unittest.main()
