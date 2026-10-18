@@ -248,6 +248,13 @@ def _exact_overlap(block):
     return len(set(block['left']['exact_ids']) & set(block['right']['exact_ids']))
 
 
+def _unanimous_year(data):
+    """The hottest-season year, requiring every cell to agree with the prose."""
+    years = {str(c['hottest_season_year']) for c in data['cells']}
+    require(len(years) == 1, f'cells disagree on the hottest season: {sorted(years)}')
+    return int(next(iter(years)))
+
+
 def _geo_length(data, gid):
     """Planar length of one selected route straight from the committed frame."""
     feat = next(f for f in data['features'] if f['properties'].get('gid') == gid)
@@ -562,6 +569,22 @@ LEDGER = (
           lambda d: d['window']['end_year']),
     claim(BRIEF, r'round-number (\d+) \u00b0C apparent-temperature threshold', SEASON,
           lambda d, w='hot': _season_threshold(d, w)),
+    claim(BRIEF, r'falls among the (\d+)th[\u2013-]\d+th warmest', SEASON,
+          lambda d: min(c['reference_date_rank_within_season'] for c in d['cells'])),
+    claim(BRIEF, r'falls among the \d+th[\u2013-](\d+)th warmest', SEASON,
+          lambda d: max(c['reference_date_rank_within_season'] for c in d['cells']),
+          rationale='stored ranks, not a percentile formula; no convention to guess'),
+    claim(BRIEF, r'mean daily apparent-temperature maximum was about ([\d.]+)', SEASON,
+          lambda d: round(sum(c['reference_date_season_mean_apparent_tmax_c']
+                              for c in d['cells'])/len(d['cells']), 2),
+          tolerance=0.005),
+    claim(BRIEF, r'(\d+) was the warmest season in the ten-year window', SEASON,
+          lambda d: _unanimous_year(d), word=False,
+          rationale='all four cells agree; any disagreement fails loudly'),
+    claim(BRIEF, r'warmest season in the ten-year window at about ([\d.]+)', SEASON,
+          lambda d: round(sum(c['hottest_season_apparent_tmax_mean_c']
+                              for c in d['cells'])/len(d['cells']), 2),
+          tolerance=0.005),
     claim(BRIEF, r'seasonal mean spans \*\*([\d.]+)–', HEAT,
           lambda d: d['region_summary']['seasonal_mean_wbgt_min_c']),
     claim(BRIEF, r'–([\d.]+) °C\*\* \(1\.41', HEAT,
