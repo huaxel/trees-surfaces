@@ -121,10 +121,24 @@ WBGT = 'docs/wbgt-mean-max-method.md'
 BRIEF = 'docs/heat-season-stakeholder-brief.md'
 ORTHO = 'data/research/cycling-canopy-ortho-consistency.json'
 IMAGERY = 'docs/imagery-registration-check.md'
+AUDIT_JSON = 'data/research/cycling-canopy-alignment-audit.json'
+AUDIT = 'docs/trees-measurement-audit.md'
+_AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
+_AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
 
 
 def _ortho_band(data, key, field):
     return data['summary']['band_set_sensitivity'][key][field]
+
+
+def _audit_scenarios(data, gid, scenarios):
+    return [r['overlap_percent'] for r in data['results']
+            if r['gid'] == gid and r['scenario'] in scenarios]
+
+
+def _audit_original(data, gid):
+    return next(r['overlap_percent'] for r in data['results']
+                if r['gid'] == gid and r['scenario'] == 'original')
 
 
 def _stratum(name):
@@ -508,6 +522,77 @@ LEDGER = (
           lambda d: d['summary']['phase_peak_ratio_range'][1], tolerance=0.005),
     claim(IMAGERY, r'with (\d+) of 15\nwindows at', ORTHO,
           lambda d: d['summary']['phase_at_search_bound']),
+    # The stress-test table is the audit's consequential result: segment 266's overlap
+    # moves by tens of points under fixed 2 m translations, and the zeros elsewhere are
+    # load-bearing too -- a drift to non-zero would change the sensitivity story.
+    claim(AUDIT, r'\| 266 \| ([\d.]+)%', AUDIT_JSON,
+          lambda d, g=266: _audit_original(d, g), tolerance=0.05),
+    claim(AUDIT, r'\| 266 \| [\d.]+% \| ([\d.]+)[\u2013-]', AUDIT_JSON,
+          lambda d, g=266, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 266 \| [\d.]+% \| [\d.]+[\u2013-]([\d.]+)%', AUDIT_JSON,
+          lambda d, g=266, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 266 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| ([\d.]+)[\u2013-]',
+          AUDIT_JSON, lambda d, g=266, s=_AUDIT_5M: min(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 266 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| [\d.]+[\u2013-]([\d.]+)%',
+          AUDIT_JSON, lambda d, g=266, s=_AUDIT_5M: max(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5630 \| ([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5630: _audit_original(d, g), tolerance=0.05),
+    claim(AUDIT, r'\| 5630 \| [\d.]+% \| ([\d.]+)[\u2013-]', AUDIT_JSON,
+          lambda d, g=5630, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5630 \| [\d.]+% \| [\d.]+[\u2013-]([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5630, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5630 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| ([\d.]+)[\u2013-]',
+          AUDIT_JSON, lambda d, g=5630, s=_AUDIT_5M: min(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5630 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| [\d.]+[\u2013-]([\d.]+)%',
+          AUDIT_JSON, lambda d, g=5630, s=_AUDIT_5M: max(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5634 \| ([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5634: _audit_original(d, g), tolerance=0.05),
+    claim(AUDIT, r'\| 5634 \| [\d.]+% \| ([\d.]+)[\u2013-]', AUDIT_JSON,
+          lambda d, g=5634, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5634 \| [\d.]+% \| [\d.]+[\u2013-]([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5634, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5634 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| ([\d.]+)[\u2013-]',
+          AUDIT_JSON, lambda d, g=5634, s=_AUDIT_5M: min(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5634 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| [\d.]+[\u2013-]([\d.]+)%',
+          AUDIT_JSON, lambda d, g=5634, s=_AUDIT_5M: max(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5642 \| ([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5642: _audit_original(d, g), tolerance=0.05),
+    claim(AUDIT, r'\| 5642 \| [\d.]+% \| ([\d.]+)[\u2013-]', AUDIT_JSON,
+          lambda d, g=5642, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5642 \| [\d.]+% \| [\d.]+[\u2013-]([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5642, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5642 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| ([\d.]+)[\u2013-]',
+          AUDIT_JSON, lambda d, g=5642, s=_AUDIT_5M: min(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5642 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| [\d.]+[\u2013-]([\d.]+)%',
+          AUDIT_JSON, lambda d, g=5642, s=_AUDIT_5M: max(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5643 \| ([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5643: _audit_original(d, g), tolerance=0.05),
+    claim(AUDIT, r'\| 5643 \| [\d.]+% \| ([\d.]+)[\u2013-]', AUDIT_JSON,
+          lambda d, g=5643, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5643 \| [\d.]+% \| [\d.]+[\u2013-]([\d.]+)%', AUDIT_JSON,
+          lambda d, g=5643, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'\| 5643 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| ([\d.]+)[\u2013-]',
+          AUDIT_JSON, lambda d, g=5643, s=_AUDIT_5M: min(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    claim(AUDIT, r'\| 5643 \| [\d.]+% \| [\d.]+[\u2013-][\d.]+% \| [\d.]+[\u2013-]([\d.]+)%',
+          AUDIT_JSON, lambda d, g=5643, s=_AUDIT_5M: max(_audit_scenarios(d, g, s)),
+          tolerance=0.05),
+    # The conclusion restates 266's row; pin it where the stop/go reasoning leans on it.
+    claim(AUDIT, r'overlap changes from \*\*([\d.]+)%\*\*', AUDIT_JSON,
+          lambda d, g=266: _audit_original(d, g), tolerance=0.05,
+          rationale='the sentence that rules out reporting 31.4% as robust'),
+    claim(AUDIT, r'source line to \*\*([\d.]+)[\u2013-]', AUDIT_JSON,
+          lambda d, g=266, s=_AUDIT_2M: min(_audit_scenarios(d, g, s)), tolerance=0.05),
+    claim(AUDIT, r'source line to \*\*[\d.]+[\u2013-]([\d.]+)%\*\*', AUDIT_JSON,
+          lambda d, g=266, s=_AUDIT_2M: max(_audit_scenarios(d, g, s)), tolerance=0.05),
 )
 
 
