@@ -28,6 +28,7 @@ include(joinpath(@__DIR__, "..", "src", "Review.jl"))
 using .Review
 
 include(joinpath(@__DIR__, "heat_diagnostics.jl"))
+include(joinpath(@__DIR__, "wbgt_comparison.jl"))
 
 # Lightweight stand-ins for a loaded 10,000 x 9,000 grayscale raster so raster validation
 # and pixel sampling can be tested without a 90 MB TIFF fixture.

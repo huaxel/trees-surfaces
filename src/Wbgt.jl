@@ -126,14 +126,23 @@ end
 # Read one annual NetCDF file. Only the pieces this module needs are pulled out: the declared
 # CRS, the projected grid axes, the day offsets and the WBGT cube. HDF5 presents the NetCDF
 # datasets in reversed axis order, so WBGT arrives as (x, y, time).
-function read_wbgt_year(path)
+function read_wbgt_year(path; expected_statistic=:maximum)
+    expected_statistic in (:maximum, :mean) || error("expected_statistic must be :maximum or :mean")
     isfile(path) || error("WBGT archive file is missing: $(path)")
     h5open(path, "r") do handle
+        title = haskey(attrs(handle), "title") ? string(attrs(handle)["title"]) : ""
+        title_match = match(r"^Daily (maximum|average) Wet Bulb Globe Temperature for Brussels for (\d{4})$", title)
+        title_match === nothing && error("$(basename(path)) lacks a supported Brussels WBGT statistic/year title")
+        statistic = title_match.captures[1] == "maximum" ? :maximum : :mean
+        statistic == expected_statistic || error("$(basename(path)) declares $(statistic), expected $(expected_statistic)")
+        declared_year = parse(Int, title_match.captures[2])
         crs = haskey(attrs(handle), "crs") ? string(attrs(handle)["crs"]) : ""
         occursin("3035", crs) || error("$(basename(path)) declares CRS $(crs); EPSG:3035 was expected")
         for dataset in ("x", "y", "time", "WBGT")
             haskey(handle, dataset) || error("$(basename(path)) is missing the $(dataset) dataset")
         end
+        calendar = haskey(attrs(handle["time"]), "calendar") ? string(attrs(handle["time"])["calendar"]) : ""
+        calendar == "proleptic_gregorian" || error("$(basename(path)) has unsupported or missing calendar $(calendar)")
         x = Float64.(read(handle["x"]))
         y = Float64.(read(handle["y"]))
         time = validate_daily_time_offsets(read(handle["time"]), basename(path))
@@ -147,6 +156,18 @@ function read_wbgt_year(path)
         add_offset = haskey(wbgt_attributes, "add_offset") ? Float64(scalar_attribute(wbgt_attributes["add_offset"])) : 0.0
         isfinite(scale_factor) && scale_factor > 0 || error("$(basename(path)) has an invalid WBGT scale_factor")
         isfinite(add_offset) || error("$(basename(path)) has an invalid WBGT add_offset")
+        # Decode declared missing sentinels before applying scale/offset. Consumers
+        # reject missing sampled values rather than interpreting them as temperatures.
+        for key in ("_FillValue", "missing_value")
+            if haskey(wbgt_attributes, key)
+                declared = wbgt_attributes[key]
+                sentinels = declared isa AbstractArray ? vec(declared) : (declared,)
+                for raw_sentinel in sentinels
+                    sentinel = Float64(raw_sentinel)
+                    cube[cube .== sentinel] .= NaN
+                end
+            end
+        end
         cube .= cube .* scale_factor .+ add_offset
         # Day offsets are relative to a base declared in the variable attribute, so read the base
         # rather than assuming 1 January of the file's nominal year.
@@ -163,7 +184,10 @@ function read_wbgt_year(path)
         validate_grid_axis(x, "x", basename(path))
         validate_grid_axis(y, "y", basename(path))
         dates = [Dates.format(base_date + Day(offset), dateformat"yyyy-mm-dd") for offset in time]
-        return (x = x, y = y, dates = dates, wbgt = cube, time_units = time_units, units = units, scale_factor = scale_factor)
+        validate_calendar_year_coverage(dates, declared_year, basename(path))
+        return (x = x, y = y, dates = dates, wbgt = cube, time_units = time_units, units = units,
+            scale_factor = scale_factor, add_offset = add_offset, statistic = statistic,
+            calendar = calendar, crs = crs, title = title, year = declared_year)
     end
 end
 

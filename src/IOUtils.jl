@@ -1,8 +1,31 @@
 module IOUtils
 
 using JSON3
+using SHA
 
-export atomic_write, atomic_write_json, with_work_directory
+export atomic_write, atomic_write_json, file_identity, sha256_file, with_work_directory
+
+# Content identity for provenance: a digest of the exact bytes an artifact was derived from.
+# Streamed, so a multi-gigabyte input does not have to fit in memory.
+sha256_file(path) = open(io -> bytes2hex(SHA.sha256(io)), path)
+
+# Size and digest measured from one open stream, so the two can never describe different reads.
+# Callers hash before and after parsing and require the results to agree, which is what makes the
+# recorded digest describe the bytes that were actually analysed.
+function file_identity(path)
+    bytes = 0
+    context = SHA.SHA256_CTX()
+    open(path) do io
+        buffer = Vector{UInt8}(undef, 1 << 20)
+        while !eof(io)
+            count = readbytes!(io, buffer)
+            count == 0 && break
+            bytes += count
+            SHA.update!(context, view(buffer, 1:count))
+        end
+    end
+    return (path = abspath(path), bytes = bytes, sha256 = bytes2hex(SHA.digest!(context)))
+end
 
 # Write `content` to `path` via a temporary sibling file and an atomic rename, so an
 # interrupted write can never leave a truncated artifact in the destination directory.
