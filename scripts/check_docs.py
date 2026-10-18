@@ -89,6 +89,10 @@ WINDOWS = 'data/research/canopy-verified/windows.json'
 COMPARISON = 'data/research/canopy-verified/comparison.json'
 TREES = 'data/brussels-trees-sample.json'
 EFFECT = 'data/research/canopy-design-effect.json'
+HEAT = 'data/brussels-heat-wbgt-sample.json'
+SENSITIVITY = 'data/tree-signal-sensitivity.json'
+SPEC = 'docs/trees-stakeholder-spec.md'
+ANALYSIS = 'data/tree-signal-analysis.md'
 PLAN = 'docs/canopy-accuracy-sampling-plan.md'
 PIPELINE = 'docs/cycling-canopy-pipeline.md'
 WBGT = 'docs/wbgt-mean-max-method.md'
@@ -97,6 +101,15 @@ BRIEF = 'docs/heat-season-stakeholder-brief.md'
 
 def _stratum(name):
     return lambda data: sum(segment[name] for segment in data['segments'])
+
+
+def _quadrant(records):
+    """Recompute the high-heat/high-proximity count rather than trust the quoted one."""
+    import statistics
+    heat = statistics.quantiles([record['heat_score'] for record in records], n=4)[2]
+    proximity = statistics.quantiles([record['proximity_score'] for record in records], n=4)[2]
+    return sum(1 for record in records
+               if record['heat_score'] >= heat and record['proximity_score'] >= proximity)
 
 
 LEDGER = (
@@ -132,6 +145,26 @@ LEDGER = (
           lambda d: d['sampling_fraction'], tolerance=0.005),
     claim(PLAN, r'inflation near ([\d.]+)\*\*', EFFECT,
           lambda d: d['inflation_for_random_placement'], tolerance=0.05),
+    # Stakeholder-facing numbers: the ones a reader acts on, so they are pinned too.
+    claim(BRIEF, r'shares \*\*(\d+)/10\*\* members', HEAT,
+          lambda d: d['period_sensitivity']['top_ten_overlap']['seasonal_mean_vs_reference_day'],
+          rationale='reference-day versus seasonal-mean top ten'),
+    claim(BRIEF, r'assigns the 100 trees to \*\*(\d+) distinct cells\*\*', HEAT,
+          lambda d: min(d['region_summary']['distinct_cells'], len(d['records'])),
+          rationale='distinct 100 m cells, never more than the tree count'),
+    claim(BRIEF, r'between the \*\*([\d.]+)th and', HEAT,
+          lambda d: min(r['reference_percentile_in_season'] for r in d['records']), tolerance=0.01),
+    claim(BRIEF, r'and ([\d.]+)th percentiles', HEAT,
+          lambda d: max(r['reference_percentile_in_season'] for r in d['records']), tolerance=0.01),
+    claim(SPEC, r'finds (\d+) of 100 points at or above', SENSITIVITY,
+          lambda d: _quadrant(d['balanced_screening']),
+          rationale='third-quartile quadrant count, recomputed from the committed scores'),
+    claim(ANALYSIS, r'quadrant: (\d+) point at or above', SENSITIVITY,
+          lambda d: _quadrant(d['balanced_screening']),
+          rationale='the analysis document and the spec must agree with the scores'),
+    claim(WBGT, r'(\d+) distinct 100 m cells', HEAT,
+          lambda d: min(d['region_summary']['distinct_cells'], len(d['records'])),
+          rationale='the effective sample the method doc relies on'),
 )
 
 
@@ -266,6 +299,7 @@ def main():
 
     root = args.root
     docs = DOCS + tuple(sorted(str(p.relative_to(root)) for p in (root/'docs').glob('*.md')))
+    docs += tuple(sorted(str(p.relative_to(root)) for p in (root/'data').glob('*.md')))
     texts = load_texts(root, docs)
     paths = tracked_files(root)
     problems, _ = check_references(root, texts, paths)
