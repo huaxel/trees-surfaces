@@ -1,6 +1,7 @@
 import hashlib
 import json
 import pathlib
+import random
 import shutil
 import sys
 import tempfile
@@ -19,6 +20,7 @@ from metrics import merge_intervals, profile, route_line
 from pipeline import encoded, execute, publish, rename_no_replace
 from alignment_audit import shifted_profiles
 from validation_frame import STEP_M, classify_points
+from selection import allocate_cells, build, select, systematic_indices
 from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
                            stratum_totals, wilson_interval)
 
@@ -387,6 +389,81 @@ class ValidationFrameTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             classify_points(self.route, self.cover, self.near, 0.0, 7)
 
+
+
+class SelectionTests(unittest.TestCase):
+    """The draw is deterministic given a seed and balanced across streets by construction."""
+
+    def synthetic_frame(self, sizes=((266, 40), (5630, 10), (5634, 12), (5642, 20), (5643, 8))):
+        points = []
+        for gid, count in sizes:
+            for index in range(count):
+                stratum = ('mapped_overlap' if index % 5 == 0 else
+                           'proximity_only' if index % 3 == 0 else 'mapped_non_overlap')
+                points.append(dict(gid=gid, chainage_m=float(2*index + 1), x=float(index), y=float(gid % 100),
+                                   stratum=stratum, distance_to_cover_m=float(index % 7)))
+        return dict(schema_version=1, candidate_count=len(points), step_m=2.0, points=points,
+                    manifest_sha256='fixture', frame_code_sha256='fixture')
+
+    def test_cell_allocation_is_exact_and_covers_every_cell(self):
+        cells = {('a', 1): 100, ('a', 2): 50, ('b', 1): 1}
+        allocation = allocate_cells(cells, 30)
+        self.assertEqual(sum(allocation.values()), 30)
+        self.assertTrue(all(value >= 1 for value in allocation.values()))
+        self.assertGreater(allocation[('a', 1)], allocation[('a', 2)])
+        self.assertGreater(allocation[('a', 2)], allocation[('b', 1)])
+        with self.assertRaises(ValueError):
+            allocate_cells(cells, 2)
+
+    def test_systematic_positions_are_distinct_and_spread(self):
+        positions = systematic_indices(100, 10, random.Random(7))
+        self.assertEqual(len(positions), 10)
+        self.assertEqual(len(set(positions)), 10)
+        self.assertEqual(positions, sorted(positions))
+        self.assertTrue(all(0 <= position < 100 for position in positions))
+        self.assertTrue(all(b - a >= 8 for a, b in zip(positions, positions[1:])))
+        self.assertEqual(systematic_indices(5, 5, random.Random(1)), [0, 1, 2, 3, 4])
+        for bad in ((5, 6), (5, 0)):
+            with self.assertRaises(ValueError):
+                systematic_indices(bad[0], bad[1], random.Random(1))
+
+    def test_selection_is_reproducible_and_complete(self):
+        frame = self.synthetic_frame()
+        first = select(frame, 60, 20261017)
+        self.assertEqual(first, select(frame, 60, 20261017))
+        self.assertNotEqual(first, select(frame, 60, 999))
+        self.assertEqual(len(first), 60)
+        self.assertEqual(len({(row['gid'], row['chainage_m']) for row in first}), 60)
+        self.assertEqual({row['gid'] for row in first}, {266, 5630, 5634, 5642, 5643})
+        for row in first:
+            self.assertEqual(row['cell'], f"{row['stratum']}:{row['gid']}")
+            self.assertAlmostEqual(row['inclusion_probability'],
+                                   row['cell_allocated']/row['cell_candidates'], places=8)
+            self.assertLessEqual(row['cell_allocated'], row['cell_candidates'])
+        self.assertEqual(sorted(row['gid'] for row in first),
+                         [row['gid'] for row in first])   # ordered by segment then chainage
+        with self.assertRaises(ValueError):
+            select(frame, 60, 'seed')
+
+    def test_committed_frame_accepts_the_planned_sample(self):
+        frame_path = ROOT/'data/research/canopy-validation-frame.json'
+        frame = json.loads(frame_path.read_text())
+        selected = select(frame, 385, 20261017)
+        self.assertEqual(len(selected), 385)
+        self.assertEqual({row['gid'] for row in selected}, {266, 5630, 5634, 5642, 5643})
+        counts = {name: 0 for name in ('mapped_overlap', 'proximity_only', 'mapped_non_overlap')}
+        frame_counts = dict(counts)
+        for row in selected:
+            counts[row['stratum']] += 1
+        for point in frame['points']:
+            frame_counts[point['stratum']] += 1
+        for name, count in counts.items():
+            # Proportional allocation keeps each stratum's sample share within a point or two.
+            self.assertLess(abs(count/385 - frame_counts[name]/frame['candidate_count']), 0.01)
+        report = build(frame_path, 385, 20261017)
+        self.assertEqual(report['selected'], 385)
+        self.assertEqual(sum(report['points_by_segment'].values()), 385)
+        self.assertTrue(all(abs(entry['design_weight'] - 1) < 0.02 for entry in report['strata'].values()))
 
 if __name__ == '__main__':
     unittest.main()

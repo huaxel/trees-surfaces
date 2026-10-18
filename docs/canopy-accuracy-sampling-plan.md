@@ -78,10 +78,30 @@ overlap 180.0 vs 181.0 m, proximity-only 418.0 vs 419.1 m, non-overlap 690.0 vs 
 length). The artifact records that reconciliation, its bound and the generating script's
 hash; `validation_frame.py` fails rather than publishing if it drifts.
 
-Selection within each stratum is systematic with a random start at the stated step, keeping
-the segment ID and chainage for every point, so inclusion probabilities are equal within a
-stratum and known. Proportional allocation then lets the strata be recombined with the
-mapped length weights for an overall line-length estimate.
+Selection is executed by `research/canopy/selection.py` as a two-stage draw, which the first
+draft of this plan left vague:
+
+1. strata receive points in proportion to their **frame candidate counts** (90 overlap,
+   209 proximity-only, 345 non-overlap), because that is the population actually sampled —
+   not the interval lengths quoted above, which agree to within 1%;
+2. within a stratum the points are split across the five segments in proportion to each
+   segment's candidates, with **at least one point per non-empty cell**, so no sampled street
+   is left unvisited;
+3. within a (stratum, segment) cell the draw is systematic with a random start, so every
+   candidate in that cell has the same inclusion probability, `allocated / candidates`, which
+   is recorded per selected point.
+
+That balance across streets is a survey choice, not a prevalence estimate: each selected
+point carries its inclusion probability, each stratum carries the design weight
+(frame share ÷ sample share), and frame-level proportions must be reported with those weights.
+At the 385-point target the weights come out within 1% of 1, as intended.
+
+Run it with an explicit total and seed, neither of which is defaulted:
+
+```sh
+uv run --locked --python 3.12.12 --project research/canopy python research/canopy/selection.py \
+  --total 385 --seed 20261017 --output .cache/canopy-validation-sample.json
+```
 
 ## Reference labels
 
