@@ -88,7 +88,9 @@ The original visual check uses the same north–south orthophoto product underly
 
 ## 5. Temporal alignment is a question of target, not just dates
 
-The sources span a 2016 modelled heat scenario, a 2008–2017 daily archive, 2021 canopy imagery, one January 2024 counter week, and current infrastructure retrieval. Segment 5634 has an approximate recorded 2022 cycling-street start.
+The sources span a 2016 modelled heat scenario, a 2008–2017 daily archive, 2021 canopy imagery, one January 2024 counter week, and current infrastructure retrieval.
+
+**Only one of the five sampled segments predates the canopy year.** Recorded start dates, weighted by analysed reference-line length (1,295.5 m): 43.5% (gid 266) starts in 2017; **41.8% (gid 5630, 5642, 5643) starts in June 2021 — the same year as the canopy imagery**; and 14.6% (gid 5634) starts in June 2022, after it. Start dates are themselves approximate and describe designation records, not travel. Two consequences follow. First, for the other four segments — 56.4% of analysed length — the pairing is contemporaneous or retrospective rather than historical, so the comparison cannot be read as canopy that cyclists experienced. Second, the imagery was flown on 22 and 25 September and 9 October 2021, after the June 2021 starts, so those segments are not ordered in time relative to their own designation; only gid 266's 2017 start predates both. The pipeline records each segment's `begin_date` and this limitation; per-segment dates are in `data/research/canopy-verified/comparison.json`.
 
 Three different questions must not be blended:
 
