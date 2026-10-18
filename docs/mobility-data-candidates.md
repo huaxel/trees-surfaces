@@ -92,12 +92,43 @@ ranking cannot be formed from five counters at all".
 | Bike counts API `live` request | Last hour, day and year counts per device | CC0 1.0, same source | Adds a recency view; still counter locations, not streets |
 | API archive from **2018-12-05** | Full history for any window since then | CC0 1.0 | Makes a season-aligned window available at zero cost; early windows are partial (the 2018-12-05 week returned 88 of 672 rows) |
 | `bm_bike` GeoServer layers | Cycle highways, junctions, Villo stations, red-light crossings, slopes | Same portal | Infrastructure context, not flow |
-| **Strava Metro** | Street-segment ("edge") counts on OpenStreetMap ways, hourly, with people counts and OSM way IDs | Free for cities and for accepted academic researchers, **excluding redistribution**; the 2027 academic cohort **closed 2026-10-23** | The only credible street-level flow candidate. Aggregated and de-identified, matched to OSM edges, which is the spatial unit this project already uses |
+| **Strava Metro** | Street-segment ("edge") counts on OpenStreetMap ways, hourly, with people counts and OSM way IDs | No cost, with conditions; see the eligibility and obligations below | The only credible street-level flow candidate. Aggregated and de-identified, matched to OSM edges, which is the spatial unit this project already uses |
 | BRUBIKE (2019) | 193 days of bike counts with weather, plus average speed | Public repository, licence to verify | Superseded by the API for counts; its speed variable is available directly from the API as `average_speed` |
 
 The API's own `average_speed` field per 15-minute interval was not used in the committed snapshot. It
 is `-1` when missing, so it shares the sentinel trap above, and its interpretability at 15-minute
 resolution over a 15–40 m counting loop is unverified. Recorded as available, not recommended.
+
+## Strava Metro: which path applies, and what it obliges
+
+An earlier version of this document said the candidate was "free for cities and for accepted academic
+researchers" and flagged the academic cohort's closing date as the gate. That framing was wrong in a
+way that could misdirect: the two paths have different eligibility, and only one is deadline-bound.
+
+- **General licensee path.** Strava's terms make Metro available to organisations that "plan, own, or
+  maintain active transportation or outdoor recreation infrastructure, or that seek to positively
+  influence active transportation or outdoor recreation planning processes", by application, with no
+  closing date stated. This is the path that fits a municipality, agency or advocacy stakeholder.
+- **Academic program.** Restricted to researchers "affiliated with an accredited institution of higher
+  education", for non-commercial academic research. Its 2027 cohort closed **2026-10-23**, which matters
+  only if the applicant is an accredited academic. Nothing in this repository establishes that.
+- **Consultants.** A consulting or engineering firm may only use Metro when retained under a formal
+  contract by an organisation that already holds access. Informal collaborations and volunteer
+  arrangements explicitly do not qualify, so access cannot be obtained on a stakeholder's behalf.
+
+Three obligations bear on how this project works, and they are the reason a decision is needed before
+any request:
+
+1. **No redistribution.** The underlying data may not be shared or posted. Our practice is to commit
+   every artifact publicly, so a Strava-derived artifact could not be committed as our others are.
+2. **Thirty days' prior review** of any report intended for external publication, with mandatory
+   attribution wording in every copy.
+3. **No machine-learning use.** The data may not be used to train, fine-tune, evaluate or benchmark any
+   AI or machine-learning system. That constrains how the data could be combined with the rest of this
+   project's tooling.
+
+Access is granted for one year and is renewable at Strava's discretion, and each user applies
+individually: logins may not be shared, including with colleagues.
 
 ## What would change a decision
 
