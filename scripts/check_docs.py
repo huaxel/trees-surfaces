@@ -132,6 +132,8 @@ HMETHOD = 'docs/heat-season-method.md'
 WIN100 = 'data/research/cycling-canopy-100m-windows.json'
 WIN100MD = 'data/research/cycling-canopy-100m-windows.md'
 PROTO = 'docs/prototype-next-iteration.md'
+DEMO = 'docs/trees-demo-script.md'
+JULIA = 'docs/julia.md'
 FRAME05 = 'data/research/canopy-validation-frame-0m5.json'
 _AUDIT_2M = ('east_2m', 'west_2m', 'north_2m', 'south_2m')
 _AUDIT_5M = ('east_5m', 'west_5m', 'north_5m', 'south_5m')
@@ -1109,6 +1111,26 @@ LEDGER = (
           SENSITIVITY, lambda d: d['weight_sensitivity']['heat_only_top_10_overlap']),
     claim(SPEC, r'the \d+/10 versus (\d+)/10 sensitivity result',
           SENSITIVITY, lambda d: d['weight_sensitivity']['proximity_only_top_10_overlap']),
+    claim(DEMO, r'uses (\d+) sampled managed-tree records', TREES,
+          lambda d: len(d['records']),
+          rationale='the sample the demo walks stakeholders through'),
+    claim(DEMO, r'overlaps (\d+)/10 with heat-only and', SENSITIVITY,
+          lambda d: d['weight_sensitivity']['heat_only_top_10_overlap']),
+    claim(DEMO, r'with heat-only and (\d+)/10 with proximity-only', SENSITIVITY,
+          lambda d: d['weight_sensitivity']['proximity_only_top_10_overlap']),
+    claim(WBGT, r'maximum WBGT at (\d+) m for \d+', HEAT,
+          lambda d: d['grid']['step_metres']),
+    claim(WBGT, r'at \d+ m for (\d+)[\u2013-]', HEAT,
+          lambda d: d['window']['start_year']),
+    claim(WBGT, r'at \d+ m for \d+[\u2013-](\d+)', HEAT,
+          lambda d: d['window']['end_year']),
+    claim(WBGT, r'No (\d+) °C hot-day threshold', HEAT,
+          lambda d: float(re.search(r'at or above ([\d.]+) °C', d['method']).group(1)),
+          rationale='the threshold the mean product must not inherit'),
+    claim(JULIA, r'seasons from (\d+) through \d+', SEASON,
+          lambda d: d['season']['window_start_year']),
+    claim(JULIA, r'seasons from \d+ through (\d+)', SEASON,
+          lambda d: d['season']['window_end_year']),
     # The point-grid recomputation: the 2 m column is the committed frame, the 0.5 m
     # column the new 0.5 m frame built from committed code under the same midpoint rule.
     claim(CHECKPOINT, r'\| Direct overlap \| [\d.]+% \| ([\d.]+)%', FRAME,
