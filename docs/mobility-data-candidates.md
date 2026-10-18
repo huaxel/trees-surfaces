@@ -56,9 +56,17 @@ outage as "no cyclists", and a flow-based ranking would then treat that counter'
 least active in the city.
 
 The committed week is unaffected: all five counters report real variation in January 2024. The
-exposure is for any *future* window, which is why the sentinel check belongs in the fetch, not in a
-reviewer's attention. The pipeline's `validate_history_payload` should be checked for this before
-another window is adopted.
+exposure was for any *future* window, so the check now lives in the fetch rather than in a
+reviewer's attention: `validate_history_payload` refuses a payload whose 672 intervals total zero
+crossings, naming the sentinel in the message. Verified against the real published payloads, not
+only fixtures — the actual CB1143 July 2025 outage is refused, while the June 2024 week (total
+40,133) and the committed week (CB2105, 7,520) are accepted.
+
+Two limits of that guard, both worth knowing before another window is adopted. It catches **total
+silence only**: a partial outage is indistinguishable from empty night intervals, because the
+sentinel also marks ordinary intervals with no cyclists. And the validator pins the committed
+period (`2024/01/01`–`2024/01/07`) in a literal comparison, so adopting any other window is a code
+change, not a parameter change.
 
 ## Correcting the brief: flow-only is degenerate; the weighted alternative is not
 

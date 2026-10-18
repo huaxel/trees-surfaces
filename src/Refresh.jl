@@ -22,6 +22,13 @@ const REFRESH_FILENAMES = (
 )
 const MAX_RESPONSE_BYTES = 20 * 1024 * 1024
 
+# Brussels Mobility publishes a counter outage as 672 rows of `count: 0` with
+# `average_speed: -1`, the missing sentinel, so a dead sensor is indistinguishable from a
+# genuinely empty week unless the total is checked. A city counter does not record zero
+# crossings in every 15-minute interval of seven consecutive days; the counters in use here
+# total thousands per week with a few dozen empty night intervals.
+const MIN_WEEKLY_COUNTER_TOTAL = 1
+
 # The upstream managed-tree catalogue re-keyed its primary key from numeric suffixes
 # (`vbx_56544`) to UUIDs between 2026-09-21 and 2026-10-13. `id` in the committed
 # sample is a project-stable identifier, so refreshes resolve it through this
@@ -162,6 +169,19 @@ function validate_history_payload(payload, feature)
         ),
         "counter history for $feature must contain each integer 15-minute slot exactly once per day",
     )
+    # Structure alone accepts an outage week. Check the substance too, because downstream
+    # code averages these counts and would report a dead sensor as a week of no cycling.
+    total = sum(Int(get(row, "count", 0)) for row in rows)
+    measured = count(row -> begin
+        speed = get(row, "average_speed", nothing)
+        finite_number(speed) && speed >= 0
+    end, rows)
+    require(total >= MIN_WEEKLY_COUNTER_TOTAL,
+            "counter history for $feature totals zero crossings across 672 intervals: the API " *
+            "publishes an outage as zeros with average_speed -1, so this window carries no " *
+            "measurement and must not be used as a week of no cycling")
+    require(measured > 0,
+            "counter history for $feature has no interval with a measured average speed")
     rows
 end
 

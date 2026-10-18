@@ -507,7 +507,9 @@ end
     @test_throws ErrorException Refresh.counter_row(Dict("properties"=>Dict("device_name"=>"CB-test"), "geometry"=>Dict("coordinates"=>[4.0])))
     @test_throws ErrorException Refresh.counter_row(Dict("properties"=>Dict("device_name"=>"CB-test"), "geometry"=>Dict("coordinates"=>[Inf, 50.0])))
     @test_throws ErrorException Refresh.counter_row(Dict("properties"=>Dict("device_name"=>"CB-test"), "geometry"=>Dict("coordinates"=>[50.85, 4.35])))
-    history = Dict{String,Any}("feature"=>"CB2105", "startDate"=>"2024/01/01", "endDate"=>"2024/01/07", "data"=>Any[Dict("count"=>1, "count_date"=>"2024/01/$(lpad(day, 2, '0'))", "time_gap"=>slot) for day in 1:7 for slot in 1:96])
+    # `average_speed` is present in every live payload, including the -1 missing sentinel, so
+    # the fixture carries it too; a fixture without it is not the shape the API sends.
+    history = Dict{String,Any}("feature"=>"CB2105", "startDate"=>"2024/01/01", "endDate"=>"2024/01/07", "data"=>Any[Dict("count"=>1, "average_speed"=>20, "count_date"=>"2024/01/$(lpad(day, 2, '0'))", "time_gap"=>slot) for day in 1:7 for slot in 1:96])
     @test length(Refresh.validate_history_payload(history, "CB2105")) == 672
     invalid_history = deepcopy(history)
     invalid_history["data"][1]["count"] = -1
@@ -523,6 +525,35 @@ end
     incomplete_history = deepcopy(history)
     pop!(incomplete_history["data"])
     @test_throws ErrorException Refresh.validate_history_payload(incomplete_history, "CB2105")
+    # An outage week is structurally valid: Brussels Mobility publishes it as 672 rows of
+    # count 0 with average_speed -1. This is the real shape of CB1143 for 2025-07-28, which
+    # the previous structure-only checks accepted as a week of no cycling.
+    outage = Dict{String,Any}("feature"=>"CB1143", "startDate"=>"2024/01/01", "endDate"=>"2024/01/07",
+        "data"=>Any[Dict("count"=>0, "average_speed"=>-1,
+                         "count_date"=>"2024/01/$(lpad(day, 2, '0'))", "time_gap"=>slot)
+                    for day in 1:7 for slot in 1:96])
+    outage_error = try
+        Refresh.validate_history_payload(outage, "CB1143")
+        nothing
+    catch error
+        error
+    end
+    @test outage_error isa ErrorException
+    @test occursin("outage", sprint(showerror, outage_error))
+    # A single crossing in an otherwise empty week is implausible but not an outage: the
+    # check is deliberately about total silence, because the missing sentinel also marks
+    # ordinary empty night intervals.
+    minimal = deepcopy(outage)
+    minimal["data"][1]["count"] = 1
+    minimal["data"][1]["average_speed"] = 21
+    @test length(Refresh.validate_history_payload(minimal, "CB1143")) == 672
+    # A measured shape with empty night intervals is accepted, which is what the committed
+    # week looks like: counts elsewhere, a few dozen zero intervals, and speed present.
+    measured = Dict{String,Any}("feature"=>"CB2105", "startDate"=>"2024/01/01", "endDate"=>"2024/01/07",
+        "data"=>Any[Dict("count"=>(slot == 1 ? 0 : 12), "average_speed"=>(slot == 1 ? -1 : 20),
+                         "count_date"=>"2024/01/$(lpad(day, 2, '0'))", "time_gap"=>slot)
+                    for day in 1:7 for slot in 1:96])
+    @test length(Refresh.validate_history_payload(measured, "CB2105")) == 672
     mktempdir() do directory
         path = joinpath(directory, "sample.json")
         rows = [Dict("id"=>"id-$i") for i in 1:100]
