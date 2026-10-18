@@ -107,6 +107,33 @@ def stratum_totals(rows):
     return totals
 
 
+def budget_menu(budgets, design_effects, prevalence, z=Z_95):
+    """Realised Wilson half-width (percentage points) for each budget and design effect.
+
+    The effective sample is budget / design_effect, rounded down: the realised
+    precision can only be worse than a fractional size promises. Successes are set
+    to round(prevalence * effective) so the width is evaluated at the anticipated
+    share, which the frame measures at 0.14 rather than the 0.5 worst case the
+    headline 385-point target prices. Returns widths keyed by str(budget) then
+    str(design_effect), each with the floored effective size it was evaluated at.
+    """
+    require(all(budget > 0 for budget in budgets), 'budgets must be positive')
+    require(all(effect >= 1 for effect in design_effects),
+            'design effects below 1 would pretend clustering helps')
+    require(0 < prevalence < 1, 'prevalence must be a proportion strictly between 0 and 1')
+    menu = {}
+    for budget in budgets:
+        row = {}
+        for effect in design_effects:
+            effective = max(1, math.floor(budget / effect))
+            successes = min(effective, max(0, round(prevalence * effective)))
+            low, high = wilson_interval(successes, effective, z)
+            row[str(effect)] = dict(effective_points=effective,
+                                    wilson_half_width_pp=round((high - low) / 2 * 100, 2))
+        menu[str(budget)] = row
+    return menu
+
+
 def require(condition, message):
     if not condition:
         raise ValueError(message)
@@ -143,6 +170,11 @@ def plan(artifact, half_width, prevalence, design_effect, step_m):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='canopy validation planning arithmetic')
+    parser.add_argument('--menu-output', type=Path,
+                        help='write the budget menu JSON here; never overwritten')
+    args = parser.parse_args()
     root = Path(__file__).resolve().parents[2]
     artifact = root/'data/research/canopy-verified/comparison.json'
     print('Precision requirement: independent points for a 95% half-width on a proportion')
@@ -167,6 +199,24 @@ def main():
               + (f", every {step:.1f} m" if step else ''))
     print(f"  total requested: {result['precision']['clustered_points']} points "
           f"(design effect {result['precision']['design_effect']})")
+    print('\nBudget menu at the frame-measured 14% (Wilson half-width, pp):')
+    menu = budget_menu([139, 185, 247, 385, 556], [1, 3, 6], 0.14)
+    print(f"  {'budget':>7} {'deff=1':>14} {'deff=3':>14} {'deff=6':>14}")
+    for budget, row in menu.items():
+        cells = ' '.join(f"{row[str(effect)]['effective_points']:>4d} pts -> "
+                          f"{row[str(effect)]['wilson_half_width_pp']:>5.2f}pp" for effect in (1, 3, 6))
+        print(f'  {budget:>7} {cells}')
+    if args.menu_output:
+        require(not args.menu_output.exists(), 'output already exists')
+        report = dict(prevalence=0.14, z=Z_95, budgets=[139, 185, 247, 385, 556],
+                      design_effects=[1, 3, 6], widths_pp=menu,
+                      note=('Wilson half-width at the anticipated 14% share for each budget '
+                            'under each design effect; effective sizes rounded down. '
+                            'Price rows for the same prevalence live in '
+                            'canopy-design-effect.json cost tables.'))
+        args.menu_output.parent.mkdir(parents=True, exist_ok=True)
+        args.menu_output.write_text(json.dumps(report, indent=2)+'\n')
+        print(f'wrote {args.menu_output}')
 
 
 if __name__ == '__main__':

@@ -84,6 +84,51 @@ realisations out of a possible 281 dominate. The artifact records each segment's
 is the number seen in 400 seeded draws and therefore a lower bound. The spread is not a design-effect
 estimate and must not be quoted as one.
 
+### What each budget buys (at the frame's own 14%)
+
+The table above prices the worst case: its 385-point headline is the p = 0.50 row at
+±5 pp with no clustering inflation, while the frame it would be spent on measures
+about 14% mapped canopy. At that measured share the same arithmetic prices ±5 pp at **186** points with no clustering cost, **556** points under the placeholder design effect of 3, and **683** points under the measured 3.69 random-placement inflation; ±7.5 pp costs **83** / **247** points without / with the placeholder, and ±10 pp costs **47** / **139** (`cost_at_finite_design_effect_clamped_to_1` and `cost_at_assumed_design_effect_3` in `data/research/canopy-design-effect.json`).
+
+What the current 385-point target actually buys at 14%, by realised Wilson half-width
+(`data/research/canopy-price-menu.json`, from `research/canopy/sampling_plan.py`, effective sizes rounded down):
+
+| Labelling budget | deff 1 | deff 3 (placeholder) | deff 6 |
+|---|---:|---:|---:|
+| 139 points | 5.72 pp (139 effective) | 9.77 pp (46 effective) | 13.79 pp (23 effective) |
+| 185 points | 5.01 pp (185 effective) | 8.88 pp (61 effective) | 12.19 pp (30 effective) |
+| 247 points | 4.35 pp (247 effective) | 7.39 pp (82 effective) | 10.78 pp (41 effective) |
+| 385 points | 3.47 pp (385 effective) | 6.03 pp (128 effective) | 8.52 pp (64 effective) |
+| 556 points | 2.89 pp (556 effective) | 5.01 pp (185 effective) | 7.12 pp (92 effective) |
+
+Three consequences for the funding decision:
+
+- **The 385-point target buys ±6.03 pp under its own placeholder, not ±5 pp.** The
+  ±5 pp price at the measured share is 556 with the placeholder and 186 without it.
+- **The design-effect assumption dominates the budget.** At deff 1, 185 points buy
+  ±5.01 pp — half the labels for nearly the headline precision — while at deff 6 even
+  556 points buy only ±7.12 pp. The pilot labels resolve this bracket; nothing else can,
+  because reference-label error clustering is invisible in mapped geometry.
+- **The unknown category has its own price.** The all-positive/all-negative bounds span
+  roughly the unknown fraction itself, so an unknown rate approaching the target
+  half-width consumes the precision the budget bought: at a ±5 pp target the unknown
+  share must stay well below 5%, or the study pays for precision its bounds give away.
+
+Fieldwork logistics come from the frame, not from a rate card: 1,288.0 m of line across
+five segments, from 121.9 m (segment 5630) to 563.6 m (segment 266), which contributes 281 of the 644 candidates. A crew walks about 1.3 km of street plus travel between five
+sites; at two minutes of interpretation per point, 385 points are roughly thirteen hours
+of labelling. Budgets are priced above; the price per point — a field crew-day or an
+interpreter hour — is the one input no committed artifact records, so the funder must
+supply it.
+
+What would overturn this case (pre-registered before any label exists): pilot labels
+showing a design effect above ~6, in which case even the 556-point budget misses ±7 pp;
+an unknown fraction near the target half-width, which means fixing the reference source
+before labelling more; disagreements that concentrate at class edges rather than class
+interiors, which would make this a registration study rather than a class-accuracy
+study; or a LiDAR structure check that shares the orthophoto classification's failure
+modes, which would leave field leaf-on labels as the only qualifying reference.
+
 ## Frame and strata
 
 The frame is the 1,295.5 m of reference line in the frozen comparison frame (five segments),
@@ -243,6 +288,10 @@ uv run --locked --python 3.12.12 --project research/canopy python research/canop
 
 # precision table, Wilson check, and the strata and allocation
 uv run --locked --python 3.12.12 --project research/canopy python research/canopy/sampling_plan.py
+
+# budget menu at the frame-measured share (writes a new file, never overwrites)
+uv run --locked --python 3.12.12 --project research/canopy python research/canopy/sampling_plan.py \
+  --menu-output data/research/canopy-price-menu.json
 ```
 
 The committed frame is `data/research/canopy-validation-frame.json`; the command above writes a

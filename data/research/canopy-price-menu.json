@@ -1,0 +1,89 @@
+{
+  "prevalence": 0.14,
+  "z": 1.959963984540054,
+  "budgets": [
+    139,
+    185,
+    247,
+    385,
+    556
+  ],
+  "design_effects": [
+    1,
+    3,
+    6
+  ],
+  "widths_pp": {
+    "139": {
+      "1": {
+        "effective_points": 139,
+        "wilson_half_width_pp": 5.72
+      },
+      "3": {
+        "effective_points": 46,
+        "wilson_half_width_pp": 9.77
+      },
+      "6": {
+        "effective_points": 23,
+        "wilson_half_width_pp": 13.79
+      }
+    },
+    "185": {
+      "1": {
+        "effective_points": 185,
+        "wilson_half_width_pp": 5.01
+      },
+      "3": {
+        "effective_points": 61,
+        "wilson_half_width_pp": 8.88
+      },
+      "6": {
+        "effective_points": 30,
+        "wilson_half_width_pp": 12.19
+      }
+    },
+    "247": {
+      "1": {
+        "effective_points": 247,
+        "wilson_half_width_pp": 4.35
+      },
+      "3": {
+        "effective_points": 82,
+        "wilson_half_width_pp": 7.39
+      },
+      "6": {
+        "effective_points": 41,
+        "wilson_half_width_pp": 10.78
+      }
+    },
+    "385": {
+      "1": {
+        "effective_points": 385,
+        "wilson_half_width_pp": 3.47
+      },
+      "3": {
+        "effective_points": 128,
+        "wilson_half_width_pp": 6.03
+      },
+      "6": {
+        "effective_points": 64,
+        "wilson_half_width_pp": 8.52
+      }
+    },
+    "556": {
+      "1": {
+        "effective_points": 556,
+        "wilson_half_width_pp": 2.89
+      },
+      "3": {
+        "effective_points": 185,
+        "wilson_half_width_pp": 5.01
+      },
+      "6": {
+        "effective_points": 92,
+        "wilson_half_width_pp": 7.12
+      }
+    }
+  },
+  "note": "Wilson half-width at the anticipated 14% share for each budget under each design effect; effective sizes rounded down. Price rows for the same prevalence live in canopy-design-effect.json cost tables."
+}

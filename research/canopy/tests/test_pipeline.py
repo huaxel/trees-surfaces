@@ -26,8 +26,8 @@ from estimate import (CANOPY, NOT_CANOPY, UNKNOWN, effective_sample_size, estima
                       wilson_on_effective, with_replacement_variance)
 from labels import coverage, load_labels, template
 from selection import allocate_cells, build, select, systematic_indices
-from sampling_plan import (largest_remainder, plan, required_sample_size, strata_from_published,
-                           stratum_totals, wilson_interval)
+from sampling_plan import (budget_menu, largest_remainder, plan, required_sample_size,
+                           strata_from_published, stratum_totals, wilson_interval)
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -280,6 +280,24 @@ class SamplingPlanTests(unittest.TestCase):
                 self.assertLessEqual(high, 1.0)
         with self.assertRaises(ValueError):
             wilson_interval(5, 0)
+
+    def test_budget_menu_prices_the_measured_share_not_the_worst_case(self):
+        menu = budget_menu([139, 185, 247, 385, 556], [1, 3, 6], 0.14)
+        # Spot values against the Wilson formula evaluated by hand.
+        self.assertEqual(menu['385']['3']['effective_points'], 128)
+        self.assertAlmostEqual(menu['385']['3']['wilson_half_width_pp'], 6.03, delta=0.02)
+        self.assertAlmostEqual(menu['556']['3']['wilson_half_width_pp'], 5.01, delta=0.02)
+        self.assertAlmostEqual(menu['185']['1']['wilson_half_width_pp'], 5.01, delta=0.02)
+        # More labels can only narrow the interval; more clustering only widens it.
+        for effect in ('1', '3', '6'):
+            widths = [menu[budget][effect]['wilson_half_width_pp']
+                      for budget in ('139', '185', '247', '385', '556')]
+            self.assertEqual(widths, sorted(widths, reverse=True))
+        for budget in ('139', '185', '247', '385', '556'):
+            widths = [menu[budget][effect]['wilson_half_width_pp'] for effect in ('1', '3', '6')]
+            self.assertEqual(widths, sorted(widths))
+        with self.assertRaises(ValueError):
+            budget_menu([100], [0.5], 0.14)
 
     def test_largest_remainder_is_deterministic_and_exact(self):
         self.assertEqual(largest_remainder([1, 1, 1], 10), [4, 3, 3])
