@@ -71,6 +71,7 @@ require confirmation.
 - [`docs/trees-measurement-audit.md`](docs/trees-measurement-audit.md) — data quality, spatial/temporal alignment, indicator validity, and directional registration stress tests.
 - [`docs/imagery-registration-check.md`](docs/imagery-registration-check.md) — pixel-level comparison of the two 2021 flight products, why co-registering them cannot bound lane-level alignment, and the per-window controls behind that negative result.
 - [`docs/vito-licence-enquiry.md`](docs/vito-licence-enquiry.md) — ready-to-send draft of the licence and day-boundary enquiry to VITO, the one action that unblocks publishing the mean/maximum comparison.
+- [`docs/tailnet-datastore.md`](docs/tailnet-datastore.md) — sharing machine-local caches and exploration outputs across the operator's tailnet machines (per-project store, read-only, no redistribution).
 - [`docs/open-data-candidates.md`](docs/open-data-candidates.md) — what a deliberate search for other open data found: LiDAR candidates that can support a structural check, the Street Tree Layer measured as not covering these streets, and the licences that forbid reuse.
 - [`scripts/validate-canopy.sh`](scripts/validate-canopy.sh) — canopy geometry/provenance regressions using synthetic data and small versioned snapshots (requires uv).
 - [`scripts/validate-imagery.sh`](scripts/validate-imagery.sh) — registration-estimator and imagery-manifest regressions on synthetic fixtures, with no downloads (requires uv).
