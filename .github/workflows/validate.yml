@@ -13,6 +13,13 @@ on:
 
 permissions:
   contents: read
+  actions: write # lets julia-actions/cache rotate its own old depot caches
+
+concurrency:
+  # Rapid pushes to a PR branch supersede each other; main and the weekly
+  # rot-detector run to completion.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && github.event_name != 'schedule' }}
 
 jobs:
 
@@ -73,6 +80,9 @@ jobs:
         with:
           version: "1.10"
 
+      - name: Restore Julia depot cache
+        uses: julia-actions/cache@d10a6fd8f31b12404a54613ebad242900567f2b9 # v2
+
       - name: Validate Julia UI
         run: scripts/validate-julia.sh
 
@@ -99,8 +109,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+
       - name: Build Julia UI container
-        run: docker build -f Dockerfile -t trees-surfaces-julia:ci .
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: Dockerfile
+          tags: trees-surfaces-julia:ci
+          load: true
+          # GitHub runners have no local Docker layer cache, so without this
+          # the Pkg.instantiate() layer rebuilds from scratch every push.
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Smoke test Julia UI container
         run: |
